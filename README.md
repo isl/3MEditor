@@ -34,10 +34,10 @@ Folders src, web and lib contain all the files needed to build the web app and c
 You may use any application server that supports war files. (Has been tested with Apache Tomcat versions 5,6,7,8).
 
 ## eXist setup 
-Once you have an eXist database instance up and running, you may use an example database setup (such as the one in [3M_configuration_files] (https://github.com/isl/Mapping-Memory-Manager/tree/master/3M_configuration_files "3M_configuration_files")) to begin with. Download [3M_configuration_files] (https://github.com/isl/Mapping-Memory-Manager/tree/master/3M_configuration_files "3M_configuration_files") and store [DMSCollection] (https://github.com/isl/Mapping-Memory-Manager/tree/master/3M_configuration_files/DMSCOLLECTION "rootCollection") into eXist's collection db.
+Once you have an eXist database instance up and running, you may use an example database setup (such as the one in [Mapping-Memory-Manager] (https://github.com/isl/Mapping-Memory-Manager "Mapping-Memory-Manager")) to begin with. Download [Mapping-Memory-Manager] (https://github.com/isl/Mapping-Memory-Manager "Mapping-Memory-Manager") and store [DMSCollection] (https://github.com/isl/Mapping-Memory-Manager/tree/master/db "rootCollection") into eXist's collection db.
 
 ## Configuration
-Once you have deployed the 3MEditor war and you have stored files from [3M_configuration_files] (https://github.com/isl/Mapping-Memory-Manager/tree/master/3M_configuration_files "3M_configuration_files") into your eXist DB, you should check 3MEditor's web.xml and make any necessary adjustments (Mostly IPs, ports and filepaths). There is a description tag for every parameter, explaining what may be changed and what should be left untouched.
+Once you have deployed the 3MEditor war and you have stored files from [Mapping-Memory-Manager] (https://github.com/isl/Mapping-Memory-Manager "Mapping-Memory-Manager") into your eXist DB, you should check 3MEditor's web.xml and make any necessary adjustments (Mostly IPs, ports and filepaths). There is a description tag for every parameter, explaining what may be changed and what should be left untouched.
 
 ## Usage
 3MEditor's default usage is as a [3M] (https://github.com/isl/Mapping-Memory-Manager "3M") plugin.
