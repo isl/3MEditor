@@ -52,7 +52,7 @@ xmlrpc-client-3.1.3.jar: The Apache Software License, Version 2.0
 xmlrpc-common-3.1.3.jar: The Apache Software License, Version 2.0
 xmlrpc-server-3.1.3.jar: The Apache Software License, Version 2.0
 xsom-20110101-SNAPSHOT.jar * : CDDL v1.1 / GPL v2 with classpath exception dual license (https://xsom.java.net/)  
-
+SchemaReader1.0.jar : EUPL, Version 1.1.
 
 javascript-css: 
 
