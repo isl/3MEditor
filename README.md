@@ -48,7 +48,7 @@ It may also be used independently, but new mapping files should be created and d
 [x3ml](https://github.com/delving/x3ml "x3ml") mapping files are stored inside eXist's Mapping collection (subcollection 1,2,3 and so on...). 
 
 If you want to edit a mapping file, use:
-**http://(server IP):(server port)>/3MEditor/Index?id=(Mapping id found in admin part)** 
+**http://(server IP):(server port)/3MEditor/Index?id=(Mapping id found in admin part)** 
 e.g. **http://localhost:8080/3MEditor/Index?id=6**
 
 ![Edit info](https://github.com/isl/3MEditor/blob/master/web/images/screenshots/Screenshot_4.png)
@@ -58,13 +58,13 @@ e.g. **http://localhost:8080/3MEditor/Index?id=6**
 ![Transformation tab](https://github.com/isl/3MEditor/blob/master/web/images/screenshots/Screenshot_3.png)
 
 If you want to simply view a mapping file, add parameter action with value view:
-**http://(server IP):(server port)>/3MEditor/Index?id=(Mapping id found in admin part)&action=view** 
+**http://(server IP):(server port)/3MEditor/Index?id=(Mapping id found in admin part)&action=view** 
 e.g. **http://localhost:8080/3MEditor/Index?id=6&action=view**
 
 ![View table](https://github.com/isl/3MEditor/blob/master/web/images/screenshots/Screenshot_2.png)
 
 If you want to view a mapping file as raw XML, add parameter output with value xml:
-**http://(server IP):(server port)>/3MEditor/Index?id=(Mapping id found in admin part)&output=xml** 
+**http://(server IP):(server port)/3MEditor/Index?id=(Mapping id found in admin part)&output=xml** 
 e.g. **http://localhost:8080/3MEditor/Index?id=6&output=xml**
 
 The 3MEditor webapp dependecies and licenses used are described in file 3MEditor-Dependencies-LicensesUsed.txt 

@@ -239,7 +239,7 @@ $("body").on("click", "#runEngine", function() {
     $(".loader").show();
 
     var source = $("#sourceFile").val();
-    var url = "/Mapper/Index?id=" + id + "&generator=" + $("#generator").val() + "&uuidSize=" + $("#uuidSize").val() + "&output=" + output;
+    var url = "/x3mlMapper/Index?id=" + id + "&generator=" + $("#generator").val() + "&uuidSize=" + $("#uuidSize").val() + "&output=" + output;
 
     $.post(url, {sourceFile: source}, "html").done(function(data) {
 
