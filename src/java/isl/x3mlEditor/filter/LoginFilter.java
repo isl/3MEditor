@@ -31,8 +31,7 @@ import isl.dms.DMSException;
 import isl.dms.file.DMSUser;
 import isl.x3mlEditor.BasicServlet;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,20 +57,40 @@ public class LoginFilter extends BasicServlet implements Filter {
         this.filterConfig = null;
     }
 
-    public String getCookieValue(Cookie[] cookies) throws UnsupportedEncodingException {
+//    public String getCookieValue(Cookie[] cookies) throws UnsupportedEncodingException {
+//        try {
+//            String[] users = DMSUser.getUsers(BasicServlet.conf);
+//            List<String> usersL = Arrays.asList(users);
+//            if (cookies != null) {
+//                for (int i = 0; i < cookies.length; i++) {
+//                    Cookie cookie = cookies[i];
+//                    for (String username : users) {
+//                        String encodeUsername = URLEncoder.encode(username, "UTF-8");
+//                        if (encodeUsername.equals(cookie.getName())) {
+//                            BasicServlet bs = new BasicServlet();
+//                            bs.setUsername(cookie.getName());
+//                            return (cookie.getName() + "-" + cookie.getValue());
+//                        }
+//                    }
+//                }
+//            }
+//        } catch (DMSException ex) {
+//            ex.printStackTrace();
+//        }
+//        return null;
+//
+//    }
+    public String getCookieValue(Cookie[] cookies) {
         try {
             String[] users = DMSUser.getUsers(BasicServlet.conf);
             List<String> usersL = Arrays.asList(users);
             if (cookies != null) {
                 for (int i = 0; i < cookies.length; i++) {
                     Cookie cookie = cookies[i];
-                    for (String username : users) {
-                        String encodeUsername = URLEncoder.encode(username, "UTF-8");
-                        if (encodeUsername.equals(cookie.getName())) {
-                            BasicServlet bs = new BasicServlet();
-                            bs.setUsername(cookie.getName());
-                            return (cookie.getName() + "-" + cookie.getValue());
-                        }
+                    if (usersL.contains(URLDecoder.decode(cookie.getName()))) {
+                        BasicServlet bs = new BasicServlet();
+                        bs.setUsername(URLDecoder.decode(cookie.getName()));
+                        return (cookie.getName() + "-" + cookie.getValue());
                     }
                 }
             }
@@ -79,7 +98,6 @@ public class LoginFilter extends BasicServlet implements Filter {
             ex.printStackTrace();
         }
         return null;
-
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -101,10 +119,10 @@ public class LoginFilter extends BasicServlet implements Filter {
                 if (res == null) {
                     hresponse.sendRedirect(systemURL);
                 } else {
-                     String cookieName = res.split("-")[0];
+                    String cookieName = res.split("-")[0];
                     String cookieValue = res.split("-")[1];
                     Cookie cookie = new Cookie(cookieName, cookieValue);
-                    String editorWebapp = "x3mlEditor";
+                    String editorWebapp = "3MEditor";
                     cookie.setPath("/" + editorWebapp);
                     cookie.setMaxAge(10800);
                     hresponse.addCookie(cookie);
