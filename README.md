@@ -29,7 +29,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
 ![Intro screenshot](https://github.com/isl/3MEditor/blob/master/web/images/screenshots/Screenshot_1.png)
 
-3MEditor is a web application used to edit/view [x3ml](https://github.com/delving/x3ml "x3ml") mapping files stored in an [eXist] (http://www.exist-db.org "eXist") database (Has been tested with eXist versions 2.1+)..
+3MEditor is a web application used to edit/view [x3ml](https://github.com/isl/x3ml "x3ml") mapping files stored in an [eXist] (http://www.exist-db.org "eXist") database (Has been tested with eXist versions 2.1+)..
 
 ## Build - Deploy - Run
 Folders src, web and lib contain all the files needed to build the web app and create a war file.
@@ -45,7 +45,7 @@ Once you have deployed the 3MEditor war and you have stored files from [Mapping-
 3MEditor's default usage is as a [3M] (https://github.com/isl/Mapping-Memory-Manager "3M") plugin.
 It may also be used independently, but new mapping files should be created and deleted either manually or using some other software.
 
-[x3ml](https://github.com/delving/x3ml "x3ml") mapping files are stored inside eXist's Mapping collection (subcollection 1,2,3 and so on...). 
+[x3ml](https://github.com/isl/x3ml "x3ml") mapping files are stored inside eXist's Mapping collection (subcollection 1,2,3 and so on...). 
 
 If you want to edit a mapping file, use:
 **http://(server IP):(server port)/3MEditor/Index?id=(Mapping id found in admin part)** 
