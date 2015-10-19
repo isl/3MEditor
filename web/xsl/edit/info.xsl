@@ -51,7 +51,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <a onclick="window.open(document.URL+'&amp;output=xml','_blank');return false;" href=""> view XML file</a>
                             </div>
                             <div class="col-sm-2">
-                                <label class=" control-label" for="sourceType">Source Type</label>
+                                <label class=" control-label" for="sourceType">Source type</label>
                                 <input id="sourceType" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//x3ml/@source_type">
                                     <xsl:attribute name="value">
                                         <xsl:value-of select="//x3ml/@source_type"></xsl:value-of>
@@ -285,7 +285,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </input>
                     </div>
                     <div class="col-sm-4">
-                        <label class="control-label" for="mappingInfoPerson">Contact Person(s)</label>
+                        <label class="control-label" for="mappingInfoPerson">Contact person(s)</label>
                         <input id="mappingInfoPerson" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/mapping_info/mapping_created_by_person">
                             <xsl:attribute name="value">
                                 <xsl:value-of select="mapping_created_by_person"></xsl:value-of>
@@ -318,14 +318,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </input>
                     </div>
                     <div class="col-sm-3">
-                        <label class="control-label" for="exampleDataPerson">Contact Person(s)</label>
+                        <label class="control-label" for="exampleDataPerson">Contact person(s)</label>
                         <input id="exampleDataPerson" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/example_data_contact_person">
                             <xsl:attribute name="value">
                                 <xsl:value-of select="example_data_contact_person"></xsl:value-of>
                             </xsl:attribute>
                         </input>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <label class=" control-label" for="exampleDataSourceRecord">Source record</label>
                         <input id="exampleDataSourceRecord" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/example_data_source_record">
                             <xsl:attribute name="value">
@@ -369,7 +369,38 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
 						
                     </div>
-                    <div class="col-sm-3">
+                     <div class="col-sm-2">
+                        <label class=" control-label" for="generatorPolicy">Generator policy</label>
+                        <input id="generatorPolicy" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/generator_policy_info">
+                            <xsl:attribute name="value">
+                                <xsl:value-of select="generator_policy_info"></xsl:value-of>
+                            </xsl:attribute>
+                        </input>
+                        <xsl:for-each select="generator_policy_info">
+                                                    
+                            <div class="generator_link">
+                                <xsl:for-each select="@generator_link">
+                                <xsl:call-template name="externalFileLink">
+                                </xsl:call-template>
+                                </xsl:for-each>
+                                <xsl:if test="@generator_link">
+                                    <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete generator policy" id="{concat('delete***//x3ml/info/example_data_info/generator_policy_info/@generator_link')}">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </xsl:if>
+                            </div>
+                            <span data-xpath="{concat('//x3ml/info/example_data_info/generator_policy_info/@generator_link')}" class="fileUpload">
+                                <xsl:if test="@generator_link">
+                                    <xsl:attribute name="style">
+                                        <xsl:text>display:none;</xsl:text>
+                                    </xsl:attribute>
+                                </xsl:if>
+                            </span>
+                                                    
+                                                    
+                        </xsl:for-each>
+                    </div>
+                    <div class="col-sm-2">
                         <label class=" control-label" for="exampleDataTargetRecord">Target record</label>
                         <input id="exampleDataTargetRecord" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/example_data_target_record">
                             <xsl:attribute name="value">

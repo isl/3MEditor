@@ -45,6 +45,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <xsl:template match="mappings" name="mappings">
         <fieldset>
             <legend style="font-size:80% !important;padding:2px 0 2px 0;" align="right"> 
+                
                 <xsl:choose>
                     <xsl:when test="$action=0">Click on a row to edit the matching table</xsl:when>
                     <xsl:when test="$action=1">View mode</xsl:when>

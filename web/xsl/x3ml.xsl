@@ -48,6 +48,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     var sourceAnalyzer = "<xsl:value-of select="$sourceAnalyzer"/>";
                     var sourceAnalyzerFiles = "<xsl:value-of select="$sourceAnalyzerFiles"/>";
                     var sourceAnalyzerPaths = "";
+                    var generatorsStatus = "<xsl:value-of select="$generatorsStatus"/>";
+                    var instanceGeneratorsNames = "";
                 </script>
                 <!-- Bootstrap -->
                 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen,print"/>
@@ -116,7 +118,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                                 
                                         </li>
                                     </xsl:if>
-                                    <xsl:if test="$action=0">
+                                    <xsl:if test="$action!=1">
                                         <li >
                                             <a href="#configuration" role="tab" data-toggle="tab">Configuration</a>
                                         </li>

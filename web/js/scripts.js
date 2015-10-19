@@ -120,9 +120,6 @@ $(document).ready(function() {
             $("#myModal").modal('show');
 
         });
-
-
-
         var $scrollingDiv = $('#table_view-btn');
 
         $(window).scroll(function() {
@@ -130,11 +127,28 @@ $(document).ready(function() {
                     .stop()
                     .animate({"marginTop": ($(window).scrollTop())}, "fast");
         });
+    } else if (mode === 2 && generatorsStatus === "auto") {
+        getInstanceGeneratorNamesAndFillCombos();
+
     }
 
 
 
+
+
 });
+
+function getInstanceGeneratorNamesAndFillCombos() {
+    var url = "Services?id=" + id + "&method=instanceGeneratorNames";
+    $.ajax({
+        url: url,
+        dataType: 'json'
+    }).success(function(data) {
+        instanceGeneratorsNames = data;
+//        alert(instanceGeneratorsNames)
+        fillInstanceCombos();
+    });
+}
 
 $('.saveXML-btn').click(function() {
     if (confirm("This is an action that may cause data loss. Are you sure you want to proceed?") === true) {
@@ -211,21 +225,43 @@ $('.saveXML-btn').click(function() {
 
 
 $('.nav a').click(function(e) {
-    e.preventDefault()
+    e.preventDefault();
     if ($(this).html() === "About") {
         $("#about").load("readme.html");
     } else if ($(this).html() === "Graph") {
         $("#graph").load("graph.html");
     } else if ($(this).html() === "Transformation") {
         $("#x3mlEngine").load(("x3mlEngine.html"), function() {
-            var sourceFilename = $("a:contains('view xml')").attr("title");
-
+            var sourceFilename = "";
+            if ($("info_view-btn").is(':visible')) {//edit_mode
+                sourceFilename = $("div:visible>a:contains('view xml')").attr("title");
+            } else {
+                sourceFilename = $("a:contains('view xml')").attr("title");
+            }
+//            alert(sourceFilename)
             var url = "FetchBinFile?file=" + sourceFilename;
             $.post(url, "xml").done(function(xml) {
                 var xmlString = (new XMLSerializer()).serializeToString(xml);
 
                 $("#sourceFile").val(xmlString);
             });
+
+//            var generatorPolicyFilename = $("a:contains('view generator xml')").attr("href");
+//            var url = "FetchBinFile?file=" + generatorPolicyFilename;
+            var url = "";
+            if ($("info_view-btn").is(':visible')) {//edit_mode
+                url = $("div:visible>a:contains('view generator xml')").attr("href");
+            } else {
+                url = $("a:contains('view generator xml')").attr("href");
+            }
+
+//            alert(url)
+            $.post(url, "xml").done(function(xml) {
+                var xmlString = (new XMLSerializer()).serializeToString(xml);
+
+                $("#generator").val(xmlString);
+            });
+
         });
 
     }
@@ -364,6 +400,17 @@ function viewOnlySpecificPath(xpath) {
     });
 }
 
+function refreshTable() {
+    var url = "GetPart?id=" + id + "&xpath=//mappings&mode=instance&generatorsStatus=" + generatorsStatus;
+    $.post(url).done(function(data) {
+        $(".mappings").html(data);
+
+        if (generatorsStatus === "auto") {
+            fillInstanceCombos();
+        }
+        $("body").css("opacity", "1");
+    });
+}
 
 function viewOnly() {
 //Then make previously edited part viewable...
@@ -480,8 +527,50 @@ function fillCombo($this, setValue) {
     }
 
 }
-function displayCurrentValue(selectedObject, currentSearchTerm) {
+function displayCurrentValue(currentSearchTerm) {
     return currentSearchTerm;
+}
+
+function fillInstanceCombos() {
+    $('.select2').each(function() {
+
+        var $this = $(this);
+
+        var oldValue = $this.val().trim();
+        var wrongValue = false;
+        if (JSON.stringify(instanceGeneratorsNames).indexOf('"' + oldValue + '"') === -1) {
+            wrongValue = true;
+        }
+
+        $this.select2({
+            allowClear: true,
+            placeholder: "Select a value",
+            createSearchChoice: function(term, data) {
+                if ($(data).filter(function() {
+                    return this.text.localeCompare(term) === 0;
+                }).length === 0) {
+                    return {
+                        id: term,
+                        text: term
+                    };
+                }
+            },
+            data: instanceGeneratorsNames,
+            initSelection: function(element, callback) {
+                var data = {id: $this.attr("data-id"), text: $this.val()};
+                callback(data);
+            }
+        })
+
+        if (wrongValue) {
+            $this.parent().find(".select2-chosen").html("<span style='color:red;'>Generator " + oldValue + " does not exist!</span>");
+        } else {
+            $this.select2('val', $this.val());
+        }
+        $this.next(".loader").hide();
+
+    })
+
 }
 
 
@@ -525,7 +614,6 @@ function fillSourceCombo($this) {
                     allowClear: true,
                     nextSearchTerm: displayCurrentValue,
                     placeholder: "Select a value",
-
                     createSearchChoice: function(term, data) {
                         if ($(data).filter(function() {
                             return this.text.localeCompare(term) === 0;
@@ -583,10 +671,10 @@ function filterSourceValues(xpath) {
     var $domain = $("tr[data-xpath='" + domainPath + "']");
 
     var $domainDiv = $domain.find(".nextToIcon");
-    
+
     var domainValue = $domainDiv.html();
-    if ($domainDiv.children("span").length>0) {
-       domainValue = $domainDiv.children("span").attr("title");
+    if ($domainDiv.children("span").length > 0) {
+        domainValue = $domainDiv.children("span").attr("title");
     }
 
     var filteredPaths = $.grep(sourceAnalyzerPaths, function(item) {
@@ -613,6 +701,16 @@ $("#targetAnalyzer input:radio").change(function() { //On change set variable
 $("#sourceAnalyzer input:radio").change(function() { //On change set variable
     sourceAnalyzer = $(this).val();
     viewOnly();
+});
+$("#generators input:radio").change(function() { //On change set variable
+    $("body").css("opacity", "0.4");
+
+    generatorsStatus = $(this).val();
+    if (generatorsStatus === "auto" && instanceGeneratorsNames.length === 0) {
+        getInstanceGeneratorNamesAndFillCombos();
+    }
+    refreshTable();
+
 });
 
 
@@ -662,12 +760,14 @@ function upload($this) {
     var uploadMessage = "Upload File";
     if (xpath.endsWith("schema_file")) {
         uploadMessage = "Upload File";
-    } else if (xpath.endsWith("xml_link")) {
+    } else if (xpath.endsWith("xml_link") || xpath.endsWith("generator_link")) {
         uploadMessage = "Upload xml";
     } else if (xpath.endsWith("html_link")) {
         uploadMessage = "Upload html";
     } else if (xpath.endsWith("rdf_link")) {
         uploadMessage = "Upload rdf";
+//    }  else if (xpath.endsWith("generator_link")) {
+//        uploadMessage = "Upload File";
     }
     var mappingId = id;
     $this.fineUploader({
@@ -714,6 +814,8 @@ function upload($this) {
                 linkText = "view xml"
             } else if (uploadMessage === "Upload html") {
                 linkText = "view html"
+//            } else if (uploadMessage === "Upload generator") {
+//                linkText = "view generator"
             } else { //Not sure if I want a default analyzer
                 if (xpath.endsWith("source_schema/@schema_file")) {
                     sourceAnalyzer = "on";
@@ -736,7 +838,14 @@ function upload($this) {
                 }
             }
 
-            var linkHtml = "<a title='" + encodeURIComponent(filename) + "' style='position:relative;top:1px;' target='_blank' href='FetchBinFile?id=" + mappingId + "&amp;file=" + encodeURIComponent(filename) + "'>" + linkText + " </a>";
+
+            if (xpath.endsWith("generator_link")) {
+                url = "FetchBinFile?id=" + mappingId + "&amp;type=generator_link&amp;file=" + encodeURIComponent(filename);
+                linkText = "view generator xml"
+            } else {
+                url = "FetchBinFile?id=" + mappingId + "&amp;file=" + encodeURIComponent(filename);
+            }
+            var linkHtml = "<a title='" + encodeURIComponent(filename) + "' style='position:relative;top:1px;' target='_blank' href='" + url + "'>" + linkText + " </a>";
             var deleteHtml = " <button class='btn btn-default btn-link btn-sm deleteFile' type='button' title='Delete " + encodeURIComponent(filename) + "' id='delete***" + xpath + "'>" +
                     "<span class='glyphicon glyphicon-remove'></span>" +
                     "</button> ";

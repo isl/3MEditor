@@ -30,7 +30,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:include href="arg.xsl"/>
-   
+
     <xsl:output method="html"/>
 
     <!-- TODO customize transformation rules 
@@ -48,7 +48,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <xsl:value-of select="@container"/>
                 </xsl:otherwise>
             </xsl:choose>
-        </xsl:variable>
+        </xsl:variable> 
+<!--        <xsl:variable name="generatorsStatus">
+            <xsl:value-of select="//output/generator/@mode"/>
+        </xsl:variable>-->
+
                    
         <div class="instance_generator" id="{$container}" data-xpath="{$container}">
             <button title="Delete Instance Generator" type="button" class="close" id="{concat('delete***',$container)}" >
@@ -59,11 +63,31 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <div class="col-sm-12">
 
                     <label class="control-label" for="{concat($container,'/@name')}">Instance Generator Name</label>
-                    <input id="{concat($container,'/@name')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Instance Generator Name" data-xpath="{concat($container,'/@name')}">
+                    <xsl:choose>
+                        <xsl:when test="$generatorsStatus='manual'">                                 
+                            <input id="{concat($container,'/@name')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Instance Generator Name" data-xpath="{concat($container,'/@name')}">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="@name"></xsl:value-of>
+                                </xsl:attribute>
+                            </input>
+                        </xsl:when>
+                        <xsl:otherwise>
+                           
+                            <input style="width:100%;" title="Instance Generator Name" type="hidden" class="select2 input-sm"  id="{concat($container,'/@name')}" data-id="{@name}" data-xpath="{concat($container,'/@name')}">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="@name"></xsl:value-of>
+                                </xsl:attribute>
+                                <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
+                            </input>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    
+                    
+                    <!--                    <input id="{concat($container,'/@name')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Instance Generator Name" data-xpath="{concat($container,'/@name')}">
                         <xsl:attribute name="value">
                             <xsl:value-of select="@name"></xsl:value-of>
                         </xsl:attribute>
-                    </input>
+                    </input>-->
                 </div>
             </div>
                       

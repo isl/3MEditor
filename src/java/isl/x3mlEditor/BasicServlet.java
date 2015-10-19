@@ -62,11 +62,11 @@ import javax.servlet.http.HttpSession;
 public class BasicServlet extends HttpServlet {
     //***SAM
 
-    protected static String serverName, contextPath, baseURL, systemRoot, targetPathSuggesterAlgorithm, sourceAnalyzerStatus;
+    protected static String serverName, contextPath, baseURL, systemRoot, targetPathSuggesterAlgorithm, sourceAnalyzerStatus, generatorsStatus;
     protected static int serverPort, maxCollsize;
     protected static String configQueriesCollection;
     protected static String stateOfSite, editorType;
-    //***
+    protected static String[] instanceGeneratorNamesBuiltInX3MLEngine;
     protected static String servletName, dmsCollection, adminCollection, applicationCollection, x3mlCollection, rootCollection;
     protected static String DBURI, DBuser, DBpassword;
     protected static int userId = 1;
@@ -94,12 +94,10 @@ public class BasicServlet extends HttpServlet {
             DBURI = sc.getInitParameter("DBURI");
 
             systemRoot = serverName + serverPort;
-//            systemRoot = sc.getInitParameter("SystemRoot");
             rootCollection = sc.getInitParameter("rootCollection");
             adminCollection = sc.getInitParameter("adminCollection");
             applicationCollection = sc.getInitParameter("applicationCollection");
             x3mlCollection = sc.getInitParameter("x3mlCollection");
-//            versionCollection = sc.getInitParameter("versionCollection");
 
             DBuser = sc.getInitParameter("DBuser");
             DBpassword = sc.getInitParameter("DBpassword");
@@ -114,6 +112,9 @@ public class BasicServlet extends HttpServlet {
             maxCollsize = Integer.parseInt(sc.getInitParameter("maxCollsize"));
             targetPathSuggesterAlgorithm = sc.getInitParameter("targetPathSuggesterAlgorithm");
             sourceAnalyzerStatus = sc.getInitParameter("sourceAnalyzerStatus");
+            generatorsStatus = sc.getInitParameter("generatorsStatus");
+
+            instanceGeneratorNamesBuiltInX3MLEngine = sc.getInitParameter("instanceGeneratorNamesBuiltInX3MLEngine").split(", ");
 
 //            Config.init();
             boolean verbose = sc.getInitParameter("verboseConnections").equals("true") ? true : false;
@@ -123,13 +124,11 @@ public class BasicServlet extends HttpServlet {
 
             configured = true;
 
-//            logger.info("BasicServlet::init did configuration!");
         }
 
         // initialize the subsystems
         //Changed with new DMS
         conf = new DMSConfig(this.DBURI, this.adminCollection, this.DBuser, this.DBpassword);
-//        logger.info("BasicServlet::init completed normally!");
     }
 
     /**

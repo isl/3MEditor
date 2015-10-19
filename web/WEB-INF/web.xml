@@ -121,6 +121,17 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <param-name>sourceAnalyzerStatus</param-name>
         <param-value>on</param-value>
     </context-param>
+     <context-param>
+        <description>Default generators status. Values accepted:auto, manual.</description>
+        <param-name>generatorsStatus</param-name>
+        <param-value>manual</param-value>
+    </context-param>
+     <context-param>
+        <description>X3ML engine built in Instance Generator names</description>
+        <param-name>instanceGeneratorNamesBuiltInX3MLEngine</param-name>
+        <param-value>UUID, Literal</param-value>
+    </context-param>
+    
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>isl.x3mlEditor.filter.LoginFilter</filter-class>

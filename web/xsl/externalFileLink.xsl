@@ -108,6 +108,21 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                   
                     
                 </xsl:choose>
+                 <xsl:choose>
+                    
+                    <xsl:when test="name()='generator_link'">
+                        <xsl:call-template name="link">
+                            <xsl:with-param name="filename" select=".">
+                        
+                            </xsl:with-param>                                            
+                            <xsl:with-param name="message" select="'view generator xml'"/>
+
+                        </xsl:call-template>
+                        
+                      
+                    </xsl:when>
+                   
+                </xsl:choose>
             </xsl:otherwise>
               
           
@@ -121,10 +136,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
         <a title="{$filename}" target="_blank" style="display:inline;position:relative;top:1px;" >
             <xsl:attribute name="href">
-                <xsl:text>FetchBinFile?</xsl:text>
-                        
-                <xsl:text>file=</xsl:text>
-                <xsl:value-of select="url:encode($filename)"/>
+            <xsl:value-of select="concat('FetchBinFile?type=',name(),'&amp;file=',url:encode($filename))"/>
+<!--                <xsl:text>FetchBinFile?</xsl:text>
+                <xsl:text>type=</xsl:text><xsl:value-of select="name()"/>&amp;<xsl:text>file=</xsl:text>
+                <xsl:value-of select="url:encode($filename)"/>-->
             </xsl:attribute> 
             <xsl:value-of select="$message"/>
         </a>

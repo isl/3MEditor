@@ -35,15 +35,31 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
          syntax recommendation http://www.w3.org/TR/xslt 
     -->
     <xsl:variable name="action">
-        <xsl:value-of select="//output/viewMode"/>
+        <xsl:choose>
+            <xsl:when test="//mappings/@mode">
+                <xsl:text>2</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="//output/viewMode"/>
+            </xsl:otherwise>           
+        </xsl:choose>
     </xsl:variable>
-      <xsl:variable name="sourceAnalyzer">
+    <xsl:variable name="sourceAnalyzer">
         <xsl:value-of select="//output/sourceAnalyzer"/>
     </xsl:variable>
     <xsl:variable name="sourceAnalyzerFiles">
         <xsl:value-of select="//output/sourceAnalyzerFiles"/>
     </xsl:variable>
-    
+    <xsl:variable name="generatorsStatus">
+        <xsl:choose>
+            <xsl:when test="//mappings/@status">
+                <xsl:value-of select="//mappings/@status"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="//output/generator/@mode"/>
+            </xsl:otherwise>           
+        </xsl:choose>
+    </xsl:variable>
     <xsl:template match="target_node" name="target_node">
         <xsl:param name="pathSoFar"/>
         <xsl:apply-templates select="entity">

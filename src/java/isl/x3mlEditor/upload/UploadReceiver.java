@@ -64,7 +64,7 @@ public class UploadReceiver extends BasicServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-        String chosenAPI = req.getParameter("target");
+//        String chosenAPI = req.getParameter("target");
 
 //        int mode = Integer.parseInt(targetPathSuggesterAlgorithm);
 ////        System.out.println("CHOSEN=" + chosenAPI);
@@ -102,7 +102,6 @@ public class UploadReceiver extends BasicServlet {
         }
 
 //        System.out.println("UPLOADED FILENAME is :" + filename);
-
         DBFile uploadsDBFile = new DBFile(super.DBURI, super.adminCollection, "Uploads.xml", super.DBuser, super.DBpassword);
         String mime = new Utils().findMime(uploadsDBFile, filename);
 
@@ -116,6 +115,9 @@ public class UploadReceiver extends BasicServlet {
         }
 
 //        UPLOAD_DIR = new File(uploadsFolder + id + filePath);
+        if (xpath.endsWith("/@generator_link")) { //Special case overriding mime-based upload mechanism
+            mime = "generator_files";
+        }
         UPLOAD_DIR = new File(uploadsFolder + mime + System.getProperty("file.separator") + filePath);
 
         if (!UPLOAD_DIR.exists()) {
@@ -157,11 +159,11 @@ public class UploadReceiver extends BasicServlet {
         if (isAttribute) {
 
             mappingFile.xAddAttribute(xpath, attributeName, filename);
-
+            System.out.println("XPATH="+xpath);
             if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf"))) {
 
                 if (!duplicateFound) {
-                    //Uploading file to eXist!
+                    //Uploading target schema files to eXist!
                     dbc = new DBCollection(super.DBURI, x3mlCollection, super.DBuser, super.DBpassword);
                     DBFile dbf = dbc.createFile(filename, "XMLDBFile");
                     String content = readFile(new File(UPLOAD_DIR, filename), "UTF-8");
@@ -179,6 +181,18 @@ public class UploadReceiver extends BasicServlet {
                     session.setAttribute("modelInstance_" + id, ont);
                 }
 
+            } else if (xpath.endsWith("/generator_policy_info") && (filename.endsWith("xml"))) {
+                System.out.println("UPL="+filename);
+                System.out.println("DIR="+UPLOAD_DIR);
+                if (!duplicateFound) {
+                    System.out.println("INSIDE");
+                    //Uploading generator policy files to eXist!
+                    dbc = new DBCollection(super.DBURI, x3mlCollection, super.DBuser, super.DBpassword);
+                    DBFile dbf = dbc.createFile(filename, "XMLDBFile");
+                    String content = readFile(new File(UPLOAD_DIR, filename), "UTF-8");
+                    dbf.setXMLAsString(content);
+                    dbf.store();
+                }
             }
 
         } else {

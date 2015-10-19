@@ -127,7 +127,7 @@ public class GetPart extends BasicServlet {
                 query = "//" + part;
             }
             xsl = baseURL + "/xsl/edit/" + part + ".xsl";
-            if (mode.equals("view")) {
+            if (mode.equals("view") || mode.equals("instance")) {
                 xsl = baseURL + "/xsl/" + part + ".xsl";
 
             }
@@ -139,7 +139,6 @@ public class GetPart extends BasicServlet {
         if (queryResults != null && queryResults.length > 0 && baseURL != null) {
             String result = queryResults[0];
             if (result.startsWith("<link>")) { //Edit mode
-//                result = result.replaceFirst("<link>", "<link xpath='" + xpath + "'>");
                 result = result.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "/path" + "'>");
                 result = result.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "/range" + "'>");
 
@@ -149,7 +148,14 @@ public class GetPart extends BasicServlet {
                 result = result.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "' mappingsCount='" + queryResults[0] + "'");
             }
 //            System.out.println("RES=" + result);
+            if (result.startsWith("<mappings>") && mode.equals("instance")) {
+                
+                result = result.replaceFirst("<mappings", "<mappings mode='"+mode+"' status='"+request.getParameter("generatorsStatus")+"'");
+
+            }
 //            System.out.println(xsl);
+//                        System.out.println("RES2=" + result);
+
             output = transform(result, xsl);
 
             if (output != null) {
@@ -165,7 +171,7 @@ public class GetPart extends BasicServlet {
                 }
             }
 
-//            System.out.println("OUT="+output);
+//            System.out.println("OUT=" + output);
 //            System.out.println(xpath);
         } else {
 //                    System.out.println("BAD="+query);
@@ -173,7 +179,6 @@ public class GetPart extends BasicServlet {
             output = "Something went wrong! Please reload page.";
         }
 
-//        System.out.println(mappingFile.queryString(query)[0]);
         try {
             /* TODO output your page here. You may use following sample code. */
             out.println(output);

@@ -33,20 +33,22 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             <legend>Metadata Transformation</legend>
             <br/>
             <p>
-                Modify generic Generator Policy xml according to your mapping
-                (If you do not know how, read <a href="Notes.pdf" target="_blank">Notes about Generators</a>).<br/>
+                If you have a Generator Policy xml file available, please upload it (Info tab). Otherwise you are provided with 
+                a generic one.<br/>
+                You may modify both source and generator files on the fly, but changes will be lost next time you click on the Transformation tab.
+                (You may read instructions about generators by clicking <a href="Notes.pdf" target="_blank">Notes about Generators</a>).<br/>
                 Choose UUID size and output format and then click "Run Transformation".
                 View metadata transformed (or x3ml exception messages) inside "Target Record RDF File" textarea.</p>
             <div class="form-group ">
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <label class="control-label" >Source Record XML File </label>     
+                        <label class="control-label" >Source Record XML File</label>     
                         <textarea id="sourceFile"  placeholder="Fill in value" class="form-control input-sm" rows="20"/>
 
                     </div>
                     <div class="col-sm-6">
-                        <label class="control-label" >Generator Policy </label>    
+                        <label class="control-label" >Generator Policy XML File</label>    
                         <textarea id="generator"  placeholder="Fill in value" class="form-control input-sm" rows="20">
 <?xml version="1.0" encoding="UTF-8"?>
 <generator_policy>
@@ -85,13 +87,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         <br/>
                         <div class="btn-group outputFormat" data-toggle="buttons">
                             <label class="btn btn-default btn-sm active">
-                               
+
                                 <input type="radio"  name="outputFormat" value="RDF/XML" class="toggle" /> RDF/XML
                             </label> 
                             <label class="btn btn-default btn-sm">
                                 <input type="radio"  name="outputFormat" value="N-triples" class="toggle" /> N-triples
                             </label> 
-                             <label class="btn btn-default btn-sm">
+                            <label class="btn btn-default btn-sm">
                                 <input type="radio"  name="outputFormat" value="Turtle" class="toggle" /> Turtle
                             </label> 
                         </div>

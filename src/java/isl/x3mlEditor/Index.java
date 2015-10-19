@@ -37,6 +37,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  *
@@ -129,10 +130,12 @@ public class Index extends BasicServlet {
                 return;
             }
 
-            //Actions: 0=edit, 1=view, 2=instance
+            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+
+            //Actions: 0=edit, 1=view, 2=instance+label
             if (action.equals("instance")) {
                 xmlMiddle.append("<viewMode>").append("2").append("</viewMode>");
-                xmlMiddle.append("<generator>").append("instance").append("</generator>");
+                xmlMiddle.append("<generator mode='" + generatorsStatus + "'>").append("instance").append("</generator>");
 
                 HttpSession session = sessionCheck(request, response);
                 if (session == null) {
@@ -140,8 +143,6 @@ public class Index extends BasicServlet {
 //                    session.setAttribute("resourcesList", new HashMap<String, String[]>());
                     session.setAttribute("id", id);
                     session.setAttribute("action", action);
-
-                    DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
 
                     String[] usernames = mappingFile.queryString("//admin/locked/string()");
                     if (usernames.length > 0) {
@@ -154,9 +155,7 @@ public class Index extends BasicServlet {
                 xmlMiddle.append("<viewMode>").append("1").append("</viewMode>");
             } else if (action.equals("edit")) {
                 xmlMiddle.append("<viewMode>").append("0").append("</viewMode>");
-
-                //Components
-                DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+                xmlMiddle.append("<generator mode='" + generatorsStatus + "'>").append("instance").append("</generator>");
 
                 if (mappingFile.queryString("//target_info/target_schema/@schema_file/string()").length == 0) {
                     targetAnalyzer = "0"; //If no target schemas specified, then choose None!
@@ -232,24 +231,11 @@ public class Index extends BasicServlet {
             }
 
             xmlMiddle.append("</output>");
-//            if (action.equals("edit") && mode == 3) {
-//
-//                DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
-//                ArrayList<OntModel> modelList = getOntModel(mappingFile, id);
-//
-//                HttpSession session = sessionCheck(request, response);
-//                if (session == null) {
-//                    session = request.getSession();
-//                }
-//                session.setAttribute("modelList_" + id, modelList);
-//
-//            }
-//             System.out.println(xmlMiddle);
             out.write(transform(xmlMiddle.toString(), xsl));
 
         } else {
             String content = xmlMiddle.toString();
-            content = content.replace("<?xml-stylesheet type=\"text/xsl\" href=\"crm_mapping-v2.0.xsl\"?>", "");
+            content = content.replace("<?xml-stylesheet type=\"text/xsl\" href=\"crm_mapping-v2.0.xsl\"?>", ""); //Legacy code, not sure if it's required any more
             content = content.replaceAll("(?s)<admin>.*?</admin>", "");
             out.write(content);
         }

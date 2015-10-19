@@ -51,7 +51,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </p>
                             </div>
                             <div class="col-sm-2"> 
-                                <label class=" control-label">Source Type</label>
+                                <label class=" control-label">Source type</label>
                                 <p class="form-control-static">
                                     <xsl:value-of select="//x3ml/@source_type"/>
                                 </p>
@@ -96,7 +96,6 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         <label class="control-label">Schema</label>                                   
                         <p class="form-control-static">
                             <xsl:value-of select="source_schema"/>   
-                            <!--                            <a href="#"> view</a>                         -->
                             &#160; 
                             <xsl:for-each select="source_schema">
                                 <xsl:call-template name="externalFileLink" >       
@@ -142,7 +141,6 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <label class="control-label">Schema</label>                                   
                     <p class="form-control-static">
                         <xsl:value-of select="target_schema"/>   
-                        <!--<a href="#"> view</a>--> 
                         &#160;                        
                         <xsl:call-template name="externalFileLink">       
 
@@ -210,7 +208,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </p>
                     </div> 
                     <div class="col-sm-4">          
-                        <label class="control-label">Contact Person(s)</label>
+                        <label class="control-label">Contact person(s)</label>
                         <p class="form-control-static">
                             <xsl:value-of select="mapping_created_by_person"/>
                         </p>
@@ -230,7 +228,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     </xsl:template>
     <xsl:template match="example_data_info" name="example_data_info">
         <fieldset>
-            <legend>Sample data</legend>
+            <legend>Sample data and Generator policy</legend>
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-3">
@@ -241,42 +239,44 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </p>
                     </div> 
                     <div class="col-sm-3">          
-                        <label class="control-label">Contact Person(s)</label>
+                        <label class="control-label">Contact person(s)</label>
                         <p class="form-control-static">
                             <xsl:value-of select="example_data_contact_person"/>
                         </p>
                     </div>
-                    <div class="col-sm-3"> 
+                    <div class="col-sm-2"> 
                         <label class=" control-label">Source record</label>
                         <p class="form-control-static">
                             <xsl:value-of select="example_data_source_record"/>
                             <br/>
-                            <!--                            <a href="#"> view xml</a> -->
-                            <xsl:for-each select="example_data_source_record/@*">
-                                                     
-                                                        
-							<xsl:call-template name="externalFileLink">
-							</xsl:call-template>
-                                                      
-						<br/>
-                                                </xsl:for-each>
+                            <xsl:for-each select="example_data_source_record/@*">                                                                                                            
+                                <xsl:call-template name="externalFileLink">
+                                </xsl:call-template>                                                     
+                                <br/>
+                            </xsl:for-each>
                             
-                            <!--<a href="#"> view html</a>--> 
-                            <!--                            <xsl:for-each select="example_data_source_record">
-                                <xsl:call-template name="externalFile" >       
-                                    <xsl:with-param name="pathSoFar" select="'//x3ml/info/example_data_info/example_data_source_record'"/>
-                                </xsl:call-template>
-                            </xsl:for-each>-->
                         </p>
                     </div>
-                    <div class="col-sm-3"> 
+                    <div class="col-sm-2"> 
+                        <label class=" control-label">Generator policy</label>
+                        <p class="form-control-static">
+                            <xsl:value-of select="generator_policy_info"/>
+                            <br/>
+                            <xsl:for-each select="generator_policy_info/@generator_link">
+                                <xsl:call-template name="externalFileLink">      
+
+                                </xsl:call-template>
+                            </xsl:for-each>
+                        </p>
+                    </div>
+                    <div class="col-sm-2"> 
                         <label class=" control-label">Target record</label>
                         <p class="form-control-static">
                             <xsl:value-of select="example_data_target_record"/>
                             <!--                            <a href="#"> view rdf</a> -->
                             <br/>
                             <xsl:for-each select="example_data_target_record">
-                        <xsl:call-template name="externalFileLink">       
+                                <xsl:call-template name="externalFileLink">       
 
                                 </xsl:call-template>
                             </xsl:for-each>

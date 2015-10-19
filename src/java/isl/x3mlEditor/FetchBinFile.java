@@ -60,11 +60,15 @@ public class FetchBinFile extends BasicServlet {
         // Get the absolute path of the image ServletContext sc = getServletContext();
 //        String id = request.getParameter("id");
         String filename = request.getParameter("file");
+        String type = request.getParameter("type");
 
 //        String path = uploadsFolder + id + "/";
         String path = uploadsFolder;
         DBFile uploadsDBFile = new DBFile(super.DBURI, super.adminCollection, "Uploads.xml", super.DBuser, super.DBpassword);
         String mime = new Utils().findMime(uploadsDBFile, filename);
+        if (type!=null && type.equals("generator_link")) { //Special case overriding mime-based fetch mechanism
+            mime = "generator_files";
+        }
         path = path + mime + System.getProperty("file.separator");
         String mimeType = getServletContext().getMimeType(filename);
 

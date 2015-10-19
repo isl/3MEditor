@@ -28,13 +28,14 @@
 package isl.x3mlEditor;
 
 import isl.dbms.DBCollection;
+import isl.dbms.DBFile;
 import static isl.x3mlEditor.BasicServlet.applicationCollection;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  *
@@ -66,19 +67,60 @@ public class Services extends BasicServlet {
             method = "";
         }
 
+        String id = request.getParameter("id");
+
+        String xmlId = "Mapping" + id + ".xml";
+        DBCollection dbc = new DBCollection(super.DBURI, applicationCollection + "/Mapping", super.DBuser, super.DBpassword);
+        String collectionPath = getPathforFile(dbc, xmlId, id);
+
         if (method.equals("export")) {
-            String id = request.getParameter("id");
-
-            String xmlId = "Mapping" + id + ".xml";
-            DBCollection dbc = new DBCollection(super.DBURI, applicationCollection + "/Mapping", super.DBuser, super.DBpassword);
-            String collectionPath = getPathforFile(dbc, xmlId, id);
-
             xmlMiddle.append(getDBFileContent(collectionPath, xmlId));
-
             String content = xmlMiddle.toString();
             content = content.replace("<?xml-stylesheet type=\"text/xsl\" href=\"crm_mapping-v2.0.xsl\"?>", "");
             content = content.replaceAll("(?s)<admin>.*?</admin>", "");
             out.write(content);
+
+        } else if (method.equals("instanceGeneratorNames")) {
+
+            xmlMiddle.append("{ \"text\": \"Built-In\", \"children\": [\n");
+            for (String builtInName : instanceGeneratorNamesBuiltInX3MLEngine) {
+                xmlMiddle.append("{ \"id\": \"").append(builtInName).append("\", \"text\": \"").append(builtInName).append("\" },");
+            }
+            xmlMiddle = xmlMiddle.delete(xmlMiddle.length() - 1, xmlMiddle.length()); //to remove last comma
+            xmlMiddle.append("] }\n");
+            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+
+            String[] gpfFiles = mappingFile.queryString("//generator_policy_info/@generator_link/string()");
+            if (gpfFiles.length == 0) {
+                System.out.println("NO GPF");
+//                    targetAnalyzer = "0"; //If no generator policy file specified, then disable Auto!
+            } else {
+                System.out.println("GPF=" + gpfFiles[0]);
+                DBFile gpfFile = new DBFile(DBURI, x3mlCollection, gpfFiles[0], DBuser, DBpassword);
+                System.out.println(gpfFile.toString());
+                String[] gpfFileGenNames = gpfFile.queryString("//generator/@name/string()");
+
+                xmlMiddle.append(",{ \"text\": \"GeneratorFile\", \"children\": [\n");
+
+                for (String genName : gpfFileGenNames) {
+                    System.out.println("genName=" + genName);
+                    xmlMiddle.append("{ \"id\": \"").append(genName).append("\", \"text\": \"").append(genName).append("\" },");
+
+                }
+                xmlMiddle = xmlMiddle.delete(xmlMiddle.length() - 1, xmlMiddle.length()); //to remove last comma
+                xmlMiddle.append("] }\n");
+// +"        { \"text\": \"Western\", \"children\": [\n"
+//                    + "            { \"id\": \"CA\", \"text\": \"California\" },\n"
+//                    + "            { \"id\": \"AZ\", \"text\": \"Arizona\" }\n"
+//                    + "        ] },\n" 
+
+            }
+            out.println("{\n"
+                    + "    \"results\": [\n"
+                    + "            { \"id\": \"\", \"text\": \"\" }");//Adding empty default
+            out.println(",\n" + xmlMiddle);
+            out.println("]\n"
+                    + "}");
 
         }
 
