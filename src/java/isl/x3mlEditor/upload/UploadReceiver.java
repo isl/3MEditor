@@ -101,23 +101,34 @@ public class UploadReceiver extends BasicServlet {
             msg = e.getMessage();
         }
 
-//        System.out.println("UPLOADED FILENAME is :" + filename);
         DBFile uploadsDBFile = new DBFile(super.DBURI, super.adminCollection, "Uploads.xml", super.DBuser, super.DBpassword);
-        String mime = new Utils().findMime(uploadsDBFile, filename);
+      
+        String use = "";
+        if (xpath != null) {
+            if (filename.endsWith("rdf") || filename.endsWith("rdfs")) {
+                if (xpath.endsWith("/@rdf_link")) {
+                    use = "rdf_link";
+                } else {
+                    use = "schema_file";
+                }
+            } else if (filename.endsWith("xml")) {
+                if (xpath.endsWith("/@generator_link")) {
+                    use = "generator_link";
+                } else {
+                    use = "xml_link";
+                }
+            }
+        }
+        String mime = new Utils().findMime(uploadsDBFile, filename, use);
 
         filename = URLEncoder.encode(filename, "UTF-8");
 
         TEMP_DIR = new File(uploadsFolder + "uploadsTemp");
 
-//        System.out.println(uploadsFolder + id + "/uploadsTemp");
         if (!TEMP_DIR.exists()) {
             TEMP_DIR.mkdirs();
         }
 
-//        UPLOAD_DIR = new File(uploadsFolder + id + filePath);
-        if (xpath.endsWith("/@generator_link")) { //Special case overriding mime-based upload mechanism
-            mime = "generator_files";
-        }
         UPLOAD_DIR = new File(uploadsFolder + mime + System.getProperty("file.separator") + filePath);
 
         if (!UPLOAD_DIR.exists()) {
@@ -159,7 +170,7 @@ public class UploadReceiver extends BasicServlet {
         if (isAttribute) {
 
             mappingFile.xAddAttribute(xpath, attributeName, filename);
-            System.out.println("XPATH="+xpath);
+            System.out.println("XPATH=" + xpath);
             if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf"))) {
 
                 if (!duplicateFound) {
@@ -182,8 +193,8 @@ public class UploadReceiver extends BasicServlet {
                 }
 
             } else if (xpath.endsWith("/generator_policy_info") && (filename.endsWith("xml"))) {
-                System.out.println("UPL="+filename);
-                System.out.println("DIR="+UPLOAD_DIR);
+                System.out.println("UPL=" + filename);
+                System.out.println("DIR=" + UPLOAD_DIR);
                 if (!duplicateFound) {
                     System.out.println("INSIDE");
                     //Uploading generator policy files to eXist!

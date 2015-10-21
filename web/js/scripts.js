@@ -838,10 +838,11 @@ function upload($this) {
                 }
             }
 
-
             if (xpath.endsWith("generator_link")) {
                 url = "FetchBinFile?id=" + mappingId + "&amp;type=generator_link&amp;file=" + encodeURIComponent(filename);
                 linkText = "view generator xml"
+            } else if (xpath.endsWith("rdf_link")) {
+                url = "FetchBinFile?id=" + mappingId + "&amp;type=example_data_target_record&amp;file=" + encodeURIComponent(filename);
             } else {
                 url = "FetchBinFile?id=" + mappingId + "&amp;file=" + encodeURIComponent(filename);
             }

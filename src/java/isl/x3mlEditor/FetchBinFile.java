@@ -58,22 +58,34 @@ public class FetchBinFile extends BasicServlet {
         request.setCharacterEncoding("UTF-8");
 
         // Get the absolute path of the image ServletContext sc = getServletContext();
-//        String id = request.getParameter("id");
         String filename = request.getParameter("file");
         String type = request.getParameter("type");
 
-//        String path = uploadsFolder + id + "/";
         String path = uploadsFolder;
         DBFile uploadsDBFile = new DBFile(super.DBURI, super.adminCollection, "Uploads.xml", super.DBuser, super.DBpassword);
-        String mime = new Utils().findMime(uploadsDBFile, filename);
-        if (type!=null && type.equals("generator_link")) { //Special case overriding mime-based fetch mechanism
-            mime = "generator_files";
+        String use = "";
+        if (type != null) {
+            if (filename.endsWith("rdf") || filename.endsWith("rdfs")) {
+                if (type.equals("example_data_target_record")) {
+                    use = "rdf_link";
+                } else {
+                    use = "schema_file";
+                }
+            } else if (filename.endsWith("xml")) {
+                 if (type.equals("generator_link")) {
+                    use = "generator_link";
+                } else {
+                    use = "xml_link";
+                }
+            }
         }
+//        System.out.println("FILENAME="+filename+" USE="+use);
+        String mime = new Utils().findMime(uploadsDBFile, filename, use);
+
         path = path + mime + System.getProperty("file.separator");
         String mimeType = getServletContext().getMimeType(filename);
 
         path = path + filename;
-//        System.out.println("PATH="+path);
 
         filename = filename.substring(filename.lastIndexOf("/") + 1);
         // Set content size

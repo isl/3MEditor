@@ -237,17 +237,21 @@ public class Utils {
         return list;
     }
     
-     public String findMime(DBFile uploads, String file) {
+     public static String findMime(DBFile uploads, String file, String use) {
 
         file = file.substring(file.lastIndexOf(".") + 1);
         file = file.toLowerCase();
-//        System.out.println("//mime[type='"+file+"']/../name()");
 
         String[] mimes = uploads.queryString("//mime[type='" + file + "']/../name()");
         if (mimes.length == 0) {
             return "Other";
         } else {
-            return mimes[0];
+            if (use!=null && use.length()>0 && mimes.length > 1) {
+                String mime = uploads.queryString("//mime[type/@use ='"+use+"' and type='" + file + "']/../name()")[0];
+                return mime;
+            } else {
+                return mimes[0];
+            }
         }
 
     }

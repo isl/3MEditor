@@ -82,7 +82,7 @@ public class Services extends BasicServlet {
 
         } else if (method.equals("instanceGeneratorNames")) {
 
-            xmlMiddle.append("{ \"text\": \"Built-In\", \"children\": [\n");
+            xmlMiddle.append("{ \"text\": \"Built In\", \"children\": [\n");
             for (String builtInName : instanceGeneratorNamesBuiltInX3MLEngine) {
                 xmlMiddle.append("{ \"id\": \"").append(builtInName).append("\", \"text\": \"").append(builtInName).append("\" },");
             }
@@ -93,26 +93,19 @@ public class Services extends BasicServlet {
             String[] gpfFiles = mappingFile.queryString("//generator_policy_info/@generator_link/string()");
             if (gpfFiles.length == 0) {
                 System.out.println("NO GPF");
-//                    targetAnalyzer = "0"; //If no generator policy file specified, then disable Auto!
             } else {
-                System.out.println("GPF=" + gpfFiles[0]);
+//                System.out.println("GPF=" + gpfFiles[0]);
                 DBFile gpfFile = new DBFile(DBURI, x3mlCollection, gpfFiles[0], DBuser, DBpassword);
                 System.out.println(gpfFile.toString());
                 String[] gpfFileGenNames = gpfFile.queryString("//generator/@name/string()");
 
-                xmlMiddle.append(",{ \"text\": \"GeneratorFile\", \"children\": [\n");
+                xmlMiddle.append(",{ \"text\": \"Generator File\", \"children\": [\n");
 
                 for (String genName : gpfFileGenNames) {
-                    System.out.println("genName=" + genName);
                     xmlMiddle.append("{ \"id\": \"").append(genName).append("\", \"text\": \"").append(genName).append("\" },");
-
                 }
                 xmlMiddle = xmlMiddle.delete(xmlMiddle.length() - 1, xmlMiddle.length()); //to remove last comma
                 xmlMiddle.append("] }\n");
-// +"        { \"text\": \"Western\", \"children\": [\n"
-//                    + "            { \"id\": \"CA\", \"text\": \"California\" },\n"
-//                    + "            { \"id\": \"AZ\", \"text\": \"Arizona\" }\n"
-//                    + "        ] },\n" 
 
             }
             out.println("{\n"
