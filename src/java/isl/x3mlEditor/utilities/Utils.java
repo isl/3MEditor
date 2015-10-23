@@ -65,7 +65,6 @@ public class Utils {
         int year = cal.get(Calendar.YEAR);             // 2002
         int month = cal.get(Calendar.MONTH) + 1;           // 0=Jan, 1=Feb, ...
         int day = cal.get(Calendar.DAY_OF_MONTH);      // 1...
-
         //   int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK); // 1=Sunday, 2=Monday
         return myformat.format(day) + "-" + myformat.format(month) + "-" + year;
     }
@@ -118,7 +117,6 @@ public class Utils {
         int min = cal.get(Calendar.MINUTE);             // 0..59
         int sec = cal.get(Calendar.SECOND);             // 0..59
         return myformat.format(hour24) + myformat.format(min) + myformat.format(sec);
-//        return new String(myformat.format(hour24)+":"+myformat.format(min)+":"+myformat.format(sec));
     }
 
     /**
@@ -153,9 +151,7 @@ public class Utils {
                 //create all non exists folders
                 //else you will hit FileNotFoundException for compressed folder
                 if (!ze.getName().contains("__MACOSX")) {
-//                    System.out.println("file unzip : " + newFile.getAbsoluteFile());
                     if (ze.isDirectory()) {
-//                        System.out.println("ROOTDIR=" + rootDirFound);
                         if (rootDirFound == false) {
                             rootFolderName = newFile.getName();
                             rootDirFound = true;
@@ -187,7 +183,7 @@ public class Utils {
             zis.closeEntry();
             zis.close();
 
-            //Special Postprocessing for Games EKBMM
+            //Special Postprocessing for EKBMM
             if (!rootFlashFilename.equals("")) {
                 File rootFlashFile = new File(outputFolder + File.separator + rootFolderName + File.separator + rootFlashFilename);
                 rootFlashFile.renameTo(new File(outputFolder + File.separator + rootFolderName + File.separator + "index.swf"));

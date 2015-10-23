@@ -67,8 +67,6 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
             throws IOException, ServletException {
 
         if (editorType.equals("standalone")) {
-                        System.out.println("VALID");
-
             chain.doFilter(request, response);
         } else {
             if (request instanceof HttpServletRequest) {
@@ -163,8 +161,7 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                                     displayMsg = "IS_EDITED_BY_YOU";
                                     System.out.println(displayMsg);
                                     hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type + "&category=" + category + "&link=yes" + "&action=" + action);
-//
-                                    // goOnLink = "Index?type=" + type + "&amp;id=" + id + "&amp;langen&amp;category=primary&amp;action=unlockedit";
+
                                 }
                             } else {
                                 setAdminProperty("locked", username, dbf);
@@ -189,8 +186,6 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                             }
                         }
                     } else if (category.equals("secondary")) {
-//                        boolean hasDependants = dbf.exist("//admin/refs_by/ref_by[@published='yes']");
-
                         boolean hasDependants = dbf.exist("//admin/refs_by/ref_by[@isUnpublished='false']");
 
                         String rights = getRights(username);

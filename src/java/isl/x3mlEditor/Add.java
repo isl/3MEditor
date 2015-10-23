@@ -66,7 +66,6 @@ public class Add extends BasicServlet {
         String sourceAnalyzer = request.getParameter("sourceAnalyzer");
 
         int targetMode;
-//        System.out.println(targetAnalyzer);
         if (targetAnalyzer == null || targetAnalyzer.equals("undefined")) {
             targetAnalyzer = "2";
         }
@@ -76,8 +75,6 @@ public class Add extends BasicServlet {
             sourceAnalyzer = "off";
         }
 
-//        System.out.println(xpath);
-//        System.out.println(action);
         if (type == null) {
             type = "Mapping";
         }
@@ -91,17 +88,14 @@ public class Add extends BasicServlet {
         if (!xpath.startsWith("//")) {
             xpath = "//" + xpath;
         }
-//                System.out.println("XPATH=" + xpath);
-//                System.out.println(action);
+
         if (action.startsWith("add")) {
 
             if (action.startsWith("addAttr")) {
                 String attrName = request.getParameter("name");
                 if (attrName == null) {
                     String fatherXpath = xpath.substring(0, xpath.lastIndexOf("/"));
-//                    System.out.println("FATH="+fatherXpath);
                     attrName = xpath.substring(xpath.lastIndexOf("/") + 2);
-//                    System.out.println(attrName);
                     mappingFile.xAddAttribute(fatherXpath, attrName, "");
                 } else {
                     mappingFile.xAddAttribute(xpath, attrName, "");
@@ -109,11 +103,9 @@ public class Add extends BasicServlet {
             } else if (action.startsWith("addOptional")) {
                 String[] actionParts = action.split("___");
                 String fullXpath = actionParts[1];
-//                System.out.println("XPATH=" + fullXpath);
                 String mappingFrag = addOptionalPart(mappingFile, fullXpath);
-//                System.out.println(mappingFrag);
+                
                 if (mappingFrag.startsWith("<arg name") || mappingFrag.startsWith("<instance_generator") || mappingFrag.startsWith("<label_generator")|| mappingFrag.startsWith("<type") || mappingFrag.startsWith("<additional") || mappingFrag.startsWith("<intermediate") || mappingFrag.startsWith("<comment") || mappingFrag.startsWith("<source_intermediate") || mappingFrag.startsWith("<if>")) { //Edit mode
-//                    System.out.println("SIBS=" + sibs);
                     if (sibs == null) {
                         sibs = "0";
                     }
@@ -142,31 +134,13 @@ public class Add extends BasicServlet {
                     } else {
                         output = transform(mappingFrag, super.baseURL + "/xsl/edit/" + xsl);
                     }
-//                    System.out.println("OUT=" + output);
                 }
 
             } else {
-//                DBFile templateFile = new DBFile(DBURI, x3mlCollection, "Template.xml", DBuser, DBpassword);
-//                String templateAdd = "";
-//                String[] mappingFrags = null;
-//                if (action.contains("___")) { //Optional Part
-//                    String[] actionParts = action.split("___");
-//
-//                    templateAdd = "//optionalPart/" + actionParts[1].trim();
-//                    if (actionParts.length > 2) {
-//                        templateAdd = templateAdd + "/*";
-//                    }
-//
-//                } else {
-//                templateAdd = xpath.replaceAll("\\[\\d+\\]", "");
-//                }
 
-//                System.out.println("TEMPLA=" + templateAdd);
-//                mappingFrags = templateFile.queryString(templateAdd);
                 String[] mappingFrags = getFragmentFromTemplate(xpath);
                 String fatherXpath = xpath.substring(0, xpath.lastIndexOf("/"));
                 for (String mappingFrag : mappingFrags) {
-//                    System.out.println("MANDATORY_MAPPING_FRAG=" + mappingFrag);
 
                     if (action.startsWith("addBefore")) { //Inserts before specified element
                         mappingFile.xInsertBefore(xpath, mappingFrag);
@@ -175,8 +149,7 @@ public class Add extends BasicServlet {
                     } else {
                         mappingFile.xAppend(fatherXpath, mappingFrag); //Appends to father element (LAST POSITION!)
                     }
-//                    System.out.println("SIBS=" + sibs);
-//                    System.out.println("x=" + xpath);
+
                     if (sibs == null && xpath.endsWith("]")) { //Add Mapping case
 
                         sibs = xpath.substring(xpath.lastIndexOf("[") + 1, xpath.length() - 1);
@@ -193,7 +166,6 @@ public class Add extends BasicServlet {
                             mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/path" + "'>");
                             mappingFrag = mappingFrag.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/range" + "'>");
                         } else if (mappingFrag.startsWith("<link>")) { //Edit mode
-//                result = result.replaceFirst("<link>", "<link xpath='" + xpath + "'>");
                             mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "[" + pos + "]/path" + "'>");
                             mappingFrag = mappingFrag.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "[" + pos + "]/range" + "'>");
                         } else if (mappingFrag.startsWith("<type")) { //Edit mode
@@ -205,11 +177,9 @@ public class Add extends BasicServlet {
                             mappingFrag = mappingFrag.replaceFirst(">", " pos='" + pos + "'>");
                         }
                     }
-//                    System.out.println("MAP=" + mappingFrag);
                     if (xsl != null) {
                         output = transform(mappingFrag, super.baseURL + "/xsl/edit/" + xsl);
-//                        System.out.println("XSL="+super.baseURL + "/xsl/edit/" + xsl);
-//                                            System.out.println("MAPHTML=" + output);
+
 
                     }
                 }
@@ -224,21 +194,9 @@ public class Add extends BasicServlet {
 
     private String[] getFragmentFromTemplate(String xpath) {
         DBFile templateFile = new DBFile(DBURI, x3mlCollection, "3MTemplate.xml", DBuser, DBpassword);
-//         if (action.contains("___")) { //Optional Part
-//                    String[] actionParts = action.split("___");
-//
-//                    templateAdd = "//optionalPart/" + actionParts[1].trim();
-//                    if (actionParts.length > 2) {
-//                        templateAdd = templateAdd + "/*";
-//                    }
-//
-//                } else {
-//                templateAdd = xpath.replaceAll("\\[\\d+\\]", "");
-//                }
+
 
         String templateAdd = xpath.replaceAll("\\[(\\d+|last\\(\\))\\]", "");
-
-//        System.out.println("TEMPLA=" + templateAdd);
         String[] mappingFrags = templateFile.queryString(templateAdd);
         return mappingFrags;
 
@@ -249,12 +207,10 @@ public class Add extends BasicServlet {
     }
 
     private String addOptionalPart(DBFile mappingFile, String fullXpath) {
-//        HashMap<String, String> returnValue = new HashMap<String, String>();
-//        String action = "";
+
         String frag = "";
         String fatherXpath = fatherXpath(fullXpath);
         String child = fullXpath.substring(fullXpath.lastIndexOf("/") + 1);
-//        System.out.println("CHILD is " + child);
 
         if (child.equals("type[last()]")) { //Adding entity type in target_relation
             mappingFile.xInsertAfter(fullXpath, "<type/>");
@@ -262,10 +218,8 @@ public class Add extends BasicServlet {
 
         } else if (child.equals("additional[last()]")) { //Adding additional
             String[] mappingFrags = getFragmentFromTemplate("//optionalPart/additional");
-//            System.out.println(fullXpath);
             if (mappingFrags != null) {
                 if (mappingFrags.length > 0) {
-//                    System.out.println("MAPFRAG=" + mappingFrags[0]);
                     frag = mappingFrags[0];
 
                     if (mappingFile.queryString(fatherXpath + "/additional").length > 0) { //has additional
@@ -277,8 +231,7 @@ public class Add extends BasicServlet {
                 }
             }
             return frag;
-//            mappingFile.xInsertAfter(fullXpath, "<type/>");
-//            return "<type/>";
+
         } else if (child.equals("intermediate[last()]")) { //Adding intermediate
             String[] mappingFrags;
             if (fatherXpath.contains("source_relation")) {
@@ -286,10 +239,8 @@ public class Add extends BasicServlet {
             } else {
                 mappingFrags = getFragmentFromTemplate("//optionalPart/intermediate");
             }
-//            System.out.println(fullXpath);
             if (mappingFrags != null) {
                 if (mappingFrags.length > 0) {
-//                    System.out.println("MAPFRAG=" + mappingFrags[0]);
                     frag = mappingFrags[0];
 
                     String noRootXML;
@@ -299,26 +250,17 @@ public class Add extends BasicServlet {
                     } else {
                         noRootXML = frag.replaceAll("</?intermediate>", "");
                     }
-//                    System.out.println("MAPFRAG2=" + frag);
 
                     mappingFile.xAppend(fatherXpath, noRootXML); //Appends to father element (LAST POSITION!)
 
-//                    if (mappingFile.queryString(fatherXpath + "/additional").length > 0) { //has additional
-//                        mappingFile.xInsertAfter(fullXpath, frag);
-//                    } else { //does not have additional
-//                        mappingFile.xAppend(fatherXpath, frag); //Appends to father element (LAST POSITION!)
-//                    }
                 }
             }
             return frag;
-//            mappingFile.xInsertAfter(fullXpath, "<type/>");
-//            return "<type/>";
+
         } else if (child.equals("comments")) {
             String[] mappingFrags = getFragmentFromTemplate("//optionalPart/comments");
             if (mappingFrags != null) {
                 if (mappingFrags.length > 0) {
-//                    System.out.println("MAPFRAG=" + mappingFrags[0]);
-//                    System.out.println(fatherXpath);
                     frag = mappingFrags[0];
                     mappingFile.xAppend(fatherXpath, frag); //Appends to father element (LAST POSITION!)
                 }
@@ -361,8 +303,6 @@ public class Add extends BasicServlet {
             String[] mappingFrags = getFragmentFromTemplate("//optionalPart/arg");
             if (mappingFrags != null) {
                 if (mappingFrags.length > 0) {
-//                    System.out.println("MAPFRAG=" + mappingFrags[0]);
-//                    System.out.println(fatherXpath);
                     frag = mappingFrags[0];
                     mappingFile.xAppend(fatherXpath, frag); //Appends to father element (LAST POSITION!)
 
@@ -371,7 +311,6 @@ public class Add extends BasicServlet {
             return frag;
         } else if (child.endsWith("quality") || child.endsWith("xistence") || child.endsWith("Narrowness")) {
 
-//            System.out.println("FATHER=" + fatherXpath);
             String childPath = "";
             String operator = "";
             if (child.contains("_")) {
@@ -394,30 +333,24 @@ public class Add extends BasicServlet {
             String[] mappingFrags = getFragmentFromTemplate("//optionalPart/" + childPath);
             if (mappingFrags != null) {
                 if (mappingFrags.length > 0) {
-//                    System.out.println("MAPFRAG=" + mappingFrags[0]);
-//                    System.out.println("OPERATOR=" + operator);
+
                     frag = mappingFrags[0];
                     //Check if there are multiple rules
                     String[] lastIfRule = mappingFile.queryString(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]");
-//                    String[] orAndRules = mappingFile.queryString(fatherXpath + "//*[name()='or' or name()='and']");
                     if (lastIfRule != null && lastIfRule.length > 0) {
-//                        mappingFile.xAppend(fatherXpath + "/if/*[name()='or' or name()='and']", frag); //Appends to father element (LAST POSITION!)
                         String[] lastIfRuleFather = mappingFile.queryString(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]/../name()");
                         if (lastIfRuleFather != null && lastIfRuleFather.length > 0) {
-//                            System.out.println("LASTIFRULEFATHER=" + lastIfRuleFather[0]);
 
                             if (lastIfRuleFather[0].equals("or") || lastIfRuleFather[0].equals("and")) { //Already has operator
                                 if (lastIfRuleFather[0].equals(operator)) {
                                     mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", frag); //Needs further refining
                                 } else {
-                                    //TODO (add inside or or vice versa)
                                     mappingFile.xUpdate(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", "<" + operator + ">" + lastIfRule[0] + "</" + operator + ">");
                                     mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", frag); //Needs further refining
 
                                 }
                             } else { //Single if, have to enclose with operator
-//                                System.out.println("MUST ENCLOSE");
-//                                System.out.println(lastIfRule[0]);
+
                                 mappingFile.xUpdate(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", "<" + operator + ">" + lastIfRule[0] + "</" + operator + ">");
                                 mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", frag); //Needs further refining
                             }
@@ -426,15 +359,10 @@ public class Add extends BasicServlet {
                         }
 
                     } else {
-//                        System.out.println("2");
                         mappingFile.xInsertBefore(fatherXpath + "/*[1]", frag); //Appends to father element (LAST POSITION!)
-                        //    String[] orAndRules = mappingFile.queryString(fatherXpath + "//*[name()='or' or name()='and']");
-//                        mappingFile.xInsertBefore(fatherXpath + "/*[1]", frag); //Insert before first element
+                   
 
                     }
-//                    System.out.println(fatherXpath);
-//                    
-//                    mappingFile.xAppend(fatherXpath, frag); //Appends to father element (LAST POSITION!)
                 }
             }
 
@@ -449,7 +377,6 @@ public class Add extends BasicServlet {
 
             String[] instanceInfoChildren = mappingFile.queryString(fatherXpath + "/*");
             if (instanceInfoChildren.length > 0) { //has instance_info and at least one child
-//                System.out.println("exei paidia");
                 if (child.equals("language")) {
                     mappingFile.xInsertBefore(fatherXpath + "/*", "<" + child + "/>"); //Inserts as first child
                 } else if (child.equals("description")) {
@@ -472,10 +399,6 @@ public class Add extends BasicServlet {
             }
             return "";
         }
-
-//        if (fullXpath.endsWith("instance_info/language")) {
-//
-//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

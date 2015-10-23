@@ -57,7 +57,6 @@ public class RequestParser {
             if (requestParser.filename.contains(System.getProperty("file.separator"))) {
                 requestParser.filename = requestParser.filename.substring(requestParser.filename.lastIndexOf(System.getProperty("file.separator"))+1);
             }
-//            System.out.println(requestParser.filename );
 
         } else {
             requestParser.filename = request.getParameter(FILENAME_PARAM);

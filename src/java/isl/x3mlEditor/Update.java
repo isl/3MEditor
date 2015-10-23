@@ -67,12 +67,9 @@ public class Update extends BasicServlet {
         if (type == null) {
             type = "Mapping";
         }
-//        System.out.println("ID="+id);
-//        System.out.println("XPATH="+xpath);
-//        System.out.println(newValue);
 
         String xmlId = type + id + ".xml";
-        DBCollection dbc = new DBCollection(super.DBURI, applicationCollection + "/" + type, super.DBuser, super.DBpassword);
+        DBCollection dbc = new DBCollection(DBURI, applicationCollection + "/" + type, DBuser, DBpassword);
         String collectionPath = getPathforFile(dbc, xmlId, id);
         DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
 
@@ -115,18 +112,12 @@ public class Update extends BasicServlet {
                 }
             } else if (action.equals("operator")) {
 
-//                out.println("XPATH is "+xpath+" ID is "+id+" VAL is "+newValue);
                 //Must check if tree may be simplified
-//                System.out.println("XPATH=" + xpath);
                 String grandpaTagQuery = xpath + "/../../name()";
                 String grandpaTag = mappingFile.queryString(grandpaTagQuery)[0];
-//                System.out.println("GRANDPA=" + grandpaTag);
-//                System.out.println("NEW OP=" + newValue.toLowerCase());
 
                 if (grandpaTag.equals(newValue.toLowerCase())) { //simplify tree
-
                     mappingFile.xCopyInside(xpath + "/if", xpath + "/../..");
-                    //xpathToRemove = xpathToMove.substring(0, xpathToMove.lastIndexOf("/"));
                     mappingFile.xRemove(xpath + "/..");
                 } else {
                     mappingFile.xRename(xpath, newValue.toLowerCase());
@@ -135,7 +126,6 @@ public class Update extends BasicServlet {
                 //New approach (return entire if block instead)
                 String rootIfTagPath = xpath.substring(0, xpath.indexOf("/if"));
                 String[] entireIfBlock = mappingFile.queryString(rootIfTagPath + "/if");
-//            System.out.println("ROOTIF=" + rootIfTagPath);
                 if (entireIfBlock != null && entireIfBlock.length > 0) {
                     String frag = entireIfBlock[0];
                     frag = frag.replaceFirst("/?>", " targetMode='' container='" + rootIfTagPath + "' xpath='" + rootIfTagPath + "' relPos=''$0");
@@ -173,11 +163,8 @@ public class Update extends BasicServlet {
                 currentValue = values[0];
 
                 String strippedNewValue = newValue;
-//            System.out.println("XPATH="+xpath);
 
-//            if ((xpath.contains("/entity/type") || xpath.contains("/relationship"))) { //Replaced by more powerful expression
                 if ((xpath.matches(".*?/entity\\[\\d+\\]/type\\[\\d+\\]") || xpath.contains("/relationship"))) {
-//                System.out.println("MATCHED");
                     if (newValue.startsWith("http://")) { //Stripping slashes...
                         strippedNewValue = newValue.substring(newValue.lastIndexOf("/") + 1);
                     } else if (newValue.contains(":")) {//Stripping prefixes. Is it safe? 
@@ -185,7 +172,6 @@ public class Update extends BasicServlet {
                     }
                 }
                 out.println(strippedNewValue);
-//            System.out.println("NEW="+strippedNewValue);
                 if (!currentValue.equals(newValue)) {
                     if (isAttribute) {
                         mappingFile.xAddAttribute(fatherXpath, attributeName, newValue);
@@ -201,7 +187,6 @@ public class Update extends BasicServlet {
     }
 
     private String updateXML(DBFile mappingFile, String initialValue) {
-//         DBFile updatedMappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
         String validation = validateXML(mappingFile.getXMLAsString());
 
         if (!validation.equals("Valid xml.")) {

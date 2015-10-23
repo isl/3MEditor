@@ -70,7 +70,6 @@ public class Delete extends BasicServlet {
             type = "Mapping";
         }
 
-//        String output = "";
         String xmlId = type + id + ".xml";
         DBCollection dbc = new DBCollection(super.DBURI, applicationCollection + "/" + type, super.DBuser, super.DBpassword);
         String collectionPath = getPathforFile(dbc, xmlId, id);
@@ -80,7 +79,6 @@ public class Delete extends BasicServlet {
             xpath = "//" + xpath;
         }
 
-//        System.out.println("XPATH is " + xpath);
         if (xpath.contains("/intermediate[")) { //Faux element intermediate
             String position = xpath.substring(xpath.lastIndexOf("[") + 1, xpath.lastIndexOf("]"));
 
@@ -99,13 +97,9 @@ public class Delete extends BasicServlet {
             }
         } else if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower")) {
 
-//            System.out.println("NEW CODE!");
-//            System.out.println("PATH=" + xpath);
             String rootIfTagPath = xpath.substring(0, xpath.indexOf("/if"));
-
             String grandpaTagQuery = xpath + "/../../name()";
             String grandpaTag = mappingFile.queryString(grandpaTagQuery)[0];
-//            System.out.println("GRANDPA=" + grandpaTag);
 
             if (grandpaTag.equals("and") || grandpaTag.equals("or") || grandpaTag.equals("not")) {
 
@@ -116,7 +110,6 @@ public class Delete extends BasicServlet {
 
                 String countQuery = "count(" + xpath + ifBlockPath + "/if)";
                 String ifCount = mappingFile.queryString(countQuery)[0];
-//                System.out.println("IFCOUNT=" + ifCount);
 
                 if (ifCount.equals("1")) { //Last if, should delete entire or block instead
                     mappingFile.xRemove(xpath + ifBlockPath);
@@ -127,13 +120,9 @@ public class Delete extends BasicServlet {
                         xpathToRemove = xpath.substring(0, xpath.lastIndexOf("/not"));
 
                     }
-//                    System.out.println("REMOVING:" + xpathToRemove);
 
                     mappingFile.xRemove(xpathToRemove);
                     String xpathToMove = xpathToRemove.substring(0, xpathToRemove.lastIndexOf("["));
-//                    System.out.println("MOVING FROM:" + xpathToMove);
-//                    System.out.println("MOVING TO:" + xpathToMove + "/../..");
-
                     mappingFile.xCopyInside(xpathToMove + "/*", xpathToMove + "/../..");
                     xpathToRemove = xpathToMove.substring(0, xpathToMove.lastIndexOf("/"));
                     mappingFile.xRemove(xpathToRemove);
@@ -146,19 +135,12 @@ public class Delete extends BasicServlet {
                     }
                 }
 
-//            } else if (grandpaTag.equals("not")) {
-//
-//                String countQuery = "count(" + xpath + "/../../../../if)";
-//                String ifCount = mappingFile.queryString(countQuery)[0];
-//                System.out.println("IFs=" + ifCount);
-                //mappingFile.xRemove(xpath + "/../../..");
             } else {
                 mappingFile.xRemove(xpath + "/..");
             }
 
             //New approach (return entire if block instead)
             String[] entireIfBlock = mappingFile.queryString(rootIfTagPath + "/if");
-//            System.out.println("ROOTIF=" + rootIfTagPath);
             if (entireIfBlock != null && entireIfBlock.length > 0) {
                 String frag = entireIfBlock[0];
                 frag = frag.replaceFirst("/?>", " targetMode='' container='" + rootIfTagPath + "' xpath='" + rootIfTagPath + "' relPos=''$0");
@@ -192,16 +174,6 @@ public class Delete extends BasicServlet {
             }
         }
 
-//        mappingFile.xRemove(xpath);
-//                    if (xpath.endsWith("/target_schema/@schema_file") && mode == 3) { //Deleting target schema means replacing ont model
-//                        ArrayList<OntModel> modelList = getOntModel(mappingFile, id);
-//
-//                        HttpSession session = sessionCheck(request, response);
-//                        if (session == null) {
-//                            session = request.getSession();
-//                        }
-//                        session.setAttribute("modelList_" + id, modelList);
-//                    }
         out.close();
     }
 

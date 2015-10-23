@@ -27,13 +27,11 @@
  */
 package isl.x3mlEditor;
 
-import com.hp.hpl.jena.ontology.OntModel;
 import isl.dbms.DBCollection;
 import isl.dbms.DBFile;
 import isl.reasoner.OntologyReasoner;
 import static isl.x3mlEditor.BasicServlet.applicationCollection;
 import isl.x3mlEditor.utilities.Schema;
-//import isl.x3mlEditor.utilities.TargetSchemaTools;
 import isl.x3mlEditor.utilities.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -66,8 +64,6 @@ public class GetListValues extends BasicServlet {
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
 
-//        response.addHeader("Access-Control-Allow-Origin", "http://139.91.190.47");
-//        response.addHeader("Access-Control-Allow-Origin", "http://skyros.no-ip.info");
         PrintWriter out = response.getWriter();
 
         String id = request.getParameter("id");
@@ -81,7 +77,6 @@ public class GetListValues extends BasicServlet {
         }
         targetMode = Integer.parseInt(targetAnalyzer);
 
-//        System.out.println("LIST MODE is " + targetMode);
         if (type == null) {
             type = "Mapping";
         }
@@ -90,16 +85,13 @@ public class GetListValues extends BasicServlet {
         DBCollection dbc = new DBCollection(super.DBURI, applicationCollection + "/" + type, super.DBuser, super.DBpassword);
         String collectionPath = getPathforFile(dbc, xmlId, id);
         DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
-//        System.out.println("X="+xpath);
-//        System.out.println(mappingFile);
+
         String[] values = mappingFile.queryString(xpath + "/string()");
         String currentValue = "";
         if (values.length > 0) {
             currentValue = values[0];
         }
 
-//                int mode = 2; //1 for DOM, 2 for eXist, 3 for Jena
-//        String[] targetSchemas = mappingFile.queryString("//target_info/target_schema/@schema_file/string()");
         String[] targetSchemas = mappingFile.queryString("for $i in //target_info/target_schema\n"
                 + "return\n"
                 + "if ($i/@schema_file) \n"
@@ -110,12 +102,10 @@ public class GetListValues extends BasicServlet {
         ArrayList<String> resultsList = new ArrayList<String>();
         String[] results;
 
-//        out.println("[{'':[{'id':'','text':''}],"); //Adding empty default
         String output = "";
         if (targetSchemas.length > 0) {
-            if (targetMode == 1) {
-//                resultsList = getListValues(mappingFile, id, xpath, targetSchemas);
-
+            if (targetMode == 1) {//1 for DOM, 2 for eXist, 3 for Jena
+                //Mode 1 is now obsolete
             } else if (targetMode == 2) {
                 String[] prefixes = mappingFile.queryString("//namespace/@prefix/string()");
                 String[] uris = mappingFile.queryString("//namespace/@uri/string()");
@@ -141,11 +131,6 @@ public class GetListValues extends BasicServlet {
                     filenameAndType.put(targetSchema, targetSchemaTitle);
                     filenameAndPrefix.put(targetSchema, prefix);
                     filenameAndURI.put(targetSchema, uri);
-//                    System.out.println("**************");
-//                    System.out.println(targetSchemaTitle);
-//                    System.out.println(filenameAndPrefix);
-//                    System.out.println(filenameAndType);
-//                    System.out.println("**************");
 
                     if (targetSchemaTitle.equals("")) {
                         targetSchemaTitle = targetSchema; //Maybe replace with prefix in the future?
@@ -163,17 +148,11 @@ public class GetListValues extends BasicServlet {
                 }
                 results = getListValues(mappingFile, xpath, targetSchemas, session);
                 resultsList = new ArrayList(Arrays.asList(results));
-//                    System.out.println(resultsList);
-//                    System.out.println(results.length);
 
                 if (resultsList.size() > 0) {
                     output = tableToJSON(currentValue, resultsList, filenameAndType, filenameAndPrefix, filenameAndURI);
                 }
 
-//                                System.out.println("OUTPUT="+output);
-//                    if (i < targetSchemas.length - 1) {
-//                        out.println(" }, {");
-//                    }
             } else if (targetMode == 3) {//
 
                 HttpSession session = sessionCheck(request, response);
@@ -189,8 +168,7 @@ public class GetListValues extends BasicServlet {
                 }
 
                 resultsList = getListValues(mappingFile, xpath, ont);
-//                System.out.println("MODE3 LENGTH is " + resultsList.size());
-//                System.out.println(resultsList);
+
             }
         }
 
@@ -205,7 +183,6 @@ public class GetListValues extends BasicServlet {
 
                 }
                 output = tableToJSON(resultsList, prefixAndURI);
-//                System.out.println("OUTPUT="+output);
             }
         }
 
@@ -219,14 +196,12 @@ public class GetListValues extends BasicServlet {
         out.println("]\n"
                 + "}");
 
-//        System.out.println(out);
         out.close();
 
     }
 
     //MODE 3
     private ArrayList<String> getListValues(DBFile mappingFile, String xpath, OntologyReasoner ont) {
-//        System.out.println("MODE3 path = " + xpath);
         ArrayList<String> resultsList = null;
 
         if ((xpath.contains("/domain/target_node/entity[") && !xpath.contains("/relationship")) || ((xpath.contains("type[") && !xpath.contains("type[1]")))) {
@@ -235,15 +210,13 @@ public class GetListValues extends BasicServlet {
             xpath = xpathResolver(xpath, "relationship");
 
             String[] selectedEntities = mappingFile.queryString(xpath);
-//            System.out.println("LENGTH is =" + selectedEntities.length);
             if (selectedEntities.length > 0) {
                 if (selectedEntities.length == 1 && selectedEntities[0].equals("")) {
                     resultsList = new ArrayList<String>();
                 } else {
                     String selection = selectedEntities[0];
                     selection = replacePrefixWithURI(mappingFile, selection);
-//                    System.out.println("Selection is="+selection);
-//                    System.out.println(ont);
+
                     resultsList = ont.listProperties(selection);
                 }
             } else {
@@ -263,7 +236,6 @@ public class GetListValues extends BasicServlet {
 
                 } else {
                     String path = selectedProperty[0];
-//                    System.out.println("SEL PATH=" + path);
                     path = replacePrefixWithURI(mappingFile, path);
 
                     resultsList = ont.listObjects(path);
@@ -291,63 +263,13 @@ public class GetListValues extends BasicServlet {
         return selection;
     }
 
-//    private ArrayList<String> getListValues(DBFile mappingFile, String id, String xpath, String[] schemaFilenames) {
-//
-//        TargetSchemaTools schema = new TargetSchemaTools(schemaFilenames, uploadsFolder + id + "/");
-//
-//        ArrayList<String> resultsList = null;
-//
-//        if (xpath.contains("/domain/target_node/entity/type")) {
-//            resultsList = schema.getAllClasses();
-//        } else if (xpath.contains("/relationship")) {
-//            xpath = xpathResolver(xpath, "relationship");
-//
-//            String[] selectedEntities = mappingFile.queryString(xpath);
-//            if (selectedEntities.length > 0) {
-//                if (selectedEntities.length == 1 && selectedEntities[0].equals("")) {
-//                    resultsList = new ArrayList<String>();
-//                } else {
-//                    resultsList = schema.getAcceptedValuesFor(selectedEntities[0]);
-//                }
-//            } else {
-//                resultsList = new ArrayList<String>();
-//            }
-//
-//        } else if (xpath.contains("/entity")) {
-//            xpath = xpathResolver(xpath, "entity");
-//
-//            String[] selectedProperty = mappingFile.queryString(xpath);
-//            if (selectedProperty.length == 0 && xpath.contains("internal_node")) { //No internal_node in P row
-//                selectedProperty = mappingFile.queryString(xpath.replace("internal_node[last()]/", ""));
-//            }
-//            if (selectedProperty.length > 0) {
-//                if (selectedProperty.length == 1 && selectedProperty[0].equals("")) {
-//                    resultsList = new ArrayList<String>();
-//
-//                } else {
-//                    String path = selectedProperty[0];
-//                    resultsList = schema.getAcceptedValuesFor(path);
-//                }
-//            } else {
-//                resultsList = new ArrayList<String>();
-//
-//            }
-//
-//        } else {
-//            resultsList = schema.getAllClasses();
-//        }
-//        return resultsList;
-//    }
     private String xpathResolver(String xpath, String type) {
-//        System.out.println("3MINPUTPATH=" + xpath);
 
         if (type.equals("relationship")) {
             if (xpath.contains("/additional[")) {
                 xpath = xpath.replaceAll("/additional\\[[^$]+", "/type/string()");
             } else if (xpath.endsWith("/relationship[1]") && !xpath.contains("domain/")) {
                 xpath = xpath.replaceAll("/link\\[[^$]+", "/domain/target_node/entity/type/string()");
-//            } else if (xpath.contains("/additional[")) {
-//                xpath = xpath.replace("/relationship", "/preceding-sibling::*[1]//type/string()");
             } else {
                 xpath = xpath + "/preceding-sibling::*[1]/type/string()";
             }
@@ -360,7 +282,6 @@ public class GetListValues extends BasicServlet {
                 xpath = xpath + "/../preceding-sibling::*[1]/string()";
             }
         }
-//        System.out.println("#MOUTPATH2=" + xpath);
         return xpath;
     }
 
@@ -382,32 +303,17 @@ public class GetListValues extends BasicServlet {
         HashMap<String, String[]> resourcesList = null;
         if (session != null) {
             resourcesList = (HashMap) session.getAttribute("resourcesList");
-//            System.out.println("FROM SES=" + resourcesList);
         }
         System.out.println("XPATH=" + xpath);
 
         if ((xpath.contains("/domain/target_node/entity[") && !xpath.contains("/relationship") && !xpath.contains("/additional")) || ((xpath.contains("type[") && !xpath.contains("type[1]")))) {
-//            if (resourcesList != null && resourcesList.containsKey(schemas.toString() + currentSchemaFilename)) {
-//                System.out.println(schemas.toString() + currentSchemaFilename);
-//                        System.out.println("1");
-//
-//                resultsList = resourcesList.get(schemas.toString() + currentSchemaFilename);
-//                System.out.println(resultsList.length);
-//            } else {
             resultsList = cidocSchema.getAllClasses();
-//                System.out.println("XX");
-//                System.out.println(schemas.toString());
-//                System.out.println(currentSchemaFilename);
-//
-//                System.out.println(resultsList);
             if (resourcesList == null) {
                 resourcesList = new HashMap<String, String[]>();
             }
             resourcesList.put(schemas.toString() + currentSchemaFilename, resultsList);
             session.setAttribute("resourcesList", resourcesList);
-//            }
         } else if (xpath.contains("/relationship")) {
-//            System.out.println("2");
 
             xpath = xpathResolver(xpath, "relationship");
 
@@ -428,7 +334,6 @@ public class GetListValues extends BasicServlet {
                     } else {
                         ArrayList<String> mergedClassHierarchyList = new ArrayList<String>();
                         for (String entity : selectedEntities) {
-//                            System.out.println("ENT=" + entity);
                             if (entity.contains(":")) {
                                 entity = entity.substring(entity.indexOf(":") + 1);
                             }
@@ -444,17 +349,13 @@ public class GetListValues extends BasicServlet {
                                 }
                             }
                         }
-//                        System.out.println(mergedClassHierarchyList);
                         ArrayList<String> propertiesList = cidocSchema.getPropertiesFor(mergedClassHierarchyList);
                         resultsList = propertiesList.toArray(new String[propertiesList.size()]);
                     }
                 } else {
                     resultsList = new String[]{};
                 }
-//                System.out.println(schemas.toString() + currentSchemaFilename + selEnts.toString());
-//                System.out.println(resultsList);
-//                System.out.println(session);
-//                System.out.println(resourcesList);
+
                 if (resourcesList == null) {
                     resourcesList = new HashMap<String, String[]>();
                 }
@@ -463,7 +364,6 @@ public class GetListValues extends BasicServlet {
 
             }
         } else if (xpath.contains("/entity")) {
-//            System.out.println("X="+xpath);
             xpath = xpathResolver(xpath, "entity");
 
             String[] selectedProperty = mappingFile.queryString(xpath);
@@ -484,13 +384,9 @@ public class GetListValues extends BasicServlet {
                         if (path.contains(":")) {
                             path = path.substring(path.indexOf(":") + 1);
                         }
-//                    System.out.println("PATH=" + path);
                         String range = cidocSchema.getRangeForProperty(path);
-//                    System.out.println("RANGE=" + range);
                         ArrayList<String> classHierarchy = new ArrayList<String>();
                         cidocSchema.getSubClassesOf(range, classHierarchy);
-//                        classHierarchy = new Utils().sort(classHierarchy);
-//                        System.out.println("CLASSHIER=" + classHierarchy);
                         resultsList = classHierarchy.toArray(new String[classHierarchy.size()]);
                     }
                 } else {
@@ -553,12 +449,10 @@ public class GetListValues extends BasicServlet {
 
         }
 
-//        System.out.println(filenameAndPrefix);
         for (Map.Entry<String, ArrayList> entry : valuesBySchema.entrySet()) {
             String key = entry.getKey();
             ArrayList<String> value = entry.getValue();
-//            System.out.println("KEY=" + key);
-//            System.out.println("VAL=" + value);
+
             value = new Utils().sort(value);
 
             String prefix = "";
@@ -573,52 +467,31 @@ public class GetListValues extends BasicServlet {
                 prefix = filenameAndPrefix.get(key);
 
             } else {
-//                System.out.println("ACTUAL KEY=" + key);
                 prefix = filenameAndPrefix.get(key);
                 type = filenameAndType.get(key);
             }
-//            +"        { \"text\": \"Western\", \"children\": [\n"
-//                    + "            { \"id\": \"CA\", \"text\": \"California\" },\n"
-//                    + "            { \"id\": \"AZ\", \"text\": \"Arizona\" }\n"
-//                    + "        ] },\n" 
-//            output.append("'").append(type).append("': [");
+
             output.append("{ \"text\": \"").append(type).append("\", \"children\": [\n");
 
             for (String val : value) {
                 String strippedURL = val;
                 if (val.startsWith("http://")) { //If URL then strip slashes part
                     strippedURL = val.substring(val.lastIndexOf("/") + 1);
-
-//                    output.append("{'id':'").append(val).append("',");
                     output.append("{\"id\":\"").append(val).append("\",");
-
-                    if (selectedValue.equals(val)) {
-                        // output.append("\n \"selected\":true").append("\",");
-                    }
-
                 } else {
                     output.append("{\"id\":\"").append(prefix + ":" + val).append("\",");
-                    if (selectedValue.equals(prefix + ":" + val)) {
-                        //   output.append("\n \"selected\":true").append("\",");
-                    }
                 }
-//                output.append("\n'name':'").append(strippedURL).append("'},");
                 output.append(" \"text\":\"").append(strippedURL).append("\"},");
 
             }
             output = output.delete(output.length() - 1, output.length());
-            //       output.append("],");
             output.append("]},");
         }
-//        System.out.println("XM="+output.toString());
-//        System.out.println(output.length());
-//        
+
         String out = "";
         if (output.length() > 0) {
             out = output.substring(0, output.length() - 1);
         }
-//        System.out.println("OUT="+out);
-//        String out = "";
 
         return out;
 

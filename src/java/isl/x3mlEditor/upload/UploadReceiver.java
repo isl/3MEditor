@@ -27,8 +27,6 @@
  */
 package isl.x3mlEditor.upload;
 
-//import image.utilities.resize_image;
-//import com.hp.hpl.jena.ontology.OntModel;
 import isl.Tidy;
 import isl.dbms.DBCollection;
 import isl.dbms.DBFile;
@@ -59,7 +57,6 @@ public class UploadReceiver extends BasicServlet {
     private static String CONTENT_LENGTH = "Content-Length";
     private static int RESPONSE_CODE = 200;
 
-    //  final Logger log = LoggerFactory.getLogger(UploadReceiver.class);
 
     /**
      *
@@ -67,7 +64,6 @@ public class UploadReceiver extends BasicServlet {
      */
         @Override
     public void init() throws ServletException {
-//        UPLOAD_DIR.mkdirs();
     }
 
     /**
@@ -79,13 +75,7 @@ public class UploadReceiver extends BasicServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-//        String chosenAPI = req.getParameter("target");
 
-//        int mode = Integer.parseInt(targetPathSuggesterAlgorithm);
-////        System.out.println("CHOSEN=" + chosenAPI);
-//        if (chosenAPI != null) {
-//            mode = Integer.parseInt(chosenAPI);
-//        }
         String targetAnalyzer = req.getParameter("targetAnalyzer");
         if (targetAnalyzer == null) {
             targetAnalyzer = targetPathSuggesterAlgorithm;
@@ -97,10 +87,8 @@ public class UploadReceiver extends BasicServlet {
         String filePath = "";
         RequestParser requestParser = null;
         String filename = "";
-//        String mime = "";
         String msg = null;
 
-//        TEMP_DIR = new File(uploadsFolder + id + "/uploadsTemp");
         try {
             if (ServletFileUpload.isMultipartContent(req)) {
                 requestParser = RequestParser.getInstance(req, new MultipartUploadParser(req, TEMP_DIR, getServletContext()));
@@ -162,7 +150,6 @@ public class UploadReceiver extends BasicServlet {
 
         Tidy tidy = new Tidy(DBURI, rootCollection, DBuser, DBpassword, uploadsFolder);
         String duplicate = tidy.getDuplicate(UPLOAD_DIR + System.getProperty("file.separator") + filename, UPLOAD_DIR.getAbsolutePath());
-//        System.out.println("DUPLICATE="+duplicate);
         boolean duplicateFound = false;
 
         if (duplicate != null) {
@@ -185,7 +172,6 @@ public class UploadReceiver extends BasicServlet {
         if (isAttribute) {
 
             mappingFile.xAddAttribute(xpath, attributeName, filename);
-            System.out.println("XPATH=" + xpath);
             if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf"))) {
 
                 if (!duplicateFound) {
@@ -208,10 +194,8 @@ public class UploadReceiver extends BasicServlet {
                 }
 
             } else if (xpath.endsWith("/generator_policy_info") && (filename.endsWith("xml"))) {
-                System.out.println("UPL=" + filename);
-                System.out.println("DIR=" + UPLOAD_DIR);
+               
                 if (!duplicateFound) {
-                    System.out.println("INSIDE");
                     //Uploading generator policy files to eXist!
                     dbc = new DBCollection(super.DBURI, x3mlCollection, super.DBuser, super.DBpassword);
                     DBFile dbf = dbc.createFile(filename, "XMLDBFile");
@@ -246,7 +230,6 @@ public class UploadReceiver extends BasicServlet {
             if (expectedFileSize != null) {
                 Long bytesWrittenToDisk = out.length();
                 if (!expectedFileSize.equals(bytesWrittenToDisk)) {
-                    //  log.warn("Expected file {} to be {} bytes; file on disk is {} bytes", new Object[] { out.getAbsolutePath(), expectedFileSize, 1 });
                     throw new IOException(String.format("Unexpected file size mismatch. Actual bytes %s. Expected bytes %s.", bytesWrittenToDisk, expectedFileSize));
                 }
             }

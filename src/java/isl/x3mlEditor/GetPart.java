@@ -75,7 +75,6 @@ public class GetPart extends BasicServlet {
         }
         targetMode = Integer.parseInt(targetAnalyzer);
 
-//        System.out.println("TARGET=" + targetAnalyzer);
         if (type == null) {
             type = "Mapping";
         }
@@ -89,7 +88,6 @@ public class GetPart extends BasicServlet {
         if (part == null) { //using xpath instead
 
             if (xpath != null) {
-//                System.out.println("X="+xpath);
                 query = xpath;
                 if (mode.equals("edit")) {
                     if (xpath.endsWith("domain")) {
@@ -132,7 +130,6 @@ public class GetPart extends BasicServlet {
 
             }
         }
-//        System.out.println(query);
 
         String[] queryResults = mappingFile.queryString(query);
         String output = "";
@@ -147,14 +144,10 @@ public class GetPart extends BasicServlet {
                 queryResults = mappingFile.queryString(query);
                 result = result.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "' mappingsCount='" + queryResults[0] + "'");
             }
-//            System.out.println("RES=" + result);
             if (result.startsWith("<mappings>") && mode.equals("instance")) {
-                
-                result = result.replaceFirst("<mappings", "<mappings mode='"+mode+"' status='"+request.getParameter("generatorsStatus")+"'");
+                result = result.replaceFirst("<mappings", "<mappings mode='" + mode + "' status='" + request.getParameter("generatorsStatus") + "'");
 
             }
-//            System.out.println(xsl);
-//                        System.out.println("RES2=" + result);
 
             output = transform(result, xsl);
 
@@ -171,11 +164,7 @@ public class GetPart extends BasicServlet {
                 }
             }
 
-//            System.out.println("OUT=" + output);
-//            System.out.println(xpath);
         } else {
-//                    System.out.println("BAD="+query);
-
             output = "Something went wrong! Please reload page.";
         }
 

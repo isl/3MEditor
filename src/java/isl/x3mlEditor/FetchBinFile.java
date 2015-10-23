@@ -79,7 +79,6 @@ public class FetchBinFile extends BasicServlet {
                 }
             }
         }
-//        System.out.println("FILENAME="+filename+" USE="+use);
         String mime = new Utils().findMime(uploadsDBFile, filename, use);
 
         path = path + mime + System.getProperty("file.separator");

@@ -83,18 +83,12 @@ public class MultipartUploadParser
 
 		if (files.isEmpty())
 		{
-//			log.warn("No files were found when processing the requst. Debugging info follows.");
-
 			writeDebugInfo(request);
-
 			throw new FileUploadException("No files were found when processing the request.");
 		}
 		else
 		{
-//			if (log.isDebugEnabled())
-//			{
-//				writeDebugInfo(request);
-//			}
+
 		}
 	}
 
@@ -112,17 +106,7 @@ public class MultipartUploadParser
 
 	private void writeDebugInfo(HttpServletRequest request)
 	{
-//		//log.debug("-- POST HEADERS --");
-//		for (String header : Collections.list(request.getHeaderNames()))
-//		{
-//			log.debug("{}: {}", header, request.getHeader(header));
-//		}
-//
-//		log.debug("-- POST PARAMS --");
-//		for (String key : params.keySet())
-//		{
-//			log.debug("{}: {}", key, params.get(key));
-//		}
+
 	}
 
 	private void parseFormFields(List<FileItem> items)

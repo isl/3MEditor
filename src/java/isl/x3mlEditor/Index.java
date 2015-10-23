@@ -37,7 +37,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.lang3.ArrayUtils;
 
 /**
  *
@@ -108,7 +107,7 @@ public class Index extends BasicServlet {
             xmlMiddle.append("<output><xml>");
         }
         String xmlId = type + id + ".xml";
-        DBCollection dbc = new DBCollection(super.DBURI, applicationCollection + "/" + type, super.DBuser, super.DBpassword);
+        DBCollection dbc = new DBCollection(DBURI, applicationCollection + "/" + type, DBuser, DBpassword);
 
         //Cleanup code 
         String duplicateInstanceInfoQuery = "//entity[count(instance_info)>1]/instance_info[position()>1]";
@@ -124,7 +123,7 @@ public class Index extends BasicServlet {
         }
         if (output.equals("html")) {
 
-            String xsl = super.baseURL + "/xsl/x3ml.xsl";
+            String xsl = baseURL + "/xsl/x3ml.xsl";
             if (stateOfSite.equals("off")) {
                 response.sendRedirect("maintenance.html");
                 return;
@@ -140,9 +139,6 @@ public class Index extends BasicServlet {
                 HttpSession session = sessionCheck(request, response);
                 if (session == null) {
                     session = request.getSession(true);
-//                    session.setAttribute("resourcesList", new HashMap<String, String[]>());
-                    session.setAttribute("id", id);
-                    session.setAttribute("action", action);
 
                     String[] usernames = mappingFile.queryString("//admin/locked/string()");
                     if (usernames.length > 0) {
@@ -150,6 +146,9 @@ public class Index extends BasicServlet {
                     }
 
                 }
+                session.setAttribute("id", id);
+                session.setAttribute("action", action);
+                session.setAttribute("resourcesList", new HashMap<String, String[]>());
 
             } else if (action.equals("view")) {
                 xmlMiddle.append("<viewMode>").append("1").append("</viewMode>");
@@ -161,7 +160,6 @@ public class Index extends BasicServlet {
                     targetAnalyzer = "0"; //If no target schemas specified, then choose None!
                 }
 
-//                if (sourceAnalyzer == null) {
                 String sourceQuery = "let $i := //source_info/source_schema/@schema_file\n"
                         + "let $k := //example_data_source_record/@xml_link\n"
                         + "return\n"
@@ -169,12 +167,9 @@ public class Index extends BasicServlet {
                         + "{$i}\n"
                         + "{$k}\n"
                         + "</sourceAnalyzer>";
-//                System.out.println(sourceQuery);
                 String[] results = mappingFile.queryString(sourceQuery);
-//                System.out.println("LEN=" + results.length);
                 if (results.length == 1) { //First check for source schema
                     String res = results[0];
-//                    System.out.println(res);
                     if (!res.equals("<sourceAnalyzer/>")) { //Something exists...
                         String schemaFile = new Utils().getMatch(res, "(?<=schema_file=\").*?(?=\")");
                         String instanceFile = new Utils().getMatch(res, "(?<=xml_link=\").*?(?=\")");
@@ -194,26 +189,22 @@ public class Index extends BasicServlet {
                         sourceAnalyzer = "off";
                     }
                 }
-//                }
 
                 if (sourceAnalyzer == null) {
                     sourceAnalyzer = sourceAnalyzerStatus;
                 }
 
-//                System.out.println("SOURCE_ANAL=" + sourceAnalyzer);
                 HttpSession session = sessionCheck(request, response);
                 if (session == null) {
                     session = request.getSession(true);
-                    session.setAttribute("resourcesList", new HashMap<String, String[]>());
-                    session.setAttribute("id", id);
-                    session.setAttribute("action", action);
-
                     String[] usernames = mappingFile.queryString("//admin/locked/string()");
                     if (usernames.length > 0) {
                         session.setAttribute("username", usernames[0]);
                     }
-
                 }
+                session.setAttribute("resourcesList", new HashMap<String, String[]>());
+                session.setAttribute("id", id);
+                session.setAttribute("action", action);
             }
 
             xmlMiddle.append("<lang>").append(lang).append("</lang>");

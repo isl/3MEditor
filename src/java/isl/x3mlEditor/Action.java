@@ -57,33 +57,22 @@ public class Action extends BasicServlet {
         String id = request.getParameter("id");
         String action = request.getParameter("action");
         String type = "Mapping";
-//        System.out.println("ID="+id);
-//        System.out.println("XPATH="+xpath);
+
         String xmlId = type + id + ".xml";
         DBCollection dbc = new DBCollection(super.DBURI, applicationCollection + "/" + type, super.DBuser, super.DBpassword);
         String collectionPath = getPathforFile(dbc, xmlId, id);
         DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
 
         if (action.equals("close")) { //Added from FeXML File servlet to unlock file
-            System.out.println("UNLOCKING " + id);
             mappingFile.xUpdate("//admin/locked", "no");
         } else if (action.equals("paste")) {
             String xpath = request.getParameter("xpath");
-//            System.out.println("XPATH=" + xpath);
             if (xpath.contains("***")) {
                 String[] paths = xpath.split("\\*\\*\\*");
                 mappingFile.xCopyAfter(paths[0], paths[1]);
 
             }
 
-//        } else if (action.equals("X")) {
-//            final Generator VALUE_POLICY = X3MLGeneratorPolicy.load(null, X3MLGeneratorPolicy.createUUIDSource(1));
-//
-//            Mapper map = new Mapper();
-//
-//            X3MLEngine engine = map.engine("/coin_a/01-coin-simple.x3ml");
-//            X3MLEngine.Output output = engine.execute(map.document("/coin_a/00-coin-input.xml"), VALUE_POLICY);
-//            String[] mappingResult = output.toStringArray();
         } else if (action.equals("raw")) {
             String xpath = request.getParameter("xpath");
 

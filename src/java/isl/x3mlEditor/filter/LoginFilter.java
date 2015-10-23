@@ -110,7 +110,6 @@ public class LoginFilter extends BasicServlet implements Filter {
             HttpSession session = hrequest.getSession(true);
 
             if (editorType.equals("standalone")) {
-                System.out.println("LOGIN");
                 session.setAttribute("username", "user");
                 chain.doFilter(request, response);
             } else {

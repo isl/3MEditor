@@ -35,7 +35,6 @@ import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.ArrayUtils;
 
 /**
  *
@@ -94,7 +93,6 @@ public class Services extends BasicServlet {
             if (gpfFiles.length == 0) {
                 System.out.println("NO GPF");
             } else {
-//                System.out.println("GPF=" + gpfFiles[0]);
                 DBFile gpfFile = new DBFile(DBURI, x3mlCollection, gpfFiles[0], DBuser, DBpassword);
                 System.out.println(gpfFile.toString());
                 String[] gpfFileGenNames = gpfFile.queryString("//generator/@name/string()");

@@ -71,23 +71,14 @@ public class Schema {
 
     }
 
-//    public Schema(DBCollection schemaCol) {
-//        col = schemaCol;
-//
-//        namespaces = "declare namespace rdfs = \"http://www.w3.org/2000/01/rdf-schema#\";\n"
-//                + "declare namespace rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\";";
-//
-//    }
 
     /**
      *
      * @return
      */
         public String[] getAllClasses() {
-//        String query = namespaces + "\n//rdfs:Class/@rdf:about/string()";
         String query = namespaces + buildQuery("//rdfs:Class/@rdf:about");
 
-//        System.out.println(query);
         try {
             String[] entities = file.queryString(query);
             return entities;
@@ -98,39 +89,6 @@ public class Schema {
 
     }
 
-    /* Not used for now
-     public String[] getAllProperties() {
-     String query = namespaces + "\n//rdf:Property/@rdf:about/string()";
-     String[] entities = file.queryString(query);
-     return entities;
-     }
-    
-     public ArrayList<String> getSubPropertiesOf(String propertyName, ArrayList<String> propertiesNames) {
-     if (!propertiesNames.contains(propertyName)) {
-     propertiesNames.add(propertyName);
-     }
-
-     if (!propertyName.equals("")) {
-
-     String query = "";
-     String[] properties = null;
-     if (filenames.length > 1) {
-     query = namespaces + buildQuery("//rdf:Property[rdfs:subPropertyOf/@rdf:resource[ends-with(.,\"" + propertyName + "\")]]/@rdf:about");
-
-     //                query = namespaces + forPart + "//rdf:Property[rdfs:subPropertyOf/@rdf:resource[ends-with(.,\"" + propertyName + "\")]]/@rdf:about/string()";
-     properties = col.query(query);
-     } else {
-     query = namespaces + "\n//rdf:Property[rdfs:subPropertyOf/@rdf:resource[ends-with(.,\"" + propertyName + "\")]]/@rdf:about/string()";
-     properties = file.queryString(query);
-
-     }
-     for (String property : properties) {
-     getSubClassesOf(property, propertiesNames);
-     }
-     }
-     return propertiesNames;
-     }
-     */
 
     /**
      *
@@ -140,7 +98,6 @@ public class Schema {
      */
     
     public ArrayList<String> getSubClassesOf(String className, ArrayList<String> classNames) {
-//        System.out.println("CLASSNAME=" + className);
         if (!classNames.contains(className)) {
             classNames.add(className);
         }
@@ -152,22 +109,13 @@ public class Schema {
             if (className.contains("######")) {
                 className = className.split("######")[1];
             }
-//            if (filenames.length > 1) {
             if (className.contains("/")) { //in case class has full URI name, strip it (Bug with mapping id 201)
                 className = className.substring(className.lastIndexOf("/") + 1);
             }
             query = namespaces + buildQuery("//rdfs:Class[rdfs:subClassOf/@rdf:resource[ends-with(.,\"" + className + "\")]]/@rdf:about");
-//            System.out.println(query);
             entities = col.query(query);
-//            } else {
-//                query = namespaces + "\n//rdfs:Class[rdfs:subClassOf/@rdf:resource[ends-with(.,\"" + className + "\")]]/@rdf:about/string()";
-//                System.out.println("Q2="+query);
-//                entities = file.queryString(query);
-//
-//            }
 
             for (String entity : entities) {
-//                System.out.println("ENTITY=" + entity);
                 getSubClassesOf(entity, classNames);
             }
         }
@@ -195,8 +143,6 @@ public class Schema {
             if (filenames.length > 1) {
 
                 query = namespaces + forPart + "//rdfs:Class[@rdf:about[ends-with(.,\"" + className + "\")]]/rdfs:subClassOf/@rdf:resource/string()";
-//                System.out.println(query);
-
                 try {
                     entities = col.query(query);
                 } catch (DBMSException ex) {
@@ -209,10 +155,8 @@ public class Schema {
                 entities = file.queryString(query);
 
             }
-//            System.out.println(query);
             if (entities != null) {
                 for (String entity : entities) {
-//                System.out.println("SUPER ENT is " + entity);
                     getSuperClassesOf(entity, classNames);
                 }
             }
@@ -243,7 +187,6 @@ public class Schema {
             return "";
         }
 
-//        System.out.println(query);
     }
 
     /**
@@ -277,10 +220,7 @@ public class Schema {
                 }
             }
         }
-//
-//        }
-//        properties = sort(properties);
-//        Collections.sort(properties);
+
         return properties;
 
     }
