@@ -32,6 +32,10 @@ import org.apache.commons.fileupload.FileItem;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ *
+ * @author samarita
+ */
 public class RequestParser {
 
     private static String FILENAME_PARAM = "qqfile";
@@ -65,13 +69,22 @@ public class RequestParser {
         return requestParser;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getFilename() {
       //  System.out.println("EDW="+createUniqueFilename(filename));
         return createUniqueFilename(filename);
     }
 
     //only non-null for MPFRs
-    public FileItem getUploadItem() {
+
+    /**
+     *
+     * @return
+     */
+        public FileItem getUploadItem() {
         return uploadItem;
     }
 

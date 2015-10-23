@@ -40,8 +40,15 @@ import javax.servlet.http.HttpSessionListener;
  */
 public class SessionListener extends BasicServlet implements HttpSessionListener {
 
+    /**
+     *
+     */
     public static int activesessionsNO = 0;
 
+    /**
+     *
+     * @param se
+     */
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         HttpSession session = se.getSession();
@@ -50,6 +57,10 @@ public class SessionListener extends BasicServlet implements HttpSessionListener
         System.out.println("ACTIVE SESSIONS:" + activesessionsNO);
     }
 
+    /**
+     *
+     * @param se
+     */
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
         HttpSession session = se.getSession();

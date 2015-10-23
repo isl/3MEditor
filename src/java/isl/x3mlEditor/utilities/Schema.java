@@ -43,6 +43,10 @@ public class Schema {
     String namespaces, forPart;
     String[] filenames;
 
+    /**
+     *
+     * @param schemaFile
+     */
     public Schema(DBFile schemaFile) {
         file = schemaFile;
 
@@ -51,6 +55,11 @@ public class Schema {
 
     }
 
+    /**
+     *
+     * @param schemaFile
+     * @param schemaFilenames
+     */
     public Schema(DBFile schemaFile, String[] schemaFilenames) {
         file = schemaFile;
         col = schemaFile.getCollection();
@@ -69,7 +78,12 @@ public class Schema {
 //                + "declare namespace rdf = \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\";";
 //
 //    }
-    public String[] getAllClasses() {
+
+    /**
+     *
+     * @return
+     */
+        public String[] getAllClasses() {
 //        String query = namespaces + "\n//rdfs:Class/@rdf:about/string()";
         String query = namespaces + buildQuery("//rdfs:Class/@rdf:about");
 
@@ -117,6 +131,14 @@ public class Schema {
      return propertiesNames;
      }
      */
+
+    /**
+     *
+     * @param className
+     * @param classNames
+     * @return
+     */
+    
     public ArrayList<String> getSubClassesOf(String className, ArrayList<String> classNames) {
 //        System.out.println("CLASSNAME=" + className);
         if (!classNames.contains(className)) {
@@ -152,6 +174,12 @@ public class Schema {
         return classNames;
     }
 
+    /**
+     *
+     * @param className
+     * @param classNames
+     * @return
+     */
     public ArrayList<String> getSuperClassesOf(String className, ArrayList<String> classNames) {
         if (!classNames.contains(className)) {
             classNames.add(className);
@@ -192,6 +220,11 @@ public class Schema {
         return classNames;
     }
 
+    /**
+     *
+     * @param property
+     * @return
+     */
     public String getRangeForProperty(String property) {
         String query = "";
         String[] ranges = null;
@@ -213,6 +246,11 @@ public class Schema {
 //        System.out.println(query);
     }
 
+    /**
+     *
+     * @param classNames
+     * @return
+     */
     public ArrayList<String> getPropertiesFor(ArrayList<String> classNames) {
         ArrayList<String> properties = new ArrayList<String>();
         String criterion = "";

@@ -284,6 +284,7 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
 
     /**
      * Init method for this filter
+     * @param filterConfig
      */
     public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;

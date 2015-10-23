@@ -46,18 +46,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ *
+ * @author samarita
+ */
 public class LoginFilter extends BasicServlet implements Filter {
 
     private FilterConfig filterConfig = null;
 
+    /**
+     *
+     * @param filterConfig
+     * @throws ServletException
+     */
     public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
     }
 
+    /**
+     *
+     */
     public void destroy() {
         this.filterConfig = null;
     }
 
+    /**
+     *
+     * @param cookies
+     * @param session
+     * @return
+     */
     public String getCookieValue(Cookie[] cookies, HttpSession session) {
         try {
             String[] users = DMSUser.getUsers(BasicServlet.conf);
@@ -77,6 +95,14 @@ public class LoginFilter extends BasicServlet implements Filter {
         return null;
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @param chain
+     * @throws IOException
+     * @throws ServletException
+     */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         if (request instanceof HttpServletRequest) {

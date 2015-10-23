@@ -51,6 +51,10 @@ import java.util.zip.ZipInputStream;
  */
 public class Utils {
 
+    /**
+     *
+     * @return
+     */
     public String getDate() {
 
         Calendar cal = new GregorianCalendar(Locale.getDefault());
@@ -66,13 +70,23 @@ public class Utils {
         return myformat.format(day) + "-" + myformat.format(month) + "-" + year;
     }
 
+    /**
+     *
+     */
     public void lengthyProcess() {
         for (int i=0;i<1000000;i++) {
             System.out.println(i);
             i=i+1;
         }
     }
-     public String getMatch(String input, String pattern) {
+
+    /**
+     *
+     * @param input
+     * @param pattern
+     * @return
+     */
+    public String getMatch(String input, String pattern) {
         String ResultString = "";
         try {
             Pattern Regex = Pattern.compile(pattern,
@@ -112,7 +126,7 @@ public class Utils {
      * with ASCII filenames Greek characters break the code!
      *
      * @param zipFile input zip file
-     * @param output zip file output folder
+     * @param outputFolder
      */
     public void unZipIt(String zipFile, String outputFolder) {
 
@@ -192,6 +206,11 @@ public class Utils {
         }
     }
 
+    /**
+     *
+     * @param list
+     * @return
+     */
     public ArrayList<String> sort(ArrayList<String> list) {
         try {
             Collections.sort(list, new Comparator<String>() {
@@ -236,8 +255,15 @@ public class Utils {
         }
         return list;
     }
-    
-     public static String findMime(DBFile uploads, String file, String use) {
+
+    /**
+     *
+     * @param uploads
+     * @param file
+     * @param use
+     * @return
+     */
+    public static String findMime(DBFile uploads, String file, String use) {
 
         file = file.substring(file.lastIndexOf(".") + 1);
         file = file.toLowerCase();

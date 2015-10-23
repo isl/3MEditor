@@ -47,6 +47,10 @@ import java.io.File;
 import java.net.URLEncoder;
 import javax.servlet.http.HttpSession;
 
+/**
+ *
+ * @author samarita
+ */
 public class UploadReceiver extends BasicServlet {
 
     private static File UPLOAD_DIR;
@@ -56,11 +60,22 @@ public class UploadReceiver extends BasicServlet {
     private static int RESPONSE_CODE = 200;
 
     //  final Logger log = LoggerFactory.getLogger(UploadReceiver.class);
-    @Override
+
+    /**
+     *
+     * @throws ServletException
+     */
+        @Override
     public void init() throws ServletException {
 //        UPLOAD_DIR.mkdirs();
     }
 
+    /**
+     *
+     * @param req
+     * @param resp
+     * @throws IOException
+     */
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");

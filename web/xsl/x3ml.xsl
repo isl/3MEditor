@@ -97,7 +97,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     <li >
                                         <a href="#matching_table" role="tab" data-toggle="tab">Matching Table</a>
                                     </li>
-                                     <li >
+                                    <li >
                                         <a href="#graph" role="tab" data-toggle="tab">Graph</a>
                                     </li>
                                     <xsl:if test="$action!=1">
@@ -208,7 +208,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     </div>
                                 
                                 </div>
-                                 <div class="tab-pane fade " id="graph">
+                                <div class="tab-pane fade " id="graph">
                                 </div>
                                 <div class="tab-pane fade " id="x3mlEngine">                                                                   
                                 </div>
@@ -217,8 +217,15 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 
                             </div>
                         </div>
+                        
+
+                        
                     </div>
                 </div>
+               
+                <span  class="pull-right smallerIcon">
+                    User:<xsl:value-of select="//admin/locked"/>
+                </span>
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -243,7 +250,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
                                 <button type="button" style="display:inline;" class="btn btn-primary saveXML-btn">Update</button>
                                 <span class="pull-left"  style="width:90%;font-weight:bold;text-align:left;display:inline">WARNING! Clicking 'Update' is a powerful feature and should be used only if what you are trying
-                                     to do cannot be achieved by normal edit mode. If update is complete, you cannot undo what you have done.</span>
+                                    to do cannot be achieved by normal edit mode. If update is complete, you cannot undo what you have done.</span>
                             </div>
                            
                         </div>

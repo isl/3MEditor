@@ -57,28 +57,167 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ *
+ * @author samarita
+ */
 public class BasicServlet extends HttpServlet {
 
-    protected static String serverName, contextPath, baseURL, systemRoot, targetPathSuggesterAlgorithm, sourceAnalyzerStatus, generatorsStatus;
+    /**
+     *
+     */
+    protected static String serverName,
+
+    /**
+     *
+     */
+    contextPath,
+
+    /**
+     *
+     */
+    baseURL,
+
+    /**
+     *
+     */
+    systemRoot,
+
+    /**
+     *
+     */
+    targetPathSuggesterAlgorithm,
+
+    /**
+     *
+     */
+    sourceAnalyzerStatus,
+
+    /**
+     *
+     */
+    generatorsStatus;
+
+    
     protected static int serverPort, maxCollsize;
+
+    /**
+     *
+     */
     protected static String configQueriesCollection;
-    protected static String stateOfSite, editorType;
+
+    /**
+     *
+     */
+    protected static String stateOfSite,
+
+    /**
+     *
+     */
+    editorType;
+
+    /**
+     *
+     */
     protected static String[] instanceGeneratorNamesBuiltInX3MLEngine;
-    protected static String servletName, dmsCollection, adminCollection, applicationCollection, x3mlCollection, rootCollection;
-    protected static String DBURI, DBuser, DBpassword;
-    protected static String uploadsFile, uploadsFolder, schemaFolder;
+
+    /**
+     *
+     */
+    protected static String servletName,
+
+    /**
+     *
+     */
+    dmsCollection,
+
+    /**
+     *
+     */
+    adminCollection,
+
+    /**
+     *
+     */
+    applicationCollection,
+
+    /**
+     *
+     */
+    x3mlCollection,
+
+    /**
+     *
+     */
+    rootCollection;
+
+    /**
+     *
+     */
+    protected static String DBURI,
+
+    /**
+     *
+     */
+    DBuser,
+
+    /**
+     *
+     */
+    DBpassword;
+
+    /**
+     *
+     */
+    protected static String uploadsFile,
+
+    /**
+     *
+     */
+    uploadsFolder,
+
+    /**
+     *
+     */
+    schemaFolder;
+
+    /**
+     *
+     */
     protected static String systemURL;
+
+    /**
+     *
+     */
     protected static ConnectionPool connectionPool;
+
+    /**
+     *
+     */
     protected static String cookieSep = "---";
     private static boolean configured = false;
+
+    /**
+     *
+     */
     protected static Logger logger;
+
+    /**
+     *
+     */
     public static DMSConfig conf;
     
 
     // The strings used to build the query that asks for query source text, from file
     // DMSQueries.xml.
     // See method doQueryForSource for usage
-    public void init(ServletConfig config) throws ServletException {
+
+    /**
+     *
+     * @param config
+     * @throws ServletException
+     */
+        public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
         if (!configured) {
@@ -136,6 +275,10 @@ public class BasicServlet extends HttpServlet {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public static Logger getLogger() {
         if (!configured) {
             throw new Error("FATAL ERROR: getLogger() called before init() !");
@@ -143,6 +286,11 @@ public class BasicServlet extends HttpServlet {
         return logger;
     }
 
+    /**
+     *
+     * @param request
+     * @return
+     */
     public Hashtable<String, Object> getParams(HttpServletRequest request) {
         String qId = request.getParameter("qid");
         if (qId == null) {
@@ -222,6 +370,13 @@ public class BasicServlet extends HttpServlet {
         return params;
     }
 
+    /**
+     *
+     * @param q
+     * @param coll
+     * @return
+     * @throws IOException
+     */
     protected String[] queryCollection(String q, String coll)
             throws IOException {
 
@@ -229,6 +384,13 @@ public class BasicServlet extends HttpServlet {
         return collection.query(q);
     }
 
+    /**
+     *
+     * @param coll
+     * @param id
+     * @return
+     * @throws IOException
+     */
     public String getDBFileContent(String coll, String id) throws IOException {
         String fileContent = null;
         try {
@@ -247,6 +409,14 @@ public class BasicServlet extends HttpServlet {
         return fileContent;
     }
 
+    /**
+     *
+     * @param queryName
+     * @param queryParams
+     * @param colPath
+     * @return
+     * @throws DMSException
+     */
     public String[] doQueryForSource(String queryName, ArrayList<String> queryParams, String colPath) throws DMSException {
         try {
             String queryFilename = new DMSXQuery(queryName, 0, conf).getInfo("external_source");
@@ -267,6 +437,13 @@ public class BasicServlet extends HttpServlet {
         }
     }
 
+    /**
+     *
+     * @param queryName
+     * @param colPath
+     * @return
+     * @throws DMSException
+     */
     public String[] doQueryForSource(String queryName, String colPath) throws DMSException {
         try {
             String queryFilename = new DMSXQuery(queryName, 0, conf).getInfo("external_source");
@@ -286,6 +463,13 @@ public class BasicServlet extends HttpServlet {
         }
     }
 
+    /**
+     *
+     * @param systemDBCollection
+     * @param type
+     * @param col
+     * @return
+     */
     public String getminColl(String systemDBCollection, String type, DBCollection col) {
         String results = "";
         String queryString = "let $results := for $i in xmldb:get-child-collections('" + systemDBCollection + "/" + type + "') " + "let  $b := xcollection(concat('" + systemDBCollection + "/" + type + "/',$i)) " + "return count($b), " + "$minimum:=min($results), " + "$coll:=for $c in xmldb:get-child-collections('" + systemDBCollection + "/" + type + "') " + "let  $b := xcollection(concat('" + systemDBCollection + "/" + type + "/',$c)) " + "where count($b)=$minimum return <coll>{$c}</coll> " + "return " + "<results> " + "<min>{$minimum}</min><res>{$coll}</res></results> ";
@@ -299,6 +483,13 @@ public class BasicServlet extends HttpServlet {
         return results;
     }
 
+    /**
+     *
+     * @param systemDBCollection
+     * @param type
+     * @param col
+     * @return
+     */
     public String getmaxCollName(String systemDBCollection, String type, DBCollection col) {
         String results = "";
         String queryString = "let $results :=" + "for $i in xmldb:get-child-collections('" + systemDBCollection + "/" + type + "')" + "let  $b := xcollection(concat('" + systemDBCollection + "/" + type + "/',$i))" + "return number($i)," + "$maximum:=max($results)" + "return $maximum";
@@ -312,6 +503,12 @@ public class BasicServlet extends HttpServlet {
         return results;
     }
 
+    /**
+     *
+     * @param mappingFile
+     * @param id
+     * @return
+     */
     public OntologyReasoner getOntModel(DBFile mappingFile, String id) {
 
         String[] targetSchemas = mappingFile.queryString("//target_info/target_schema/@schema_file/string()");
@@ -325,6 +522,13 @@ public class BasicServlet extends HttpServlet {
 
     }
 
+    /**
+     *
+     * @param col
+     * @param filename
+     * @param id
+     * @return
+     */
     public String getPathforFile(DBCollection col, String filename, String id) {
         String collectionPath = null;
 
@@ -345,7 +549,14 @@ public class BasicServlet extends HttpServlet {
     }
 
     // a very simple transform method. more sophisticated ones were used in IMKE
-    public String transform(String xml, String xsl) {
+
+    /**
+     *
+     * @param xml
+     * @param xsl
+     * @return
+     */
+        public String transform(String xml, String xsl) {
         try {
             XMLTransform xmlTrans = new XMLTransform(xml);
             return xmlTrans.transform(xsl);
@@ -357,6 +568,13 @@ public class BasicServlet extends HttpServlet {
 
     }
 
+    /**
+     *
+     * @param regexp
+     * @param text
+     * @param flags
+     * @return
+     */
     public ArrayList<String> findReg(String regexp, String text, int flags) {
 
         ArrayList<String> results = new ArrayList();
@@ -383,6 +601,13 @@ public class BasicServlet extends HttpServlet {
 //    }
 
     /*returns system user rights*/
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    
     public String getRights(String username) {
         String UserRights = null;
         try {
@@ -395,6 +620,12 @@ public class BasicServlet extends HttpServlet {
         return UserRights;
     }
 
+    /**
+     *
+     * @param property
+     * @param value
+     * @param dbFile
+     */
     public void setAdminProperty(String property, String value, DBFile dbFile) {
         //should not check, but demand to exist...temporary allow
         if (dbFile.exist("//admin/" + property) == false) {
@@ -409,6 +640,11 @@ public class BasicServlet extends HttpServlet {
         }
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     public String getUserGroup(String username) {
         //implies that user belongs to ONLY one group...
         DMSUser user;
@@ -428,6 +664,10 @@ public class BasicServlet extends HttpServlet {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public String[] getUserEditors() {
         //from the database
         String[] ret;
@@ -445,6 +685,13 @@ public class BasicServlet extends HttpServlet {
         return null;
     }
 
+    /**
+     *
+     * @param dbf
+     * @param id
+     * @param type
+     * @return
+     */
     public String updateReferences(DBFile dbf, String id, String type) {
         String ret = "";
         //First of all get existing ref
@@ -570,6 +817,11 @@ public class BasicServlet extends HttpServlet {
         return ret;
     }
 
+    /**
+     *
+     * @param type
+     * @return
+     */
     public String[] initInsertFile(String type) {
         DBCollection col = new DBCollection(DBURI, applicationCollection + "/" + type, DBuser, DBpassword);
 
@@ -614,6 +866,12 @@ public class BasicServlet extends HttpServlet {
         return result;
     }
 
+    /**
+     *
+     * @param col
+     * @param type
+     * @return
+     */
     public String newId(DBCollection col, String type) {
         String fileId = "";
         String[] files = col.listFiles();
@@ -643,6 +901,11 @@ public class BasicServlet extends HttpServlet {
         return fileId;
     }
 
+    /**
+     *
+     * @param col
+     * @return
+     */
     public int getLastId(DBCollection col) {
         int id = 0;
         try {
@@ -659,6 +922,11 @@ public class BasicServlet extends HttpServlet {
         return id;
     }
 
+    /**
+     *
+     * @param input
+     * @return
+     */
     public boolean pathIsAttribute(String input) {
         boolean foundMatch = false;
         try {
@@ -673,6 +941,13 @@ public class BasicServlet extends HttpServlet {
         return foundMatch;
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
     protected HttpSession sessionCheck(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);
         if (session == null) {

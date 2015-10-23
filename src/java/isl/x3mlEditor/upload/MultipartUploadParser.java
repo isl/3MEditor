@@ -41,6 +41,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ *
+ * @author samarita
+ */
 public class MultipartUploadParser
 {
 	//final Logger log = LoggerFactory.getLogger(MultipartUploadParser.class);
@@ -56,7 +60,14 @@ public class MultipartUploadParser
 	// FileCleanerCleanup uses a java.lang.ref.ReferenceQueue to delete the temp file when the FileItemsFactory marker object is GCed
 	private DiskFileItemFactory fileItemsFactory;
 
-	public MultipartUploadParser(HttpServletRequest request, File repository, ServletContext context) throws Exception
+    /**
+     *
+     * @param request
+     * @param repository
+     * @param context
+     * @throws Exception
+     */
+    public MultipartUploadParser(HttpServletRequest request, File repository, ServletContext context) throws Exception
 	{
 		if (!repository.exists() && !repository.mkdirs())
 		{
@@ -134,12 +145,20 @@ public class MultipartUploadParser
 		}
 	}
 
-	public Map<String, String> getParams()
+    /**
+     *
+     * @return
+     */
+    public Map<String, String> getParams()
 	{
 		return params;
 	}
 
-	public List<FileItem> getFiles()
+    /**
+     *
+     * @return
+     */
+    public List<FileItem> getFiles()
 	{
 		if (files.isEmpty())
 		{
@@ -149,7 +168,11 @@ public class MultipartUploadParser
 		return files;
 	}
 
-	public FileItem getFirstFile()
+    /**
+     *
+     * @return
+     */
+    public FileItem getFirstFile()
 	{
 		if (files.isEmpty())
 		{
