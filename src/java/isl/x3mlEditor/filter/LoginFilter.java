@@ -44,6 +44,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class LoginFilter extends BasicServlet implements Filter {
 
@@ -57,39 +58,15 @@ public class LoginFilter extends BasicServlet implements Filter {
         this.filterConfig = null;
     }
 
-//    public String getCookieValue(Cookie[] cookies) throws UnsupportedEncodingException {
-//        try {
-//            String[] users = DMSUser.getUsers(BasicServlet.conf);
-//            List<String> usersL = Arrays.asList(users);
-//            if (cookies != null) {
-//                for (int i = 0; i < cookies.length; i++) {
-//                    Cookie cookie = cookies[i];
-//                    for (String username : users) {
-//                        String encodeUsername = URLEncoder.encode(username, "UTF-8");
-//                        if (encodeUsername.equals(cookie.getName())) {
-//                            BasicServlet bs = new BasicServlet();
-//                            bs.setUsername(cookie.getName());
-//                            return (cookie.getName() + "-" + cookie.getValue());
-//                        }
-//                    }
-//                }
-//            }
-//        } catch (DMSException ex) {
-//            ex.printStackTrace();
-//        }
-//        return null;
-//
-//    }
-    public String getCookieValue(Cookie[] cookies) {
+    public String getCookieValue(Cookie[] cookies, HttpSession session) {
         try {
             String[] users = DMSUser.getUsers(BasicServlet.conf);
             List<String> usersL = Arrays.asList(users);
             if (cookies != null) {
                 for (int i = 0; i < cookies.length; i++) {
                     Cookie cookie = cookies[i];
-                    if (usersL.contains(URLDecoder.decode(cookie.getName()))) {
-                        BasicServlet bs = new BasicServlet();
-                        bs.setUsername(URLDecoder.decode(cookie.getName()));
+                    if (usersL.contains(URLDecoder.decode(cookie.getName()))) {                       
+                        session.setAttribute("username", URLDecoder.decode(cookie.getName()));
                         return (cookie.getName() + "-" + cookie.getValue());
                     }
                 }
@@ -101,21 +78,20 @@ public class LoginFilter extends BasicServlet implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//        System.out.println(editorType);
-        if (editorType.equals("standalone")) {
-            //TEMP CODE
-            BasicServlet bs = new BasicServlet();
-            bs.setUsername("user");
-            chain.doFilter(request, response);
-        } else {
 
-            if (request instanceof HttpServletRequest) {
-//                System.out.println("3MLoginFilter");
-                HttpServletRequest hrequest = (HttpServletRequest) request;
+        if (request instanceof HttpServletRequest) {
+            HttpServletRequest hrequest = (HttpServletRequest) request;
+            HttpSession session = hrequest.getSession(true);
+
+            if (editorType.equals("standalone")) {
+                System.out.println("LOGIN");
+                session.setAttribute("username", "user");
+                chain.doFilter(request, response);
+            } else {
+
                 HttpServletResponse hresponse = (HttpServletResponse) response;
 
-                String res = getCookieValue(hrequest.getCookies());
-//                System.out.println("RES="+res);
+                String res = getCookieValue(hrequest.getCookies(), session);
                 if (res == null) {
                     hresponse.sendRedirect(systemURL);
                 } else {
@@ -126,8 +102,6 @@ public class LoginFilter extends BasicServlet implements Filter {
                     cookie.setPath("/" + editorWebapp);
                     cookie.setMaxAge(10800);
                     hresponse.addCookie(cookie);
-                    System.out.println("cookieName " + cookieName + " value " + cookieValue);
-//                    System.out.println("3MEdit="+response.getContentType());
                     chain.doFilter(request, response);
                 }
 

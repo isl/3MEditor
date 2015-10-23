@@ -27,7 +27,6 @@
  */
 package isl.x3mlEditor;
 
-//import com.hp.hpl.jena.ontology.OntModel;
 import isl.binaryFile.BinaryFile;
 import isl.dbms.DBCollection;
 
@@ -40,7 +39,6 @@ import isl.dms.file.DMSUser;
 import isl.dms.file.DMSXQuery;
 import isl.dms.xml.XMLTransform;
 import isl.reasoner.OntologyReasoner;
-//import static isl.reasoner.OntologyReasoner.initiateModel;
 import isl.x3mlEditor.connections.ConnectionPool;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,7 +58,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class BasicServlet extends HttpServlet {
-    //***SAM
 
     protected static String serverName, contextPath, baseURL, systemRoot, targetPathSuggesterAlgorithm, sourceAnalyzerStatus, generatorsStatus;
     protected static int serverPort, maxCollsize;
@@ -69,18 +66,14 @@ public class BasicServlet extends HttpServlet {
     protected static String[] instanceGeneratorNamesBuiltInX3MLEngine;
     protected static String servletName, dmsCollection, adminCollection, applicationCollection, x3mlCollection, rootCollection;
     protected static String DBURI, DBuser, DBpassword;
-    protected static int userId = 1;
     protected static String uploadsFile, uploadsFolder, schemaFolder;
     protected static String systemURL;
     protected static ConnectionPool connectionPool;
     protected static String cookieSep = "---";
     private static boolean configured = false;
     protected static Logger logger;
-    //Configuration Object
     public static DMSConfig conf;
-    protected static String username;
-
-    protected static HashMap<String, String[]> resourcesList;
+    
 
     // The strings used to build the query that asks for query source text, from file
     // DMSQueries.xml.
@@ -116,7 +109,6 @@ public class BasicServlet extends HttpServlet {
 
             instanceGeneratorNamesBuiltInX3MLEngine = sc.getInitParameter("instanceGeneratorNamesBuiltInX3MLEngine").split(", ");
 
-//            Config.init();
             boolean verbose = sc.getInitParameter("verboseConnections").equals("true") ? true : false;
 
             ConnectionPool.configure(DBuser, DBpassword, 504, verbose);
@@ -237,7 +229,6 @@ public class BasicServlet extends HttpServlet {
         return collection.query(q);
     }
 
-//
     public String getDBFileContent(String coll, String id) throws IOException {
         String fileContent = null;
         try {
@@ -253,10 +244,6 @@ public class BasicServlet extends HttpServlet {
 
             java.util.logging.Logger.getLogger(BasicServlet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-//        String q = "let $i := document('" + coll + "/" + id + "')\nreturn $i\n";
-//        logger.debug("GET DOC Q: " + q);
-//        System.out.println(q);
-//        return queryCollection(q, coll)[0].getXMLAsString();
         return fileContent;
     }
 
@@ -267,7 +254,6 @@ public class BasicServlet extends HttpServlet {
             BinaryFile query = new BinaryFile(configQueriesCollection, queryFilename, conf);
             String q = query.toString(queryParams);
 
-            // System.out.println("QUERY " + queryName + " is:" + q);
             return queryCollection(q, colPath);
         } catch (EntryNotFoundException ex) {
             java.util.logging.Logger.getLogger(BasicServlet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -285,11 +271,8 @@ public class BasicServlet extends HttpServlet {
         try {
             String queryFilename = new DMSXQuery(queryName, 0, conf).getInfo("external_source");
 
-//            ArrayList<String> params = new ArrayList<String>();
-//            params.add(language);
             BinaryFile query = new BinaryFile(configQueriesCollection, queryFilename, conf);
             String q = query.toString();
-            //     System.out.println("QUERY " + queryName + " is:" + q);
             return queryCollection(q, colPath);
         } catch (EntryNotFoundException ex) {
             java.util.logging.Logger.getLogger(BasicServlet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -303,22 +286,7 @@ public class BasicServlet extends HttpServlet {
         }
     }
 
-//        public String doQueryForSource(String queryName, ArrayList<String> queryParams, String colPath) throws DMSException {
-//
-//        }
-//
-//        /* a collection of doXXXQueryForSource methods follows. each takes a different number of
-//         * parameters, and is called depending on which query we need to do.
-//         *
-//         */
-//    public String getFilenew(String pathforFile) throws IOException {
-//        String q = "let $i := document('" + pathforFile +"')\nreturn $i\n";
-//        logger.debug("GET DOC Q: " + q);
-//        return queryCollection(q, pathforFile)[0].getXMLAsString();
-//    }
-//
-//
-    public static String getminColl(String systemDBCollection, String type, DBCollection col) {
+    public String getminColl(String systemDBCollection, String type, DBCollection col) {
         String results = "";
         String queryString = "let $results := for $i in xmldb:get-child-collections('" + systemDBCollection + "/" + type + "') " + "let  $b := xcollection(concat('" + systemDBCollection + "/" + type + "/',$i)) " + "return count($b), " + "$minimum:=min($results), " + "$coll:=for $c in xmldb:get-child-collections('" + systemDBCollection + "/" + type + "') " + "let  $b := xcollection(concat('" + systemDBCollection + "/" + type + "/',$c)) " + "where count($b)=$minimum return <coll>{$c}</coll> " + "return " + "<results> " + "<min>{$minimum}</min><res>{$coll}</res></results> ";
         try {
@@ -331,7 +299,7 @@ public class BasicServlet extends HttpServlet {
         return results;
     }
 
-    public static String getmaxCollName(String systemDBCollection, String type, DBCollection col) {
+    public String getmaxCollName(String systemDBCollection, String type, DBCollection col) {
         String results = "";
         String queryString = "let $results :=" + "for $i in xmldb:get-child-collections('" + systemDBCollection + "/" + type + "')" + "let  $b := xcollection(concat('" + systemDBCollection + "/" + type + "/',$i))" + "return number($i)," + "$maximum:=max($results)" + "return $maximum";
         try {
@@ -350,8 +318,6 @@ public class BasicServlet extends HttpServlet {
         OntologyReasoner ont = new OntologyReasoner();
 
         for (String targetSchema : targetSchemas) {
-            // System.out.println("targetSchema-->"+targetSchema);
-            //System.out.println(baseURL + "/FetchBinFile?id=" + id + "&file=" + targetSchema);
             ont.initiateModel(baseURL + "/FetchBinFile?id=" + id + "&file=" + targetSchema);
         }
 
@@ -368,54 +334,20 @@ public class BasicServlet extends HttpServlet {
             String[] results = doQueryForSource("Get_FullPath_For_DBFile", params, col.getPath());
             if (results != null && results.length > 0) {
                 collectionPath = results[0].substring(0, results[0].lastIndexOf("/"));
-
-//                //Simplified next-col logic
-//                DBCollection dbc = new DBCollection(DBURI, collectionPath, DBuser, DBpassword);
-//                int fileCount = dbc.getFileCount();
-//
-//                if (fileCount>maxCollsize) {
-//                    String collectionNumberAsString = collectionPath.substring(collectionPath.lastIndexOf("/")+1);
-//                    int collectionNumberAsString
-//                }
             }
 
         } catch (DMSException ex) {
             ex.printStackTrace();
         }
 
-        //Had to change query to work in new eXist @SAM
-//        String queryString = "for $i in //admin[id='" + id + "']return document-uri(root($i))";
-//        DBFile[] dbf = col.query(queryString);
-//
-//        if (dbf != null && dbf.length > 0) {
-//            String path = dbf[0].toString();
-//            collectionpath = path.split("/" + filename)[0];
-//        }
         return collectionPath;
 
     }
 
-//
-//    protected long updateFile(String file, String coll, String path, String value) throws IOException {
-//        String xupdate = "<xupdate:modifications version=\"1.0\"\n"
-//                + "xmlns:xupdate=\"http://www.xmldb.org/xupdate\">\n"
-//                + "<xupdate:update select=\""+path+"\">"
-//                + value
-//                + "</xupdate:update>\n"
-//                + "</xupdate:modifications>";
-//
-//        logger.debug("UpdateQ is:\n"+ xupdate);
-//
-//        DBFile f = connectionPool.connect(DBURI, coll).getDBFileContent(file);
-//        return f.update(xupdate);
-//    }
-//
     // a very simple transform method. more sophisticated ones were used in IMKE
     public String transform(String xml, String xsl) {
         try {
             XMLTransform xmlTrans = new XMLTransform(xml);
-//            System.out.println("XML is="+xml);
-//            System.out.println("XSL is="+xsl);
             return xmlTrans.transform(xsl);
         } catch (DMSException ex) {
             ex.printStackTrace();
@@ -446,12 +378,12 @@ public class BasicServlet extends HttpServlet {
 
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
 
     /*returns system user rights*/
-    public static String getRights() {
+    public String getRights(String username) {
         String UserRights = null;
         try {
             DMSUser Actions = new DMSUser(username, conf);
@@ -477,13 +409,12 @@ public class BasicServlet extends HttpServlet {
         }
     }
 
-    public String getUserGroup() {
-        //from the database
+    public String getUserGroup(String username) {
         //implies that user belongs to ONLY one group...
         DMSUser user;
         String[] ret;
         try {
-            user = new DMSUser(this.username, this.conf);
+            user = new DMSUser(username, this.conf);
             ret = user.getGroups();
             if (ret.length == 0) {
                 return null;
@@ -497,7 +428,7 @@ public class BasicServlet extends HttpServlet {
         return null;
     }
 
-    public static String[] getUserEditors() {
+    public String[] getUserEditors() {
         //from the database
         String[] ret;
         try {
@@ -527,7 +458,6 @@ public class BasicServlet extends HttpServlet {
         if (currentRefs != null) {
             obsoleteRefsList = new ArrayList(Arrays.asList(currentRefs));
         }
-//        System.out.println("OBS=" + obsoleteRefsList);
 
         ArrayList<String> firstTimeRefsList = new ArrayList<String>();
         query = "for $i in //*[not (self::ref or self::ref_by) and @sps_type!='' and @sps_id!='' and @sps_id!='0']\n"
@@ -553,7 +483,6 @@ public class BasicServlet extends HttpServlet {
             }
         }
         String ref_byBlock = "<ref_by sps_type='" + type + "' sps_id='" + id + "'" + isUnpublishedAttr + "/>";
-//        System.out.println(ref_byBlock);
 
         ArrayList<String> finalRefs = new ArrayList<String>();
         StringBuilder refsBlock = new StringBuilder();
@@ -577,8 +506,7 @@ public class BasicServlet extends HttpServlet {
                 firstTimeRefsList.add(newRef);
             }
         }
-//        System.out.println(refsBlock);
-//        System.out.println(obsoleteRefsList);
+
 
         //First of all update admin/refs/ref of file
         if (currentRefs.length > 0) {
@@ -590,18 +518,14 @@ public class BasicServlet extends HttpServlet {
         } else {
             if (refsBlock.length() > 0) {
                 dbf.xAppend("//admin", "<refs>" + refsBlock + "</refs>");
-            } else {
-//NADA
             }
         }
 
-//        System.out.println(firstTimeRefsList);
         //Then add new dependencies
         if (!firstTimeRefsList.isEmpty()) {
             for (String firstTimeRef : firstTimeRefsList) {
                 String[] sps = firstTimeRef.split("_");
                 sps_id = sps[1];
-//                System.out.println("sps_id " + sps_id);
                 sps_type = sps[0];
                 query = "//admin[id='" + sps_id + "']/..";
 
@@ -613,9 +537,7 @@ public class BasicServlet extends HttpServlet {
 
                 if (refsBy != null) {
 
-                    if (refsBy.length > 0) {
-                        //NADA
-                    } else {
+                    if (refsBy.length == 0) {                  
                         if (refFileXML.contains("<refs_by>")) {
 //                            System.out.println("APPEND JUST ONE");
                             refFile.xAppend("//admin/refs_by", ref_byBlock);
@@ -662,19 +584,12 @@ public class BasicServlet extends HttpServlet {
         }
 
         String fileId = type + id;
-
-        //Antigafoume to 'protupo' ('type'.xml) se kainourio
-        // DBFile f = col.getFile(type + ".xml");
-        //Samarita's way
-//        DBFile newF = f.storeAs(fileId+".xml");
         String results = getminColl(applicationCollection, type, col);
         String minColl = results.substring(results.indexOf("<coll>") + 6, results.indexOf("</coll>"));
         String minfiles = results.substring(results.indexOf("<min>") + 5, results.indexOf("</min>"));
 
         int filesSize = Integer.parseInt(minfiles);
-//        System.out.println("fileSize---->"+filesSize);
-//        System.out.println("minCol--->"+minColl);
-//        System.out.println("maxCollsize-->"+maxCollsize);
+
         if (filesSize > maxCollsize) {
 
             String maxCollName = getmaxCollName(applicationCollection, type, col);
@@ -688,14 +603,10 @@ public class BasicServlet extends HttpServlet {
                 e.printStackTrace();
             }
 
-            // col = new DBCollection(this.DBURI, this.applicationCollection + "/" + type + "/" + maxCollName, this.DBuser, this.DBpassword);
             collName = this.applicationCollection + "/" + type + "/" + maxCollName;
         } else {
-            //    col = new DBCollection(this.DBURI, this.applicationCollection + "/" + type + "/" + minColl, this.DBuser, this.DBpassword);
             collName = this.applicationCollection + "/" + type + "/" + minColl;
         }
-//        System.out.println("conName-->"+collName);
-        // DBFile newF = f.storeIntoAs(col, fileId + ".xml");
         String[] result = new String[2];
         result[0] = collName;
         result[1] = id;
@@ -703,7 +614,7 @@ public class BasicServlet extends HttpServlet {
         return result;
     }
 
-    public static String newId(DBCollection col, String type) {
+    public String newId(DBCollection col, String type) {
         String fileId = "";
         String[] files = col.listFiles();
 
@@ -732,7 +643,7 @@ public class BasicServlet extends HttpServlet {
         return fileId;
     }
 
-    public static int getLastId(DBCollection col) {
+    public int getLastId(DBCollection col) {
         int id = 0;
         try {
             String queryString = "let $results := for $i in //id/text() return $i,$maximun:=max($results)return $maximun";
@@ -770,13 +681,6 @@ public class BasicServlet extends HttpServlet {
             if (session.getId() == null) {
                 return null;
             } else {
-//                language = (String) session.getAttribute("language");
-//                lexicon = (String) session.getAttribute("lexicon");
-//                leftMenu = (String) session.getAttribute("leftMenu");
-//                lexiconType = (String) session.getAttribute("lexiconType");
-//                userLexicon = (String) session.getAttribute("userLexicon");
-
-                resourcesList = (HashMap<String, String[]>) session.getAttribute("resourcesList");
                 return session;
             }
         }

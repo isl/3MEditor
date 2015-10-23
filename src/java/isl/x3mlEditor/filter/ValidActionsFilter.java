@@ -40,6 +40,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -47,7 +48,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ValidActionsFilter extends BasicServlet implements Filter {
 
-    private static final boolean debug = true;
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured.
@@ -67,6 +67,8 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
             throws IOException, ServletException {
 
         if (editorType.equals("standalone")) {
+                        System.out.println("VALID");
+
             chain.doFilter(request, response);
         } else {
             if (request instanceof HttpServletRequest) {
@@ -77,6 +79,8 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                 String id = request.getParameter("id");
                 String type = request.getParameter("type");
                 String output = request.getParameter("output");
+                HttpSession session = hrequest.getSession();
+                String username = (String) session.getAttribute("username");
 
                 String category = "";
                 if (type == null) {
@@ -97,10 +101,10 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                 boolean isSaved = false;
                 String lockedBy = "";
 
-                DBCollection dbc = new DBCollection(super.DBURI, applicationCollection + "/" + type, super.DBuser, super.DBpassword);
+                DBCollection dbc = new DBCollection(DBURI, applicationCollection + "/" + type, DBuser, DBpassword);
 
                 if (action == null) {
-                    if (output!=null) {
+                    if (output != null) {
                         if (output.equals("xml")) {
                             chain.doFilter(request, response);
                         }
@@ -109,16 +113,16 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                 }
 
                 if (action.equals("edit") || action.equals("instance")) {
-                    
-                    if (output!=null) {
+
+                    if (output != null) {
                         if (output.equals("xml")) {
                             chain.doFilter(request, response);
                         }
                     }
-                    
+
                     numericId = id.replace(type, "");
                     String collectionPath = getPathforFile(dbc, xmlId, numericId);
-                    DBFile dbf = new DBFile(super.DBURI, collectionPath, xmlId, super.DBuser, super.DBpassword);
+                    DBFile dbf = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
                     isSaved = dbf.exist("//admin/saved[text() = 'yes']");
                     String status = dbf.queryString("//admin/status/string()")[0];
                     if (status.length() > 0) {
@@ -140,7 +144,7 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                     }
 
                     if (category.equals("primary")) {
-                        boolean userCanWrite = dbf.exist("//admin/" + "write" + "[text()='" + this.username + "' or text()='*']");
+                        boolean userCanWrite = dbf.exist("//admin/" + "write" + "[text()='" + username + "' or text()='*']");
                         boolean isUnpublished = dbf.exist("//admin/" + "status" + "[text()='" + "unpublished" + "' or text()='*']");
                         boolean isRejected = dbf.exist("//admin/" + "status" + "[text()='" + "rejected" + "' or text()='*']");
                         boolean isPublished = dbf.exist("//admin/" + "status" + "[text()='" + "published" + "' or text()='*']");
@@ -148,7 +152,7 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
 
                         if (userCanWrite && (isUnpublished || isRejected)) {
                             if (isSaved && lockedBy != null) {
-                                if (lockedBy.equals(this.username) == false) {
+                                if (lockedBy.equals(username) == false) {
                                     displayMsg = "IS_EDITED_BY_USER";
                                     System.out.println(displayMsg);
                                     hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
@@ -158,12 +162,12 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                                     //epeksergiasias pu se paei se action unlockedit
                                     displayMsg = "IS_EDITED_BY_YOU";
                                     System.out.println(displayMsg);
-                                    hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type + "&category=" + category + "&link=yes" +"&action="+action);
+                                    hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type + "&category=" + category + "&link=yes" + "&action=" + action);
 //
                                     // goOnLink = "Index?type=" + type + "&amp;id=" + id + "&amp;langen&amp;category=primary&amp;action=unlockedit";
                                 }
                             } else {
-                                setAdminProperty("locked", this.username, dbf);
+                                setAdminProperty("locked", username, dbf);
                                 chain.doFilter(request, response);
                             }
                         } else if (!userCanWrite && (isUnpublished || isRejected)) {
@@ -189,8 +193,8 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
 
                         boolean hasDependants = dbf.exist("//admin/refs_by/ref_by[@isUnpublished='false']");
 
-                        String rights = getRights();
-                        String userOrg = getUserGroup();
+                        String rights = getRights(username);
+                        String userOrg = getUserGroup(username);
                         ret = dbf.queryString("//admin/" + "organization" + "/text()");
                         String docOrg = "";
                         if (ret.length == 0) {
@@ -232,10 +236,10 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                                 displayMsg = "IS_EDITED_BY_YOU";
                                 System.out.println(displayMsg);
                                 //   goOnLink = "Index?type=" + type + "&id=" + id + "&lang="+lang+"&category=secondary&action=unlockedit";
-                                hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type + "&category=" + category + "&link=yes" +"&action="+action);
+                                hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type + "&category=" + category + "&link=yes" + "&action=" + action);
                             }
                         } else {
-                            setAdminProperty("locked", this.username, dbf);
+                            setAdminProperty("locked", username, dbf);
                             chain.doFilter(request, response);
 
                         }
@@ -244,15 +248,15 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                 } else if (action.equals("unlockedit")) {
                     numericId = id.replace(type, "");
                     String collectionPath = getPathforFile(dbc, xmlId, numericId);
-                    DBFile dbf = new DBFile(super.DBURI, collectionPath, xmlId, super.DBuser, super.DBpassword);
-                        String action2 = request.getParameter("action2");
+                    DBFile dbf = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+                    String action2 = request.getParameter("action2");
                     if (action2 == null) {
                         action2 = "";
                     }
                     setAdminProperty("locked", "no", dbf);
                     hresponse.sendRedirect("Index?type=" + type + "&id=" + id + "&lang=" + lang + "&category=" + category + "&action=" + action2);
                 } else if (action.equals("New")) {
-                    String rights = getRights();
+                    String rights = getRights(username);
                     if (rights.equals("guest") || rights.equals("sysadmin")) {
                         displayMsg = "ACCESS_DENIED";
                         System.out.println(displayMsg);
