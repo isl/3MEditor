@@ -66,22 +66,40 @@ $("#matching_table").on("click", "#addRuleButton", function(e) {
     }
 });
 
+
+
+
 $("#matching_table").on("change", ".select2", function(e) {
     var $input = $(this);
+     var xpath = $input.attr('data-xpath');
+    goAhead = true;
 
-    var url = "Update?id=" + id + "&xpath=" + $input.attr("data-xpath") + "&value=" + encodeURIComponent(e.val);
-    $.post(url).done(function(data) {
-        $input.val(data);
-        $input.attr("data-id", e.val);
-        var xpath = $input.attr('data-xpath');
+    if (xpath.indexOf("instance_generator/@name") !== -1) {
+        confirmDialog("GeneratorName");
+    }
+    if (goAhead) {
 
-        if (xpath.indexOf("/source_relation") === -1 && xpath.indexOf("/source_node") === -1) {
-            refreshCombos(xpath, true);
-        }
+        var url = "Update?id=" + id + "&xpath=" + $input.attr("data-xpath") + "&value=" + encodeURIComponent(e.val);
+        $.post(url).done(function(data) {
+            $input.val(data);
+            $input.attr("data-id", e.val);
+//            var xpath = $input.attr('data-xpath');
 
+            if (xpath.indexOf("/source_relation") === -1 && xpath.indexOf("/source_node") === -1) {
+                refreshCombos(xpath, true);
+            }
+            if (xpath.indexOf("instance_generator/@name") !== -1) {
+//            $input.parent().parent().parent().find('button[title="Add Arguments"]').show(); //Making Add Arguments button visible again
+                $input.parent().parent().parent().find('button[title="Add Arguments"]').trigger("click");
+            }
 
-    });
-
+        });
+    } else {
+        
+         $input.val(e.removed.id);
+         $input.attr("data-id", e.removed.id);
+         $input.parent().find(".select2-chosen").html(e.removed.id);
+    }
 })
 
 $("body").on("mouseenter", ".path", function() {
@@ -462,7 +480,7 @@ $("body").on("click", ".close,.closeOnHeader", function() {
 
                     $blockToRemove.nextAll(selector).each(function() {
 //                        if ((selector === "tbody") || selector === ".path, .range") { //Testing only for maps and links at first to fix issue 30
-                            $btn = $(this); //DANGER! It makes sense but I wonder if it works for all cases (tested with maps-links-args-generators)
+                        $btn = $(this); //DANGER! It makes sense but I wonder if it works for all cases (tested with maps-links-args-generators)
 //                        }
 
                         var currentXpath = $btn.attr("data-xpath");
@@ -599,7 +617,7 @@ $("body").on("click", ".add", function(e) {
         var xpath = vars[1];
         var $addPlace = $("tbody[id='" + xpath + "']")
 
-        //Server side [id='" + xpath + "']
+        //Server side 
         action = "addAfter";
         xsl = "mapping.xsl";
 
@@ -710,7 +728,7 @@ $("body").on("click", ".add", function(e) {
 
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI;
         $.post(url).done(function(data) {
-           //Client side  
+            //Client side  
 
 
             if ($bucket.children().length === 0) { //No generator
@@ -728,28 +746,44 @@ $("body").on("click", ".add", function(e) {
         });
 
     } else if (btnId.endsWith("/arg")) { //Adding instance_generator
+
         var vars = btnId.split("***");
         var xpath = vars[1];
         var $bucket = $("div[id='" + xpath.replaceAll("/arg", "/args") + "']");
 
         var sibs = $bucket.children().length;
-        xpath = xpath + "[last()]"; //Multiple elements need that!
 
-        action = "addOptional___" + xpath;
         xsl = "arg.xsl";
+        var url;
+        if (generatorsStatus === "auto") {
+            action = "addArgs___" + xpath;
+            xpath = xpath.replaceAll("/arg", "");
+            url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&generatorsStatus=" + generatorsStatus;
+
+        } else {
+            xpath = xpath + "[last()]"; //Multiple elements need that!
+            action = "addOptional___" + xpath;
+            url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI;
+
+        }
 
 
-        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI;
         $.post(url).done(function(data) {
-            //Client side  
-
-
-            if ($bucket.children().length === 0) { //No label generator
+            if (generatorsStatus === "auto") {
+                $btn.hide();
+                var $data = $(data).find(".args");
+                data = $data.html();
                 $bucket.html(data);
             } else {
-                $bucket.append(data);
+                //Client side  
+                if ($bucket.children().length === 0) { //No label generator
+                    $bucket.html(data);
+                } else {
+                    $bucket.append(data);
+                }
             }
         });
+
     } else if (btnId.endsWith("/intermediate")) { //Adding intermediate
         var vars = btnId.split("***");
         var xpath = vars[1];
@@ -955,7 +989,7 @@ String.prototype.endsWith = function(suffix) {
 String.prototype.startsWith = function(searchString, position) {
     position = position || 0;
     return this.indexOf(searchString, position) === position;
-  };
+};
 String.prototype.replaceAll = function(str1, str2, ignore)
 {
     return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, "\\$&"), (ignore ? "gi" : "g")), (typeof (str2) == "string") ? str2.replace(/\$/g, "$$$$") : str2);

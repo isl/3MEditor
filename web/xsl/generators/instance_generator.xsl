@@ -49,9 +49,22 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable> 
-<!--        <xsl:variable name="generatorsStatus">
+        <!--        <xsl:variable name="generatorsStatus">
             <xsl:value-of select="//output/generator/@mode"/>
         </xsl:variable>-->
+        <xsl:variable name="generatorsStatus">
+              <xsl:choose>
+                <xsl:when test="@generatorsStatus">
+                    <xsl:value-of select="@generatorsStatus"/>
+                </xsl:when>
+                 <xsl:when test="//mappings/@status">
+                <xsl:value-of select="//mappings/@status"/>
+            </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="//output/generator/@mode"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
 
                    
         <div class="instance_generator" id="{$container}" data-xpath="{$container}">
@@ -82,12 +95,6 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:otherwise>
                     </xsl:choose>
                     
-                    
-                    <!--                    <input id="{concat($container,'/@name')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Instance Generator Name" data-xpath="{concat($container,'/@name')}">
-                        <xsl:attribute name="value">
-                            <xsl:value-of select="@name"></xsl:value-of>
-                        </xsl:attribute>
-                    </input>-->
                 </div>
             </div>
                       
@@ -101,10 +108,18 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:for-each>
                     
             </div>
-            <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Argument" type="button" class="btn btn-link btn-sm  add white">
-                Add Argument</button>              
-               
-               
+            
+            
+            <xsl:choose>
+                <xsl:when test="$generatorsStatus='manual'">  
+                    <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Argument" type="button" class="btn btn-link btn-sm  add white">
+                        Add Argument</button>              
+                </xsl:when>
+                <xsl:otherwise>
+                    <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Arguments" type="button" class="btn btn-link btn-sm  add white" style="display:none;">
+                        Get Arguments</button>            
+                </xsl:otherwise>
+            </xsl:choose>
                 
               
         </div>

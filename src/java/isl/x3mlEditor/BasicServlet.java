@@ -575,26 +575,26 @@ public class BasicServlet extends HttpServlet {
      * @param flags
      * @return
      */
-    public ArrayList<String> findReg(String regexp, String text, int flags) {
-
-        ArrayList<String> results = new ArrayList();
-        Pattern pattern;
-        try {
-            pattern = Pattern.compile(regexp, flags);
-            Matcher matcher = pattern.matcher(text);
-            boolean found = false;
-
-            while ((found = matcher.find())) {
-                results.add(matcher.group());
-            }
-        } catch (PatternSyntaxException ex) {
-            System.out.println(ex.getDescription());
-            System.out.println(ex.getMessage());
-        }
-
-        return results;
-
-    }
+//    public ArrayList<String> findReg(String regexp, String text, int flags) {
+//
+//        ArrayList<String> results = new ArrayList();
+//        Pattern pattern;
+//        try {
+//            pattern = Pattern.compile(regexp, flags);
+//            Matcher matcher = pattern.matcher(text);
+//            boolean found = false;
+//
+//            while ((found = matcher.find())) {
+//                results.add(matcher.group());
+//            }
+//        } catch (PatternSyntaxException ex) {
+//            System.out.println(ex.getDescription());
+//            System.out.println(ex.getMessage());
+//        }
+//
+//        return results;
+//
+//    }
 
 //    public void setUsername(String username) {
 //        this.username = username;

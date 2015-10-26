@@ -55,6 +55,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             <xsl:when test="//mappings/@status">
                 <xsl:value-of select="//mappings/@status"/>
             </xsl:when>
+            
             <xsl:otherwise>
                 <xsl:value-of select="//output/generator/@mode"/>
             </xsl:otherwise>           

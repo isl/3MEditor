@@ -297,7 +297,9 @@ function viewGraph() {
 
 function  confirmDialog(type) {
     if (type === "Mapping") {
-        goAhead = confirm("This action will delete all mapping's contents! Are you sure?");
+        goAhead = confirm("This action will delete all mapping contents! Are you sure?");
+    } else if (type === "GeneratorName") {
+        goAhead = confirm("This action will replace all generator arguments! Are you sure?");
     } else {
         goAhead = confirm("Are you sure?");
     }

@@ -30,6 +30,7 @@ package isl.x3mlEditor;
 import isl.dbms.DBCollection;
 import isl.dbms.DBFile;
 import static isl.x3mlEditor.BasicServlet.applicationCollection;
+import isl.x3mlEditor.utilities.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -153,11 +154,12 @@ public class GetPart extends BasicServlet {
 
             if (output != null) {
                 if (output.contains("mapping[]") || output.contains("link[]")) { //Special case! Need to find out position
-                    ArrayList<String> mappings = findReg("mapping\\[\\d+\\]", xpath, 0);
+                    Utils utils = new Utils();
+                    ArrayList<String> mappings = utils.findReg("mapping\\[\\d+\\]", xpath, 0);
                     if (!mappings.isEmpty()) {
                         output = output.replaceAll("mapping\\[\\]", mappings.get(0));
                     }
-                    ArrayList<String> links = findReg("link\\[\\d+\\]", xpath, 0);
+                    ArrayList<String> links = utils.findReg("link\\[\\d+\\]", xpath, 0);
                     if (!links.isEmpty()) {
                         output = output.replaceAll("link\\[\\]", links.get(0));
                     }

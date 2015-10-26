@@ -30,8 +30,11 @@ package isl.x3mlEditor;
 import isl.dbms.DBCollection;
 import isl.dbms.DBFile;
 import static isl.x3mlEditor.BasicServlet.applicationCollection;
+import isl.x3mlEditor.utilities.GeneratorPolicy;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,6 +67,7 @@ public class Add extends BasicServlet {
         String sibs = request.getParameter("sibs");
         String targetAnalyzer = request.getParameter("targetAnalyzer");
         String sourceAnalyzer = request.getParameter("sourceAnalyzer");
+        String generatorsStatus = request.getParameter("generatorsStatus");
 
         int targetMode;
         if (targetAnalyzer == null || targetAnalyzer.equals("undefined")) {
@@ -100,12 +104,35 @@ public class Add extends BasicServlet {
                 } else {
                     mappingFile.xAddAttribute(xpath, attrName, "");
                 }
+
+            } else if (action.startsWith("addArgs")) {
+
+                String[] instanceGeneratorNames = mappingFile.queryString(xpath + "/@name/string()");
+                String instanceGeneratorName = "";
+                if (instanceGeneratorNames.length > 0) {
+                    instanceGeneratorName = instanceGeneratorNames[0];
+                }
+
+                GeneratorPolicy gpf = new GeneratorPolicy(mappingFile);
+                String mappingFrag = gpf.getArgsForInstanceGeneratorAsXML(instanceGeneratorName);
+
+//                String mappingFrag = createInstanceGeneratorArgsAsXML(mappingFile, instanceGeneratorName);
+
+                //XML 
+                mappingFile.xUpdate(xpath, mappingFrag);
+
+                //HTML
+                mappingFrag = "<instance_generator name='" + instanceGeneratorName + "'>" + mappingFrag + "</instance_generator>";
+                mappingFrag = mappingFrag.replaceFirst("/?>", " generatorsStatus='" + generatorsStatus + "' container='" + xpath + "' xpath='" + xpath + "'$0");
+
+                output = transform(mappingFrag, super.baseURL + "/xsl/generators/instance_generator.xsl");
+
             } else if (action.startsWith("addOptional")) {
                 String[] actionParts = action.split("___");
                 String fullXpath = actionParts[1];
                 String mappingFrag = addOptionalPart(mappingFile, fullXpath);
-                
-                if (mappingFrag.startsWith("<arg name") || mappingFrag.startsWith("<instance_generator") || mappingFrag.startsWith("<label_generator")|| mappingFrag.startsWith("<type") || mappingFrag.startsWith("<additional") || mappingFrag.startsWith("<intermediate") || mappingFrag.startsWith("<comment") || mappingFrag.startsWith("<source_intermediate") || mappingFrag.startsWith("<if>")) { //Edit mode
+
+                if (mappingFrag.startsWith("<arg name") || mappingFrag.startsWith("<instance_generator") || mappingFrag.startsWith("<label_generator") || mappingFrag.startsWith("<type") || mappingFrag.startsWith("<additional") || mappingFrag.startsWith("<intermediate") || mappingFrag.startsWith("<comment") || mappingFrag.startsWith("<source_intermediate") || mappingFrag.startsWith("<if>")) { //Edit mode
                     if (sibs == null) {
                         sibs = "0";
                     }
@@ -122,17 +149,16 @@ public class Add extends BasicServlet {
                 }
 
                 if (xsl != null) {
-                    System.out.println("FINAL=" + mappingFrag);
                     if (mappingFrag.startsWith("<source")) {
                         mappingFrag = mappingFrag.replaceFirst("targetMode=", "sourceAnalyzer='" + sourceAnalyzer + "' targetMode=");
                         xsl = "source_intermediate.xsl";
 
                     }
-
-                    if (xsl.equals("instance_generator.xsl") || xsl.equals("arg.xsl")||xsl.equals("label_generator.xsl")) {
-                        output = transform(mappingFrag, super.baseURL + "/xsl/generators/" + xsl);
+                    System.out.println("MAPFRAG=" + mappingFrag);
+                    if (xsl.equals("instance_generator.xsl") || xsl.equals("arg.xsl") || xsl.equals("label_generator.xsl")) {
+                        output = transform(mappingFrag, baseURL + "/xsl/generators/" + xsl);
                     } else {
-                        output = transform(mappingFrag, super.baseURL + "/xsl/edit/" + xsl);
+                        output = transform(mappingFrag, baseURL + "/xsl/edit/" + xsl);
                     }
                 }
 
@@ -180,7 +206,6 @@ public class Add extends BasicServlet {
                     if (xsl != null) {
                         output = transform(mappingFrag, super.baseURL + "/xsl/edit/" + xsl);
 
-
                     }
                 }
 
@@ -195,7 +220,6 @@ public class Add extends BasicServlet {
     private String[] getFragmentFromTemplate(String xpath) {
         DBFile templateFile = new DBFile(DBURI, x3mlCollection, "3MTemplate.xml", DBuser, DBpassword);
 
-
         String templateAdd = xpath.replaceAll("\\[(\\d+|last\\(\\))\\]", "");
         String[] mappingFrags = templateFile.queryString(templateAdd);
         return mappingFrags;
@@ -206,6 +230,31 @@ public class Add extends BasicServlet {
         return xpath.substring(0, xpath.lastIndexOf("/"));
     }
 
+//    private String createInstanceGeneratorArgsAsXML(DBFile mappingFile, String ign) {
+//        StringBuilder xml = new StringBuilder();
+//        ArrayList<String> builtInIGs = new ArrayList<String>(Arrays.asList(instanceGeneratorNamesBuiltInX3MLEngine));
+//
+//        if (builtInIGs.contains(ign)) { //Built In
+//            System.out.println("Foung built in " + ign);
+//            if (ign.equals("UUID")) {
+//
+//            } else if (ign.equals("Literal")) {
+//                xml.append("<arg name='text'></arg>");
+//                xml.append("<arg name='language' type='constant'></arg>");
+//            }
+//
+//        } else { //Check generator policy file
+//            String[] gpfFiles = mappingFile.queryString("//generator_policy_info/@generator_link/string()");
+//            if (gpfFiles.length == 0) {
+//                System.out.println("NO GPF");
+//            } else {
+//                DBFile gpfFile = new DBFile(DBURI, x3mlCollection, gpfFiles[0], DBuser, DBpassword);
+//                System.out.println(gpfFile.toString());
+//            }
+//        }
+//        return xml.toString();
+//
+//    }
     private String addOptionalPart(DBFile mappingFile, String fullXpath) {
 
         String frag = "";
@@ -360,7 +409,6 @@ public class Add extends BasicServlet {
 
                     } else {
                         mappingFile.xInsertBefore(fatherXpath + "/*[1]", frag); //Appends to father element (LAST POSITION!)
-                   
 
                     }
                 }

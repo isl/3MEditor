@@ -30,6 +30,7 @@ package isl.x3mlEditor;
 import isl.dbms.DBCollection;
 import isl.dbms.DBFile;
 import static isl.x3mlEditor.BasicServlet.applicationCollection;
+import isl.x3mlEditor.utilities.GeneratorPolicy;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -89,14 +90,9 @@ public class Services extends BasicServlet {
             xmlMiddle.append("] }\n");
             DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
 
-            String[] gpfFiles = mappingFile.queryString("//generator_policy_info/@generator_link/string()");
-            if (gpfFiles.length == 0) {
-                System.out.println("NO GPF");
-            } else {
-                DBFile gpfFile = new DBFile(DBURI, x3mlCollection, gpfFiles[0], DBuser, DBpassword);
-                System.out.println(gpfFile.toString());
-                String[] gpfFileGenNames = gpfFile.queryString("//generator/@name/string()");
-
+            GeneratorPolicy gpf = new GeneratorPolicy(mappingFile);
+            if (gpf.exists()) {
+                String[] gpfFileGenNames = gpf.getInstanceGeneratorNames();
                 xmlMiddle.append(",{ \"text\": \"Generator File\", \"children\": [\n");
 
                 for (String genName : gpfFileGenNames) {
@@ -104,8 +100,8 @@ public class Services extends BasicServlet {
                 }
                 xmlMiddle = xmlMiddle.delete(xmlMiddle.length() - 1, xmlMiddle.length()); //to remove last comma
                 xmlMiddle.append("] }\n");
-
             }
+
             out.println("{\n"
                     + "    \"results\": [\n"
                     + "            { \"id\": \"\", \"text\": \"\" }");//Adding empty default
