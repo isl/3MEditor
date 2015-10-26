@@ -53,13 +53,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             <xsl:value-of select="//output/generator/@mode"/>
         </xsl:variable>-->
         <xsl:variable name="generatorsStatus">
-              <xsl:choose>
+            <xsl:choose>
                 <xsl:when test="@generatorsStatus">
                     <xsl:value-of select="@generatorsStatus"/>
                 </xsl:when>
-                 <xsl:when test="//mappings/@status">
-                <xsl:value-of select="//mappings/@status"/>
-            </xsl:when>
+                <xsl:when test="//mappings/@status">
+                    <xsl:value-of select="//mappings/@status"/>
+                </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="//output/generator/@mode"/>
                 </xsl:otherwise>
@@ -110,16 +110,16 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             </div>
             
             
-            <xsl:choose>
-                <xsl:when test="$generatorsStatus='manual'">  
-                    <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Argument" type="button" class="btn btn-link btn-sm  add white">
-                        Add Argument</button>              
-                </xsl:when>
-                <xsl:otherwise>
-                    <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Arguments" type="button" class="btn btn-link btn-sm  add white" style="display:none;">
-                        Get Arguments</button>            
-                </xsl:otherwise>
-            </xsl:choose>
+            <!--            <xsl:choose>
+            <xsl:when test="$generatorsStatus='manual'">  -->
+            <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Argument" type="button" class="btn btn-link btn-sm  add white">
+                Add Argument</button>              
+            <!--                </xsl:when>
+            <xsl:otherwise>-->
+            <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Arguments" type="button" class="btn btn-link btn-sm  add white" style="display:none;">
+                Get Arguments</button>            
+            <!--                </xsl:otherwise>
+            </xsl:choose>-->
                 
               
         </div>

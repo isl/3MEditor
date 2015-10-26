@@ -48,7 +48,19 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-                   
+        <xsl:variable name="generatorsStatus">
+            <xsl:choose>
+                <xsl:when test="../@generatorsStatus">
+                    <xsl:value-of select="../@generatorsStatus"/>
+                </xsl:when>
+                <xsl:when test="//mappings/@status">
+                    <xsl:value-of select="//mappings/@status"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="//output/generator/@mode"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
          
                                 
         <div class="arg" id="{$container}" data-xpath="{$container}">
@@ -68,11 +80,24 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </div>
                 <div class="col-sm-4">
                     <label class=" control-label" for="{concat($container,'/@type')}">Type</label>
-                    <input id="{concat($container,'/@type')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Argument type" data-xpath="{concat($container,'/@type')}">
-                        <xsl:attribute name="value">
-                            <xsl:value-of select="@type"></xsl:value-of>
-                        </xsl:attribute>
-                    </input>
+                    
+<!--                    <xsl:choose>
+                        <xsl:when test="$generatorsStatus='manual'">      
+                            <input id="{concat($container,'/@type')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Argument type" data-xpath="{concat($container,'/@type')}">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="@type"></xsl:value-of>
+                                </xsl:attribute>
+                            </input>
+                        </xsl:when>
+                        <xsl:otherwise>-->
+                            <input style="width:100%;" title="Argument type" type="hidden" class="select2 input-sm"  id="{concat($container,'/@type')}" data-id="{@type}" data-xpath="{concat($container,'/@type')}">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="@type"></xsl:value-of>
+                                </xsl:attribute>
+                                <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
+                            </input>
+<!--                        </xsl:otherwise>
+                    </xsl:choose>-->
                 </div>
             </div>
             <div class="row">

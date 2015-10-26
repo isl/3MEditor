@@ -75,20 +75,15 @@ $(document).ready(function() {
             });
 
         });
-
-
         $('#collapseExpandAll-btn').click(function() {
             $("tr.path, tr.range").toggle();
         });
-
-
         $('#scrollTop-btn').click(function() {
             $("html, body").animate({scrollTop: 0}, "slow");
         });
         $('#scrollBottom-btn').click(function() {
             $("html, body").animate({scrollTop: $(document).height()}, "slow");
         });
-
         $('#info_rawXML-btn, #rawXML-btn').click(function() {
             $("#myModal").find("textarea").val("");
             var xpath = "";
@@ -121,15 +116,17 @@ $(document).ready(function() {
 
         });
         var $scrollingDiv = $('#table_view-btn');
-
         $(window).scroll(function() {
             $scrollingDiv
                     .stop()
                     .animate({"marginTop": ($(window).scrollTop())}, "fast");
         });
-    } else if (mode === 2 && generatorsStatus === "auto") {
-        getInstanceGeneratorNamesAndFillCombos();
-
+    } else if (mode === 2) {
+        if (generatorsStatus === "auto") {
+            getInstanceGeneratorNamesAndFillCombos();
+        } else {
+            fillInstanceCombos(".arg");
+        }
     }
 
 
@@ -409,6 +406,8 @@ function refreshTable() {
 
         if (generatorsStatus === "auto") {
             fillInstanceCombos();
+        } else {
+            fillInstanceCombos(".arg");
         }
         $("body").css("opacity", "1");
     });
@@ -533,15 +532,29 @@ function displayCurrentValue(currentSearchTerm) {
     return currentSearchTerm;
 }
 
-function fillInstanceCombos() {
-    $('.select2').each(function() {
+function fillInstanceCombos(selector) {
+    var $selector;
+    if (typeof selector === 'undefined') {
+        $selector = $(".select2");
+    } else {
+        $selector = $(selector).find(".select2");
+    }
+
+    $selector.each(function() {
 
         var $this = $(this);
 
+
+
         var oldValue = $this.val().trim();
         var wrongValue = false;
-        if (JSON.stringify(instanceGeneratorsNames).indexOf('"' + oldValue + '"') === -1) {
-            wrongValue = true;
+        var data = instanceGeneratorsNames;
+        if ($this.attr('title') === 'Argument type') {
+            data = [{id: "", text: ""},{id: "xpath", text: "xpath"}, {id: "constant", text: 'constant'}, {id: "position", text: 'position'}]; //type values
+        } else {
+            if (JSON.stringify(instanceGeneratorsNames).indexOf('"' + oldValue + '"') === -1) {
+                wrongValue = true;
+            }
         }
 
         $this.select2({
@@ -557,7 +570,7 @@ function fillInstanceCombos() {
                     };
                 }
             },
-            data: instanceGeneratorsNames,
+            data: data,
             initSelection: function(element, callback) {
                 var data = {id: $this.attr("data-id"), text: $this.val()};
                 callback(data);

@@ -755,7 +755,7 @@ $("body").on("click", ".add", function(e) {
 
         xsl = "arg.xsl";
         var url;
-        if (generatorsStatus === "auto") {
+        if ($btn.attr('title') === 'Add Arguments') {
             action = "addArgs___" + xpath;
             xpath = xpath.replaceAll("/arg", "");
             url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&generatorsStatus=" + generatorsStatus;
@@ -769,8 +769,8 @@ $("body").on("click", ".add", function(e) {
 
 
         $.post(url).done(function(data) {
-            if (generatorsStatus === "auto") {
-                $btn.hide();
+            if ($btn.attr('title') === 'Add Arguments') {
+//                $btn.hide(); //not needed any more
                 var $data = $(data).find(".args");
                 data = $data.html();
                 $bucket.html(data);
@@ -781,7 +781,9 @@ $("body").on("click", ".add", function(e) {
                 } else {
                     $bucket.append(data);
                 }
+                
             }
+            fillInstanceCombos(".arg");
         });
 
     } else if (btnId.endsWith("/intermediate")) { //Adding intermediate
