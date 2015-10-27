@@ -140,7 +140,7 @@ public class Add extends BasicServlet {
                     String container = xpath.replaceAll("\\[last\\(\\)\\]", "");
                     xpath = xpath.replaceAll("last\\(\\)", "" + pos);
                     int relPos = pos + 1; //Only used for relationship in intermediate?
-                    mappingFrag = mappingFrag.replaceFirst("/?>", " targetMode='" + targetMode + "' container='" + container + "' xpath='" + xpath + "' relPos='" + relPos + "'$0");
+                    mappingFrag = mappingFrag.replaceFirst("/?>", " generatorsStatus='" + generatorsStatus +"' targetMode='" + targetMode + "' container='" + container + "' xpath='" + xpath + "' relPos='" + relPos + "'$0");
 
                     if (mappingFrag.startsWith("<type")) {
                         mappingFrag = "<entity>" + mappingFrag + "</entity>"; //dummy root to make it work with existing type.xsl
@@ -154,7 +154,6 @@ public class Add extends BasicServlet {
                         xsl = "source_intermediate.xsl";
 
                     }
-                    System.out.println("MAPFRAG=" + mappingFrag);
                     if (xsl.equals("instance_generator.xsl") || xsl.equals("arg.xsl") || xsl.equals("label_generator.xsl")) {
                         output = transform(mappingFrag, baseURL + "/xsl/generators/" + xsl);
                     } else {

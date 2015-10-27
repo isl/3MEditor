@@ -225,10 +225,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <br/>
                                
                                 <p> 
-                                    <b>Current functionality (will be updated regularly)</b>: If user chooses "Auto", then editor provides a list of available instance generator
+                                    If user chooses "Auto", then editor provides a list of available generator
                                     names (either built-in x3ml engine generators such as UUID, Literal or generator policy file generators, if such a file is uploaded). 
                                     <br/>
-                                    Of course, user may choose to override suggestions and add a new instance generator name. However, any instance generator names that are not
+                                    Of course, user may choose to override suggestions and add a new generator name. However, any generator names that are not
                                     in the list, will be highlighted with red color.
                                     <br/>                                   
                                     If a valid generator name is selected, then arguments are created automatically and user simply
@@ -236,7 +236,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 
                                     <br/>
                                     Default mode is "Manual" for now. Once more generator policy files are uploaded and implementation is
-                                    more mature, default mode will become "Auto". 
+                                    tested thoroughly, default mode will become "Auto". 
                                 </p>
                                  
                             </div>

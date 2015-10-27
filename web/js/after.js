@@ -71,10 +71,10 @@ $("#matching_table").on("click", "#addRuleButton", function(e) {
 
 $("#matching_table").on("change", ".select2", function(e) {
     var $input = $(this);
-     var xpath = $input.attr('data-xpath');
+    var xpath = $input.attr('data-xpath');
     goAhead = true;
 
-    if (xpath.indexOf("instance_generator/@name") !== -1) {
+    if (xpath.indexOf("instance_generator/@name") !== -1 || (xpath.indexOf("label_generator[") !== -1 && xpath.endsWith("/@name"))) {
         confirmDialog("GeneratorName");
     }
     if (goAhead) {
@@ -88,17 +88,17 @@ $("#matching_table").on("change", ".select2", function(e) {
             if (xpath.indexOf("/source_relation") === -1 && xpath.indexOf("/source_node") === -1) {
                 refreshCombos(xpath, true);
             }
-            if (xpath.indexOf("instance_generator/@name") !== -1) {
+            if (xpath.indexOf("instance_generator/@name") !== -1 || (xpath.indexOf("label_generator[") !== -1 && xpath.endsWith("/@name"))) {
 //            $input.parent().parent().parent().find('button[title="Add Arguments"]').show(); //Making Add Arguments button visible again
                 $input.parent().parent().parent().find('button[title="Add Arguments"]').trigger("click");
             }
 
         });
     } else {
-        
-         $input.val(e.removed.id);
-         $input.attr("data-id", e.removed.id);
-         $input.parent().find(".select2-chosen").html(e.removed.id);
+
+        $input.val(e.removed.id);
+        $input.attr("data-id", e.removed.id);
+        $input.parent().find(".select2-chosen").html(e.removed.id);
     }
 })
 
@@ -726,7 +726,7 @@ $("body").on("click", ".add", function(e) {
         xsl = generatorType + "_generator.xsl";
 
 
-        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI;
+        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI + "&generatorsStatus=" + generatorsStatus;
         $.post(url).done(function(data) {
             //Client side  
 
@@ -742,6 +742,13 @@ $("body").on("click", ".add", function(e) {
             }
             if (generatorType === "instance") {
                 $bucket.next("button[id='add***" + xpath + "']").hide(); //Hide add instance generator link
+                if (generatorsStatus === "auto") {
+                    fillInstanceCombos(".instance_generator");
+                }
+            } else {
+                if (generatorsStatus === "auto") {
+                    fillInstanceCombos(".label_generator");
+                }
             }
         });
 
@@ -781,7 +788,7 @@ $("body").on("click", ".add", function(e) {
                 } else {
                     $bucket.append(data);
                 }
-                
+
             }
             fillInstanceCombos(".arg");
         });
