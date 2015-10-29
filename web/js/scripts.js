@@ -528,9 +528,9 @@ function fillCombo($this, setValue) {
     }
 
 }
-function displayCurrentValue(currentSearchTerm) {
-    return currentSearchTerm;
-}
+//function displayCurrentValue(currentSearchTerm) {
+//    return currentSearchTerm;
+//}
 
 function fillInstanceCombos(selector) {
     var $selector;
@@ -627,7 +627,7 @@ function fillSourceCombo($this) {
 
                 $this.select2({
                     allowClear: true,
-                    nextSearchTerm: displayCurrentValue,
+//                    nextSearchTerm: displayCurrentValue,
                     placeholder: "Select a value",
                     createSearchChoice: function(term, data) {
                         if ($(data).filter(function() {
@@ -658,7 +658,7 @@ function fillSourceCombo($this) {
         }
         $this.select2({
             allowClear: true,
-            nextSearchTerm: displayCurrentValue,
+//            nextSearchTerm: displayCurrentValue,
             placeholder: "Select a value",
             createSearchChoice: function(term, data) {
                 if ($(data).filter(function() {
