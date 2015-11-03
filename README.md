@@ -32,7 +32,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 3MEditor is a web application used to edit/view [x3ml](https://github.com/isl/x3ml "x3ml") mapping files stored in an [eXist] (http://www.exist-db.org "eXist") database (Has been tested with eXist versions 2.1+)..
 
 ## Build - Deploy - Run
-Folders src, web and lib contain all the files needed to build the web app and create a war file.
+This project is a Maven project, providing all the libs in pom.xml.
+Folders src and web  contain all the files needed to build the web app and create a war file.
 You may use any application server that supports war files. (Has been tested with Apache Tomcat versions 5,6,7,8).
 
 3MEditor also makes use of following external web applications, which have to be deployed on the same application server:

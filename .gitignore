@@ -1,10 +1,9 @@
 # Unwanted folders
-build
-dist
-nbproject
+target
 
 # Unwanted files
 build.xml
+nb-configuration.xml
 
 # Windows image file caches
 Thumbs.db
