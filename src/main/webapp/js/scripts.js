@@ -550,7 +550,7 @@ function fillInstanceCombos(selector) {
         var wrongValue = false;
         var data = instanceGeneratorsNames;
         if ($this.attr('title') === 'Argument type') {
-            data = [{id: "", text: ""},{id: "xpath", text: "xpath"}, {id: "constant", text: 'constant'}, {id: "position", text: 'position'}]; //type values
+            data = [{id: "", text: ""}, {id: "xpath", text: "xpath"}, {id: "constant", text: 'constant'}, {id: "position", text: 'position'}]; //type values
         } else {
             if (JSON.stringify(instanceGeneratorsNames).indexOf('"' + oldValue + '"') === -1) {
                 wrongValue = true;
@@ -608,8 +608,6 @@ function fillSourceCombo($this) {
                 }
             }
 
-
-
         }
         if (sourceAnalyzer === "on") {
 
@@ -624,6 +622,7 @@ function fillSourceCombo($this) {
                 if (!xpath.endsWith("domain/source_node")) {
                     filteredPaths = filterSourceValues(xpath);
                 }
+                var domainValue = getDomainSourceValueForLink(xpath);
 
                 $this.select2({
                     allowClear: true,
@@ -641,7 +640,15 @@ function fillSourceCombo($this) {
                     },
                     data: filteredPaths,
                     initSelection: function(element, callback) {
+//                            var domainValue = getDomainSourceValueForLink(xpath);
+
+//                        if (element.attr("data-id").startsWith(domainValue + "/")) {
+//                            var data = {id: element.attr("data-id").substring(domainValue.length + 1), text: element.val().substring(domainValue.length + 1)};
+//                        } else {
                         var data = {id: element.attr("data-id"), text: element.val()};
+
+//                        }
+
                         callback(data);
                     }
                 });
@@ -653,6 +660,8 @@ function fillSourceCombo($this) {
     } else {
         var xpath = $this.attr("data-xpath");
         var filteredPaths = sourceAnalyzerPaths;
+        var domainValue = getDomainSourceValueForLink(xpath);
+
         if (!xpath.endsWith("domain/source_node")) {
             filteredPaths = filterSourceValues(xpath);
         }
@@ -672,7 +681,13 @@ function fillSourceCombo($this) {
             },
             data: filteredPaths,
             initSelection: function(element, callback) {
+//                var data = {id: element.attr("data-id"), text: element.val()};
+//                if (element.attr("data-id").startsWith(domainValue + "/")) {
+//                    var data = {id: element.attr("data-id").substring(domainValue.length + 1), text: element.val().substring(domainValue.length + 1)};
+//                } else {
                 var data = {id: element.attr("data-id"), text: element.val()};
+//                }
+
                 callback(data);
             }
         });
@@ -680,21 +695,28 @@ function fillSourceCombo($this) {
     $(".loader").hide();
 }
 
-function filterSourceValues(xpath) {
-
+function getDomainSourceValueForLink(xpath) {
     var domainPath = xpath.replace(/\/link[\s\S]*/g, "/domain");
     var $domain = $("tr[data-xpath='" + domainPath + "']");
-
     var $domainDiv = $domain.find(".nextToIcon");
 
     var domainValue = $domainDiv.html();
     if ($domainDiv.children("span").length > 0) {
         domainValue = $domainDiv.children("span").attr("title");
     }
+    return domainValue;
+}
 
-    var filteredPaths = $.grep(sourceAnalyzerPaths, function(item) {
-        if (item.id.startsWith(domainValue + "/")) {
-            return item;
+
+function filterSourceValues(xpath) {
+
+    var domainValue = getDomainSourceValueForLink(xpath);
+
+    var filteredPaths = $.map(sourceAnalyzerPaths, function(item) {
+        var id = item.id;
+        if (id.startsWith(domainValue + "/")) {
+            var strippedItem = {id: item.id.substring(domainValue.length + 1), text: item.text.substring(domainValue.length + 1)};
+            return strippedItem;
         }
     });
 
