@@ -32,7 +32,8 @@ var clipboard = {
     "mapping": "",
     "link": ""
 };
-
+var clipBoardValue = "";
+var sourcePaths = "mini"
 
 $(document).ready(function() {
 
@@ -434,6 +435,12 @@ function viewOnly() {
             });
         }
     });
+
+    $(".sourcePath").each(function(index) {
+        var $sourcePathSpan = $(this);
+        findProperPathValue($sourcePathSpan);
+    });
+
     //Also hide help rows
     $(".dummyHeader").remove();
     $(".dummyDomain").remove();
@@ -755,6 +762,10 @@ function fillCombos() {
         fillCombo($(this), true);
     });
 }
+function findProperPathValue($element) {
+    var value = $element.attr("data-" + sourcePaths + "Path");
+    $element.html(value);
+}
 
 $("#targetAnalyzer input:radio").change(function() { //On change set variable
     comboAPI = $(this).val();
@@ -764,6 +775,11 @@ $("#sourceAnalyzer input:radio").change(function() { //On change set variable
     sourceAnalyzer = $(this).val();
     viewOnly();
 });
+$("#sourcePaths input:radio").change(function() { //On change set variable
+    sourcePaths = $(this).val();
+    viewOnly();
+});
+
 $("#generators input:radio").change(function() { //On change set variable
     $("body").css("opacity", "0.4");
 
@@ -772,7 +788,6 @@ $("#generators input:radio").change(function() { //On change set variable
         getInstanceGeneratorNamesAndFillCombos();
     }
     refreshTable();
-
 });
 
 
@@ -787,8 +802,6 @@ $('#info_edit-btn').click(function() {
         $btn.toggle();
         $btn.button('reset');
         $('#info_view-btn').toggle();
-
-
 
         $('.fileUpload').each(function() {
             var $this = $(this);

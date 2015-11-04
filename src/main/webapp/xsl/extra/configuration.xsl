@@ -39,8 +39,176 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <legend>Components Used</legend>
                     <br/>
                     <div class="form-group ">
-                        <div class="row">
-                            <div class="col-sm-12">
+                        <div class="row" >                           
+                            <div class="col-sm-6">
+                                <label class="control-label" for="sourceAnalyzer">Source Analyzer: </label>
+                                <div class="btn-group" id="sourceAnalyzer" data-toggle="buttons">
+                                    <label id="label5">
+                                        <xsl:choose>
+                                            <xsl:when test="//output/sourceAnalyzer='on'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:choose>
+                                                    <xsl:when test="//output/sourceAnalyzerFiles='***'">
+                                                        <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                        <input name="sourceAnalyzer" type="radio" class="toggle" value="on" autocomplete="off">
+                                            <xsl:if test="//output/sourceAnalyzer='on'">
+                                                <xsl:attribute  name="checked">checked</xsl:attribute>
+                                            </xsl:if>
+                                        </input>                                            
+                                        <xsl:text> On</xsl:text>
+                                    </label>
+                                    <label id="label6">
+                                        <xsl:choose>
+                                            <xsl:when test="//output/sourceAnalyzer!='on'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                        <input name="sourceAnalyzer" type="radio" class="toggle" value="off" autocomplete="off">
+                                            <xsl:if test="//output/sourceAnalyzer!='on'">
+                                                <xsl:attribute  name="checked">checked</xsl:attribute>
+                                            </xsl:if>
+                                        </input>                                            
+                                        <xsl:text> Off</xsl:text>
+                                    </label>
+                                    
+                                    
+                                </div>
+                                <br/>
+                                <br/>
+                             
+                                <p>
+                                    Once a source schema file or an example xml file is uploaded the source analyzer engine is enabled by default.
+                                    User may choose to disable it. When it is enabled, source paths free text input fields are replaced by select boxes.
+                                    Select box options are all possible xpaths. 
+                                    <br/>
+                                    <b>BEWARE! If both source schema and an example xml file are uploaded, schema is the one used to fill select boxes.</b>
+                                    <br/>
+                                    <b>WARNING! At the moment, source analyzer engine works with xml files and may work with xsd files. No other file format is accepted.</b>
+
+                                    
+                                </p>
+                            </div>
+                            <div class="col-sm-6">
+
+                                <label class="control-label" for="sourcePaths">Source Paths: </label>
+                                <div class="btn-group" id="sourcePaths" data-toggle="buttons">
+                                    <label id="label50">
+                                        <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                        <input name="sourcePaths" type="radio" class="toggle" value="mini" autocomplete="off">
+
+                                        </input>                                            
+                                        <xsl:text> Mini</xsl:text>
+                                    </label>
+                                    <label id="label60">
+                                        <xsl:choose>
+                                            <xsl:when test="//output/sourceAnalyzer!='on'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                        <input name="sourcePaths" type="radio" class="toggle" value="full" autocomplete="off">
+                                            <xsl:if test="//output/sourceAnalyzer!='on'">
+                                                <xsl:attribute  name="checked">checked</xsl:attribute>
+                                            </xsl:if>
+                                        </input>                                            
+                                        <xsl:text> Full</xsl:text>
+                                    </label>
+                                   
+                                    
+                                </div>
+                                <br/>
+                                <br/>
+                             
+                                <p>
+                                    Chooses whether source xpaths view is stripped (<b>Mini mode</b>) or complete (<b>Full mode</b>).
+                                    Default mode is <b>"Mini"</b>, which strips actual xpaths to create a more compact view:
+                                    e.g. <code>root/IdentityOfObject/CodeNumber/CodeValue</code> is shown as <code>../CodeValue</code>
+                                    <br/>
+                                    If user chooses <b>"Full"</b> mode, then xpath is not processed and its actual XML value is shown, thus creating wider
+                                    source columns.
+                                        
+                                </p>
+                                 
+                            </div>
+                        </div>
+                        <div class="row" style="border-top: 1px #e5e5e5 solid;">
+                            <br/>
+                            <div class="col-sm-8">
+                                <label class="control-label" for="generators">Generators: </label>
+                                <div class="btn-group" id="generators" data-toggle="buttons">
+                                    <label id="label7">
+                                        <xsl:choose>
+                                            <xsl:when test="$generatorsStatus='auto'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                               
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                        <input name="generators" type="radio" class="toggle" value="auto" autocomplete="off">
+                                            <xsl:if test="$generatorsStatus='auto'">
+                                                <xsl:attribute  name="checked">checked</xsl:attribute>
+                                            </xsl:if>
+                                        </input>                                            
+                                        <xsl:text> Auto</xsl:text>
+                                    </label>
+                                    <label id="label8">
+                                        <xsl:choose>
+                                            <xsl:when test="$generatorsStatus='manual'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                        <input name="generators" type="radio" class="toggle" value="manual" autocomplete="off">
+                                            <xsl:if test="$generatorsStatus='manual'">
+                                                <xsl:attribute  name="checked">checked</xsl:attribute>
+                                            </xsl:if>
+                                        </input>                                            
+                                        <xsl:text> Manual</xsl:text>
+                                    </label>
+                                   
+                                    
+                                </div>
+                                <br/>
+                                <br/>
+                               
+                                <p> 
+                                    If user chooses <b>"Auto"</b>, then editor provides a list of available generator
+                                    names (either built-in x3ml engine generators such as <code>UUID</code>, <code>Literal</code> or generator policy file generators, if such a file is uploaded). 
+                                    <br/>
+                                    Of course, user may choose to override suggestions and add a new generator name. However, any generator names that are not
+                                    in the list, will be highlighted with red color.
+                                    <br/>                                   
+                                    If a valid generator name is selected, then arguments are created automatically and user simply
+                                    fills in remaining fields.
+                                
+                                    <br/>
+                                    Default mode is <b>"Manual"</b> for now. Once more generator policy files are uploaded and implementation is
+                                    tested thoroughly, default mode will become <b>"Auto"</b>. 
+                                </p>
+                                 
+                            </div>
+                        </div>
+                        <div class="row" style="border-top: 1px #e5e5e5 solid;">
+                            <br/>
+                            <div class="col-sm-8">
                                 <label class="control-label" for="targetAnalyzer">Target Analyzer: </label>                                                                
                                 <div class="btn-group" id="targetAnalyzer" data-toggle="buttons">
                                     <label id="label2">
@@ -100,7 +268,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <p>
                                     <b>eXist queries</b>: It only works with RDFS or RDF schema files. 
                                     Target analyzer engine is based on Xquery queries performed on RDFS schemas stored in eXist.
-                                    Schemas have to be well formed XML files containg certain tags (<i>rdfs:Class, rdf:Property, rdfs:domain</i> etc.).
+                                    Schemas have to be well formed XML files containg certain tags (<code>rdfs:Class, rdf:Property, rdfs:domain</code> etc.).
                                     User chooses valid options from a select box. If there are no target schemas, user simply fills input fields with free text.
                                 </p>
                                 <p>
@@ -116,131 +284,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             </div>
                         </div>
                          
-                        <div class="row" style="border-top: 1px #e5e5e5 solid;">
-                            <br/>
-                            <div class="col-sm-12">
-                                <label class="control-label" for="sourceAnalyzer">Source Analyzer: </label>
-                                <div class="btn-group" id="sourceAnalyzer" data-toggle="buttons">
-                                    <label id="label5">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/sourceAnalyzer='on'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:choose>
-                                                    <xsl:when test="//output/sourceAnalyzerFiles='***'">
-                                                        <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
-                                                    </xsl:when>
-                                                    <xsl:otherwise>
-                                                        <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                                    </xsl:otherwise>
-                                                </xsl:choose>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="sourceAnalyzer" type="radio" class="toggle" value="on" autocomplete="off">
-                                            <xsl:if test="//output/sourceAnalyzer='on'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> On</xsl:text>
-                                    </label>
-                                    <label id="label6">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/sourceAnalyzer!='on'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="sourceAnalyzer" type="radio" class="toggle" value="off" autocomplete="off">
-                                            <xsl:if test="//output/sourceAnalyzer!='on'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> Off</xsl:text>
-                                    </label>
-                                   
-                                    
-                                </div>
-                                <br/>
-                                <br/>
-                             
-                                <p>
-                                    Once a source schema file or an example xml file is uploaded the source analyzer engine is enabled by default.
-                                    User may choose to disable it. When it is enabled, source paths free text input fields are replaced by select boxes.
-                                    Select box options are all possible xpaths. 
-                                    <br/>
-                                    <b>BEWARE! If both source schema and an example xml file are uploaded, schema is the one used to fill select boxes.</b>
-                                    <br/>
-                                    <b>WARNING! At the moment, source analyzer engine works with xml files and may work with xsd files. No other file format is accepted.</b>
-
-                                    
-                                </p>
-                                 
-                            </div>
-                        </div>
-                        <div class="row" style="border-top: 1px #e5e5e5 solid;">
-                            <br/>
-                            <div class="col-sm-12">
-                                <label class="control-label" for="generators">Generators: </label>
-                                <div class="btn-group" id="generators" data-toggle="buttons">
-                                    <label id="label7">
-                                        <xsl:choose>
-                                            <xsl:when test="$generatorsStatus='auto'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                               
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="generators" type="radio" class="toggle" value="auto" autocomplete="off">
-                                            <xsl:if test="$generatorsStatus='auto'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> Auto</xsl:text>
-                                    </label>
-                                    <label id="label8">
-                                        <xsl:choose>
-                                            <xsl:when test="$generatorsStatus='manual'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="generators" type="radio" class="toggle" value="manual" autocomplete="off">
-                                            <xsl:if test="$generatorsStatus='manual'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> Manual</xsl:text>
-                                    </label>
-                                   
-                                    
-                                </div>
-                                <br/>
-                                <br/>
-                               
-                                <p> 
-                                    If user chooses "Auto", then editor provides a list of available generator
-                                    names (either built-in x3ml engine generators such as UUID, Literal or generator policy file generators, if such a file is uploaded). 
-                                    <br/>
-                                    Of course, user may choose to override suggestions and add a new generator name. However, any generator names that are not
-                                    in the list, will be highlighted with red color.
-                                    <br/>                                   
-                                    If a valid generator name is selected, then arguments are created automatically and user simply
-                                    fills in remaining fields.
-                                
-                                    <br/>
-                                    Default mode is "Manual" for now. Once more generator policy files are uploaded and implementation is
-                                    tested thoroughly, default mode will become "Auto". 
-                                </p>
-                                 
-                            </div>
-                        </div>
+                       
+                       
                         <div class="row" style="border-top: 1px #e5e5e5 solid;">
                             <br/>
                             <div class="col-sm-12">

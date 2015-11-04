@@ -112,15 +112,15 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
     <xsl:template name="stripPath">
         <xsl:param name="path"></xsl:param>
-               
-        <xsl:choose>
-            <xsl:when test="starts-with($path,'//')">
-                <xsl:value-of select="$path"/>
-
-            </xsl:when>
+        
+        <xsl:variable name="miniPath">
+            <xsl:choose>
+                <xsl:when test="starts-with($path,'//')">
+                    <xsl:value-of select="$path"/>
+                </xsl:when>
             
-            <xsl:when test="contains($path,'/')">
-                <span title="{$path}">
+                <xsl:when test="contains($path,'/')">
+               
                     <xsl:text>../</xsl:text>
                     <xsl:choose>
                         <xsl:when test="contains($path,'/Text()') or contains($path,'/text()')">
@@ -150,13 +150,18 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             </xsl:call-template>   
                         </xsl:otherwise>
                     </xsl:choose>
-                </span>         
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="$path"/>
-            </xsl:otherwise>
+                       
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$path"/>
+                </xsl:otherwise>
             
-        </xsl:choose>
+            </xsl:choose>
+        </xsl:variable>
+        
+        <span title="{$path}" class="sourcePath" data-miniPath="{$miniPath}" data-fullPath="{$path}">
+            <xsl:value-of select="$miniPath"/>
+        </span> 
     </xsl:template>
 
     <xsl:template name="string-replace-all">
