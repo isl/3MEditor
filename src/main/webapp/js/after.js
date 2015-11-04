@@ -339,8 +339,15 @@ $("body").on("click", ".paste", function() {
 
 
 //            //Client side       
-
-            $addAfterPlace.after(newAdditionHtml);
+            if (mode === "pasting") {
+                var $newAdditionHtml = $("<div></div>").append(newAdditionHtml);
+                $newAdditionHtml.find("tr").each(function() {
+                    highlightLink($(this)); //Known issue: This highlight does not vanish, as it should...
+                });
+                $addAfterPlace.after($newAdditionHtml.html());
+            } else {
+                $addAfterPlace.after(newAdditionHtml);
+            }
             if (mode === "cloning") {
                 if (copyMode === "mapping") {
                     viewOnlySpecificPath(newPath + "/domain");

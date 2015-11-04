@@ -389,11 +389,13 @@ function viewOnlySpecificPath(xpath) {
 
     $("#matching_table").find("tr[data-xpath='" + xpath + "']").each(function(index) {
         var $row = $(this);
+
         var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode=view";
         $.post(url).done(function(data) {
-
+            var $data = $(data);
+            highlightLink($data);
             $row.hide();
-            $row.replaceWith(data);
+            $row.replaceWith($data);
             $row.fadeIn(500);
         });
     });
@@ -422,10 +424,13 @@ function viewOnly() {
 
             var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode=view";
             $.post(url).done(function(data) {
+                var $data = $(data);
 
+                highlightLink($data);
                 $row.hide();
-                $row.replaceWith(data);
+                $row.replaceWith($data);
                 $row.fadeIn(500);
+
             });
         }
     });
@@ -433,6 +438,26 @@ function viewOnly() {
     $(".dummyHeader").remove();
     $(".dummyDomain").remove();
 }
+function highlightLink($data) {
+
+    if ($data.hasClass("path")) {
+        $data.css("border-top", "5px solid #29BCB5").css("border-left", "5px solid #29BCB5").css("border-right", "5px solid #29BCB5");
+    } else {
+        $data.css("border-bottom", "5px solid #29BCB5").css("border-left", "5px solid #29BCB5").css("border-right", "5px solid #29BCB5");
+    }
+
+    setTimeout(
+            function() {
+                if ($data.hasClass("path")) {
+                    $data.css("border-top", "1px solid black").css("border-left", "1px solid black").css("border-right", "1px solid black");
+                } else {
+                    $data.css("border-bottom", "1px solid black").css("border-left", "1px solid black").css("border-right", "1px solid black");
+                }
+            }, 10000
+            );
+//    }
+}
+
 function refreshCombos(updatedXpath, self) {
 
     var pathFound = false;

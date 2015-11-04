@@ -66,7 +66,6 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             <td>
                 <xsl:apply-templates select="comments"/>
             </td>
-            <!--<td class="actions" ></td>-->
 
         </tr>      
                    
@@ -93,7 +92,6 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </div>
             </div>
             
-            <!--            <xsl:value-of select="."/>-->
         </xsl:for-each>
 
     </xsl:template>
