@@ -109,7 +109,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         <input name="sourcePaths" type="radio" class="toggle" value="mini" autocomplete="off">
 
                                         </input>                                            
-                                        <xsl:text> Mini</xsl:text>
+                                        <xsl:text> Short</xsl:text>
                                     </label>
                                     <label id="label60">
                                         <xsl:choose>
@@ -134,8 +134,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <br/>
                              
                                 <p>
-                                    Chooses whether source xpaths view is stripped (<b>Mini mode</b>) or complete (<b>Full mode</b>).
-                                    Default mode is <b>"Mini"</b>, which strips actual xpaths to create a more compact view:
+                                    Chooses whether source xpaths view is stripped (<b>Short mode</b>) or complete (<b>Full mode</b>).
+                                    Default mode is <b>"Short"</b>, which strips actual xpaths to create a more compact view:
                                     e.g. <code>root/IdentityOfObject/CodeNumber/CodeValue</code> is shown as <code>../CodeValue</code>
                                     <br/>
                                     If user chooses <b>"Full"</b> mode, then xpath is not processed and its actual XML value is shown, thus creating wider

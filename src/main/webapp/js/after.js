@@ -100,7 +100,7 @@ $("#matching_table").on("change", ".select2", function(e) {
         $input.attr("data-id", e.removed.id);
         $input.parent().find(".select2-chosen").html(e.removed.id);
     }
-})
+});
 
 $("body").on("mouseenter", ".path", function() {
     $(this).css("border-top", "2px solid black").css("border-left", "2px solid black")
@@ -161,11 +161,11 @@ $("body").on("mouseleave", ".close,.closeOnHeader", function() {
                 xpath = xpath.substring(0, xpath.length - 7);
                 $("tbody[id='" + xpath + "']").children(".path,.edit,.domain,.range").css("border", "");
             } else {
-                $("*[id='" + xpath + "']").css("border", "")
-                $("*[id='" + xpath + "']").next().css("border", "")
+                $("*[id='" + xpath + "']").css("border", "");
+                $("*[id='" + xpath + "']").next().css("border", "");
             }
         } else {
-            $("*[id='" + xpath + "']").css("border", "")
+            $("*[id='" + xpath + "']").css("border", "");
         }
 
     }
@@ -335,7 +335,7 @@ $("body").on("click", ".paste", function() {
 
                 var newHtml = currentHtml.replaceAll(currentXpath, nextXpath);
                 $(this).html(newHtml);
-            })
+            });
 
 
 //            //Client side       
@@ -415,7 +415,7 @@ $("body").on("click", ".delete", function() {
 
                 var newHtml = currentHtml.replaceAll(currentXpath, getPreviousPath(currentXpath));
                 $(this).html(newHtml);
-            })
+            });
 
 
 
@@ -622,7 +622,7 @@ $("body").on("click", ".add", function(e) {
     } else if (btnId.indexOf("/domain") === -1 && btnId.indexOf("/link") === -1) { //If no link and no domain -> Has to be mapping
         var vars = btnId.split("***");
         var xpath = vars[1];
-        var $addPlace = $("tbody[id='" + xpath + "']")
+        var $addPlace = $("tbody[id='" + xpath + "']");
 
         //Server side 
         action = "addAfter";
@@ -645,7 +645,7 @@ $("body").on("click", ".add", function(e) {
 
                 var newHtml = currentHtml.replaceAll(currentXpath, nextXpath);
                 $(this).html(newHtml);
-            })
+            });
 
 
             viewOnly();
@@ -675,13 +675,13 @@ $("body").on("click", ".add", function(e) {
         $.post(url).done(function(data) {
             //Client side  
             $bucket.children().last().after(data);
-            fillCombo($bucket.children().last().find('input.select2'), true)
+            fillCombo($bucket.children().last().find('input.select2'), true);
 
 
             $bucket.children().find(".input-group-btn").each(function() {
-                $(this).css("visibility", "visible")
+                $(this).css("visibility", "visible");
 
-            })
+            });
 
 
         });
@@ -823,7 +823,7 @@ $("body").on("click", ".add", function(e) {
             }
 
             $bucket.children().last().find(".delete:first").parent().css("visibility", "hidden"); //Hide remove type
-            fillCombo($bucket.children().last().find('input.select2'), true)
+            fillCombo($bucket.children().last().find('input.select2'), true);
 
 
         });
@@ -1008,5 +1008,5 @@ String.prototype.startsWith = function(searchString, position) {
 };
 String.prototype.replaceAll = function(str1, str2, ignore)
 {
-    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, "\\$&"), (ignore ? "gi" : "g")), (typeof (str2) == "string") ? str2.replace(/\$/g, "$$$$") : str2);
-}
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, "\\$&"), (ignore ? "gi" : "g")), (typeof (str2) === "string") ? str2.replace(/\$/g, "$$$$") : str2);
+};

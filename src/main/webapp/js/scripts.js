@@ -33,7 +33,7 @@ var clipboard = {
     "link": ""
 };
 var clipBoardValue = "";
-var sourcePaths = "mini"
+var sourcePaths = "mini";
 
 $(document).ready(function() {
 
@@ -48,7 +48,7 @@ $(document).ready(function() {
     });
 
     if (mode === 0) {
-        comboAPI = $('#targetAnalyzer input:radio:checked').val()
+        comboAPI = $('#targetAnalyzer input:radio:checked').val();
 
 
         $('#table_view-btn').click(function() {
@@ -60,6 +60,12 @@ $(document).ready(function() {
             $btn.button('loading');
             $.post(url).done(function(data) {
                 $("#matching_table>div.mappings").html(data);
+                if (sourcePaths === "full") {
+                    $(".sourcePath").each(function(index) {
+                        var $sourcePathSpan = $(this);
+                        findProperPathValue($sourcePathSpan);
+                    });
+                }
                 $btn.button('reset');
                 $('.description').popover({
                     trigger: "hover",
@@ -99,10 +105,10 @@ $(document).ready(function() {
                     xpath = $(".edit").attr("data-xpath");
                 } else if ($(".edit").length === 2) {//Link
                     xpath = $(".edit").attr("data-xpath");
-                    xpath = xpath + "/.."
+                    xpath = xpath + "/..";
                 } else if ($(".edit").length === 3) {//New map
                     xpath = $(".edit").attr("data-xpath");
-                    xpath = xpath + "/.."
+                    xpath = xpath + "/..";
                 }
             }
             $("#myModal").find(".xpath").html(xpath);
@@ -263,7 +269,7 @@ $('.nav a').click(function(e) {
         });
 
     }
-})
+});
 
 $("body").on("click", "#runEngine", function() {
 
@@ -426,7 +432,6 @@ function viewOnly() {
             var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode=view";
             $.post(url).done(function(data) {
                 var $data = $(data);
-
                 highlightLink($data);
                 $row.hide();
                 $row.replaceWith($data);
@@ -436,16 +441,18 @@ function viewOnly() {
         }
     });
 
-    $(".sourcePath").each(function(index) {
-        var $sourcePathSpan = $(this);
-        findProperPathValue($sourcePathSpan);
-    });
-
     //Also hide help rows
     $(".dummyHeader").remove();
     $(".dummyDomain").remove();
 }
 function highlightLink($data) {
+
+    if (sourcePaths === "full") {
+        $data.find(".sourcePath").each(function(index) {
+            var $sourcePathSpan = $(this);
+            findProperPathValue($sourcePathSpan);
+        });
+    }
 
     if ($data.hasClass("path")) {
         $data.css("border-top", "5px solid #29BCB5").css("border-left", "5px solid #29BCB5").css("border-right", "5px solid #29BCB5");
@@ -516,7 +523,7 @@ function fillCombo($this, setValue) {
                             var data = {id: $this.attr("data-id"), text: $this.val()};
                             callback(data);
                         }
-                    })
+                    });
 
                     if (wrongValue) {
                         $this.parent().find(".select2-chosen").html("<span style='color:red;'>Value " + oldValue + " is no longer valid!</span>");
@@ -532,11 +539,11 @@ function fillCombo($this, setValue) {
                             allowClear: true,
                             placeholder: "Select a value",
                             data: json
-                        })
+                        });
                         oldValue = $this.parent().find(".select2-chosen").html();
                         if (JSON.stringify(json).indexOf('"' + oldValue + '"') === -1) {
                             if (oldValue.indexOf(":") !== -1) {
-                                oldValue = oldValue.substring(oldValue.indexOf(':') + 1)
+                                oldValue = oldValue.substring(oldValue.indexOf(':') + 1);
                             }
                             $this.parent().find(".select2-chosen").html("<span style='color:red;'>Value " + oldValue + " is no longer valid!</span>");
                         }
@@ -545,8 +552,8 @@ function fillCombo($this, setValue) {
                         $this.select2({
                             allowClear: true,
                             placeholder: "Select a value",
-                            data: json,
-                        })
+                            data: json
+                        });
 
                         if ($this.parent().find(".select2-chosen").html() === "&nbsp;") {
                             $this.parent().find(".select2-chosen").html("<span style='color:red;'>Value " + oldValue.substring(oldValue.indexOf(':') + 1) + " is no longer valid!</span>");
@@ -607,7 +614,7 @@ function fillInstanceCombos(selector) {
                 var data = {id: $this.attr("data-id"), text: $this.val()};
                 callback(data);
             }
-        })
+        });
 
         if (wrongValue) {
             $this.parent().find(".select2-chosen").html("<span style='color:red;'>Generator " + oldValue + " does not exist!</span>");
@@ -616,7 +623,7 @@ function fillInstanceCombos(selector) {
         }
         $this.next(".loader").hide();
 
-    })
+    });
 
 }
 
@@ -778,6 +785,10 @@ $("#sourceAnalyzer input:radio").change(function() { //On change set variable
 $("#sourcePaths input:radio").change(function() { //On change set variable
     sourcePaths = $(this).val();
     viewOnly();
+    $(".sourcePath").each(function(index) {
+        var $sourcePathSpan = $(this);
+        findProperPathValue($sourcePathSpan);
+    });
 });
 
 $("#generators input:radio").change(function() { //On change set variable
@@ -819,7 +830,7 @@ $('#info_edit-btn').click(function() {
 $('#info_view-btn').click(function() {
     $("body").css("opacity", "0.4");
     var url = "GetPart?id=" + id + "&part=info&mode=view";
-    var $btn = $(this)
+    var $btn = $(this);
     $btn.button('loading');
     $.post(url).done(function(data) {
         $("#info>div").html(data);
@@ -873,7 +884,7 @@ function upload($this) {
 
             var linkText = "view";
             if (uploadMessage === "Upload rdf") {
-                linkText = "view rdf"
+                linkText = "view rdf";
             } else if (uploadMessage === "Upload xml") {
 
                 sourceAnalyzer = "on";
@@ -886,9 +897,9 @@ function upload($this) {
                 viewOnly();
 
                 $("a:contains('Transformation')").attr("href", "#x3mlEngine").parent().removeClass("disabled").removeAttr("title");
-                linkText = "view xml"
+                linkText = "view xml";
             } else if (uploadMessage === "Upload html") {
-                linkText = "view html"
+                linkText = "view html";
 //            } else if (uploadMessage === "Upload generator") {
 //                linkText = "view generator"
             } else { //Not sure if I want a default analyzer
@@ -915,7 +926,7 @@ function upload($this) {
 
             if (xpath.endsWith("generator_link")) {
                 url = "FetchBinFile?id=" + mappingId + "&amp;type=generator_link&amp;file=" + encodeURIComponent(filename);
-                linkText = "view generator xml"
+                linkText = "view generator xml";
             } else if (xpath.endsWith("rdf_link")) {
                 url = "FetchBinFile?id=" + mappingId + "&amp;type=example_data_target_record&amp;file=" + encodeURIComponent(filename);
             } else {
