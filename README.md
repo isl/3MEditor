@@ -27,7 +27,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 3MEditor
 ==========
 
-![Intro screenshot](https://github.com/isl/3MEditor/blob/master/web/images/screenshots/Screenshot_1.png)
+![Intro screenshot](https://github.com/isl/3MEditor/blob/master/src/main/webapp/images/screenshots/Screenshot_1.png)
 
 3MEditor is a web application used to edit/view [x3ml](https://github.com/isl/x3ml "x3ml") mapping files stored in an [eXist] (http://www.exist-db.org "eXist") database (Has been tested with eXist versions 2.1+)..
 
@@ -58,17 +58,17 @@ If you want to edit a mapping file, use:
 **http://(server IP):(server port)/3MEditor/Index?id=(Mapping id found in admin part)** 
 e.g. **http://localhost:8080/3MEditor/Index?id=6**
 
-![Edit info](https://github.com/isl/3MEditor/blob/master/web/images/screenshots/Screenshot_4.png)
+![Edit info](https://github.com/isl/3MEditor/blob/master/src/main/webapp/images/screenshots/Screenshot_4.png)
 
-![Edit table](https://github.com/isl/3MEditor/blob/master/web/images/screenshots/Screenshot_5.png)
+![Edit table](https://github.com/isl/3MEditor/blob/master/src/main/webapp/images/screenshots/Screenshot_5.png)
 
-![Transformation tab](https://github.com/isl/3MEditor/blob/master/web/images/screenshots/Screenshot_3.png)
+![Transformation tab](https://github.com/isl/3MEditor/blob/master/src/main/webapp/images/screenshots/Screenshot_3.png)
 
 If you want to simply view a mapping file, add parameter action with value view:
 **http://(server IP):(server port)/3MEditor/Index?id=(Mapping id found in admin part)&action=view** 
 e.g. **http://localhost:8080/3MEditor/Index?id=6&action=view**
 
-![View table](https://github.com/isl/3MEditor/blob/master/web/images/screenshots/Screenshot_2.png)
+![View table](https://github.com/isl/3MEditor/blob/master/src/main/webapp/images/screenshots/Screenshot_2.png)
 
 If you want to view a mapping file as raw XML, add parameter output with value xml:
 **http://(server IP):(server port)/3MEditor/Index?id=(Mapping id found in admin part)&output=xml** 
