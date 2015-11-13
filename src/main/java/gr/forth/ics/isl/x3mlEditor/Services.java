@@ -54,7 +54,8 @@ public class Services extends BasicServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        servletParams(request, response);
+
         if (stateOfSite.equals("off")) {
             response.sendRedirect("maintenance.html");
             return;
@@ -63,7 +64,13 @@ public class Services extends BasicServlet {
         PrintWriter out = response.getWriter();
 
         String output = request.getParameter("output");
-        response.setContentType(output + ";charset=UTF-8");
+
+        if (output == null || output.equals("") || output.equals("html")) {
+            response.setContentType("text/html;charset=UTF-8");
+            output = "html";
+        } else {
+            response.setContentType("text/xml;charset=UTF-8");
+        }
         StringBuilder xmlMiddle = new StringBuilder();
 
         if (method == null) {
@@ -73,7 +80,7 @@ public class Services extends BasicServlet {
         String id = request.getParameter("id");
 
         String xmlId = "Mapping" + id + ".xml";
-        DBCollection dbc = new DBCollection(super.DBURI, applicationCollection + "/Mapping", super.DBuser, super.DBpassword);
+        DBCollection dbc = new DBCollection(DBURI, applicationCollection + "/Mapping", DBuser, DBpassword);
         String collectionPath = getPathforFile(dbc, xmlId, id);
 
         if (method.equals("export")) {
@@ -83,34 +90,32 @@ public class Services extends BasicServlet {
             content = content.replaceAll("(?s)<admin>.*?</admin>", "");
             out.write(content);
         } else if (method.equals("viewPublished")) {
-            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
-            String status = mappingFile.queryString("//admin/status/string()")[0];
-            xmlMiddle.append("<output><xml>");
-            String xsl = baseURL + "/xsl/x3ml.xsl";
-
-            if (status.equals("published")) {
-                xmlMiddle.append(mappingFile.toString());
-
-                xmlMiddle.append("</xml>");
-
-                xmlMiddle.append("<viewMode>").append("1").append("</viewMode>");
-//           xmlMiddle.append("<lang>").append(lang).append("</lang>");
-                xmlMiddle.append("<editorType>").append(editorType).append("</editorType>");
-
-//                xmlMiddle.append("<sourceAnalyzer>").append(sourceAnalyzer).append("</sourceAnalyzer>");
-//                xmlMiddle.append("<sourceAnalyzerFiles>").append(sourceAnalyzerFiles).append("</sourceAnalyzerFiles>");
-//
-//                xmlMiddle.append("<targetAnalyzer>").append(targetAnalyzer).append("</targetAnalyzer>");
-                xmlMiddle.append("<type>").append("Mapping").append("</type>");
-                xmlMiddle.append("<id>").append(id).append("</id>");
-            } else {
-                xmlMiddle.append("</xml>");
+            if (collectionPath == null) {
                 response.sendRedirect("message.html");
+            } else {
+                DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+                String status = mappingFile.queryString("//admin/status/string()")[0];
+                xmlMiddle.append("<output><xml>");
+                String xsl = baseURL + "/xsl/x3ml.xsl";
 
+                if (status.equals("published")) {
+                    xmlMiddle.append(mappingFile.toString());
+
+                    xmlMiddle.append("</xml>");
+
+                    xmlMiddle.append("<viewMode>").append("1").append("</viewMode>");
+                    xmlMiddle.append("<editorType>").append(editorType).append("</editorType>");
+                    xmlMiddle.append("<type>").append("Mapping").append("</type>");
+                    xmlMiddle.append("<id>").append(id).append("</id>");
+                } else {
+                    xmlMiddle.append("</xml>");
+                    response.sendRedirect("message.html");
+
+                }
+
+                xmlMiddle.append("</output>");
+                out.write(transform(xmlMiddle.toString(), xsl));
             }
-
-            xmlMiddle.append("</output>");
-            out.write(transform(xmlMiddle.toString(), xsl));
 
         } else if (method.equals("instanceGeneratorNames")) {
 
