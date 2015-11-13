@@ -55,7 +55,10 @@ public class Services extends BasicServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        if (stateOfSite.equals("off")) {
+            response.sendRedirect("maintenance.html");
+            return;
+        }
         String method = request.getParameter("method");
         PrintWriter out = response.getWriter();
 
@@ -79,6 +82,35 @@ public class Services extends BasicServlet {
             content = content.replace("<?xml-stylesheet type=\"text/xsl\" href=\"crm_mapping-v2.0.xsl\"?>", "");
             content = content.replaceAll("(?s)<admin>.*?</admin>", "");
             out.write(content);
+        } else if (method.equals("viewPublished")) {
+            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+            String status = mappingFile.queryString("//admin/status/string()")[0];
+            xmlMiddle.append("<output><xml>");
+            String xsl = baseURL + "/xsl/x3ml.xsl";
+
+            if (status.equals("published")) {
+                xmlMiddle.append(mappingFile.toString());
+
+                xmlMiddle.append("</xml>");
+
+                xmlMiddle.append("<viewMode>").append("1").append("</viewMode>");
+//           xmlMiddle.append("<lang>").append(lang).append("</lang>");
+                xmlMiddle.append("<editorType>").append(editorType).append("</editorType>");
+
+//                xmlMiddle.append("<sourceAnalyzer>").append(sourceAnalyzer).append("</sourceAnalyzer>");
+//                xmlMiddle.append("<sourceAnalyzerFiles>").append(sourceAnalyzerFiles).append("</sourceAnalyzerFiles>");
+//
+//                xmlMiddle.append("<targetAnalyzer>").append(targetAnalyzer).append("</targetAnalyzer>");
+                xmlMiddle.append("<type>").append("Mapping").append("</type>");
+                xmlMiddle.append("<id>").append(id).append("</id>");
+            } else {
+                xmlMiddle.append("</xml>");
+                response.sendRedirect("message.html");
+
+            }
+
+            xmlMiddle.append("</output>");
+            out.write(transform(xmlMiddle.toString(), xsl));
 
         } else if (method.equals("instanceGeneratorNames")) {
 

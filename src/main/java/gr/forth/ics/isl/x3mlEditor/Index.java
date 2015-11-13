@@ -130,28 +130,29 @@ public class Index extends BasicServlet {
             }
 
             DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+            HttpSession session = sessionCheck(request, response);
+            if (session == null) {
+                session = request.getSession(true);
+            }
 
             //Actions: 0=edit, 1=view, 2=instance+label
             if (action.equals("instance")) {
                 xmlMiddle.append("<viewMode>").append("2").append("</viewMode>");
                 xmlMiddle.append("<generator mode='" + generatorsStatus + "'>").append("instance").append("</generator>");
 
-                HttpSession session = sessionCheck(request, response);
-                if (session == null) {
-                    session = request.getSession(true);
-
-                    String[] usernames = mappingFile.queryString("//admin/locked/string()");
-                    if (usernames.length > 0) {
-                        session.setAttribute("username", usernames[0]);
-                    }
-
+                String[] usernames = mappingFile.queryString("//admin/locked/string()");
+                if (usernames.length > 0) {
+                    session.setAttribute("username", usernames[0]);
                 }
+
                 session.setAttribute("id", id);
                 session.setAttribute("action", action);
                 session.setAttribute("resourcesList", new HashMap<String, String[]>());
 
             } else if (action.equals("view")) {
                 xmlMiddle.append("<viewMode>").append("1").append("</viewMode>");
+                session.setAttribute("id", id);
+                session.setAttribute("action", action);
             } else if (action.equals("edit")) {
                 xmlMiddle.append("<viewMode>").append("0").append("</viewMode>");
                 xmlMiddle.append("<generator mode='" + generatorsStatus + "'>").append("instance").append("</generator>");
@@ -194,14 +195,11 @@ public class Index extends BasicServlet {
                     sourceAnalyzer = sourceAnalyzerStatus;
                 }
 
-                HttpSession session = sessionCheck(request, response);
-                if (session == null) {
-                    session = request.getSession(true);
-                    String[] usernames = mappingFile.queryString("//admin/locked/string()");
-                    if (usernames.length > 0) {
-                        session.setAttribute("username", usernames[0]);
-                    }
+                String[] usernames = mappingFile.queryString("//admin/locked/string()");
+                if (usernames.length > 0) {
+                    session.setAttribute("username", usernames[0]);
                 }
+
                 session.setAttribute("resourcesList", new HashMap<String, String[]>());
                 session.setAttribute("id", id);
                 session.setAttribute("action", action);
