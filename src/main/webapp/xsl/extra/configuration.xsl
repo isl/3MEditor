@@ -36,7 +36,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
             <form  role="form" >
                 <fieldset>
-                    <legend>Components Used</legend>
+                    <legend>Options</legend>
                     <br/>
                     <div class="form-group ">
                         <div class="row" >                           
@@ -112,14 +112,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         <xsl:text> Short</xsl:text>
                                     </label>
                                     <label id="label60">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/sourceAnalyzer!='on'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
+                                        <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
                                         <input name="sourcePaths" type="radio" class="toggle" value="full" autocomplete="off">
                                             <xsl:if test="//output/sourceAnalyzer!='on'">
                                                 <xsl:attribute  name="checked">checked</xsl:attribute>
@@ -216,6 +209,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             <xsl:when test="//output/targetAnalyzer='2'">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
                                             </xsl:when>
+                                            <xsl:when test="//output/targetAnalyzer='0'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
+                                            </xsl:when>
                                             <xsl:otherwise>
                                                 <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
                                             </xsl:otherwise>
@@ -231,6 +227,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         <xsl:choose>
                                             <xsl:when test="//output/targetAnalyzer='3'">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:when test="//output/targetAnalyzer='0'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
                                             </xsl:when>
                                             <xsl:otherwise>
                                                 <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
@@ -268,18 +267,18 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <p>
                                     <b>eXist queries</b>: It only works with RDFS or RDF schema files. 
                                     Target analyzer engine is based on Xquery queries performed on RDFS schemas stored in eXist.
-                                    Schemas have to be well formed XML files containg certain tags (<code>rdfs:Class, rdf:Property, rdfs:domain</code> etc.).
+                                    Schemas have to be well formed XML files containing certain tags (<code>rdfs:Class, rdf:Property, rdfs:domain</code> etc.).
                                     User chooses valid options from a select box. If there are no target schemas, user simply fills input fields with free text.
                                 </p>
                                 <p>
                                     <b>Jena reasoner</b>: It works with RDFS, RDF or OWL schema files. 
                                     Target analyzer engine is based on Jena reasoner. User chooses valid options from a select box.
-                                    If there are no target schemas, user simply fills input fields with free text. 
+                                    If there are no target schemas, user simply fills in input fields with free text. 
                                     <b>(WARNING! The first time user clicks a row to edit, it will take some time to create combos)</b>
                                 </p>
                                 <p>
                                     <b>None</b>: It works with any type of schema files (or even without schema files at all).
-                                    User simply fills input fields with free text.
+                                    User simply fills in input fields with free text.
                                 </p>
                             </div>
                         </div>

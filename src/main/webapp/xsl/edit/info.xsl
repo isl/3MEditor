@@ -40,6 +40,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <fieldset>
                     <legend>General</legend>
                     <div class="form-group">
+                        <span class="help-block">This section consists of general information about this mapping.</span>
                         <div class="row">
                             <div class="col-sm-8 required">
                                 <label class="control-label" for="generalTitle">Title</label>
@@ -82,6 +83,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:apply-templates select="source_info"></xsl:apply-templates>
                 <fieldset>
                     <legend>Target</legend>
+                    <span class="help-block">This section consists of information about the target schema(s). If you do not upload at least one target schema file,
+                        then you will have to fill in target paths using text input fields. Once a target schema file is uploaded, "Target Analyzer" option is
+                        enabled (<b>Configuration tab</b>) and you may use one of our analyzers. If you choose
+                        to do so, you may select appropriate target paths from a drop down.
+                    </span>
                     <xsl:apply-templates select="target_info"></xsl:apply-templates>
                     <div class="row">
                         <div class="col-sm-2 col-sm-offset-5">
@@ -101,6 +107,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <fieldset>
             <legend>Source</legend>
             <div class="form-group">
+                <span class="help-block">This section consists of information about the source schema. If you upload an XSD file, "Source Analyzer" option is enabled 
+                    (<b>Configuration tab</b>) and you may select source paths from a drop down.
+                </span>
                 <div class="row">
                     <div class="col-sm-4">
                         <label class="control-label" for="sourceSchema">Schema</label>
@@ -173,6 +182,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         </xsl:variable>
         <div id="{$pathSoFar}" class="target_info" data-xpath="{$pathSoFar}">
             <div class="form-group">
+              
                 <div class="row">
                     <xsl:if test="@pos">
                         <xsl:attribute name="style">
@@ -275,6 +285,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <fieldset>
             <legend>Mapping</legend>
             <div class="form-group">
+                <span class="help-block">This section consists of information about who creates and supports this mapping.
+                </span>
                 <div class="row">
                     <div class="col-sm-4">
                         <label class="control-label" for="mappingInfoCreated">Created by (Organization)</label>
@@ -308,6 +320,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <fieldset>
             <legend>Sample data</legend>
             <div class="form-group">
+                <span class="help-block">This section consists of information about example data (source and target) and generator policy. 
+                    Once a source record XML file is uploaded, tab "Transformation" is enabled (<b>Transformation tab</b>).
+                    In order to test how your source record XML file transforms to RDF/XML, N-triples or Turtle, you will probably also have to upload a generator policy XML file. 
+                </span>
+                <span class="help-block">If you have not uploaded an XSD source schema yet, "Source Analyzer" option will also be enabled 
+                    once a source record XML file is uploaded (<b>Configuration tab</b>) and you may select source paths from a drop down.
+                </span>
                 <div class="row">
                     <div class="col-sm-3">
                         <label class="control-label" for="exampleDataFrom">Provided by</label>
@@ -369,7 +388,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
 						
                     </div>
-                     <div class="col-sm-2">
+                    <div class="col-sm-2">
                         <label class=" control-label" for="generatorPolicy">Generator policy</label>
                         <input id="generatorPolicy" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/generator_policy_info">
                             <xsl:attribute name="value">
@@ -380,8 +399,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                                     
                             <div class="generator_link">
                                 <xsl:for-each select="@generator_link">
-                                <xsl:call-template name="externalFileLink">
-                                </xsl:call-template>
+                                    <xsl:call-template name="externalFileLink">
+                                    </xsl:call-template>
                                 </xsl:for-each>
                                 <xsl:if test="@generator_link">
                                     <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete generator policy" id="{concat('delete***//x3ml/info/example_data_info/generator_policy_info/@generator_link')}">

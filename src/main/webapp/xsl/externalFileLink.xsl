@@ -134,12 +134,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <xsl:param name="filename"></xsl:param>
         <xsl:param name="message"></xsl:param>
 
-        <a title="{$filename}" target="_blank" style="display:inline;position:relative;top:1px;" >
+        <a title="{$filename}" target="_blank" style="display:inline;position:relative;top:1px;" data-type="{name()}">
             <xsl:attribute name="href">
             <xsl:value-of select="concat('FetchBinFile?type=',name(),'&amp;file=',url:encode($filename))"/>
-<!--                <xsl:text>FetchBinFile?</xsl:text>
-                <xsl:text>type=</xsl:text><xsl:value-of select="name()"/>&amp;<xsl:text>file=</xsl:text>
-                <xsl:value-of select="url:encode($filename)"/>-->
             </xsl:attribute> 
             <xsl:value-of select="$message"/>
         </a>

@@ -166,11 +166,13 @@ public class Delete extends BasicServlet {
                 session.setAttribute("modelInstance_" + id, ont);
             }
 
-            String position = xpath.substring(xpath.lastIndexOf("[") + 1, xpath.lastIndexOf("]"));
+            if (!xpath.endsWith("@schema_file")) { //Only need to delete namespace when deleting entire target_info, not just file
+                String position = xpath.substring(xpath.lastIndexOf("[") + 1, xpath.lastIndexOf("]"));
 
-            if (position != null) {
-                int namespacePos = Integer.parseInt(position) + 2;
-                mappingFile.xRemove("//namespaces/namespace[position()=" + namespacePos + "]");
+                if (position != null) {
+                    int namespacePos = Integer.parseInt(position) + 2;
+                    mappingFile.xRemove("//namespaces/namespace[position()=" + namespacePos + "]");
+                }
             }
         }
 

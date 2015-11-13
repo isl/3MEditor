@@ -549,3 +549,11 @@ input[title="Source Node"], input[title="Source Relation"] {
 .infoForm {
   padding-top: 10px;
 }
+
+@media print
+{    
+    .help-block
+    {
+        display: none !important;
+    }
+}

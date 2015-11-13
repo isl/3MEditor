@@ -883,6 +883,7 @@ function upload($this) {
 
 
             var linkText = "view";
+            var dataType = "";
             if (uploadMessage === "Upload rdf") {
                 linkText = "view rdf";
             } else if (uploadMessage === "Upload xml") {
@@ -890,10 +891,7 @@ function upload($this) {
                 sourceAnalyzer = "on";
                 sourceAnalyzerFiles = sourceAnalyzerFiles.split("***")[0] + "***" + filename;
                 sourceAnalyzerPaths = "";
-                $("#sourceAnalyzer").children("label").removeClass("active");
-                $("#sourceAnalyzer").find("input").removeAttr("checked");
-                $("#sourceAnalyzer>#label5").addClass("active").removeClass("disabled");
-                $("#sourceAnalyzer>#label5>input").attr("checked", "checked");
+                configurationOption("sourceAnalyzer", "enable");
                 viewOnly();
 
                 $("a:contains('Transformation')").attr("href", "#x3mlEngine").parent().removeClass("disabled").removeAttr("title");
@@ -907,19 +905,14 @@ function upload($this) {
                     sourceAnalyzer = "on";
                     sourceAnalyzerFiles = filename + "***" + sourceAnalyzerFiles.split("***")[1];
                     sourceAnalyzerPaths = "";
-                    $("#sourceAnalyzer").children("label").removeClass("active");
-                    $("#sourceAnalyzer").find("input").removeAttr("checked");
-                    $("#sourceAnalyzer>#label5").addClass("active").removeClass("disabled");
-                    $("#sourceAnalyzer>#label5>input").attr("checked", "checked");
+                    configurationOption("sourceAnalyzer", "enable");
                     viewOnly();
                 } else {
-
-                    if (comboAPI === "0") {
+                    dataType = "target_info"; //Added only for this case, may have to make use of it for other cases too.
+                    if (comboAPI === 0) {
                         comboAPI = 2;
-                        $("#targetAnalyzer").children("label").removeClass("active");
-                        $("#targetAnalyzer").find("input").removeAttr("checked");
-                        $("#targetAnalyzer>#label2").addClass("active");
-                        $("#targetAnalyzer>#label2>input").attr("checked", "checked");
+                        configurationOption("targetAnalyzer", "enable");
+
                     }
                 }
             }
@@ -932,7 +925,7 @@ function upload($this) {
             } else {
                 url = "FetchBinFile?id=" + mappingId + "&amp;file=" + encodeURIComponent(filename);
             }
-            var linkHtml = "<a title='" + encodeURIComponent(filename) + "' style='position:relative;top:1px;' target='_blank' href='" + url + "'>" + linkText + " </a>";
+            var linkHtml = "<a data-type='"+dataType+"' title='" + encodeURIComponent(filename) + "' style='position:relative;top:1px;' target='_blank' href='" + url + "'>" + linkText + " </a>";
             var deleteHtml = " <button class='btn btn-default btn-link btn-sm deleteFile' type='button' title='Delete " + encodeURIComponent(filename) + "' id='delete***" + xpath + "'>" +
                     "<span class='glyphicon glyphicon-remove'></span>" +
                     "</button> ";

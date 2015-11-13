@@ -212,11 +212,7 @@ $("body").on("click", ".deleteFile", function() {
                 sourceAnalyzerFiles = "***" + sourceAnalyzerFiles.split("***")[1];
                 if (sourceAnalyzerFiles === "***") {
                     sourceAnalyzer = "off";
-                    $("#sourceAnalyzer").children("label").removeClass("active");
-                    $("#sourceAnalyzer").find("input").removeAttr("checked");
-                    $("#sourceAnalyzer>#label5").addClass("disabled");
-                    $("#sourceAnalyzer>#label6").addClass("active");
-                    $("#sourceAnalyzer>#label6>input").attr("checked", "checked");
+                    configurationOption("sourceAnalyzer", "disable");
                 } else {
                     sourceAnalyzer = "on";
                 }
@@ -226,20 +222,21 @@ $("body").on("click", ".deleteFile", function() {
                 sourceAnalyzerFiles = sourceAnalyzerFiles.split("***")[0] + "***";
                 if (sourceAnalyzerFiles === "***") {
                     sourceAnalyzer = "off";
-                    $("#sourceAnalyzer").children("label").removeClass("active");
-                    $("#sourceAnalyzer").find("input").removeAttr("checked");
-                    $("#sourceAnalyzer>#label5").addClass("disabled");
-                    $("#sourceAnalyzer>#label6").addClass("active");
-                    $("#sourceAnalyzer>#label6>input").attr("checked", "checked");
+                    configurationOption("sourceAnalyzer", "disable");
                 } else {
                     sourceAnalyzer = "on";
                 }
                 sourceAnalyzerPaths = "";
 
                 $("a:contains('Transformation')").attr("href", "#").parent().addClass("disabled").attr("title", "Add a source record xml file to enable this tab!");
-
-
                 viewOnly();
+            } else if (xpath.endsWith("target_schema/@schema_file")) {
+               
+                if ($("a[data-type='target_info']:visible").length === 1) { //Deleting last target schema file
+                    configurationOption("targetAnalyzer", "disable");
+                    comboAPI = 0;
+
+                }
             }
 
 
@@ -249,6 +246,41 @@ $("body").on("click", ".deleteFile", function() {
 
     }
 });
+
+function configurationOption(option, action) {
+    if (option === "sourceAnalyzer") {
+        if (action === "disable") {
+            $("#sourceAnalyzer").children("label").removeClass("active");
+            $("#sourceAnalyzer").find("input").removeAttr("checked");
+            $("#sourceAnalyzer>#label5").addClass("disabled");
+            $("#sourceAnalyzer>#label6").addClass("active");
+            $("#sourceAnalyzer>#label6>input").attr("checked", "checked");
+        } else {
+            $("#sourceAnalyzer").children("label").removeClass("active");
+            $("#sourceAnalyzer").find("input").removeAttr("checked");
+            $("#sourceAnalyzer>#label5").addClass("active").removeClass("disabled");
+            $("#sourceAnalyzer>#label5>input").attr("checked", "checked");
+
+
+        }
+    } else if (option === "targetAnalyzer") {
+        if (action === "enable") {
+            $("#targetAnalyzer").children("label").removeClass("active");
+            $("#targetAnalyzer").find("input").removeAttr("checked");
+            $("#targetAnalyzer>#label2").removeClass("disabled").addClass("active");
+            $("#targetAnalyzer>#label3").removeClass("disabled");
+            $("#targetAnalyzer>#label2>input").attr("checked", "checked");
+        } else {
+            $("#targetAnalyzer").children("label").removeClass("active");
+            $("#targetAnalyzer").find("input").removeAttr("checked");
+            $("#targetAnalyzer>#label2").addClass("disabled");
+            $("#targetAnalyzer>#label3").addClass("disabled");
+            $("#targetAnalyzer>#label0").addClass("active");
+            $("#targetAnalyzer>#label0>input").attr("checked", "checked");
+        }
+    }
+}
+
 
 $("body").on("click", ".paste", function() {
 
