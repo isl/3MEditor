@@ -122,12 +122,6 @@ $(document).ready(function() {
             $("#myModal").modal('show');
 
         });
-        var $scrollingDiv = $('#table_view-btn');
-        $(window).scroll(function() {
-            $scrollingDiv
-                    .stop()
-                    .animate({"marginTop": ($(window).scrollTop())}, "fast");
-        });
     } else if (mode === 2) {
         if (generatorsStatus === "auto") {
             getInstanceGeneratorNamesAndFillCombos();

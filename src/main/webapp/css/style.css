@@ -129,13 +129,13 @@ tr:not(.empty):hover > td {
 {
     border-bottom: 0px;
     border-top: 0px;
-    
+
 
 }
 .table > thead > tr > th,
 .table > thead > tr > td
 {
-padding-top: 1px;
+    padding-top: 1px;
     padding-bottom: 1px;
 }
 
@@ -313,15 +313,22 @@ button.closeLike {
     font-size:0.7em !important;
 }
 
+.mappings {
+    margin-right: 49px;
+}
 .actionsToolbar {
     padding: 0px;
+    z-index: 1;
+    position: fixed;
+    float:right;
+    right:0px;
 }
 
 .additional {
     margin-top: 5px;
     padding-top: 5px;
     padding-bottom: 2px;
-  
+
     background-color: #EFEEEE;
 
     clear: both;
@@ -385,7 +392,7 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
     color:black ;
     font-weight:bold ;
     padding-right: 2px !important;
-        padding-left: 2px !important;
+    padding-left: 2px !important;
 
 }
 
@@ -430,7 +437,7 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 }
 
 .instance_generator {
-   border: 1px white solid ;
+    border: 1px white solid ;
     background-color: #606160;
     margin-left:96px;
     color:white;
@@ -438,7 +445,7 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
     padding-right: 10px;
 }
 .label_generator {
-   border: 1px white solid ;
+    border: 1px white solid ;
     background-color: #D6EBED;
     margin-left:96px;
     color:black;
@@ -466,12 +473,12 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 }
 .black,.black:link,.black:focus, .black:hover, .black:visited, .black:active {
     color: black;
-   
+
 }
 
 .white,.white:link,.white:focus, .white:hover, .white:visited, .white:active {
     color: white;
-  
+
 
 }
 .mapping {
@@ -481,7 +488,7 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 
 .add,.add:link,.add:focus, .add:hover, .add:visited, .add:active {
     color: black;
- 
+
 }
 .dropdown-toggle,.dropdown-toggle:link,.dropdown-toggle:focus, .dropdown-toggle:hover, .dropdown-toggle:visited, .dropdown-toggle:active {
     color: black;
@@ -547,7 +554,7 @@ input[title="Source Node"], input[title="Source Relation"] {
 }
 
 .infoForm {
-  padding-top: 10px;
+    padding-top: 10px;
 }
 
 @media print
