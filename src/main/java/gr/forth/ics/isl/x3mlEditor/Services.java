@@ -54,6 +54,14 @@ public class Services extends BasicServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String output = request.getParameter("output");
+
+        if (output == null || output.equals("") || output.equals("html")) {
+            response.setContentType("text/html;charset=UTF-8");
+            output = "html";
+        } else {
+            response.setContentType("text/xml;charset=UTF-8");
+        }
         servletParams(request, response);
 
         if (stateOfSite.equals("off")) {
@@ -63,14 +71,6 @@ public class Services extends BasicServlet {
         String method = request.getParameter("method");
         PrintWriter out = response.getWriter();
 
-        String output = request.getParameter("output");
-
-        if (output == null || output.equals("") || output.equals("html")) {
-            response.setContentType("text/html;charset=UTF-8");
-            output = "html";
-        } else {
-            response.setContentType("text/xml;charset=UTF-8");
-        }
         StringBuilder xmlMiddle = new StringBuilder();
 
         if (method == null) {

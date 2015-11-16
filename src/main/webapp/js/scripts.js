@@ -372,7 +372,7 @@ $("#matching_table").on("click", ".clickable", function() {
                 $(document.body).animate({//Scroll new editable block to top of page - 100px
                     'scrollTop': $('.dummyHeader').offset().top - 100
 
-                }, 2000);
+                }, 10);
             });
             viewOnly();
         }
