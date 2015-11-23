@@ -26,7 +26,7 @@
  * This file is part of the 3MEditor webapp of Mapping Memory Manager project.
  */
 
-var allowedExtensions = ['xml', 'rdf', 'rdfs', 'html'];
+var allowedExtensions = ['xml', 'rdf', 'rdfs', 'html','xsd'];
 var comboAPI, goAhead;
 var clipboard = {
     "mapping": "",

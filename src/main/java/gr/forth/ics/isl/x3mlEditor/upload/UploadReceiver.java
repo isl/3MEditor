@@ -248,18 +248,7 @@ public class UploadReceiver extends BasicServlet {
 
             String json = "{\"success\": true, \"filename\": \"" + filename + "\", \"mime\": \"" + mime + "\"}";
             writer.print(json);
-            if (fileType.equals("photo")) {
-
-            } else if (fileType.equals("zip")) {
-                Utils utils = new Utils();
-                utils.unZipIt(filename, sourcePath);
-            } else if (fileType.equals("video") || fileType.equals("all")) {
-
-                if (filename.endsWith("zip")) {
-                    Utils utils = new Utils();
-                    utils.unZipIt(filename, sourcePath);
-                }
-            }
+            
         } else {
             writer.print("{\"error\": \"" + failureReason + "\"}");
         }

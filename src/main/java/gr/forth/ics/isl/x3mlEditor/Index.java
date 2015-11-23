@@ -224,7 +224,6 @@ public class Index extends BasicServlet {
 
         } else {
             String content = xmlMiddle.toString();
-            content = content.replace("<?xml-stylesheet type=\"text/xsl\" href=\"crm_mapping-v2.0.xsl\"?>", ""); //Legacy code, not sure if it's required any more
             content = content.replaceAll("(?s)<admin>.*?</admin>", "");
             out.write(content);
         }
