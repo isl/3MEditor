@@ -81,7 +81,6 @@ public class UploadReceiver extends BasicServlet {
             targetAnalyzer = targetPathSuggesterAlgorithm;
         }
 
-        String fileType = "targetSchema";
         String xpath = req.getParameter("path");
         String id = req.getParameter("id");
         String filePath = "";
@@ -209,7 +208,7 @@ public class UploadReceiver extends BasicServlet {
             mappingFile.xUpdate(xpath, filename);
         }
 
-        writeResponse(filename, resp.getWriter(), msg, fileType, mime);
+        writeResponse(filename, resp.getWriter(), msg, mime);
 
     }
 
@@ -242,13 +241,12 @@ public class UploadReceiver extends BasicServlet {
         }
     }
 
-    private void writeResponse(String filename, PrintWriter writer, String failureReason, String fileType, String mime) {
+    private void writeResponse(String filename, PrintWriter writer, String failureReason, String mime) {
         if (failureReason == null) {
-            String sourcePath = UPLOAD_DIR.getPath();
 
             String json = "{\"success\": true, \"filename\": \"" + filename + "\", \"mime\": \"" + mime + "\"}";
             writer.print(json);
-            
+          
         } else {
             writer.print("{\"error\": \"" + failureReason + "\"}");
         }

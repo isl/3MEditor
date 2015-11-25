@@ -32,7 +32,10 @@ import isl.dbms.DBFile;
 import gr.forth.ics.isl.x3mlEditor.utilities.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,8 +79,9 @@ public class Index extends BasicServlet {
         String lang = request.getParameter("lang");
         String action = request.getParameter("action");
         String sourceAnalyzer = request.getParameter("sourceAnalyzer");
-
         String sourceAnalyzerFiles = "***";
+        String targetType = "";
+        String targetAnalyzerFiles = "***";
         String targetAnalyzer = request.getParameter("targetAnalyzer");
         if (targetAnalyzer == null) {
             targetAnalyzer = targetPathSuggesterAlgorithm;
@@ -155,41 +159,23 @@ public class Index extends BasicServlet {
                 session.setAttribute("action", action);
             } else if (action.equals("edit")) {
                 xmlMiddle.append("<viewMode>").append("0").append("</viewMode>");
-                xmlMiddle.append("<generator mode='" + generatorsStatus + "'>").append("instance").append("</generator>");
+                xmlMiddle.append("<generator mode='").append(generatorsStatus).append("'>").append("instance").append("</generator>");
 
-                if (mappingFile.queryString("//target_info/target_schema/@schema_file/string()").length == 0) {
-                    targetAnalyzer = "0"; //If no target schemas specified, then choose None!
+                //Target analysis
+                HashMap<String, String> targetAnalysisResult = analyzeTarget(mappingFile);
+                targetType = targetAnalysisResult.get("targetType");
+                targetAnalyzerFiles = targetAnalysisResult.get("targetAnalyzerFiles");
+                if (targetType.equals("None") || targetType.equals("Mixed")) {
+                    targetAnalyzer = "0";
                 }
 
-                String sourceQuery = "let $i := //source_info/source_schema/@schema_file\n"
-                        + "let $k := //example_data_source_record/@xml_link\n"
-                        + "return\n"
-                        + "<sourceAnalyzer>\n"
-                        + "{$i}\n"
-                        + "{$k}\n"
-                        + "</sourceAnalyzer>";
-                String[] results = mappingFile.queryString(sourceQuery);
-                if (results.length == 1) { //First check for source schema
-                    String res = results[0];
-                    if (!res.equals("<sourceAnalyzer/>")) { //Something exists...
-                        String schemaFile = new Utils().getMatch(res, "(?<=schema_file=\").*?(?=\")");
-                        String instanceFile = new Utils().getMatch(res, "(?<=xml_link=\").*?(?=\")");
-                        if (!(schemaFile.endsWith(".xsd") || schemaFile.endsWith(".xml"))) {
-                            schemaFile = "";
-                        }
-                        if (!(instanceFile.endsWith(".xml"))) {
-                            instanceFile = "";
-                        }
-
-                        sourceAnalyzerFiles = schemaFile + "***" + instanceFile;
-                        if (sourceAnalyzerFiles.equals("***")) {
-                            sourceAnalyzer = "off";
-                        }
-
-                    } else {
-                        sourceAnalyzer = "off";
-                    }
-                }
+//                if (mappingFile.queryString("//target_info/target_schema/@schema_file/string()").length == 0) {
+//                    targetAnalyzer = "0"; //If no target schemas specified, then choose None!
+//                }
+                //Source analysis
+                HashMap<String, String> sourceAnalysisResult = analyzeSource(mappingFile, sourceAnalyzer);
+                sourceAnalyzer = sourceAnalysisResult.get("sourceAnalyzer");
+                sourceAnalyzerFiles = sourceAnalysisResult.get("sourceAnalyzerFiles");
 
                 if (sourceAnalyzer == null) {
                     sourceAnalyzer = sourceAnalyzerStatus;
@@ -215,6 +201,9 @@ public class Index extends BasicServlet {
                 xmlMiddle.append("<sourceAnalyzerFiles>").append(sourceAnalyzerFiles).append("</sourceAnalyzerFiles>");
 
                 xmlMiddle.append("<targetAnalyzer>").append(targetAnalyzer).append("</targetAnalyzer>");
+                xmlMiddle.append("<targetType>").append(targetType).append("</targetType>");
+                xmlMiddle.append("<targetAnalyzerFiles>").append(targetAnalyzerFiles).append("</targetAnalyzerFiles>");
+
                 xmlMiddle.append("<type>").append(type).append("</type>");
                 xmlMiddle.append("<id>").append(id).append("</id>");
             }
@@ -229,6 +218,92 @@ public class Index extends BasicServlet {
         }
 
         out.close();
+
+    }
+
+    private HashMap<String, String> analyzeTarget(DBFile mappingFile) {
+        String targetType = "";
+        String targetAnalyzerFiles = "";
+
+        String targetQuery = "for $i in //target_info/target_schema\n"
+                + "return\n"
+                + "$i/@schema_file/string()\n";
+
+        String[] results = mappingFile.queryString(targetQuery);
+        ArrayList<String> targetSchemas = new ArrayList<String>(Arrays.asList(results));
+
+        if (targetSchemas.size() > 0) {
+            for (String target : targetSchemas) {
+                if (targetType.equals("")) { //First schema
+                    if (target.endsWith(".rdfs") || target.endsWith(".rdf")) {
+                        targetType = "rdf";
+                    } else if (target.endsWith(".xsd") || target.endsWith(".xml")) {
+                        targetType = "xml";
+                    }
+                } else {
+                    if (targetType.equals("rdf")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".xml")) {
+                            targetType = "Mixed";
+                        }
+                    } else if (targetType.equals("xml")) {
+                        if (target.endsWith(".rdf") || target.endsWith(".rdfs")) {
+                            targetType = "Mixed";
+                        }
+                    }
+                }
+                targetAnalyzerFiles = targetAnalyzerFiles + target + "***";
+            }
+
+            targetAnalyzerFiles = targetAnalyzerFiles.substring(0, targetAnalyzerFiles.length() - 3); //Remove last extra ***
+
+        } else {
+            targetType = "None";
+            targetAnalyzerFiles = "***";
+        }
+
+        HashMap<String, String> targetAnalysisResult = new HashMap<String, String>();
+        targetAnalysisResult.put("targetType", targetType);
+        targetAnalysisResult.put("targetAnalyzerFiles", targetAnalyzerFiles);
+        return targetAnalysisResult;
+
+    }
+
+    private HashMap<String, String> analyzeSource(DBFile mappingFile, String sourceAnalyzer) {
+        String sourceAnalyzerFiles = "***";
+
+        String sourceQuery = "let $i := //source_info/source_schema/@schema_file\n"
+                + "let $k := //example_data_source_record/@xml_link\n"
+                + "return\n"
+                + "<sourceAnalyzer>\n"
+                + "{$i}\n"
+                + "{$k}\n"
+                + "</sourceAnalyzer>";
+        String[] results = mappingFile.queryString(sourceQuery);
+        if (results.length == 1) { //First check for source schema
+            String res = results[0];
+            if (!res.equals("<sourceAnalyzer/>")) { //Something exists...
+                String schemaFile = new Utils().getMatch(res, "(?<=schema_file=\").*?(?=\")");
+                String instanceFile = new Utils().getMatch(res, "(?<=xml_link=\").*?(?=\")");
+                if (!(schemaFile.endsWith(".xsd") || schemaFile.endsWith(".xml"))) {
+                    schemaFile = "";
+                }
+                if (!(instanceFile.endsWith(".xml"))) {
+                    instanceFile = "";
+                }
+
+                sourceAnalyzerFiles = schemaFile + "***" + instanceFile;
+                if (sourceAnalyzerFiles.equals("***")) {
+                    sourceAnalyzer = "off";
+                }
+
+            } else {
+                sourceAnalyzer = "off";
+            }
+        }
+        HashMap<String, String> sourceAnalysisResult = new HashMap<String, String>();
+        sourceAnalysisResult.put("sourceAnalyzer", sourceAnalyzer);
+        sourceAnalysisResult.put("sourceAnalyzerFiles", sourceAnalyzerFiles);
+        return sourceAnalysisResult;
 
     }
 

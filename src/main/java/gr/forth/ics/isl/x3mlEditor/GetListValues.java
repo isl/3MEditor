@@ -146,11 +146,26 @@ public class GetListValues extends BasicServlet {
                 if (session == null) {
                     session = request.getSession();
                 }
-                results = getListValues(mappingFile, xpath, targetSchemas, session);
-                resultsList = new ArrayList(Arrays.asList(results));
 
-                if (resultsList.size() > 0) {
-                    output = tableToJSON(currentValue, resultsList, filenameAndType, filenameAndPrefix, filenameAndURI);
+                if (targetSchemas.length > 0 && targetSchemas[0].endsWith(".xsd")) {
+                    response.sendRedirect("http://localhost:8084/SourceAnalyzer/filePathServiceGet?fileName="+targetSchemas[0]);
+                    return;
+//                    try {
+//                        output = sendPost(targetSchemas[0]);
+//                        out.println(output);
+//                        out.close();
+//                        
+//                    } catch (Exception ex) {
+//                        ex.printStackTrace();
+//                    }
+                } else {
+
+                    results = getListValues(mappingFile, xpath, targetSchemas, session);
+                    resultsList = new ArrayList(Arrays.asList(results));
+
+                    if (resultsList.size() > 0) {
+                        output = tableToJSON(currentValue, resultsList, filenameAndType, filenameAndPrefix, filenameAndURI);
+                    }
                 }
 
             } else if (targetMode == 3) {//
@@ -199,6 +214,46 @@ public class GetListValues extends BasicServlet {
         out.close();
 
     }
+
+    // HTTP POST request
+//    private String sendPost(String schema) throws Exception {
+//        String url = "http://localhost:8084/SourceAnalyzer/filePathService";
+//        URL obj = new URL(url);
+//        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+//
+//        //add reuqest header
+//        con.setRequestMethod("POST");
+//        con.setRequestProperty("User-Agent", "Mozilla/5.0");
+//        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+//
+//        String urlParameters = "fileName=" + schema + "&root=lido";
+//
+//        // Send post request
+//        con.setDoOutput(true);
+//        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+//        wr.writeBytes(urlParameters);
+//        wr.flush();
+//        wr.close();
+//
+//        int responseCode = con.getResponseCode();
+//        System.out.println("\nSending 'POST' request to URL : " + url);
+//        System.out.println("Post parameters : " + urlParameters);
+//        System.out.println("Response Code : " + responseCode);
+//
+//        BufferedReader in = new BufferedReader(
+//                new InputStreamReader(con.getInputStream()));
+//        String inputLine;
+//        StringBuffer response = new StringBuffer();
+//
+//        while ((inputLine = in.readLine()) != null) {
+//            response.append(inputLine);
+//        }
+//        in.close();
+//
+//        //print result
+//        return response.toString();
+//
+//    }
 
     //MODE 3
     private ArrayList<String> getListValues(DBFile mappingFile, String xpath, OntologyReasoner ont) {

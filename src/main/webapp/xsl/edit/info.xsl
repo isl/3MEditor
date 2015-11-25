@@ -128,12 +128,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     </button>
                                 </xsl:if>
                             </div>
-                            <span data-xpath="{concat('//x3ml/info/source_info/source_schema/@schema_file')}" class="fileUpload">
+                            <span title="Upload rdfs or xsd file" data-xpath="{concat('//x3ml/info/source_info/source_schema/@schema_file')}" class="fileUpload">
                                 <xsl:if test="@schema_file">
                                     <xsl:attribute name="style">
                                         <xsl:text>display:none;</xsl:text>
                                     </xsl:attribute>
                                 </xsl:if>
+                                
                             </span>
                         </xsl:for-each>
                     </div>
@@ -206,7 +207,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </button>
                             </xsl:if>
                         </div>
-                        <span data-xpath="{concat('//x3ml/info/target_info[',$pos,']','/target_schema/@schema_file')}" class="fileUpload">
+                        <span title="Upload rdfs or xsd file" data-xpath="{concat('//x3ml/info/target_info[',$pos,']','/target_schema/@schema_file')}" class="fileUpload">
                             <xsl:if test="target_schema/@schema_file">
                                 <xsl:attribute name="style">
                                     <xsl:text>display:none;</xsl:text>

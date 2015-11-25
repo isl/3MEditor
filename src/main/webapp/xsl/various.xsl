@@ -50,6 +50,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <xsl:variable name="sourceAnalyzerFiles">
         <xsl:value-of select="//output/sourceAnalyzerFiles"/>
     </xsl:variable>
+    <xsl:variable name="targetType">
+        <xsl:value-of select="//output/targetType"/>
+    </xsl:variable>
+    <xsl:variable name="targetAnalyzerFiles">
+        <xsl:value-of select="//output/targetAnalyzerFiles"/>
+    </xsl:variable>
     <xsl:variable name="generatorsStatus">
         <xsl:choose>
             <xsl:when test="//mappings/@status">

@@ -48,6 +48,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     var sourceAnalyzer = "<xsl:value-of select="$sourceAnalyzer"/>";
                     var sourceAnalyzerFiles = "<xsl:value-of select="$sourceAnalyzerFiles"/>";
                     var sourceAnalyzerPaths = "";
+                    var targetType = "<xsl:value-of select="$targetType"/>";
+                    var targetFiles = "<xsl:value-of select="$targetAnalyzerFiles"/>";
+                    var targetPaths = "";
                     var generatorsStatus = "<xsl:value-of select="$generatorsStatus"/>";
                     var instanceGeneratorsNames = "";
                 </script>

@@ -26,7 +26,6 @@
  * This file is part of the 3MEditor webapp of Mapping Memory Manager project.
  */
 
-var allowedExtensions = ['xml', 'rdf', 'rdfs', 'html','xsd'];
 var comboAPI, goAhead;
 var clipboard = {
     "mapping": "",
@@ -508,7 +507,6 @@ function fillCombo($this, setValue) {
                     if (JSON.stringify(json).indexOf('"' + oldValue + '"') === -1) {
                         wrongValue = true;
                     }
-
                     $this.select2({
                         allowClear: true,
                         placeholder: "Select a value",
@@ -655,11 +653,9 @@ function fillSourceCombo($this) {
                 if (!xpath.endsWith("domain/source_node")) {
                     filteredPaths = filterSourceValues(xpath);
                 }
-                var domainValue = getDomainSourceValueForLink(xpath);
 
                 $this.select2({
                     allowClear: true,
-//                    nextSearchTerm: displayCurrentValue,
                     placeholder: "Select a value",
                     createSearchChoice: function(term, data) {
                         if ($(data).filter(function() {
@@ -673,15 +669,7 @@ function fillSourceCombo($this) {
                     },
                     data: filteredPaths,
                     initSelection: function(element, callback) {
-//                            var domainValue = getDomainSourceValueForLink(xpath);
-
-//                        if (element.attr("data-id").startsWith(domainValue + "/")) {
-//                            var data = {id: element.attr("data-id").substring(domainValue.length + 1), text: element.val().substring(domainValue.length + 1)};
-//                        } else {
                         var data = {id: element.attr("data-id"), text: element.val()};
-
-//                        }
-
                         callback(data);
                     }
                 });
@@ -693,14 +681,12 @@ function fillSourceCombo($this) {
     } else {
         var xpath = $this.attr("data-xpath");
         var filteredPaths = sourceAnalyzerPaths;
-        var domainValue = getDomainSourceValueForLink(xpath);
 
         if (!xpath.endsWith("domain/source_node")) {
             filteredPaths = filterSourceValues(xpath);
         }
         $this.select2({
             allowClear: true,
-//            nextSearchTerm: displayCurrentValue,
             placeholder: "Select a value",
             createSearchChoice: function(term, data) {
                 if ($(data).filter(function() {
@@ -714,13 +700,7 @@ function fillSourceCombo($this) {
             },
             data: filteredPaths,
             initSelection: function(element, callback) {
-//                var data = {id: element.attr("data-id"), text: element.val()};
-//                if (element.attr("data-id").startsWith(domainValue + "/")) {
-//                    var data = {id: element.attr("data-id").substring(domainValue.length + 1), text: element.val().substring(domainValue.length + 1)};
-//                } else {
                 var data = {id: element.attr("data-id"), text: element.val()};
-//                }
-
                 callback(data);
             }
         });
@@ -838,14 +818,26 @@ function upload($this) {
 
     var xpath = $this.attr("data-xpath");
     var uploadMessage = "Upload File";
+    var allowedExtensions;
     if (xpath.endsWith("schema_file")) {
         uploadMessage = "Upload File";
+        if (xpath.endsWith("source_schema/@schema_file")) {
+            allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml'];
+        } else {
+            allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml'];
+        }
     } else if (xpath.endsWith("xml_link") || xpath.endsWith("generator_link")) {
         uploadMessage = "Upload xml";
+        allowedExtensions = ['xml'];
+
     } else if (xpath.endsWith("html_link")) {
         uploadMessage = "Upload html";
+        allowedExtensions = ['html', 'htm'];
+
     } else if (xpath.endsWith("rdf_link")) {
         uploadMessage = "Upload rdf";
+        allowedExtensions = ['rdf'];
+
 //    }  else if (xpath.endsWith("generator_link")) {
 //        uploadMessage = "Upload File";
     }
@@ -871,7 +863,6 @@ function upload($this) {
         },
         debug: false
     }).on('complete', function(event, id, fileName, responseJSON) {
-
         if (responseJSON.success) {
             filename = responseJSON.filename;
 
@@ -892,8 +883,7 @@ function upload($this) {
                 linkText = "view xml";
             } else if (uploadMessage === "Upload html") {
                 linkText = "view html";
-//            } else if (uploadMessage === "Upload generator") {
-//                linkText = "view generator"
+
             } else { //Not sure if I want a default analyzer
                 if (xpath.endsWith("source_schema/@schema_file")) {
                     sourceAnalyzer = "on";
@@ -902,6 +892,7 @@ function upload($this) {
                     configurationOption("sourceAnalyzer", "enable");
                     viewOnly();
                 } else {
+
                     dataType = "target_info"; //Added only for this case, may have to make use of it for other cases too.
                     if (comboAPI === 0) {
                         comboAPI = 2;
@@ -919,7 +910,7 @@ function upload($this) {
             } else {
                 url = "FetchBinFile?id=" + mappingId + "&amp;file=" + encodeURIComponent(filename);
             }
-            var linkHtml = "<a data-type='"+dataType+"' title='" + encodeURIComponent(filename) + "' style='position:relative;top:1px;' target='_blank' href='" + url + "'>" + linkText + " </a>";
+            var linkHtml = "<a data-type='" + dataType + "' title='" + encodeURIComponent(filename) + "' style='position:relative;top:1px;' target='_blank' href='" + url + "'>" + linkText + " </a>";
             var deleteHtml = " <button class='btn btn-default btn-link btn-sm deleteFile' type='button' title='Delete " + encodeURIComponent(filename) + "' id='delete***" + xpath + "'>" +
                     "<span class='glyphicon glyphicon-remove'></span>" +
                     "</button> ";
