@@ -493,7 +493,9 @@ function fillCombo($this, setValue) {
 
         var url;
         if (xpath.indexOf("/source_relation") !== -1 || xpath.indexOf("/source_node") !== -1) {
-            fillSourceCombo($this);
+            fillXMLSchemaCombo($this, "source");
+        } else if (targetType === "xml") {
+            fillXMLSchemaCombo($this, "target");
         } else {
             url = 'GetListValues?id=' + id + '&xpath=' + xpath + '&targetAnalyzer=' + comboAPI;
             $.ajax({
@@ -620,92 +622,99 @@ function fillInstanceCombos(selector) {
 }
 
 
-function fillSourceCombo($this) {
+function fillXMLSchemaCombo($this, type) {
 
-
-    if (sourceAnalyzerPaths.length === 0) {
-
-        var url = '/SourceAnalyzer/filePathService';
-        var sourceAnalyzerFile = "";
-        if (sourceAnalyzerFiles.indexOf("***") !== -1) {
-            var files = sourceAnalyzerFiles.split("***");
-            var schemaFile = files[0];
-            var instanceFile = files[1];
-            if (schemaFile.length > 0) {
-                sourceAnalyzerFile = schemaFile;
-            } else {
-                if (instanceFile.length > 0) {
-                    sourceAnalyzerFile = instanceFile;
-                }
-            }
-
-        }
-        if (sourceAnalyzer === "on") {
-
-            if (sourceAnalyzerFile.endsWith(".xsd")) {
-                sourceAnalyzerFile = "../xml_schema/" + sourceAnalyzerFile;
-            }
-
-            $.post(url, {fileName: sourceAnalyzerFile}, function(data) {
-                sourceAnalyzerPaths = data.results;
-                var xpath = $this.attr("data-xpath");
-                var filteredPaths = sourceAnalyzerPaths;
-                if (!xpath.endsWith("domain/source_node")) {
-                    filteredPaths = filterSourceValues(xpath);
-                }
-
-                $this.select2({
-                    allowClear: true,
-                    placeholder: "Select a value",
-                    createSearchChoice: function(term, data) {
-                        if ($(data).filter(function() {
-                            return this.text.localeCompare(term) === 0;
-                        }).length === 0) {
-                            return {
-                                id: term,
-                                text: term
-                            };
-                        }
-                    },
-                    data: filteredPaths,
-                    initSelection: function(element, callback) {
-                        var data = {id: element.attr("data-id"), text: element.val()};
-                        callback(data);
+    if (type === "source") {
+        if (sourceAnalyzerPaths.length === 0) {
+            var url = '/SourceAnalyzer/filePathService';
+            var sourceAnalyzerFile = "";
+            if (sourceAnalyzerFiles.indexOf("***") !== -1) { //Choose file to get xpaths from
+                var files = sourceAnalyzerFiles.split("***");
+                var schemaFile = files[0];
+                var instanceFile = files[1];
+                if (schemaFile.length > 0) {
+                    sourceAnalyzerFile = schemaFile;
+                } else {
+                    if (instanceFile.length > 0) {
+                        sourceAnalyzerFile = instanceFile;
                     }
+                }
+            }
+            if (sourceAnalyzer === "on") {
+                if (sourceAnalyzerFile.endsWith(".xsd")) {
+                    sourceAnalyzerFile = "../xml_schema/" + sourceAnalyzerFile;
+                }
+                $.post(url, {fileName: sourceAnalyzerFile}, function(data) {
+                    sourceAnalyzerPaths = data.results;
+                    fillComboWithPaths($this,sourceAnalyzerPaths);
+                },
+                        "json").error(function() {
+                    alert("Error reading source schema or source xml. Please disable Source Analyzer from Configuration tab to fill in source values.");
                 });
-            },
-                    "json").error(function() {
-                alert("Error reading source schema or source xml. Please disable Source Analyzer from Configuration tab to fill in source values.");
-            });
+            }
+        } else {
+            fillComboWithPaths($this,sourceAnalyzerPaths);
         }
     } else {
-        var xpath = $this.attr("data-xpath");
-        var filteredPaths = sourceAnalyzerPaths;
+        
+        if (targetPaths.length === 0) {
+            var url = '/SourceAnalyzer/filePathService';
+            var targetFile = "";
+            if (targetFiles.indexOf("***") !== -1) { //Choose file to get xpaths from
+                var files = targetFiles.split("***");
+                targetFile = files[0]; //get first XSD for now
 
-        if (!xpath.endsWith("domain/source_node")) {
-            filteredPaths = filterSourceValues(xpath);
-        }
-        $this.select2({
-            allowClear: true,
-            placeholder: "Select a value",
-            createSearchChoice: function(term, data) {
-                if ($(data).filter(function() {
-                    return this.text.localeCompare(term) === 0;
-                }).length === 0) {
-                    return {
-                        id: term,
-                        text: term
-                    };
-                }
-            },
-            data: filteredPaths,
-            initSelection: function(element, callback) {
-                var data = {id: element.attr("data-id"), text: element.val()};
-                callback(data);
             }
-        });
+//            if (targetAnalyzer === "on") {
+                if (targetFile.endsWith(".xsd")) {
+                    targetFile = "../xml_schema/" + targetFile;
+                }
+                $.post(url, {fileName: targetFile}, function(data) {
+                    targetPaths = data.results;
+                    fillComboWithPaths($this,targetPaths);
+                },
+                        "json").error(function() {
+                    alert("Error reading target schema or target xml..");
+                });
+//            }
+        } else {
+            fillComboWithPaths($this,targetPaths);
+        }
     }
+
     $(".loader").hide();
+}
+
+function fillComboWithPaths($this,filteredPaths) {
+    var xpath = $this.attr("data-xpath");
+    
+    if (!xpath.endsWith("domain/source_node") && xpath.indexOf("/target_")===-1) { //Apply filtering only for source link (path or range) combos
+        filteredPaths = filterSourceValues(xpath);
+    }
+
+    $this.select2({
+        allowClear: true,
+        placeholder: "Select a value",
+        createSearchChoice: function(term, data) {
+            if ($(data).filter(function() {
+                return this.text.localeCompare(term) === 0;
+            }).length === 0) {
+                return {
+                    id: term,
+                    text: term
+                };
+            }
+        },
+        data: filteredPaths,
+        initSelection: function(element, callback) {
+//            var data = {id: element.attr("data-id"), text: element.val()};
+//                       alert(JSON.stringify(data));
+                            var data = {id: $this.attr("data-id"), text: $this.val()};
+
+            callback(data);
+        }
+    });
+   
 }
 
 function getDomainSourceValueForLink(xpath) {

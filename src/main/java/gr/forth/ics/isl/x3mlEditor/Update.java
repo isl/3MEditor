@@ -165,10 +165,14 @@ public class Update extends BasicServlet {
                 String strippedNewValue = newValue;
 
                 if ((xpath.matches(".*?/entity\\[\\d+\\]/type\\[\\d+\\]") || xpath.contains("/relationship"))) {
-                    if (newValue.startsWith("http://")) { //Stripping slashes...
-                        strippedNewValue = newValue.substring(newValue.lastIndexOf("/") + 1);
-                    } else if (newValue.contains(":")) {//Stripping prefixes. Is it safe? 
-                        strippedNewValue = newValue.substring(newValue.indexOf(":") + 1);
+                    String targetType = request.getParameter("targetType");
+
+                    if (!targetType.equals("xml")) {
+                        if (newValue.startsWith("http://")) { //Stripping slashes...
+                            strippedNewValue = newValue.substring(newValue.lastIndexOf("/") + 1);
+                        } else if (newValue.contains(":")) {//Stripping prefixes. Is it safe? 
+                            strippedNewValue = newValue.substring(newValue.indexOf(":") + 1);
+                        }
                     }
                 }
                 out.println(strippedNewValue);

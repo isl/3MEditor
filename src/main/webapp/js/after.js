@@ -35,6 +35,7 @@ $("body").on("blur", ".form-control", function() {
 
     } else {
         var url = "Update?id=" + id + "&xpath=" + $input.attr("data-xpath") + "&value=" + encodeURIComponent($input.val());
+       
         $.post(url).done(function(data) {
             $input.attr("value", data);
         });
@@ -79,13 +80,14 @@ $("#matching_table").on("change", ".select2", function(e) {
     }
     if (goAhead) {
 
-        var url = "Update?id=" + id + "&xpath=" + $input.attr("data-xpath") + "&value=" + encodeURIComponent(e.val);
+        var url = "Update?id=" + id + "&xpath=" + $input.attr("data-xpath") + "&value=" + encodeURIComponent(e.val)+"&targetType="+targetType;
         $.post(url).done(function(data) {
+            
             $input.val(data);
             $input.attr("data-id", e.val);
 //            var xpath = $input.attr('data-xpath');
 
-            if (xpath.indexOf("/source_relation") === -1 && xpath.indexOf("/source_node") === -1) {
+            if (xpath.indexOf("/source_relation") === -1 && xpath.indexOf("/source_node") === -1 && targetType!=="xml") {
                 refreshCombos(xpath, true);
             }
             if (xpath.indexOf("instance_generator/@name") !== -1 || (xpath.indexOf("label_generator[") !== -1 && xpath.endsWith("/@name"))) {
