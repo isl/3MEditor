@@ -131,7 +131,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:if>
         
             
-                    <span>
+                    <span title="{.}" class="targetPath" data-miniPath="{$strippedURL}" data-fullPath="{.}">
+
                         <xsl:if test="position()>1">
                             <xsl:attribute name="style">margin-left:53px;</xsl:attribute>
 
@@ -270,11 +271,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                   
                 <xsl:text>[</xsl:text>
-                <i>
+                <xsl:variable name="strippedRelationship">
                     <xsl:call-template name="substring-after-last-and-remove-prefix">
                         <xsl:with-param name="string" select="relationship" />
                         <xsl:with-param name="delimiter" select="'/'" />
                     </xsl:call-template>
+                </xsl:variable>
+                <i title="{relationship}" class="targetPath" data-miniPath="{$strippedRelationship}" data-fullPath="{relationship}">
+                    <xsl:value-of select="$strippedRelationship"/>
                 </i>
                 <xsl:text>]</xsl:text>
 
@@ -299,7 +303,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:choose>
               
                 </xsl:variable>
-                <xsl:value-of select="$strippedURL"/> 
+                <span title="{entity/type}" class="targetPath" data-miniPath="{$strippedURL}" data-fullPath="{entity/type}">
+                    <xsl:value-of select="$strippedURL"/> 
+                </span>
                 <xsl:choose>
                     <xsl:when test="entity/instance_info/constant">
                         <xsl:if test=".!=''">
@@ -314,18 +320,18 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 
                 <xsl:if test="entity/instance_info/language or entity/instance_info/description">
                     <br/>
-                                <small class="language">
+                    <small class="language">
                         <xsl:value-of select="entity/instance_info/language"/>
                     </small>     
                                 &#160;
                       
-                      <xsl:if test="entity/instance_info/description">
-                    <xsl:variable name="description" select="entity/instance_info/description"/>
-                    <a class="description" tabindex="0"
-                       title="Description" data-trigger="focus" data-toggle="popover" data-content="{$description}">
-                        <span style="display:inline;" class="small">(Description...)</span>
-                    </a>                         
-</xsl:if>
+                    <xsl:if test="entity/instance_info/description">
+                        <xsl:variable name="description" select="entity/instance_info/description"/>
+                        <a class="description" tabindex="0"
+                           title="Description" data-trigger="focus" data-toggle="popover" data-content="{$description}">
+                            <span style="display:inline;" class="small">(Description...)</span>
+                        </a>                         
+                    </xsl:if>
                          
                 </xsl:if> 
 

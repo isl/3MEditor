@@ -79,6 +79,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </xsl:when>
                                 <xsl:otherwise>
                                     <input style="width:100%;" title="Source Node" type="hidden" class="select2 input-sm" data-id="{.}" id="domainSourceNode" data-xpath="{concat($pathSoFar,'/source_node')}">
+                                                                               
                                         <xsl:attribute name="value">
                                             <xsl:value-of select="source_node"></xsl:value-of>
                                         </xsl:attribute>

@@ -42,12 +42,21 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <span >
                     <xsl:attribute name="style">margin-right:30px;</xsl:attribute>
                     <img src="images/property.png"/>
-                </span>          
-                <i>
+                </span>       
+                <xsl:variable name="strippedRelationship">
                     <xsl:call-template name="substring-after-last-and-remove-prefix">
                         <xsl:with-param name="string" select="relationship[1]" />
                         <xsl:with-param name="delimiter" select="'/'" />
                     </xsl:call-template>
+                </xsl:variable>   
+                <!--<i title="{relationship[1]}">-->
+                <i title="{relationship[1]}" class="targetPath" data-miniPath="{$strippedRelationship}" data-fullPath="{relationship[1]}">
+                    <xsl:value-of select="$strippedRelationship"/>
+
+                    <!--                        <xsl:call-template name="substring-after-last-and-remove-prefix">
+                        <xsl:with-param name="string" select="relationship[1]" />
+                        <xsl:with-param name="delimiter" select="'/'" />
+                    </xsl:call-template>-->
                 </i>
             </div>
         </div>
@@ -83,12 +92,19 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <xsl:attribute name="style">margin-right:30px;</xsl:attribute>
                     <img src="images/property.png"/>
                 </span>   
-              
-                <i>
+                <xsl:variable name="strippedRelationship">
                     <xsl:call-template name="substring-after-last-and-remove-prefix">
                         <xsl:with-param name="string" select="." />
                         <xsl:with-param name="delimiter" select="'/'" />
                     </xsl:call-template>
+                </xsl:variable>   
+                <!--<i title="{.}">-->
+                <i title="{.}" class="targetPath" data-miniPath="{$strippedRelationship}" data-fullPath="{.}">
+                    <xsl:value-of select="$strippedRelationship"/>
+                    <!--                    <xsl:call-template name="substring-after-last-and-remove-prefix">
+                        <xsl:with-param name="string" select="." />
+                        <xsl:with-param name="delimiter" select="'/'" />
+                    </xsl:call-template>-->
                 </i>
         
                 <!--<br/>-->

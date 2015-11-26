@@ -114,9 +114,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     <label id="label60">
                                         <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
                                         <input name="sourcePaths" type="radio" class="toggle" value="full" autocomplete="off">
-                                            <xsl:if test="//output/sourceAnalyzer!='on'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
+                                            
                                         </input>                                            
                                         <xsl:text> Full</xsl:text>
                                     </label>
@@ -140,7 +138,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </div>
                         <div class="row" style="border-top: 1px #e5e5e5 solid;">
                             <br/>
-                            <div class="col-sm-8">
+                            <div class="col-sm-6">
                                 <label class="control-label" for="generators">Generators: </label>
                                 <div class="btn-group" id="generators" data-toggle="buttons">
                                     <label id="label7">
@@ -197,11 +195,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     tested thoroughly, default mode will become <b>"Auto"</b>. 
                                 </p>
                                  
-                            </div>
+                            </div>                           
                         </div>
                         <div class="row" style="border-top: 1px #e5e5e5 solid;">
                             <br/>
-                            <div class="col-sm-8">
+                            <div class="col-sm-6">
                                 <label class="control-label" for="targetAnalyzer">Target Analyzer: </label>                                                                
                                 <div class="btn-group" id="targetAnalyzer" data-toggle="buttons">
                                     <label id="label2">
@@ -262,8 +260,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </div>
                                 <br/>
                                 <br/>
-                                <!--                            </div>
-                                <div class="col-sm-9">-->
+                              
                                 <p>
                                     <b>eXist queries</b>: It only works with RDFS or RDF schema files. 
                                     Target analyzer engine is based on Xquery queries performed on RDFS schemas stored in eXist.
@@ -280,6 +277,43 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     <b>None</b>: It works with any type of schema files (or even without schema files at all).
                                     User simply fills in input fields with free text.
                                 </p>
+                            </div>
+                            <div class="col-sm-6">
+
+                                <label class="control-label" for="sourcePaths">Target Paths: </label>
+                                <div class="btn-group" id="targetPaths" data-toggle="buttons">
+                                    <label id="label51">
+                                        <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                        <input name="targetPaths" type="radio" class="toggle" value="mini" autocomplete="off">
+
+                                        </input>                                            
+                                        <xsl:text> Short</xsl:text>
+                                    </label>
+                                    <label id="label61">
+                                        <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                        <input name="targetPaths" type="radio" class="toggle" value="full" autocomplete="off">
+                                            <xsl:if test="//output/targetAnalyzer!='0'">
+                                                <xsl:attribute  name="checked">checked</xsl:attribute>
+                                            </xsl:if>
+                                        </input>                                            
+                                        <xsl:text> Full</xsl:text>
+                                    </label>
+                                   
+                                    
+                                </div>
+                                <br/>
+                                <br/>
+                                <p>
+                                    Chooses whether target paths view is stripped (<b>Short mode</b>) or complete (<b>Full mode</b>).
+                                    Default mode is <b>"Short"</b>, which strips actual xpaths to create a more compact view:
+                                    e.g. XML: <code>root/IdentityOfObject/CodeNumber/CodeValue</code> is shown as <code>../CodeValue</code>
+                                    RDF:<code>crm:E25_Man-Made_Feature</code> is shown as <code>E25_Man-Made_Feature</code>
+                                    <br/>
+                                    If user chooses <b>"Full"</b> mode, then path is not processed and its actual value is shown, thus creating wider
+                                    target columns.
+                                        
+                                </p>
+                                 
                             </div>
                         </div>
                          

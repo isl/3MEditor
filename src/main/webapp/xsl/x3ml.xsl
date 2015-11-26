@@ -50,7 +50,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     var sourceAnalyzerPaths = "";
                     var targetType = "<xsl:value-of select="$targetType"/>";
                     var targetFiles = "<xsl:value-of select="$targetAnalyzerFiles"/>";
-                    var targetPaths = "";
+                    var targetXPaths = "";
                     var generatorsStatus = "<xsl:value-of select="$generatorsStatus"/>";
                     var instanceGeneratorsNames = "";
                 </script>

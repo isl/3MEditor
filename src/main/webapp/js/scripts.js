@@ -33,6 +33,7 @@ var clipboard = {
 };
 var clipBoardValue = "";
 var sourcePaths = "mini";
+var targetPaths = "mini";
 
 $(document).ready(function() {
 
@@ -63,6 +64,12 @@ $(document).ready(function() {
                     $(".sourcePath").each(function(index) {
                         var $sourcePathSpan = $(this);
                         findProperPathValue($sourcePathSpan);
+                    });
+                }
+                if (targetPaths === "full") {
+                    $(".targetPath").each(function(index) {
+                        var $targetPathSpan = $(this);
+                        findProperPathValue($targetPathSpan);
                     });
                 }
                 $btn.button('reset');
@@ -173,6 +180,9 @@ $('.saveXML-btn').click(function() {
                 } else if (xpath.endsWith("/domain/..") || xpath.endsWith("/mappings")) {
 
                     if (xpath.endsWith("/mappings")) {
+                        if (comboAPI !== 0 && targetType === "xml") {
+                            comboAPI = 4;
+                        }
                         var url = "GetPart?id=" + id + "&xpath=" + xpath + "&mode=view&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
                         $.post(url).done(function(data) {
                             $(".mappings").replaceWith(data);
@@ -190,6 +200,9 @@ $('.saveXML-btn').click(function() {
                     }
 
                     //First make clicked part editable
+                    if (comboAPI !== 0 && targetType === "xml") {
+                        comboAPI = 4;
+                    }
                     var url = "GetPart?id=" + id + "&xpath=" + editPath + "&mode=edit&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
                     $.post(url).done(function(data) {
 
@@ -313,7 +326,10 @@ $("#matching_table").on("click", ".clickable", function() {
         } else {
 
 
-//First make clicked part editable
+            //First make clicked part editable
+            if (comboAPI !== 0 && targetType === "xml") {
+                comboAPI = 4;
+            }
             var url = "GetPart?id=" + id + "&xpath=" + $path.attr("data-xpath") + "&mode=edit&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
             $.post(url).done(function(data) {
 
@@ -444,6 +460,12 @@ function highlightLink($data) {
         $data.find(".sourcePath").each(function(index) {
             var $sourcePathSpan = $(this);
             findProperPathValue($sourcePathSpan);
+        });
+    }
+    if (targetPaths === "full") {
+        $data.find(".targetPath").each(function(index) {
+            var $targetPathSpan = $(this);
+            findProperPathValue($targetPathSpan);
         });
     }
 
@@ -646,18 +668,18 @@ function fillXMLSchemaCombo($this, type) {
                 }
                 $.post(url, {fileName: sourceAnalyzerFile}, function(data) {
                     sourceAnalyzerPaths = data.results;
-                    fillComboWithPaths($this,sourceAnalyzerPaths);
+                    fillComboWithPaths($this, sourceAnalyzerPaths);
                 },
                         "json").error(function() {
                     alert("Error reading source schema or source xml. Please disable Source Analyzer from Configuration tab to fill in source values.");
                 });
             }
         } else {
-            fillComboWithPaths($this,sourceAnalyzerPaths);
+            fillComboWithPaths($this, sourceAnalyzerPaths);
         }
     } else {
-        
-        if (targetPaths.length === 0) {
+
+        if (targetXPaths.length === 0) {
             var url = '/SourceAnalyzer/filePathService';
             var targetFile = "";
             if (targetFiles.indexOf("***") !== -1) { //Choose file to get xpaths from
@@ -666,32 +688,31 @@ function fillXMLSchemaCombo($this, type) {
 
             }
 //            if (targetAnalyzer === "on") {
-                if (targetFile.endsWith(".xsd")) {
-                    targetFile = "../xml_schema/" + targetFile;
-                }
-                $.post(url, {fileName: targetFile}, function(data) {
-                    targetPaths = data.results;
-                    fillComboWithPaths($this,targetPaths);
-                },
-                        "json").error(function() {
-                    alert("Error reading target schema or target xml..");
-                });
+            if (targetFile.endsWith(".xsd")) {
+                targetFile = "../xml_schema/" + targetFile;
+            }
+            $.post(url, {fileName: targetFile}, function(data) {
+                targetXPaths = data.results;
+                fillComboWithPaths($this, targetXPaths);
+            },
+                    "json").error(function() {
+                alert("Error reading target schema or target xml..");
+            });
 //            }
         } else {
-            fillComboWithPaths($this,targetPaths);
+            fillComboWithPaths($this, targetXPaths);
         }
     }
 
     $(".loader").hide();
 }
 
-function fillComboWithPaths($this,filteredPaths) {
+function fillComboWithPaths($this, filteredPaths) {
     var xpath = $this.attr("data-xpath");
-    
-    if (!xpath.endsWith("domain/source_node") && xpath.indexOf("/target_")===-1) { //Apply filtering only for source link (path or range) combos
+
+    if (!xpath.endsWith("domain/source_node") && xpath.indexOf("/target_") === -1) { //Apply filtering only for source link (path or range) combos
         filteredPaths = filterSourceValues(xpath);
     }
-
     $this.select2({
         allowClear: true,
         placeholder: "Select a value",
@@ -707,14 +728,12 @@ function fillComboWithPaths($this,filteredPaths) {
         },
         data: filteredPaths,
         initSelection: function(element, callback) {
-//            var data = {id: element.attr("data-id"), text: element.val()};
-//                       alert(JSON.stringify(data));
-                            var data = {id: $this.attr("data-id"), text: $this.val()};
+            var data = {id: $this.attr("data-id"), text: $this.val()};
 
             callback(data);
         }
     });
-   
+
 }
 
 function getDomainSourceValueForLink(xpath) {
@@ -753,7 +772,13 @@ function fillCombos() {
     });
 }
 function findProperPathValue($element) {
-    var value = $element.attr("data-" + sourcePaths + "Path");
+    var paths;
+    if ($element.attr("class") === "sourcePath") {
+        paths = sourcePaths;
+    } else if ($element.attr("class") === "targetPath") {
+        paths = targetPaths;
+    }
+    var value = $element.attr("data-" + paths + "Path");
     $element.html(value);
 }
 
@@ -773,6 +798,15 @@ $("#sourcePaths input:radio").change(function() { //On change set variable
         findProperPathValue($sourcePathSpan);
     });
 });
+$("#targetPaths input:radio").change(function() { //On change set variable
+    targetPaths = $(this).val();
+    viewOnly();
+    $(".targetPath").each(function(index) {
+        var $targetPathSpan = $(this);
+        findProperPathValue($targetPathSpan);
+    });
+});
+
 
 $("#generators input:radio").change(function() { //On change set variable
     $("body").css("opacity", "0.4");

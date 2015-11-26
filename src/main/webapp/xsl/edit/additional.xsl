@@ -174,11 +174,25 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             <xsl:otherwise> 
                 <input style="width:100%" type="hidden" class="select2 input-sm relationship" data-id="{normalize-space(.)}" title="Relationship" data-xpath="{concat($path,'/relationship[',$pos,']')}">
                     <xsl:attribute name="value">
+                        <xsl:choose>
+                            <xsl:when test="//*/@targetMode='4'">
+                                <xsl:value-of select="."></xsl:value-of>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:call-template name="substring-after-last-and-remove-prefix">
+                                    <xsl:with-param name="string" select="." />
+                                    <xsl:with-param name="delimiter" select="'/'" />
+                                </xsl:call-template>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:attribute>
+                    
+                    <!--                    <xsl:attribute name="value">
                         <xsl:call-template name="substring-after-last-and-remove-prefix">
                             <xsl:with-param name="string" select="." />
                             <xsl:with-param name="delimiter" select="'/'" />
                         </xsl:call-template>
-                    </xsl:attribute>
+                    </xsl:attribute>-->
                     <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"/>
                 </input>
             </xsl:otherwise>

@@ -105,7 +105,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
  
                             <xsl:choose>
                                    
-                                <xsl:when test="//*/@targetMode='0'">                                 
+                                <xsl:when test="//*/@targetMode='0'">                               
 
                                     <input title="Entity" id="{$path}" type="text" class="form-control" placeholder="Fill in value" data-xpath="{$path}">
                                         <xsl:attribute name="value">
@@ -116,7 +116,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <xsl:otherwise>
                                     <input  style="width:100%" title="Entity" type="hidden" class="select2 input-sm" data-id="{.}" id="{$path}" data-xpath="{$path}">
                                         <xsl:attribute name="value">
-                                            <xsl:value-of select="$strippedURL"></xsl:value-of>
+                                            <xsl:choose>
+                                                <xsl:when test="//*/@targetMode='4'">
+                                                    <xsl:value-of select="."></xsl:value-of>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:value-of select="$strippedURL"></xsl:value-of>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
                                         </xsl:attribute>
                                         <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
                                     </input>
@@ -164,8 +171,15 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </xsl:when> 
                                 <xsl:otherwise>
                                     <input style="width:100%;" title="Entity" type="hidden" class="select2 input-sm" data-id="{.}" id="{$path}" data-xpath="{$path}">
-                                        <xsl:attribute name="value">
-                                            <xsl:value-of select="$strippedURL"></xsl:value-of>
+                                         <xsl:attribute name="value">
+                                            <xsl:choose>
+                                                <xsl:when test="//*/@targetMode='4'">
+                                                    <xsl:value-of select="."></xsl:value-of>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:value-of select="$strippedURL"></xsl:value-of>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
                                         </xsl:attribute>
                                         <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
                                     </input>
@@ -177,19 +191,19 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <div class="form-group" style="padding-right:0;margin-right:15px;padding-left:20px;">
 
                                      
-                            <label class=" control-label" for="sourceType" style="margin-left:13px;">Constant</label>
+                        <label class=" control-label" for="sourceType" style="margin-left:13px;">Constant</label>
 
-                            <div class="input-group input-group-sm">
+                        <div class="input-group input-group-sm">
                             
-                                <span class="input-group-addon inputAddonMod" >:</span>
-                                <input id="{concat($path,'/../instance_info/constant')}" title="Constant" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($path,'/../instance_info/constant')}">
-                                    <xsl:attribute name="value">
-                                        <xsl:value-of select="../instance_info/constant"></xsl:value-of>
-                                    </xsl:attribute>
-                                </input>
+                            <span class="input-group-addon inputAddonMod" >:</span>
+                            <input id="{concat($path,'/../instance_info/constant')}" title="Constant" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($path,'/../instance_info/constant')}">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="../instance_info/constant"></xsl:value-of>
+                                </xsl:attribute>
+                            </input>
                                              
                                
-                            </div>
+                        </div>
                         
                     </div>
                    
