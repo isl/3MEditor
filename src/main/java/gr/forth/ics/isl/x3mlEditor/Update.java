@@ -167,7 +167,7 @@ public class Update extends BasicServlet {
                 if ((xpath.matches(".*?/entity\\[\\d+\\]/type\\[\\d+\\]") || xpath.contains("/relationship"))) {
                     String targetType = request.getParameter("targetType");
 
-                    if (!targetType.equals("xml")) {
+                    if (targetType == null || !targetType.equals("xml")) {
                         if (newValue.startsWith("http://")) { //Stripping slashes...
                             strippedNewValue = newValue.substring(newValue.lastIndexOf("/") + 1);
                         } else if (newValue.contains(":")) {//Stripping prefixes. Is it safe? 

@@ -180,7 +180,7 @@ $('.saveXML-btn').click(function() {
                 } else if (xpath.endsWith("/domain/..") || xpath.endsWith("/mappings")) {
 
                     if (xpath.endsWith("/mappings")) {
-                        if (comboAPI !== 0 && targetType === "xml") {
+                        if (comboAPI !== "0" && targetType === "xml") {
                             comboAPI = 4;
                         }
                         var url = "GetPart?id=" + id + "&xpath=" + xpath + "&mode=view&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
@@ -200,7 +200,7 @@ $('.saveXML-btn').click(function() {
                     }
 
                     //First make clicked part editable
-                    if (comboAPI !== 0 && targetType === "xml") {
+                    if (comboAPI !== "0" && targetType === "xml") {
                         comboAPI = 4;
                     }
                     var url = "GetPart?id=" + id + "&xpath=" + editPath + "&mode=edit&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
@@ -327,7 +327,7 @@ $("#matching_table").on("click", ".clickable", function() {
 
 
             //First make clicked part editable
-            if (comboAPI !== 0 && targetType === "xml") {
+            if (comboAPI !== "0" && targetType === "xml") {
                 comboAPI = 4;
             }
             var url = "GetPart?id=" + id + "&xpath=" + $path.attr("data-xpath") + "&mode=edit&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;

@@ -167,6 +167,8 @@ public class Index extends BasicServlet {
                 targetAnalyzerFiles = targetAnalysisResult.get("targetAnalyzerFiles");
                 if (targetType.equals("None") || targetType.equals("Mixed")) {
                     targetAnalyzer = "0";
+                } else if (targetType.equals("xml")) {
+                    targetAnalyzer = "4";
                 }
 
 //                if (mappingFile.queryString("//target_info/target_schema/@schema_file/string()").length == 0) {

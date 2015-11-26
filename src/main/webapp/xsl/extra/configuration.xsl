@@ -207,7 +207,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             <xsl:when test="//output/targetAnalyzer='2'">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
                                             </xsl:when>
-                                            <xsl:when test="//output/targetAnalyzer='0'">
+                                            <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml'">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
                                             </xsl:when>
                                             <xsl:otherwise>
@@ -226,7 +226,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             <xsl:when test="//output/targetAnalyzer='3'">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
                                             </xsl:when>
-                                            <xsl:when test="//output/targetAnalyzer='0'">
+                                            <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml'">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
                                             </xsl:when>
                                             <xsl:otherwise>
@@ -239,6 +239,25 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             </xsl:if>
                                         </input>                                            
                                         <xsl:text> Jena reasoner</xsl:text>
+                                    </label>
+                                    <label id="label4">
+                                        <xsl:choose>
+                                            <xsl:when test="//output/targetAnalyzer='4'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:when test="//output/targetAnalyzer='0' or //output/targetType!='xml'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                        <input name="targetAnalyzer" type="radio" class="toggle" value="4" autocomplete="off">
+                                            <xsl:if test="//output/targetAnalyzer='4'">
+                                                <xsl:attribute  name="checked">checked</xsl:attribute>
+                                            </xsl:if>
+                                        </input>                                            
+                                        <xsl:text> XML</xsl:text>
                                     </label>
                                     <label id="label0">
                                         <xsl:choose>
@@ -272,6 +291,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     Target analyzer engine is based on Jena reasoner. User chooses valid options from a select box.
                                     If there are no target schemas, user simply fills in input fields with free text. 
                                     <b>(WARNING! The first time user clicks a row to edit, it will take some time to create combos)</b>
+                                </p>
+                                 <p>
+                                    <b>XML</b>: It works with XSD or XML schema files . 
+                                    Target analyzer engine parses file and discovers all available xpaths. User chooses valid options from a select box.
+                                    If there are no target schemas, user simply fills in input fields with free text. 
                                 </p>
                                 <p>
                                     <b>None</b>: It works with any type of schema files (or even without schema files at all).
