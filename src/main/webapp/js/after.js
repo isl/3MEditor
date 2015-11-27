@@ -36,6 +36,18 @@ $("body").on("blur", ".form-control", function() {
     } else {
         var url = "Update?id=" + id + "&xpath=" + $input.attr("data-xpath") + "&value=" + encodeURIComponent($input.val());
 
+        if (targetType === "xml" && $input.attr("data-xpath") === "//x3ml/mappings/mapping[1]/domain/target_node/entity[1]/type[1]") {
+            if ($input.val().length > 0) {
+                comboAPI = 4;
+                configurationOption("targetAnalyzer", "enableXMLonly");
+            } else {
+                comboAPI = 0;
+                configurationOption("targetAnalyzer", "disable");
+            }
+            targetRoot = $input.val();
+
+        }
+
         $.post(url).done(function(data) {
             $input.attr("value", data);
         });
@@ -238,6 +250,7 @@ $("body").on("click", ".deleteFile", function() {
                 if ($("a[data-type='target_info']:visible").length === 1) { //Deleting last target schema file
                     configurationOption("targetAnalyzer", "disable");
                     comboAPI = 0;
+                     $("#addTarget").show();
 
                 }
             }
@@ -273,11 +286,17 @@ function configurationOption(option, action) {
             $("#targetAnalyzer>#label2").removeClass("disabled").addClass("active");
             $("#targetAnalyzer>#label3").removeClass("disabled");
             $("#targetAnalyzer>#label2>input").attr("checked", "checked");
+        } else if (action === "enableXMLonly") {
+            $("#targetAnalyzer").children("label").removeClass("active");
+            $("#targetAnalyzer").find("input").removeAttr("checked");
+            $("#targetAnalyzer>#label4").removeClass("disabled").addClass("active");
+            $("#targetAnalyzer>#label4>input").attr("checked", "checked");
         } else {
             $("#targetAnalyzer").children("label").removeClass("active");
             $("#targetAnalyzer").find("input").removeAttr("checked");
             $("#targetAnalyzer>#label2").addClass("disabled");
             $("#targetAnalyzer>#label3").addClass("disabled");
+            $("#targetAnalyzer>#label4").addClass("disabled");
             $("#targetAnalyzer>#label0").addClass("active");
             $("#targetAnalyzer>#label0>input").attr("checked", "checked");
         }

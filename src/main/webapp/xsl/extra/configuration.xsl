@@ -242,10 +242,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     </label>
                                     <label id="label4">
                                         <xsl:choose>
-                                            <xsl:when test="//output/targetAnalyzer='4'">
+                                            <xsl:when test="//output/targetAnalyzer='4' and //domain/target_node/entity/type!=''">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
                                             </xsl:when>
-                                            <xsl:when test="//output/targetAnalyzer='0' or //output/targetType!='xml'">
+                                            <xsl:when test="//output/targetAnalyzer='0' or //output/targetType!='xml' or //domain/target_node/entity/type=''">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
                                             </xsl:when>
                                             <xsl:otherwise>
@@ -261,7 +261,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     </label>
                                     <label id="label0">
                                         <xsl:choose>
-                                            <xsl:when test="//output/targetAnalyzer='0'">
+                                            <xsl:when test="//output/targetAnalyzer='0' or (//output/targetAnalyzer='4' and //domain/target_node/entity/type='')">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
                                             </xsl:when>
                                             <xsl:otherwise>
@@ -293,8 +293,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     <b>(WARNING! The first time user clicks a row to edit, it will take some time to create combos)</b>
                                 </p>
                                  <p>
-                                    <b>XML</b>: It works with XSD or XML schema files . 
-                                    Target analyzer engine parses file and discovers all available xpaths. User chooses valid options from a select box.
+                                     <b>XML</b>: It works with <b>ONE</b> XSD or XML schema file. 
+                                    After user has defined a target xpath as root, target analyzer engine parses file and discovers all available xpaths.
+                                    User chooses xpaths from a select box.
                                     If there are no target schemas, user simply fills in input fields with free text. 
                                 </p>
                                 <p>

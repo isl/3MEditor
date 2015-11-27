@@ -168,7 +168,13 @@ public class Index extends BasicServlet {
                 if (targetType.equals("None") || targetType.equals("Mixed")) {
                     targetAnalyzer = "0";
                 } else if (targetType.equals("xml")) {
-                    targetAnalyzer = "4";
+
+                    if (mappingFile.queryString("//x3ml/mappings/mapping[1]/domain/target_node/entity[1]/type[1]/string()")[0].length() > 0) {//Has root
+                        targetAnalyzer = "4";
+                    } else {
+                        targetAnalyzer = "0";
+                    }
+
                 }
 
 //                if (mappingFile.queryString("//target_info/target_schema/@schema_file/string()").length == 0) {
