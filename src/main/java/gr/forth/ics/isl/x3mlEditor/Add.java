@@ -117,7 +117,6 @@ public class Add extends BasicServlet {
                 String mappingFrag = gpf.getArgsForInstanceGeneratorAsXML(instanceGeneratorName);
 
 //                String mappingFrag = createInstanceGeneratorArgsAsXML(mappingFile, instanceGeneratorName);
-
                 //XML 
                 mappingFile.xUpdate(xpath, mappingFrag);
 
@@ -140,7 +139,7 @@ public class Add extends BasicServlet {
                     String container = xpath.replaceAll("\\[last\\(\\)\\]", "");
                     xpath = xpath.replaceAll("last\\(\\)", "" + pos);
                     int relPos = pos + 1; //Only used for relationship in intermediate?
-                    mappingFrag = mappingFrag.replaceFirst("/?>", " generatorsStatus='" + generatorsStatus +"' targetMode='" + targetMode + "' container='" + container + "' xpath='" + xpath + "' relPos='" + relPos + "'$0");
+                    mappingFrag = mappingFrag.replaceFirst("/?>", " generatorsStatus='" + generatorsStatus + "' targetMode='" + targetMode + "' container='" + container + "' xpath='" + xpath + "' relPos='" + relPos + "'$0");
 
                     if (mappingFrag.startsWith("<type")) {
                         mappingFrag = "<entity>" + mappingFrag + "</entity>"; //dummy root to make it work with existing type.xsl
@@ -336,7 +335,9 @@ public class Add extends BasicServlet {
                 if (mappingFrags.length > 0) {
                     frag = mappingFrags[0];
 
-                    if (mappingFile.queryString(fatherXpath + "/instance_generator").length > 0) { //has instance_generator
+                    if (mappingFile.queryString(fatherXpath + "/label_generator").length > 0) { //has label_generator
+                        mappingFile.xInsertAfter(fatherXpath + "/label_generator[last()]", frag); //Inserts after label_generator
+                    } else if (mappingFile.queryString(fatherXpath + "/instance_generator").length > 0) { //has instance_generator
                         mappingFile.xInsertAfter(fatherXpath + "/instance_generator", frag); //Inserts after instance_generator
                     } else if (mappingFile.queryString(fatherXpath + "/instance_info").length > 0) { //has instance_info
                         mappingFile.xInsertAfter(fatherXpath + "/instance_info", frag); //Inserts after instance_info

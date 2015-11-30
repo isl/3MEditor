@@ -756,7 +756,7 @@ function getDomainValueForLink(xpath) {
             domainValue = $domainDiv.children("span").attr("title");
         }
     }
-    alert(domainValue)
+//    alert(domainValue)
     return domainValue;
 }
 function filterValues(xpath) {
