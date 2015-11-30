@@ -128,9 +128,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <param-value>auto</param-value>
     </context-param>
     <context-param>
-        <description>X3ML engine built in Instance Generator names</description>
-        <param-name>instanceGeneratorNamesBuiltInX3MLEngine</param-name>
-        <param-value>UUID, Literal</param-value>
+        <description>X3ML engine built in Generator names</description>
+        <param-name>generatorNamesBuiltInX3MLEngine</param-name>
+        <param-value>Constant, Literal, prefLabel, UUID</param-value>
     </context-param>
     
     <filter>

@@ -63,8 +63,14 @@ public class GeneratorPolicy {
         StringBuilder xml = new StringBuilder();
         //First X3ML engine built in values
         if (ign.equals("UUID")) {
-
+            //No arguments needed
         } else if (ign.equals("Literal")) {
+            xml.append("<arg name='text' type='xpath'></arg>");
+            xml.append("<arg name='language' type='constant'></arg>");
+        } else if (ign.equals("Constant")) {
+            xml.append("<arg name='text' type='constant'></arg>");
+            xml.append("<arg name='language' type='constant'></arg>");
+        } else if (ign.equals("prefLabel")) {
             xml.append("<arg name='text' type='xpath'></arg>");
             xml.append("<arg name='language' type='constant'></arg>");
         } else {

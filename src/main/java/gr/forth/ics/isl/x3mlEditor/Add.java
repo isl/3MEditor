@@ -33,8 +33,6 @@ import static gr.forth.ics.isl.x3mlEditor.BasicServlet.applicationCollection;
 import gr.forth.ics.isl.x3mlEditor.utilities.GeneratorPolicy;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -116,7 +114,6 @@ public class Add extends BasicServlet {
                 GeneratorPolicy gpf = new GeneratorPolicy(mappingFile);
                 String mappingFrag = gpf.getArgsForInstanceGeneratorAsXML(instanceGeneratorName);
 
-//                String mappingFrag = createInstanceGeneratorArgsAsXML(mappingFile, instanceGeneratorName);
                 //XML 
                 mappingFile.xUpdate(xpath, mappingFrag);
 
@@ -228,31 +225,6 @@ public class Add extends BasicServlet {
         return xpath.substring(0, xpath.lastIndexOf("/"));
     }
 
-//    private String createInstanceGeneratorArgsAsXML(DBFile mappingFile, String ign) {
-//        StringBuilder xml = new StringBuilder();
-//        ArrayList<String> builtInIGs = new ArrayList<String>(Arrays.asList(instanceGeneratorNamesBuiltInX3MLEngine));
-//
-//        if (builtInIGs.contains(ign)) { //Built In
-//            System.out.println("Foung built in " + ign);
-//            if (ign.equals("UUID")) {
-//
-//            } else if (ign.equals("Literal")) {
-//                xml.append("<arg name='text'></arg>");
-//                xml.append("<arg name='language' type='constant'></arg>");
-//            }
-//
-//        } else { //Check generator policy file
-//            String[] gpfFiles = mappingFile.queryString("//generator_policy_info/@generator_link/string()");
-//            if (gpfFiles.length == 0) {
-//                System.out.println("NO GPF");
-//            } else {
-//                DBFile gpfFile = new DBFile(DBURI, x3mlCollection, gpfFiles[0], DBuser, DBpassword);
-//                System.out.println(gpfFile.toString());
-//            }
-//        }
-//        return xml.toString();
-//
-//    }
     private String addOptionalPart(DBFile mappingFile, String fullXpath) {
 
         String frag = "";

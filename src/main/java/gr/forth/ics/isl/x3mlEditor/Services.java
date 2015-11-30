@@ -120,7 +120,7 @@ public class Services extends BasicServlet {
         } else if (method.equals("instanceGeneratorNames")) {
 
             xmlMiddle.append("{ \"text\": \"Built In\", \"children\": [\n");
-            for (String builtInName : instanceGeneratorNamesBuiltInX3MLEngine) {
+            for (String builtInName : generatorNamesBuiltInX3MLEngine) {
                 xmlMiddle.append("{ \"id\": \"").append(builtInName).append("\", \"text\": \"").append(builtInName).append("\" },");
             }
             xmlMiddle = xmlMiddle.delete(xmlMiddle.length() - 1, xmlMiddle.length()); //to remove last comma

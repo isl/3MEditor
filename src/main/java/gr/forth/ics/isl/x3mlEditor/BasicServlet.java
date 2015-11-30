@@ -119,7 +119,7 @@ public class BasicServlet extends HttpServlet {
     /**
      *
      */
-    protected static String[] instanceGeneratorNamesBuiltInX3MLEngine;
+    protected static String[] generatorNamesBuiltInX3MLEngine;
 
     /**
      *
@@ -246,7 +246,7 @@ public class BasicServlet extends HttpServlet {
             sourceAnalyzerStatus = sc.getInitParameter("sourceAnalyzerStatus");
             generatorsStatus = sc.getInitParameter("generatorsStatus");
 
-            instanceGeneratorNamesBuiltInX3MLEngine = sc.getInitParameter("instanceGeneratorNamesBuiltInX3MLEngine").split(", ");
+            generatorNamesBuiltInX3MLEngine = sc.getInitParameter("generatorNamesBuiltInX3MLEngine").split(", ");
 
             boolean verbose = sc.getInitParameter("verboseConnections").equals("true") ? true : false;
 
