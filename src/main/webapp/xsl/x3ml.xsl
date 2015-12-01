@@ -66,9 +66,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <script src="js/jquery.min.js"></script>
                 <script src="js/before.js"></script>
                
-
+                <link rel="stylesheet" href="css/font-awesome-4.5.0/css/font-awesome.min.css"/>
                 <!-- Temp code...just testing icons-->
-                <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+                <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>-->
 
                 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
                 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
