@@ -129,8 +129,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:for-each>                   
             </td>
             <td class="commentsHead">                
-                <div class="comments" id="{concat(//domain/@xpath,'/comments')}" data-xpath="{concat(//domain/@xpath,'/comments')}">                       
-                    <xsl:apply-templates select="comments"/>                         
+                <div class="comments" id="{concat(//domain/@xpath,'/comments')}" data-xpath="{concat(//domain/@xpath,'/comments')}"> 
+                    <xsl:for-each select="comments">
+                        <xsl:call-template name="comments"/>                  
+                    </xsl:for-each>       
                 </div>
                 <xsl:call-template name="addCommentButton"></xsl:call-template>   
 

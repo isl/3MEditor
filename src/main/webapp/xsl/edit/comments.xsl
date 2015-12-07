@@ -35,7 +35,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <!-- TODO customize transformation rules 
          syntax recommendation http://www.w3.org/TR/xslt 
     -->
-    <xsl:template match="comments">
+    <xsl:template match="comments" name="comments">
        
         <xsl:variable name="commentsPath">
             <xsl:choose>
