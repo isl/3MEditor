@@ -57,7 +57,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                           
         <tr class="edit" data-xpath="{$pathSoFar}">
             <td title="{$pathSoFar}">D</td>
-            <td style="padding:0 0 0 0;min-width:200px;">
+            <td style="padding:0 0 0 0;min-width:200px;" class="sourceCol">
                 <div class="row "  style="margin-left:0px;">
                     <div class="col-xs-1 icon">
                         <label class="control-label" for="">&#160;</label>
@@ -99,7 +99,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 
               
             </td>
-            <td style="padding:0 0 0 0;min-width:600px;">
+            <td style="padding:0 0 0 0;min-width:600px;" class="targetCol">
                 <xsl:for-each select="target_node/entity">
                     <xsl:variable name="entPos" select="position()"/>
 
@@ -120,7 +120,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                    
                 </xsl:for-each>
             </td>
-            <td>                
+            <td class="ifCol">                
                 <xsl:for-each select="target_node">
                     <div class="rules" data-xpath="{concat(//domain/@xpath,'/target_node/if')}">
                         <xsl:call-template name="if-ruleBlock"></xsl:call-template> 
@@ -128,7 +128,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </div>
                 </xsl:for-each>                   
             </td>
-            <td>                
+            <td class="commentsHead">                
                 <div class="comments" id="{concat(//domain/@xpath,'/comments')}" data-xpath="{concat(//domain/@xpath,'/comments')}">                       
                     <xsl:apply-templates select="comments"/>                         
                 </div>

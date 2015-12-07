@@ -165,7 +165,10 @@ tr:not(.empty):not(.edit):not(.dummyDomain):not(.dummyHeader) {
 
 tr>td:nth-child(2),
 tr>td:nth-child(3),
-tr>td:nth-child(4)
+tr>td:nth-child(4),
+tr>td:nth-child(5),
+tr>td:nth-child(6),
+tr>td:nth-child(7)
 
 {
     border-right: 1px black solid;
@@ -555,6 +558,9 @@ input[title="Source Node"], input[title="Source Relation"] {
 
 .infoForm {
     padding-top: 10px;
+}
+.columnHide, .columnShow {
+    cursor: pointer;
 }
 
 @media print

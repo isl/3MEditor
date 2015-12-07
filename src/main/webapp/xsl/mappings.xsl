@@ -58,48 +58,33 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             </legend>
         
             <table class="table  table-condensed">
-                <!--                <thead>
-                    <tr>
-                        <th></th>
-                        <th>SOURCE</th>
-                        <th>
-                            <div class="row">
-                                <div class="col-xs-6">
-                           TARGET
-                                </div>
-                            <xsl:if test="//additional">
-                                 <div class="col-xs-6">
-                               CONSTANT EXPRESSION
-                                 </div>
-                            </xsl:if>
-                            </div>
-                        </th>
-                        <th>IF RULE</th>
-                        <th class="commentsHead" >COMMENTS</th>
-                        <th style="min-width:20px;" >&#160;</th>
-                    </tr>
-                </thead>-->
-                    
+                                   
                 <xsl:for-each select="mapping">
                     <xsl:variable name="mappingPos" select="position()"/>
                     <thead>
                         <tr>
                             <th></th>
-                            <th>SOURCE</th>
-                            <th>
+                            <th class="sourceCol">SOURCE<i class="columnHide fa fa-arrow-left" title="Click to collapse column"></i>
+                            </th>                           
+                            <th class="targetCol">
+
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        TARGET
+                                        TARGET<i class="columnHide fa fa-arrow-left" title="Click to collapse column"></i>
                                     </div>
                                     <xsl:if test="//additional">
                                         <div class="col-xs-6">
                                             CONSTANT EXPRESSION
                                         </div>
                                     </xsl:if>
+                                    
+
                                 </div>
+                                
                             </th>
-                            <th>IF RULE</th>
-                            <th class="commentsHead" >COMMENTS <button  title="Click to collapse/expand map" type="button" class="btn btn-default btn-sm collapseExpand pull-right">
+                            <th class="ifCol">IF RULE<i class="columnHide fa fa-arrow-left" title="Click to collapse column"></i></th>
+                            <th class="commentsHead" >COMMENTS<i class="columnHide fa fa-arrow-left" title="Click to collapse column"></i>
+                                <button  title="Click to collapse/expand map" type="button" class="btn btn-default btn-sm collapseExpand pull-right">
                                     <span class="glyphicon glyphicon-sort"></span>
                                 </button>
                             </th>

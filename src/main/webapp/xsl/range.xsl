@@ -50,7 +50,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:attribute name="title">Click to edit link</xsl:attribute>
             </xsl:if>               
             <td title="{concat($mappingPos,'_',$linkPos)}">R</td>
-            <td>
+            <td class="sourceCol"> 
                 <div class="row">
                     <div class="col-xs-1 iconContainer">
                         <img src="images/range.png"/>
@@ -60,27 +60,21 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <xsl:with-param name="path" select="source_node" />
                         </xsl:call-template>
                     </div>
-                </div>
-                
-                
-                
-                 
-            </td>
-            <td>
+                </div>                
+            </td>                       
+            <td class="targetCol"> 
                 <xsl:apply-templates select="target_node">
                     <xsl:with-param name="pathSoFar" select="concat('//x3ml/mappings/mapping[',$mappingPos,']/link[',$linkPos,']/range/target_node')"/>
                 </xsl:apply-templates>
             </td>
-            <td>                
+            <td class="ifCol">                 
                 <xsl:for-each select="target_node">
                     <xsl:call-template name="if-rule"></xsl:call-template>             
                 </xsl:for-each>
             </td>
-            <td>                
+            <td class="commentsHead">                 
                 <xsl:apply-templates select="comments"/>
             </td>
-            <!--<td class="actions" ></td>-->
-
         </tr>      
                       
     </xsl:template>

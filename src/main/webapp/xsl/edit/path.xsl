@@ -43,17 +43,17 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
         <tr class="edit" data-xpath="{//path/@xpath}" id="{//path/@xpath}">
             <td title="{//path/@xpath}">P</td>
-            <td  style="background-color:white;padding:0 0 0 0;min-width:200px;">                
+            <td  style="background-color:white;padding:0 0 0 0;min-width:200px;" class="sourceCol">                
                 <xsl:apply-templates select="source_relation"/>               
             </td>
-            <td style="min-width:600px;padding:0 0 0 0;">        
+            <td style="min-width:600px;padding:0 0 0 0;" class="targetCol">        
                 <xsl:for-each select="target_relation">
                     <xsl:call-template name="target_relation"/>
                 </xsl:for-each>
                 <!--<xsl:apply-templates select="target_relation"/>-->
                                
             </td>
-            <td>                
+            <td class="ifCol">                
                 <!--<label class="control-label" for="">Rules</label>--> 
 
                 <xsl:for-each select="target_relation">
@@ -63,7 +63,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </div>
                 </xsl:for-each>         
             </td>
-            <td>      
+            <td class="commentsHead">        
                 <div class="comments" id="{concat(//path/@xpath,'/comments')}" data-xpath="{concat(//path/@xpath,'/comments')}">                       
                     <xsl:apply-templates select="comments"/>                         
                 </div>
@@ -116,11 +116,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:variable name="nodePos" select="position()"/>
                 <div class="source_intermediate" id="{concat(//path/@xpath,'/source_relation/intermediate[',$nodePos,']')}" data-xpath="{concat(//path/@xpath,'/source_relation/intermediate[',$nodePos,']')}">
   
-<!--                    <button title="Delete Intermediate" type="button" class="close" id="{concat('delete***',//path/@xpath,'/source_relation/intermediate[',$nodePos,']')}">
+                    <!--                    <button title="Delete Intermediate" type="button" class="close" id="{concat('delete***',//path/@xpath,'/source_relation/intermediate[',$nodePos,']')}">
                         <span aria-hidden="true">x</span>
                         <span class="sr-only">Close</span>
                     </button>-->
-                     <button title="Delete Intermediate" type="button"  class="close btn btn-sm"  id="{concat('delete***',//path/@xpath,'/source_relation/intermediate[',$nodePos,']')}">
+                    <button title="Delete Intermediate" type="button"  class="close btn btn-sm"  id="{concat('delete***',//path/@xpath,'/source_relation/intermediate[',$nodePos,']')}">
                         <span class="fa fa-times smallerIcon" ></span>
                         <span class="sr-only">Close</span>
                     </button>
@@ -140,10 +140,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             </xsl:for-each>
         </div>
         
-         <div class="col-xs-11">
-        <button data-xpath="{concat(//path/@xpath,'/source_relation/intermediate')}" id="{concat('add***',//path/@xpath,'/source_relation/intermediate')}" title="Add Intermediate" type="button" class="btn btn-link btn-sm  add pull-right">
-            Add Intermediate</button>
-         </div>
+        <div class="col-xs-11">
+            <button data-xpath="{concat(//path/@xpath,'/source_relation/intermediate')}" id="{concat('add***',//path/@xpath,'/source_relation/intermediate')}" title="Add Intermediate" type="button" class="btn btn-link btn-sm  add pull-right">
+                Add Intermediate</button>
+        </div>
 
     </xsl:template>
 

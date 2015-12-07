@@ -39,7 +39,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
       
         <tr class="edit" data-xpath="{//range/@xpath}" >
             <td title="{//range/@xpath}">R</td>
-            <td style="padding:0 0 0 0;">
+            <td style="padding:0 0 0 0;" class="sourceCol">
                 <div class="row "  style="margin-left:0px;">
                     <div class="col-xs-1 icon">
                         <label class="control-label" for="">&#160;</label>
@@ -78,7 +78,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
               
                 
             </td>
-            <td style="padding:0 0 0 0;">
+            <td style="padding:0 0 0 0;" class="targetCol">
                 <xsl:for-each select="target_node/entity">
                     <xsl:variable name="entPos" select="position()"/>
 
@@ -100,7 +100,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 
                 </xsl:for-each>
             </td>
-            <td>           
+            <td class="ifCol">           
                 <!--<label class="control-label" for="">Rules</label>--> 
                 <xsl:for-each select="target_node">
                     <div class="rules" data-xpath="{concat(//range/@xpath,'/target_node/if')}">
@@ -110,23 +110,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                 </xsl:for-each>            
             </td>
-            <td>     
+            <td class="commentsHead">         
                  <div class="comments" id="{concat(//range/@xpath,'/comments')}" data-xpath="{concat(//range/@xpath,'/comments')}">                       
                     <xsl:apply-templates select="comments"/>                         
                 </div>
                 <xsl:call-template name="addCommentButton"></xsl:call-template>   
                 
-                          
-<!--                <label class="control-label" for="">Comments</label> 
-
-                <div class="comments" id="{concat(//range/@xpath,'/comments')}" data-xpath="{concat(//range/@xpath,'/comments')}">                       
-                    <xsl:apply-templates select="comments"/>
-                </div>-->
-                <!--                <button data-xpath="{concat(//range/@xpath,'/comments')}" id="{concat('add***',//range/@xpath,'/comments')}" title="Add Comments" type="button" class="btn btn-default btn-sm add">
-                <xsl:if test="comments">                   
-                    <xsl:attribute name="style">display:none;</xsl:attribute>
-                </xsl:if>
-                <span class="glyphicon glyphicon-plus"></span>&#160;Comments</button>-->
+                      
             </td>
 
             <td class="actions" style="display:none;"></td>

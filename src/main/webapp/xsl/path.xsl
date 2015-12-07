@@ -49,51 +49,47 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:attribute name="title">Click to edit link</xsl:attribute>
             </xsl:if>           
             <td title="{concat($mappingPos,'_',$linkPos)}">P</td>
-            <td>
+            <td class="sourceCol"> 
                 <xsl:apply-templates select="source_relation"/>
-            </td>
-            <td style="min-width:500px;">        
+            </td>                    
+            <td style="min-width:500px;" class="targetCol">           
                 <xsl:apply-templates select="target_relation">
                     <xsl:with-param name="pathSoFar" select="concat('//x3ml/mappings/mapping[',$mappingPos,']/link[',$linkPos,']/path/target_relation')"/>
                 </xsl:apply-templates>
             </td>
-            <td>
+            <td class="ifCol"> 
                 <xsl:for-each select="target_relation">
 
                     <xsl:call-template name="if-rule"></xsl:call-template>    
                 </xsl:for-each>         
             </td>
-            <td>
+            <td  class="commentsHead">
                 <xsl:apply-templates select="comments"/>
             </td>
-
-        </tr>      
-                   
+        </tr> 
     </xsl:template>
 
     <xsl:template match="source_relation">
        
         <xsl:for-each select="*">
             <div class="row">
-                    <div class="col-xs-1 iconContainer">
-                        <xsl:choose>
-                            <xsl:when test="name()='relation'">
-                                <img src="images/property.png"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <img src="images/intermediate.png"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
+                <div class="col-xs-1 iconContainer">
+                    <xsl:choose>
+                        <xsl:when test="name()='relation'">
+                            <img src="images/property.png"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <img src="images/intermediate.png"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </div>
                 <div class=" col-xs-11 nextToIcon">
                     <xsl:call-template name="stripPath">
                         <xsl:with-param name="path" select="." />
                     </xsl:call-template>
                 </div>
-            </div>
-            
+            </div>            
         </xsl:for-each>
-
     </xsl:template>
 
 </xsl:stylesheet>

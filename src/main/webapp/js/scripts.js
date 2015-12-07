@@ -48,6 +48,21 @@ $(document).ready(function() {
         $(this).parentsUntil("thead").parent().next("tbody").children("tr.path, tr.range").toggle();
     });
 
+    $("#matching_table").on("click", ".columnShow", function() {
+        var $this = $(this);
+        var colName = $this.closest("th").attr('class');
+        $("." + colName).toggle();
+        $("." + colName + ":hidden").remove();
+    });
+
+    $("#matching_table").on("click", ".columnHide", function() {
+        var $this = $(this);
+        var colName = $this.closest("th").attr('class');
+        $("th." + colName).hide().after("<th class='" + colName + "'><i title='Click to expand column' class='columnShow fa fa-arrow-right'></i></th>");
+        $("td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
+    });
+
+
     if (mode === 0) {
         comboAPI = $('#targetAnalyzer input:radio:checked').val();
 
@@ -334,7 +349,7 @@ $("#matching_table").on("click", ".clickable", function() {
             var url = "GetPart?id=" + id + "&xpath=" + $path.attr("data-xpath") + "&mode=edit&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
             $.post(url).done(function(data) {
 
-//Adding header and domain to help editing
+                //Adding header and domain to help editing
                 var $data = $(data);
                 //Creating buttonGroup from hidden actions cell
                 var $buttonGroup = $data.find(".actions");
@@ -345,9 +360,12 @@ $("#matching_table").on("click", ".clickable", function() {
                 var buttonGroupHtml = $buttonGroup.html();
                 buttonGroupHtml = buttonGroupHtml.replaceAll("<br>", "");
                 //Creating dummy header row and adding buttonGroup
-                var $head = $("thead").clone();
+//                var $head = $("thead").clone();
+                var $head = $("thead").first().clone();//Changed because I do not need all theads!
+
                 $head.find("button").remove(); //Removing umwanted collapse/expand button
-                var $newHead = $head.find("th").slice(0, 5);
+                var $newHead = $head.find("th"); //No need to slice now, since I only get first thead                
+//                var $newHead = $head.find("th").slice(0, 5);
                 var $newHeadCells = $("<tr/>").append($newHead);
                 $newHeadCells.find("th").last().append($(buttonGroupHtml));
                 var theadRow = "<tr class='dummyHeader'>" + $newHeadCells.html() + "</tr>";
@@ -356,7 +374,7 @@ $("#matching_table").on("click", ".clickable", function() {
                 $path.hide();
                 if ($path.hasClass("domain")) {
 
-//Show/hide paste accordingly
+                    //Show/hide paste accordingly
                     if (clipboard["mapping"] === "") {
                         $theadRow.find(".paste").hide();
                     }
@@ -366,7 +384,7 @@ $("#matching_table").on("click", ".clickable", function() {
                     } else {
                         $path.prev().remove();
                     }
-//Also add domainrow
+                    //Also add domainrow
                     domainRow = "<tr class='dummyDomain'>" + $path.siblings(".domain").html() + "</tr>";
                     //Show/hide paste accordingly
                     if (clipboard["link"] === "") {
@@ -375,6 +393,10 @@ $("#matching_table").on("click", ".clickable", function() {
                 }
                 theadRow = "<tr class='dummyHeader'>" + $theadRow.html() + "</tr>";
                 var helpRows = theadRow + domainRow;
+                
+                //Code added to support accordion columns
+                data = hideColumns($theadRow, data);
+                
                 $path.replaceWith(helpRows + data);
                 $path.fadeIn(500);
                 fillCombos();
@@ -402,6 +424,37 @@ jQuery.fn.swapWith = function(to) {
         $(this).replaceWith(copy_to);
     });
 };
+
+function hideColumns($header, data) {
+    var $data = $("<tbody>" + data + "</tbody>"); //Added wrapper element tbody
+
+    var dataType;
+    if ($data.find("td").length === 6) {//Domain
+        dataType = "domain";
+    } else if ($data.find("td").length === 12) {//Link
+        dataType = "link";
+    }
+
+
+    if ($header.find("th.sourceCol").length === 2) {
+        $data.find("td.sourceCol").after("<td class='sourceCol'>&#160;</td>").hide();
+
+    }
+    if ($header.find("th.targetCol").length === 2) {
+        $data.find("td.targetCol").after("<td class='targetCol'>&#160;</td>").hide();
+
+    }
+    if ($header.find("th.ifCol").length === 2) {
+        $data.find("td.ifCol").after("<td class='ifCol'>&#160;</td>").hide();
+
+    }
+    if ($header.find("th.commentsHead").length === 2) {
+        $data.find("td.commentsHead").after("<td class='commentsHead'>&#160;</td>").hide();
+    }
+    return $data.html();
+
+}
+
 function viewOnlySpecificPath(xpath) {
 
     $("#matching_table").find("tr[data-xpath='" + xpath + "']").each(function(index) {
@@ -442,6 +495,12 @@ function viewOnly() {
             var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode=view";
             $.post(url).done(function(data) {
                 var $data = $(data);
+
+                //Code added to support accordion columns
+                var $head = $("thead").first().clone();//Changed because I do not need all theads!
+                data = hideColumns($head, data);
+                $data = $(data);
+
                 highlightLink($data);
                 $row.hide();
                 $row.replaceWith($data);
@@ -668,7 +727,7 @@ function fillXMLSchemaCombo($this, type) {
                     sourceAnalyzerPaths = data.results;
                     fillComboWithPaths($this, sourceAnalyzerPaths);
                 },
-                        "json").error(function() {
+                        "json").error(function(xhr) {
                     var error = JSON.parse(xhr.responseText).error;
                     alert("Error reading source schema or source xml: " + error + ".\nPlease disable Source Analyzer (Configuration tab) to fill in source values.");
                 });
@@ -712,7 +771,7 @@ function fillComboWithPaths($this, filteredPaths) {
 
     if (!xpath.endsWith("domain/source_node") && xpath.indexOf("/target_") === -1) { //Apply filtering only for source link (path or range) combos
         filteredPaths = filterValues(xpath);
-    } else if (targetType === "xml" && xpath.indexOf("domain/")===-1) {
+    } else if (targetType === "xml" && xpath.indexOf("domain/") === -1) {
         filteredPaths = filterValues(xpath);
     }
     $this.select2({
@@ -745,7 +804,8 @@ function getDomainValueForLink(xpath) {
 
     if (targetType === "xml" && xpath.indexOf("/target_") !== -1) {
         var $domainDiv = $domain.find(".targetPath").first();
-        domainValue = $domainDiv.attr("data-fullpath");;
+        domainValue = $domainDiv.attr("data-fullpath");
+        ;
 
 
     } else {
@@ -859,7 +919,7 @@ $('#info_edit-btn').click(function() {
         if ($(".target_info").length === 1) { //Hide delete target if there only one!
             $(".targetInfoDeleteButton").hide();
         }
-        if (targetType==="xml") {
+        if (targetType === "xml") {
             $("#addTarget").hide();
         }
 
@@ -971,7 +1031,7 @@ function upload($this) {
                             }
                             targetType = "xml";
                             targetFiles = filename; //Atm only accept one xsd file!
-                           
+
                             $("#addTarget").hide();
 
                         } else {
