@@ -83,7 +83,7 @@ public class Services extends BasicServlet {
         DBCollection dbc = new DBCollection(DBURI, applicationCollection + "/Mapping", DBuser, DBpassword);
         String collectionPath = getPathforFile(dbc, xmlId, id);
 
-        if (method.equals("export")) {
+        if (method.equals("export") || output.equals("xml")) {
             xmlMiddle.append(getDBFileContent(collectionPath, xmlId));
             String content = xmlMiddle.toString();
             content = content.replace("<?xml-stylesheet type=\"text/xsl\" href=\"crm_mapping-v2.0.xsl\"?>", "");
