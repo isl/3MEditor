@@ -254,8 +254,8 @@ $('.nav a').click(function(e) {
     e.preventDefault();
     if ($(this).html() === "About") {
         $("#about").load("readme.html");
-    } else if ($(this).html() === "Graph") {
-        $("#graph").load("graph.html");
+    } else if ($(this).html() === "Analysis") {
+        $("#graph").load("analysis.html");
     } else if ($(this).html() === "Transformation") {
         $("#x3mlEngine").load(("x3mlEngine.html"), function() {
             var sourceFilename = "";
@@ -316,7 +316,8 @@ function  confirmDialog() {
 }
 
 function viewGraph() {
-    window.open('/MappingAnalyzerServer/singlex3ml.html?id=' + id, '_blank');
+    window.open('/Maze/singlemapping.html?id=' + id, '_blank');
+//    window.open('/MappingAnalyzerServer/singlex3ml.html?id=' + id, '_blank');
     return false;
 }
 
@@ -393,10 +394,10 @@ $("#matching_table").on("click", ".clickable", function() {
                 }
                 theadRow = "<tr class='dummyHeader'>" + $theadRow.html() + "</tr>";
                 var helpRows = theadRow + domainRow;
-                
+
                 //Code added to support accordion columns
                 data = hideColumns($theadRow, data);
-                
+
                 $path.replaceWith(helpRows + data);
                 $path.fadeIn(500);
                 fillCombos();

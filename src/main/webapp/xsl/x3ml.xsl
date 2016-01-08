@@ -101,7 +101,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         <a href="#matching_table" role="tab" data-toggle="tab">Matching Table</a>
                                     </li>
                                     <li >
-                                        <a href="#graph" role="tab" data-toggle="tab">Graph</a>
+                                        <a href="#graph" role="tab" data-toggle="tab">Analysis</a>
                                     </li>
                                     <xsl:if test="$action!=1">
                                         <li>
