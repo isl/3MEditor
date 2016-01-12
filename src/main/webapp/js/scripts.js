@@ -663,7 +663,7 @@ function fillInstanceCombos(selector) {
         var wrongValue = false;
         var data = instanceGeneratorsNames;
         if ($this.attr('title') === 'Argument type') {
-            data = [{id: "", text: ""}, {id: "xpath", text: "xpath"}, {id: "constant", text: 'constant'}, {id: "position", text: 'position'}]; //type values
+            data = [{id: "", text: ""}, {id: "xpath", text: "xpath"},{id: "xpathPosition", text: "xpathPosition"}, {id: "constant", text: 'constant'}, {id: "position", text: 'position'}]; //type values
         } else {
             if (JSON.stringify(instanceGeneratorsNames).indexOf('"' + oldValue + '"') === -1) {
                 wrongValue = true;
