@@ -201,7 +201,7 @@ $('.saveXML-btn').click(function() {
                         }
                         var url = "GetPart?id=" + id + "&xpath=" + xpath + "&mode=view&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
                         $.post(url).done(function(data) {
-                            $(".mappings").replaceWith(data);
+                            $(".mappings").html(data);
                         });
                     } else {
                         viewOnly(); //Would be tough otherwise
