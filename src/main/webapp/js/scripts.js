@@ -101,7 +101,12 @@ $(document).ready(function() {
                 $("body").css("opacity", "1");
 
 
-            });
+            })
+                    .fail(function() {
+                        alert("Connection with server lost. Action failed!");
+                        $("body").css("opacity", "1");
+                    });
+
 
         });
         $('#collapseExpandAll-btn').click(function() {
@@ -191,7 +196,10 @@ $('.saveXML-btn').click(function() {
                     var url = "GetPart?id=" + id + "&part=info&mode=" + mode;
                     $.post(url).done(function(data) {
                         $("#info>div").html(data);
-                    });
+                    })
+                            .fail(function() {
+                                alert("Connection with server lost. Action failed!");
+                            });
 
                 } else if (xpath.endsWith("/domain/..") || xpath.endsWith("/mappings")) {
 
@@ -202,6 +210,8 @@ $('.saveXML-btn').click(function() {
                         var url = "GetPart?id=" + id + "&xpath=" + xpath + "&mode=view&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
                         $.post(url).done(function(data) {
                             $(".mappings").html(data);
+                        }).fail(function() {
+                            alert("Connection with server lost. Action failed!");
                         });
                     } else {
                         viewOnly(); //Would be tough otherwise
@@ -236,6 +246,8 @@ $('.saveXML-btn').click(function() {
                             }
                         });
 
+                    }).fail(function() {
+                        alert("Connection with server lost. Action failed!");
                     });
 
                 }
@@ -412,7 +424,11 @@ $("#matching_table").on("click", ".clickable", function() {
                     'scrollTop': $('.dummyHeader').offset().top - 100
 
                 }, 10);
-            });
+            })
+                    .fail(function() {
+                        alert("Connection with server lost. Action failed!");
+                        $("body").css("opacity", "1");
+                    });
             viewOnly();
         }
     }
@@ -468,6 +484,8 @@ function viewOnlySpecificPath(xpath) {
             $row.hide();
             $row.replaceWith($data);
             $row.fadeIn(500);
+        }).fail(function() {
+            alert("Connection with server lost. Action failed!");
         });
     });
 }
@@ -483,7 +501,11 @@ function refreshTable() {
             fillInstanceCombos(".arg");
         }
         $("body").css("opacity", "1");
-    });
+    })
+            .fail(function() {
+                alert("Connection with server lost. Action failed!");
+                $("body").css("opacity", "1");
+            });
 }
 
 function viewOnly() {
@@ -507,6 +529,8 @@ function viewOnly() {
                 $row.replaceWith($data);
                 $row.fadeIn(500);
 
+            }).fail(function() {
+                alert("Connection with server lost. Action failed!");
             });
         }
     });
@@ -663,7 +687,7 @@ function fillInstanceCombos(selector) {
         var wrongValue = false;
         var data = instanceGeneratorsNames;
         if ($this.attr('title') === 'Argument type') {
-            data = [{id: "", text: ""}, {id: "xpath", text: "xpath"},{id: "xpathPosition", text: "xpathPosition"}, {id: "constant", text: 'constant'}, {id: "position", text: 'position'}]; //type values
+            data = [{id: "", text: ""}, {id: "xpath", text: "xpath"}, {id: "xpathPosition", text: "xpathPosition"}, {id: "constant", text: 'constant'}, {id: "position", text: 'position'}]; //type values
         } else {
             if (JSON.stringify(instanceGeneratorsNames).indexOf('"' + oldValue + '"') === -1) {
                 wrongValue = true;
@@ -925,6 +949,9 @@ $('#info_edit-btn').click(function() {
         }
 
         $("body").css("opacity", "1");
+    }).fail(function() {
+        alert("Connection with server lost. Action failed!");
+        $("body").css("opacity", "1");
     });
 });
 
@@ -939,6 +966,9 @@ $('#info_view-btn').click(function() {
         $btn.toggle();
         $btn.button('reset');
         $('#info_edit-btn').toggle();
+        $("body").css("opacity", "1");
+    }).fail(function() {
+        alert("Connection with server lost. Action failed!");
         $("body").css("opacity", "1");
     });
 });

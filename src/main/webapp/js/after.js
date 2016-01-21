@@ -48,9 +48,14 @@ $("body").on("blur", ".form-control", function() {
 
         }
 
-        $.post(url).done(function(data) {
-            $input.attr("value", data);
-        });
+        $.post(url)
+                .done(function(data) {
+                    $input.attr("value", data);
+                })
+                .fail(function() {
+                    alert("Connection with server lost. Update failed! Value remains:" + $input.attr("value"))
+                    $input.val($input.attr("value"));
+                });
     }
 });
 
@@ -250,7 +255,7 @@ $("body").on("click", ".deleteFile", function() {
                 if ($("a[data-type='target_info']:visible").length === 1) { //Deleting last target schema file
                     configurationOption("targetAnalyzer", "disable");
                     comboAPI = 0;
-                     $("#addTarget").show();
+                    $("#addTarget").show();
 
                 }
             }

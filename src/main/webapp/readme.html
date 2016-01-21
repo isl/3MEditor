@@ -28,29 +28,30 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 -->
 <fieldset>
     <legend>3MEditor</legend>
-    Version: <b>2016-01-21 (ea5a225)</b>
+    Version: <b>2016-01-21 (d6fcdfa)</b>
 </fieldset>
 
 <fieldset>
     <legend>Changelog</legend>
 
-    <h5 style="text-decoration: underline;">January</h5> 
-    <p>21 January 2016: Updating x3ml engine.</p>
+    <h5 style="text-decoration: underline;">January</h5>
+    <p>21 January 2016: Updating logo, favicon and x3ml engine.
+        Started adding fail cases in post requests (Update and GetPart). This way if connection is lost, user gets an alert.</p>
     <p>20 January 2016: Fixed bug reported by Maria: After editing all mappings (raw XML mode) View Mode button did not work.</p>
     <p>12 January 2016: Updating x3ml engine. Adding xpathPosition in argument types combo.</p>
     <p>08 January 2016: Maze was updated and had to change labels and URLs.</p>
     <p>07 January 2016: Fixing view xml bug in viewPublished.</p>
 
-    <h5 style="text-decoration: underline;">December</h5> 
+    <h5 style="text-decoration: underline;">December</h5>
     <p>07 December 2015: Introducing accordion columns functionality. Fixing domain comments bug (xsl include-import mixup)</p>
 
 
-    <h5 style="text-decoration: underline;">November</h5> 
+    <h5 style="text-decoration: underline;">November</h5>
     <p>30 November 2015: Fixing multiple label generators XML bug. Adding extra built-in generator names (Constant, prefLabel)</p>
     <p>27 November 2015: XSD upload mechanism complete. Added extra target analyzer (XML) and target paths option.
         Will probably require some testing...</p>
     <p>16 November 2015: Fixing scrolling menu Firefox bug (for small screens) </p>
-    <p>12 November 2015: Adding help text snippets in Info tab. Enabling-disabling target analyzer options when uploading-deleting last 
+    <p>12 November 2015: Adding help text snippets in Info tab. Enabling-disabling target analyzer options when uploading-deleting last
         target schema file accordingly. Fixed a bug (when deleting a target schema file, namespace element was also removed!)</p>
     <p>12 November 2015: Updating configuration tab.</p>
     <p>04 November 2015: Last edited matching table row is now highlighted for 10 seconds. Added new option in Configuration tab to choose between stripped or full
@@ -62,15 +63,15 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <p>26 October 2015: Improving generators "auto" mode.</p>
     <p>23 October 2015: Debugging static issues.</p>
     <p>20 October 2015: Improved findMime method.</p>
-    <p>16 October 2015: Instance generator now has a new "auto" mode, which at the moment provides user 
-        with valid instance generator names (if a generator policy file is uploaded). Next step will be 
+    <p>16 October 2015: Instance generator now has a new "auto" mode, which at the moment provides user
+        with valid instance generator names (if a generator policy file is uploaded). Next step will be
         to find valid arg names when a generator is selected.</p>
     <p>14 October 2015: Added policy generator upload functionality (requires schema change)</p>
     <p>05 October 2015: Changing LoginFilter code to fix using email as username bug.</p>
 
     <h5 style="text-decoration: underline;">August</h5>
     <p>24 August 2015: Visual changes following Korina's suggestions doc.</p>
-    <p>13 August 2015: Updated source analyzer functionality. Now domain source value is taken into account when user fills link source values. 
+    <p>13 August 2015: Updated source analyzer functionality. Now domain source value is taken into account when user fills link source values.
         This way user gets only meaningful possible values inside combo and not all of them!
     </p>
     <p>11 August 2015: Added label_generator functionality. Made further progress with nasty issue 30 (need to test all cases though).</p>
@@ -120,7 +121,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         Needs extra work for xsd. Also changed combo filling mechanism to reduce server requests and
         provide a primitive target validator.</p>
     <p>23 Mar 2015: Added instance_generation mode. Added about tab to keep track of changes.
-        Fixed a nasty, hard to detect bug (when deleting one of multiple entries and shifting positions, input values were 
+        Fixed a nasty, hard to detect bug (when deleting one of multiple entries and shifting positions, input values were
         lost! XML was fine, so when user refreshed page, everything was fine.)
     </p>
     <p>18 Mar 2015: Changed placeholder text and appearance. Fixed a copy-paste bug.
