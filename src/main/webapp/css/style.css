@@ -548,9 +548,42 @@ input, textarea, .input-group-sm {
 }
 .panel-heading {
     font-family: Century gothic;
-    background-image: url("header2.jpg");
-    background-repeat: round;
+    background-image: url("header-editor-back.png");
+    background-repeat: repeat;  
+    background-attachment: scroll;  
+    background-position: 0% 0%;
+    background-size: contain;
+    overflow: hidden;
+    min-height: 36px;
+    padding-bottom: 0;
+    padding-top:0;
 }
+
+.panel-heading>div {
+    float: left;
+    width:4%;
+    max-width: 60px;
+
+}
+
+.panel-heading>h3 {
+    font-family: "Myriad Pro", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+    /*font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;*/
+    /*letter-spacing: -1px;*/
+    display: inline;
+    color: #505452;
+    /*margin-left: 40px;*/
+    padding-left: 40px;
+    margin-top:5px;
+    margin-bottom:0;
+
+/*    font-weight: lighter;
+    font-size: 22px;    */
+    float: left;
+    width:70%;
+
+}
+
 
 input[title="Source Node"], input[title="Source Relation"] {
     min-width: 100px;

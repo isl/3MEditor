@@ -59,7 +59,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <link href="js/select2-3.5.1/select2.css" rel="stylesheet" />
                 <link href="js/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
                 <link href="css/style.css" rel="stylesheet" media="screen,print"/>
-                <link rel="shortcut icon" href="images/mappingfavicon.png"/>
+                <link rel="shortcut icon" href="images/fav3m.png"/>
 
                 <link href="css/fineuploader.css" rel="stylesheet"/>
                 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -81,7 +81,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             <body>
                 <div class="panel panel-success">
                     <div class="panel-heading">
+                        <div>
+                            <img src="images/headeredit3m.png"/>
+                        </div>
+                        
                         <h3>Mapping : <xsl:value-of select="//x3ml/info/title"/></h3>
+                        
                     </div>
                     <div class="panel-body"> <!--style="background-color:#f5f5f5"-->
                         
