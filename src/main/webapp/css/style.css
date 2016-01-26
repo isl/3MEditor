@@ -547,16 +547,12 @@ input, textarea, .input-group-sm {
     padding-top: 5px;
 }
 .panel-heading {
-    font-family: Century gothic;
-    background-image: url("header-editor-back.png");
-    background-repeat: repeat;  
-    background-attachment: scroll;  
-    background-position: 0% 0%;
-    background-size: contain;
+    background-color: #BACEC2 !important;
     overflow: hidden;
     min-height: 36px;
     padding-bottom: 0;
     padding-top:0;
+    border-bottom: 0;
 }
 
 .panel-heading>div {
@@ -568,17 +564,13 @@ input, textarea, .input-group-sm {
 
 .panel-heading>h3 {
     font-family: "Myriad Pro", "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
-    /*font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;*/
-    /*letter-spacing: -1px;*/
     display: inline;
     color: #505452;
-    /*margin-left: 40px;*/
     padding-left: 40px;
     margin-top:5px;
     margin-bottom:0;
-
-/*    font-weight: lighter;
-    font-size: 22px;    */
+    font-size: 21px;
+    font-weight: lighter !important;
     float: left;
     width:70%;
 
