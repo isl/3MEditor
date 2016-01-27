@@ -730,7 +730,7 @@ function fillXMLSchemaCombo($this, type) {
 
     if (type === "source") {
         if (sourceAnalyzerPaths.length === 0) {
-            var url = '/SourceAnalyzer/filePathService';
+            var url = '/xPaths/filePathService';
             var sourceAnalyzerFile = "";
             if (sourceAnalyzerFiles.indexOf("***") !== -1) { //Choose file to get xpaths from
                 var files = sourceAnalyzerFiles.split("***");
@@ -763,7 +763,7 @@ function fillXMLSchemaCombo($this, type) {
     } else {
 
         if (targetXPaths.length === 0) {
-            var url = '/SourceAnalyzer/filePathService';
+            var url = '/xPaths/filePathService';
             var targetFile = "";
             if (targetFiles.indexOf("***") !== -1) { //Choose file to get xpaths from
                 var files = targetFiles.split("***");
@@ -854,18 +854,35 @@ function filterValues(xpath) {
     } else {
         paths = sourceAnalyzerPaths;
     }
-    if (domainValue.startsWith("/")) {
-        domainValue = domainValue.substring(1);
-    } else if (domainValue.startsWith("//")) {
+    var filteredPaths;
+    if (!domainValue.startsWith("/")) { //If xpath does not start with a "/", add it
+        domainValue = "/" + domainValue;
+        filteredPaths = $.map(paths, function(item) {
+            var id = item.id;
+            if (id.startsWith(domainValue + "/")) {
+                var strippedItem = {id: item.id.substring(domainValue.length + 1), text: item.text.substring(domainValue.length + 1)};
+                return strippedItem;
+            }
+        });
+    } else if (domainValue.startsWith("//")) {//If xpath starts with a "//"
         domainValue = domainValue.substring(2);
+        filteredPaths = $.map(paths, function(item) {
+            var id = item.id;
+            if (id.indexOf(domainValue + "/") !== -1) {
+                var strippedItem = {id: item.id.substring(id.indexOf(domainValue + "/") + domainValue.length+1), text: item.text.substring(id.indexOf(domainValue + "/") + domainValue.length+1)};
+                return strippedItem;
+            }
+        });
+    } else {
+        filteredPaths = $.map(paths, function(item) {//If xpath starts with a "/"
+            var id = item.id;
+            if (id.startsWith(domainValue + "/")) {
+                var strippedItem = {id: item.id.substring(domainValue.length + 1), text: item.text.substring(domainValue.length + 1)};
+                return strippedItem;
+            }
+        });
     }
-    var filteredPaths = $.map(paths, function(item) {
-        var id = item.id;
-        if (id.startsWith(domainValue + "/")) {
-            var strippedItem = {id: item.id.substring(domainValue.length + 1), text: item.text.substring(domainValue.length + 1)};
-            return strippedItem;
-        }
-    });
+
 
 
     return filteredPaths;

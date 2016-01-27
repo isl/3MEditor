@@ -38,7 +38,7 @@ You may use any application server that supports war files. (Has been tested wit
 
 3MEditor also makes use of following external web applications, which have to be deployed on the same application server:
 
-1. [SourceAnalyzer](https://github.com/isl/SourceAnalyzer "SourceAnalyzer") 
+1. [xPaths](https://github.com/isl/xPaths "xPaths") 
 2. [x3mlMapper](https://github.com/isl/x3mlMapper "x3mlMapper") 
 3. [Maze](https://github.com/isl/Maze "Maze") 
 
