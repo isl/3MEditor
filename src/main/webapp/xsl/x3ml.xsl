@@ -64,7 +64,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <link href="css/fineuploader.css" rel="stylesheet"/>
                 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
                 <script src="js/jquery.min.js"></script>
-                <script src="js/before.js"></script>
+                <script src="js/utils.js"></script>
                
                 <link rel="stylesheet" href="css/font-awesome-4.5.0/css/font-awesome.min.css"/>
                 <!-- Temp code...just testing icons-->
@@ -267,13 +267,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <!-- /.modal-dialog -->
                 </div>
                 <!-- /.modal -->
-                <!-- Include all compiled plugins (below), or include individual files as needed -->
-                <!--<script src="https://code.jquery.com/ui/1.9.2/jquery-ui.min.js"></script>-->
+              
                 <script src="js/bootstrap.min.js"></script>
-
-                <script src="js/scripts.js"></script>
+                <script src="js/commonEvents.js"></script>
                 <xsl:if test="$action!=1"> <!-- If edit or instance mode-->
-                    <script src="js/after.js"></script>
+                    <script src="js/combos.js"></script>
+                    <script src="js/editUtils.js"></script>
+                    <script src="js/editEvents.js"></script>
+                    
                 </xsl:if>
 
                 <script src="js/select2-3.5.1/select2.min.js"/>

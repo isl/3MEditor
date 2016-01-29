@@ -45,14 +45,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     -->
     <xsl:template match="link">
        
-        <!--<tbody class="link" data-xpath="{concat(//path/@xpath,'/..')}" id="{concat(//path/@xpath,'/..')}">-->
-        <xsl:apply-templates>
-               
-
+        <xsl:apply-templates> 
         </xsl:apply-templates>  
-        <!--<script src="js/after.js"></script>-->    
 
-        <!--</tbody>-->
     </xsl:template>
 
 </xsl:stylesheet>

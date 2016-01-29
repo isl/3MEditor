@@ -118,8 +118,8 @@ public class LoginFilter extends BasicServlet implements Filter {
 
                 String res = getCookieValue(hrequest.getCookies(), session);
                 if (res == null) {
-                    hresponse.sendRedirect(systemURL);
-                    session.invalidate();
+                     session.invalidate();
+                    hresponse.sendRedirect(systemURL);                   
                 } else {
                     String cookieName = res.split("-")[0];
                     String cookieValue = res.split("-")[1];
