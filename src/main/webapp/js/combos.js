@@ -32,10 +32,14 @@
 
 function getInstanceGeneratorNamesAndFillCombos() {
     var url = "Services?id=" + id + "&method=instanceGeneratorNames";
-    $.ajax({
-        url: url,
-        dataType: 'json'
-    }).success(function(data) {
+    var req = $.myPOST(url, "", "json");
+    req.done(function(data) {
+        checkResponse(data);
+
+//    $.ajax({
+//        url: url,
+//        dataType: 'json'
+//    }).success(function(data) {
         instanceGeneratorsNames = data;
 //        alert(instanceGeneratorsNames)
         fillInstanceCombos();
@@ -75,10 +79,14 @@ function fillCombo($this, setValue) {
             fillXMLSchemaCombo($this, "target");
         } else {
             url = 'GetListValues?id=' + id + '&xpath=' + xpath + '&targetAnalyzer=' + comboAPI;
-            $.ajax({
-                url: url,
-                dataType: 'json'
-            }).success(function(data) {
+            var req = $.myPOST(url, "", "json");
+            req.done(function(data) {
+                checkResponse(data);
+
+//            $.ajax({
+//                url: url,
+//                dataType: 'json'
+//            }).success(function(data) {
                 json = data;
                 if (setValue) {
                     var oldValue = $this.val().trim();
@@ -218,11 +226,14 @@ function fillXMLSchemaCombo($this, type) {
                 if (sourceAnalyzerFile.endsWith(".xsd")) {
                     sourceAnalyzerFile = "../xml_schema/" + sourceAnalyzerFile;
                 }
-                $.post(url, {fileName: sourceAnalyzerFile}, function(data) {
+                var req = $.myPOST(url, {fileName: sourceAnalyzerFile}, "json");
+                req.done(function(data) {
+                    checkResponse(data);
+
                     sourceAnalyzerPaths = data.results;
                     fillComboWithPaths($this, sourceAnalyzerPaths);
-                },
-                        "json").error(function(xhr) {
+                });
+                req.fail(function(xhr) {
                     var error = JSON.parse(xhr.responseText).error;
                     alert("Error reading source schema or source xml: " + error + ".\nPlease disable Source Analyzer (Configuration tab) to fill in source values.");
                 });
@@ -245,11 +256,14 @@ function fillXMLSchemaCombo($this, type) {
             if (targetFile.endsWith(".xsd")) {
                 targetFile = "../xml_schema/" + targetFile;
             }
-            $.post(url, {fileName: targetFile, root: targetRoot}, function(data) {
+            var req = $.myPOST(url, {fileName: targetFile, root: targetRoot}, "json");
+            req.done(function(data) {
+                checkResponse(data);
+
                 targetXPaths = data.results;
                 fillComboWithPaths($this, targetXPaths);
-            },
-                    "json").error(function(xhr) {
+            });
+            req.fail(function(xhr) {
                 var error = JSON.parse(xhr.responseText).error;
                 alert("Error reading target schema or target xml: " + error + ".\nPlease set Target Analyzer (Configuration tab) to value 'None'");
             });
@@ -338,7 +352,7 @@ function filterValues(xpath) {
         filteredPaths = $.map(paths, function(item) {
             var id = item.id;
             if (id.indexOf(domainValue + "/") !== -1) {
-                var strippedItem = {id: item.id.substring(id.indexOf(domainValue + "/") + domainValue.length+1), text: item.text.substring(id.indexOf(domainValue + "/") + domainValue.length+1)};
+                var strippedItem = {id: item.id.substring(id.indexOf(domainValue + "/") + domainValue.length + 1), text: item.text.substring(id.indexOf(domainValue + "/") + domainValue.length + 1)};
                 return strippedItem;
             }
         });

@@ -44,6 +44,9 @@ var targetRoot = "";
  * Page initialization
  */
 $(document).ready(function() {
+//$.ajaxSetup({
+//  timeout: 10000
+//});
 
     $('.description').popover({
         trigger: "hover",
@@ -80,7 +83,9 @@ $(document).ready(function() {
             var url = "GetPart?id=" + id + "&part=mappings&mode=view";
             var $btn = $(this);
             $btn.button('loading');
-            $.post(url).done(function(data) {
+            var req = $.myPOST(url,"","",10000);
+            req.done(function(data) {
+                checkResponse(data);
                 $("#matching_table>div.mappings").html(data);
                 if (sourcePaths === "full") {
                     $(".sourcePath").each(function(index) {
@@ -107,11 +112,12 @@ $(document).ready(function() {
                 $("body").css("opacity", "1");
 
 
-            })
-                    .fail(function() {
-                        alert("Connection with server lost. Action failed!");
-                        $("body").css("opacity", "1");
-                    });
+            });
+            req.fail(function() {
+                alert("Connection with server lost. Action failed!");
+                $btn.button('reset');
+                $("body").css("opacity", "1");
+            });
 
 
         });
@@ -147,7 +153,10 @@ $(document).ready(function() {
             $("#myModal").find(".xpath").html(xpath);
 
             var url = "Action?id=" + id + "&xpath=" + xpath + "&action=raw";
-            $.post(url).done(function(data) {
+            var req = $.myPOST(url);
+            req.done(function(data) {
+                                checkResponse(data);
+
                 $("#myModal").find("textarea").val(data);
             });
 
@@ -186,9 +195,12 @@ $('.nav a').click(function(e) {
             }
 //            alert(sourceFilename)
             var url = "FetchBinFile?file=" + sourceFilename;
-            $.post(url, "xml").done(function(xml) {
-                var xmlString = (new XMLSerializer()).serializeToString(xml);
+            var req = $.myPOST(url, "xml");
+            req.done(function(xml) {
+                checkResponse(data);
 
+//            $.post(url, "xml").done(function(xml) {
+                var xmlString = (new XMLSerializer()).serializeToString(xml);
                 $("#sourceFile").val(xmlString);
             });
 
@@ -202,7 +214,11 @@ $('.nav a').click(function(e) {
             }
 
 //            alert(url)
-            $.post(url, "xml").done(function(xml) {
+//            $.post(url, "xml").done(function(xml) {
+            var req = $.myPOST(url, "xml");
+            req.done(function(xml) {
+                                checkResponse(data);
+
                 var xmlString = (new XMLSerializer()).serializeToString(xml);
 
                 $("#generator").val(xmlString);

@@ -35,13 +35,17 @@ function viewOnlySpecificPath(xpath) {
         var $row = $(this);
 
         var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode=view";
-        $.post(url).done(function(data) {
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
+
             var $data = $(data);
             highlightLink($data);
             $row.hide();
             $row.replaceWith($data);
             $row.fadeIn(500);
-        }).fail(function() {
+        });
+        req.fail(function() {
             alert("Connection with server lost. Action failed!");
         });
     });
@@ -52,7 +56,10 @@ function viewOnlySpecificPath(xpath) {
  */
 function refreshTable() {
     var url = "GetPart?id=" + id + "&xpath=//mappings&mode=instance&generatorsStatus=" + generatorsStatus;
-    $.post(url).done(function(data) {
+    var req = $.myPOST(url);
+    req.done(function(data) {
+        checkResponse(data);
+
         $(".mappings").html(data);
 
         if (generatorsStatus === "auto") {
@@ -61,11 +68,11 @@ function refreshTable() {
             fillInstanceCombos(".arg");
         }
         $("body").css("opacity", "1");
-    })
-            .fail(function() {
-                alert("Connection with server lost. Action failed!");
-                $("body").css("opacity", "1");
-            });
+    });
+    req.fail(function() {
+        alert("Connection with server lost. Action failed!");
+        $("body").css("opacity", "1");
+    });
 }
 /*
  * Gets view html for entire matching table
@@ -78,7 +85,11 @@ function viewOnly() {
 
 
             var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode=view";
-            $.post(url).done(function(data) {
+            var req = $.myPOST(url);
+
+            req.done(function(data) {
+                checkResponse(data);
+
                 var $data = $(data);
 
                 //Code added to support accordion columns
@@ -91,7 +102,8 @@ function viewOnly() {
                 $row.replaceWith($data);
                 $row.fadeIn(500);
 
-            }).fail(function() {
+            });
+            req.fail(function() {
                 alert("Connection with server lost. Action failed!");
             });
         }

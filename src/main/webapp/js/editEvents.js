@@ -54,14 +54,16 @@ $("body").on("blur", ".form-control", function() {
 
         }
 
-        $.post(url)
-                .done(function(data) {
-                    $input.attr("value", data);
-                })
-                .fail(function() {
-                    alert("Connection with server lost. Update failed! Value remains:" + $input.attr("value"))
-                    $input.val($input.attr("value"));
-                });
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
+
+            $input.attr("value", data);
+        });
+        req.fail(function() {
+            alert("Connection with server lost. Update failed! Value remains:" + $input.attr("value"));
+            $input.val($input.attr("value"));
+        });
     }
 });
 
@@ -80,7 +82,10 @@ $("#matching_table").on("change", ".select2", function(e) {
     if (goAhead) {
 
         var url = "Update?id=" + id + "&xpath=" + $input.attr("data-xpath") + "&value=" + encodeURIComponent(e.val) + "&targetType=" + targetType;
-        $.post(url).done(function(data) {
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
+
 
             $input.val(data);
             $input.attr("data-id", e.val);
@@ -254,8 +259,9 @@ $("body").on("click", ".paste", function() {
 
         var newAdditionHtml = $newAddition.html();
         newAdditionHtml = newAdditionHtml.replaceAll(copiedPath, newPath);
-
-        $.post(url).done(function(data) {
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
 
             //Change positions for elements after the inserted one
             $selector.each(function() { //TODO create a function since this code is used repeatedly...
@@ -323,8 +329,10 @@ $("body").on("click", ".add", function(e) {
         var sibs = $(".target_info").length;
 
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs;
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
 
-        $.post(url).done(function(data) {
             //Client side        
             $(".target_info").last().after(data);
             $(".target_info").last().find('.fileUpload').each(function() {
@@ -336,8 +344,9 @@ $("body").on("click", ".add", function(e) {
         action = "add";
         xpath = "//x3ml/namespaces/namespace";
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action;
-
-        $.post(url).done(function(data) {
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
 
         });
     } else if (btnId.indexOf("/domain") === -1 && btnId.indexOf("/link") === -1) { //If no link and no domain -> Has to be mapping
@@ -350,7 +359,10 @@ $("body").on("click", ".add", function(e) {
         xsl = "mapping.xsl";
 
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
-        $.post(url).done(function(data) {
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
+
 
             $addPlace.nextAll("tbody").each(function() {
                 var currentXpath = $(this).attr("data-xpath");
@@ -393,7 +405,10 @@ $("body").on("click", ".add", function(e) {
 
 
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI;
-        $.post(url).done(function(data) {
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
+
             //Client side  
             $bucket.children().last().after(data);
             fillCombo($bucket.children().last().find('input.select2'), true);
@@ -419,7 +434,10 @@ $("body").on("click", ".add", function(e) {
 
 
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI;
-        $.post(url).done(function(data) {
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
+
 //            //Client side  
 
             if (sibs > 0) {
@@ -455,7 +473,10 @@ $("body").on("click", ".add", function(e) {
 
 
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI + "&generatorsStatus=" + generatorsStatus;
-        $.post(url).done(function(data) {
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
+
             //Client side  
 
 
@@ -502,8 +523,10 @@ $("body").on("click", ".add", function(e) {
 
         }
 
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
 
-        $.post(url).done(function(data) {
             if ($btn.attr('title') === 'Add Arguments') {
 //                $btn.hide(); //not needed any more
                 var $data = $(data).find(".args");
@@ -533,8 +556,10 @@ $("body").on("click", ".add", function(e) {
         xsl = "intermediate.xsl";
 
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
 
-        $.post(url).done(function(data) {
 //            //Client side  
 
             if (sibs > 0) {
@@ -570,7 +595,10 @@ $("body").on("click", ".add", function(e) {
 
 
             var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl;
-            $.post(url).done(function(data) {
+            var req = $.myPOST(url);
+            req.done(function(data) {
+                checkResponse(data);
+
 ////            //Client side       
 
                 $bucket.html(data);
@@ -606,8 +634,10 @@ $("body").on("click", ".add", function(e) {
         xsl = "if-rule.xsl";
 
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs;
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
 
-        $.post(url).done(function(data) {
 //            //Client side     
             var $rulesDiv = $btn.parentsUntil(".rules").parent();
             $rulesDiv.children(".rule,.text-center").remove();
@@ -629,8 +659,10 @@ $("body").on("click", ".add", function(e) {
         sibs = parseInt(sibs) / 2; //Because path and range have common data-xpath
 //
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
 
-        $.post(url).done(function(data) {
             //Client side       
             viewOnly();
 
@@ -651,8 +683,10 @@ $("body").on("click", ".add", function(e) {
             //Server side
             action = "addAttr";
             var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action;
+            var req = $.myPOST(url);
+            req.done(function(data) {
+                checkResponse(data);
 
-            $.post(url).done(function(data) {
             });
         } else {
             if (xpath.indexOf("/instance_info") !== -1) { //Language-Constant-Description
@@ -660,7 +694,10 @@ $("body").on("click", ".add", function(e) {
                 action = "addOptional___" + xpath;
 
                 var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action;
-                $.post(url).done(function(data) {
+                var req = $.myPOST(url);
+                req.done(function(data) {
+                    checkResponse(data);
+
                 });
             }
         }
@@ -720,7 +757,10 @@ $("body").on("click", ".close,.closeOnHeader", function() {
 
             }
             var url = "Delete?id=" + id + "&xpath=" + xpath + '&targetAnalyzer=' + comboAPI;
-            $.post(url).done(function(data) {
+            var req = $.myPOST(url);
+            req.done(function(data) {
+                checkResponse(data);
+
 
                 if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower")) { //Special treatment
                     var $rulesDiv = $btn.parentsUntil(".rules").parent();
@@ -841,7 +881,10 @@ $('.saveXML-btn').click(function() {
 
 
         var url = "Update?id=" + id + "&xpath=" + xpath + "&action=raw";
-        $.post(url, {value: value}).done(function(data) {
+        var req = $.myPOST(url, {value: value});
+        req.done(function(data) {
+            checkResponse(data);
+
 
 
             if (data.indexOf("Update complete!)" !== -1)) {
@@ -852,12 +895,15 @@ $('.saveXML-btn').click(function() {
                         mode = "view";
                     }
                     var url = "GetPart?id=" + id + "&part=info&mode=" + mode;
-                    $.post(url).done(function(data) {
+                    var req = $.myPOST(url);
+                    req.done(function(data) {
+                        checkResponse(data);
+
                         $("#info>div").html(data);
-                    })
-                            .fail(function() {
-                                alert("Connection with server lost. Action failed!");
-                            });
+                    });
+                    req.fail(function() {
+                        alert("Connection with server lost. Action failed!");
+                    });
 
                 } else if (xpath.endsWith("/domain/..") || xpath.endsWith("/mappings")) {
 
@@ -866,9 +912,13 @@ $('.saveXML-btn').click(function() {
                             comboAPI = 4;
                         }
                         var url = "GetPart?id=" + id + "&xpath=" + xpath + "&mode=view&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
-                        $.post(url).done(function(data) {
+                        var req = $.myPOST(url);
+                        req.done(function(data) {
+                            checkResponse(data);
+
                             $(".mappings").html(data);
-                        }).fail(function() {
+                        });
+                        req.fail(function() {
                             alert("Connection with server lost. Action failed!");
                         });
                     } else {
@@ -888,7 +938,10 @@ $('.saveXML-btn').click(function() {
                         comboAPI = 4;
                     }
                     var url = "GetPart?id=" + id + "&xpath=" + editPath + "&mode=edit&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
-                    $.post(url).done(function(data) {
+                    var req = $.myPOST(url);
+                    req.done(function(data) {
+                        checkResponse(data);
+
 
                         if (xpath.endsWith("/domain")) {
                             $(".edit").replaceWith(data);
@@ -904,7 +957,8 @@ $('.saveXML-btn').click(function() {
                             }
                         });
 
-                    }).fail(function() {
+                    });
+                    req.fail(function() {
                         alert("Connection with server lost. Action failed!");
                     });
 
@@ -933,7 +987,10 @@ $("#matching_table").on("change", ".operator input:radio", function(e) {
     var xpath = $operator.parent().parent().attr("id");
     var value = $operator.val();
     var url = "Update?id=" + id + "&xpath=" + xpath + "&action=operator" + "&value=" + value;
-    $.post(url).done(function(data) {
+    var req = $.myPOST(url);
+    req.done(function(data) {
+        checkResponse(data);
+
         var $rulesDiv = $operator.parentsUntil(".rules").parent();
         $rulesDiv.children(".rule,.text-center").remove();
         $rulesDiv.prepend(data);
@@ -1002,7 +1059,10 @@ $("body").on("click", ".toggle", function() {
     $(this).parent().parent().parent().css("display", "none");
 
     var url = "Delete?id=" + id + "&xpath=" + xpath;
-    $.post(url).done(function(data) {
+    var req = $.myPOST(url);
+    req.done(function(data) {
+        checkResponse(data);
+
         var $linkToEnable = $("*[id='add***" + xpath + "']");
         $linkToEnable.parent().removeClass("disabled");
     });
@@ -1022,7 +1082,9 @@ $("body").on("click", ".delete", function() {
 
         var selector = "." + $blockToRemove.attr("class");
         var url = "Delete?id=" + id + "&xpath=" + xpath;
-        $.post(url).done(function(data) {
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
 
             $blockToRemove.nextAll(selector).each(function() {
                 var currentXpath = $(this).find("input").last().attr("data-xpath");
@@ -1071,7 +1133,9 @@ $("#matching_table").on("click", ".clickable", function() {
                 comboAPI = 4;
             }
             var url = "GetPart?id=" + id + "&xpath=" + $path.attr("data-xpath") + "&mode=edit&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
-            $.post(url).done(function(data) {
+            var req = $.myPOST(url);
+            req.done(function(data) {
+                checkResponse(data);
 
                 //Adding header and domain to help editing
                 var $data = $(data);
@@ -1135,11 +1199,11 @@ $("#matching_table").on("click", ".clickable", function() {
                     'scrollTop': $('.dummyHeader').offset().top - 100
 
                 }, 10);
-            })
-                    .fail(function() {
-                        alert("Connection with server lost. Action failed!");
-                        $("body").css("opacity", "1");
-                    });
+            });
+            req.fail(function() {
+                alert("Connection with server lost. Action failed!");
+                $("body").css("opacity", "1");
+            });
             viewOnly();
         }
     }
@@ -1156,13 +1220,18 @@ $('#info_view-btn').click(function() {
     var url = "GetPart?id=" + id + "&part=info&mode=view";
     var $btn = $(this);
     $btn.button('loading');
-    $.post(url).done(function(data) {
+    var req = $.myPOST(url);
+
+    req.done(function(data) {
+        checkResponse(data);
+
         $("#info>div").html(data);
         $btn.toggle();
         $btn.button('reset');
         $('#info_edit-btn').toggle();
         $("body").css("opacity", "1");
-    }).fail(function() {
+    });
+    req.fail(function() {
         alert("Connection with server lost. Action failed!");
         $("body").css("opacity", "1");
     });
@@ -1175,7 +1244,10 @@ $('#info_edit-btn').click(function() {
     var url = "GetPart?id=" + id + "&part=info&mode=edit";
     var $btn = $(this);
     $btn.button('loading');
-    $.post(url).done(function(data) {
+    var req = $.myPOST(url);
+    req.done(function(data) {
+        checkResponse(data);
+
         $("#info>div").html(data);
         $btn.toggle();
         $btn.button('reset');
@@ -1193,7 +1265,8 @@ $('#info_edit-btn').click(function() {
         }
 
         $("body").css("opacity", "1");
-    }).fail(function() {
+    });
+    req.fail(function() {
         alert("Connection with server lost. Action failed!");
         $("body").css("opacity", "1");
     });
@@ -1213,8 +1286,10 @@ $("body").on("click", ".deleteFile", function() {
         var url = "Delete?id=" + id + "&xpath=" + xpath + '&targetAnalyzer=' + comboAPI;
 
 
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
 
-        $.post(url).done(function(data) {
             $actionDiv.toggle("slow");
             if ($actionDiv.hasClass()) {
                 var className = $actionDiv.attr("class");
@@ -1335,9 +1410,11 @@ $("body").on("click", "#runEngine", function() {
     var source = $("#sourceFile").val();
     var url = "/x3mlMapper/Index?id=" + id + "&generator=" + $("#generator").val() + "&uuidSize=" + $("#uuidSize").val() + "&output=" + output;
 
-    $.post(url, {sourceFile: source}, "html").done(function(data) {
+    var req = $.myPOST(url, {sourceFile: source}, "html");
+    req.done(function(data) {
+        checkResponse(data);
 
-
+//    $.post(url, {sourceFile: source}, "html").done(function(data) {
         data = String(data).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         $(".loader").hide();
         $("#engineResult").html(data);

@@ -33,7 +33,7 @@ $(window).on('beforeunload', function() {
 
 function closeAndUnlock(id) {
 //Decided tha popup is no longer necessary...
-    jQuery.ajax({
+    $.ajax({
         url: 'Action?action=close&id=' + id,
         async: false
     });
@@ -108,10 +108,31 @@ function findProperPathValue($element) {
     $element.html(value);
 }
 
-
+function checkResponse(data) {
+    if (data.indexOf("<title>3M</title>") !== -1) {
+        window.location.assign("/3M")
+    }
+}
 /*
  * Added functions
  */
+
+(function($) {
+    $.myPOST = function(url, data, dataType, timeout) {
+        if (typeof timeout === 'undefined') {
+            timeout = 20000; //Default timeout is 20secs if none is specified
+        }
+
+        var settings = {
+            type: "POST", //predefine request type to POST
+            'url': url,
+            'data': data,
+            'dataType': dataType,
+            'timeout': timeout
+        };
+        return $.ajax(settings);
+    };
+})(jQuery);
 
 String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
