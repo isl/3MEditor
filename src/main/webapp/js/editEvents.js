@@ -383,6 +383,11 @@ $("body").on("click", ".add", function(e) {
 
             viewOnly();
             $addPlace.after(data);
+//            alert(xpath);
+            //For now make link viewable (may have to reconsider and just add a domain)
+            viewOnlySpecificPath(getNextPath(xpath) + "/link[1]/path");
+            viewOnlySpecificPath(getNextPath(xpath) + "/link[1]/range");
+
             //Client side  
             fillCombos();
 

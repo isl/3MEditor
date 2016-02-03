@@ -328,15 +328,21 @@ function getDomainValueForLink(xpath) {
     return domainValue;
 }
 function filterValues(xpath) {
-
+//alert(xpath)
     var domainValue = getDomainValueForLink(xpath);
-
+    
+    
+//alert(domainValue)
     var paths;
     if (targetType === "xml" && xpath.indexOf("/target_") !== -1) {
         paths = targetXPaths;
     } else {
         paths = sourceAnalyzerPaths;
     }
+    if (typeof domainValue === 'undefined') { //New map case, no need to filter
+        return paths;
+    }
+    
     var filteredPaths;
     if (!domainValue.startsWith("/")) { //If xpath does not start with a "/", add it
         domainValue = "/" + domainValue;

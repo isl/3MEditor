@@ -109,7 +109,8 @@ function findProperPathValue($element) {
 }
 
 function checkResponse(data) {
-    if (data.indexOf("<title>3M</title>") !== -1) {
+    
+    if (typeof data === "string" && data.indexOf("<title>3M</title>") !== -1) {
         window.location.assign("/3M")
     }
 }
