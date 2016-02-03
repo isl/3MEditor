@@ -83,7 +83,7 @@ $(document).ready(function() {
             var url = "GetPart?id=" + id + "&part=mappings&mode=view";
             var $btn = $(this);
             $btn.button('loading');
-            var req = $.myPOST(url,"","",10000);
+            var req = $.myPOST(url, "", "", 10000);
             req.done(function(data) {
                 checkResponse(data);
                 $("#matching_table>div.mappings").html(data);
@@ -155,7 +155,7 @@ $(document).ready(function() {
             var url = "Action?id=" + id + "&xpath=" + xpath + "&action=raw";
             var req = $.myPOST(url);
             req.done(function(data) {
-                                checkResponse(data);
+                checkResponse(data);
 
                 $("#myModal").find("textarea").val(data);
             });
@@ -197,7 +197,7 @@ $('.nav a').click(function(e) {
             var url = "FetchBinFile?file=" + sourceFilename;
             var req = $.myPOST(url, "xml");
             req.done(function(xml) {
-                checkResponse(data);
+                checkResponse(xml);
 
 //            $.post(url, "xml").done(function(xml) {
                 var xmlString = (new XMLSerializer()).serializeToString(xml);
@@ -217,7 +217,7 @@ $('.nav a').click(function(e) {
 //            $.post(url, "xml").done(function(xml) {
             var req = $.myPOST(url, "xml");
             req.done(function(xml) {
-                                checkResponse(data);
+                checkResponse(xml);
 
                 var xmlString = (new XMLSerializer()).serializeToString(xml);
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright 2014-2015 Institute of Computer Science,
+Copyright 2014-2016 Institute of Computer Science,
 Foundation for Research and Technology - Hellas
 
 Licensed under the EUPL, Version 1.1 or - as soon they will be approved
@@ -63,6 +63,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <description>eXist database system collection</description>
         <param-name>applicationCollection</param-name>
         <param-value>/db/DMSCOLLECTION/3M</param-value>
+    </context-param>
+    <context-param>
+        <description>eXist database system versions collection</description>
+        <param-name>versionsCollection</param-name>
+        <param-value>/db/DMSCOLLECTION/3M_VERSIONS</param-value>
     </context-param>
     <context-param>
         <description>eXist database admin collection</description>

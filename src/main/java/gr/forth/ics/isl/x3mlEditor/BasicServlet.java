@@ -67,38 +67,31 @@ public class BasicServlet extends HttpServlet {
      *
      */
     protected static String serverName,
+            /**
+             *
+             */
+            contextPath,
+            /**
+             *
+             */
+            baseURL,
+            /**
+             *
+             */
+            systemRoot,
+            /**
+             *
+             */
+            targetPathSuggesterAlgorithm,
+            /**
+             *
+             */
+            sourceAnalyzerStatus,
+            /**
+             *
+             */
+            generatorsStatus;
 
-    /**
-     *
-     */
-    contextPath,
-
-    /**
-     *
-     */
-    baseURL,
-
-    /**
-     *
-     */
-    systemRoot,
-
-    /**
-     *
-     */
-    targetPathSuggesterAlgorithm,
-
-    /**
-     *
-     */
-    sourceAnalyzerStatus,
-
-    /**
-     *
-     */
-    generatorsStatus;
-
-    
     protected static int serverPort, maxCollsize;
 
     /**
@@ -110,11 +103,10 @@ public class BasicServlet extends HttpServlet {
      *
      */
     protected static String stateOfSite,
-
-    /**
-     *
-     */
-    editorType;
+            /**
+             *
+             */
+            editorType;
 
     /**
      *
@@ -125,61 +117,56 @@ public class BasicServlet extends HttpServlet {
      *
      */
     protected static String servletName,
-
-    /**
-     *
-     */
-    dmsCollection,
-
-    /**
-     *
-     */
-    adminCollection,
-
-    /**
-     *
-     */
-    applicationCollection,
-
-    /**
-     *
-     */
-    x3mlCollection,
-
-    /**
-     *
-     */
-    rootCollection;
+            /**
+             *
+             */
+            dmsCollection,
+            /**
+             *
+             */
+            adminCollection,
+            /**
+             *
+             */
+            applicationCollection,
+            /**
+             *
+             */
+            x3mlCollection,
+            /**
+             *
+             */
+            versionsCollection,
+            /**
+             *
+             */
+            rootCollection;
 
     /**
      *
      */
     protected static String DBURI,
-
-    /**
-     *
-     */
-    DBuser,
-
-    /**
-     *
-     */
-    DBpassword;
+            /**
+             *
+             */
+            DBuser,
+            /**
+             *
+             */
+            DBpassword;
 
     /**
      *
      */
     protected static String uploadsFile,
-
-    /**
-     *
-     */
-    uploadsFolder,
-
-    /**
-     *
-     */
-    schemaFolder;
+            /**
+             *
+             */
+            uploadsFolder,
+            /**
+             *
+             */
+            schemaFolder;
 
     /**
      *
@@ -206,18 +193,16 @@ public class BasicServlet extends HttpServlet {
      *
      */
     public static DMSConfig conf;
-    
 
     // The strings used to build the query that asks for query source text, from file
     // DMSQueries.xml.
     // See method doQueryForSource for usage
-
     /**
      *
      * @param config
      * @throws ServletException
      */
-        public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
         if (!configured) {
@@ -230,6 +215,7 @@ public class BasicServlet extends HttpServlet {
             adminCollection = sc.getInitParameter("adminCollection");
             applicationCollection = sc.getInitParameter("applicationCollection");
             x3mlCollection = sc.getInitParameter("x3mlCollection");
+            versionsCollection = sc.getInitParameter("versionsCollection");
 
             DBuser = sc.getInitParameter("DBuser");
             DBpassword = sc.getInitParameter("DBpassword");
@@ -549,14 +535,13 @@ public class BasicServlet extends HttpServlet {
     }
 
     // a very simple transform method. more sophisticated ones were used in IMKE
-
     /**
      *
      * @param xml
      * @param xsl
      * @return
      */
-        public String transform(String xml, String xsl) {
+    public String transform(String xml, String xsl) {
         try {
             XMLTransform xmlTrans = new XMLTransform(xml);
             return xmlTrans.transform(xsl);
@@ -595,19 +580,16 @@ public class BasicServlet extends HttpServlet {
 //        return results;
 //
 //    }
-
 //    public void setUsername(String username) {
 //        this.username = username;
 //    }
 
     /*returns system user rights*/
-
     /**
      *
      * @param username
      * @return
      */
-    
     public String getRights(String username) {
         String UserRights = null;
         try {
@@ -754,7 +736,6 @@ public class BasicServlet extends HttpServlet {
             }
         }
 
-
         //First of all update admin/refs/ref of file
         if (currentRefs.length > 0) {
             if (refsBlock.length() > 0) {
@@ -784,7 +765,7 @@ public class BasicServlet extends HttpServlet {
 
                 if (refsBy != null) {
 
-                    if (refsBy.length == 0) {                  
+                    if (refsBy.length == 0) {
                         if (refFileXML.contains("<refs_by>")) {
 //                            System.out.println("APPEND JUST ONE");
                             refFile.xAppend("//admin/refs_by", ref_byBlock);
