@@ -311,14 +311,16 @@ function upload($this) {
                 linkText = "view rdf";
             } else if (uploadMessage === "Upload xml") {
 
-                sourceAnalyzer = "on";
-                sourceAnalyzerFiles = sourceAnalyzerFiles.split("***")[0] + "***" + filename;
-                sourceAnalyzerPaths = "";
-                configurationOption("sourceAnalyzer", "enable");
-                viewOnly();
+                if (!xpath.endsWith("generator_link")) { //Don't enable source analyzer for generator policy files
+                    sourceAnalyzer = "on";
+                    sourceAnalyzerFiles = sourceAnalyzerFiles.split("***")[0] + "***" + filename;
+                    sourceAnalyzerPaths = "";
+                    configurationOption("sourceAnalyzer", "enable");
+                    viewOnly();
 
-                $("a:contains('Transformation')").attr("href", "#x3mlEngine").parent().removeClass("disabled").removeAttr("title");
-                linkText = "view xml";
+                    $("a:contains('Transformation')").attr("href", "#x3mlEngine").parent().removeClass("disabled").removeAttr("title");
+                    linkText = "view xml";
+                }
             } else if (uploadMessage === "Upload html") {
                 linkText = "view html";
 
