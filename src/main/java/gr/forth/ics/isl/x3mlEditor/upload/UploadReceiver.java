@@ -147,7 +147,7 @@ public class UploadReceiver extends BasicServlet {
             writeToTempFile(req.getInputStream(), new File(UPLOAD_DIR, filename), expectedFileSize);
         }
 
-        Tidy tidy = new Tidy(DBURI, rootCollection, DBuser, DBpassword, uploadsFolder);
+        Tidy tidy = new Tidy(DBURI, rootCollection,x3mlCollection, DBuser, DBpassword, uploadsFolder);
         String duplicate = tidy.getDuplicate(UPLOAD_DIR + System.getProperty("file.separator") + filename, UPLOAD_DIR.getAbsolutePath());
         boolean duplicateFound = false;
 

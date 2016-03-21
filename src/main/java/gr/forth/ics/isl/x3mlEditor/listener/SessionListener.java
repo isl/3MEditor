@@ -70,7 +70,7 @@ public class SessionListener extends BasicServlet implements HttpSessionListener
         }
         System.out.println("ACTIVE SESSIONS:" + activesessionsNO);
         if (activesessionsNO == 0) {
-            Tidy tidy = new Tidy(DBURI, rootCollection, DBuser, DBpassword, uploadsFolder);
+            Tidy tidy = new Tidy(DBURI, rootCollection,x3mlCollection, DBuser, DBpassword, uploadsFolder);
             tidy.run();
         }
     }
