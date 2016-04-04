@@ -65,6 +65,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                    
                    
         <div class="label_generator" id="{$container}" data-xpath="{$container}">
+            <xsl:attribute name="style">
+                <xsl:choose>
+                    <xsl:when test="contains($container,'additional')">margin-left:0px;</xsl:when>
+                </xsl:choose>
+            </xsl:attribute>
             <button title="Delete Label Generator" type="button" class="close" id="{concat('delete***',$container)}" >
                 <span class="fa fa-times smallerIcon" style="color:black;"></span>
 
@@ -107,7 +112,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             </div>
             <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Argument" type="button" class="btn btn-link btn-sm  add white">
                 Add Argument</button>              
-                <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Arguments" type="button" class="btn btn-link btn-sm  add white" style="display:none;">
+            <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Arguments" type="button" class="btn btn-link btn-sm  add white" style="display:none;">
                 Get Arguments</button>  
                
                 

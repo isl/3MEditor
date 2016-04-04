@@ -68,6 +68,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                    
         <div class="instance_generator" id="{$container}" data-xpath="{$container}">
+            <xsl:attribute name="style">
+                <xsl:choose>
+                    <xsl:when test="contains($container,'additional')">margin-left:0px;</xsl:when>
+                </xsl:choose>
+            </xsl:attribute>
             <button title="Delete Instance Generator" type="button" class="close" id="{concat('delete***',$container)}" >
                 <span class="fa fa-times smallerIcon" style="color:white;"></span>
 
