@@ -19,29 +19,29 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-  <repositories>       
+    <repositories>       
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
     <dependencies>
-          <dependency>
+        <dependency>
             <groupId>com.github.isl</groupId>
             <artifactId>Reasoner</artifactId>
             <version>-SNAPSHOT</version>
         </dependency>
-          <dependency>
-            <groupId>com.github.isl</groupId>
-            <artifactId>3MTidy</artifactId>
-            <version>-SNAPSHOT</version>
-        </dependency>
-          <dependency>
+        <dependency>
             <groupId>com.github.isl</groupId>
             <artifactId>SchemaReader</artifactId>
             <version>-SNAPSHOT</version>
         </dependency>
-         <dependency>
+        <dependency>
+            <groupId>com.github.isl</groupId>
+            <artifactId>3MTidy</artifactId>
+            <version>65ebd42</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.isl</groupId>
             <artifactId>DMS</artifactId>
             <version>-SNAPSHOT</version>

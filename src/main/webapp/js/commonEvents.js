@@ -217,7 +217,7 @@ $('.nav a').click(function(e) {
 //            $.post(url, "xml").done(function(xml) {
             var req = $.myPOST(url, "xml");
             req.done(function(xml) {
-                checkResponse(xml);
+//                checkResponse(xml); //Fetch does not return html with title, should not check
 
                 var xmlString = (new XMLSerializer()).serializeToString(xml);
 
