@@ -141,6 +141,15 @@ function fillCombo($this, setValue) {
                 }
                 $(".loader").hide();
             });
+            req.fail(function(jqXHR) {
+                
+                var responseText = jqXHR.responseText;
+                console.log(responseText);
+                var message = $(responseText).find("li").last().html();
+
+                alert("Problem occurred! Read following exception message and either try again or choose a different reasoner:\n"+message);
+                $(".loader").hide();
+            });
         }
 
     }
@@ -330,8 +339,8 @@ function getDomainValueForLink(xpath) {
 function filterValues(xpath) {
 //alert(xpath)
     var domainValue = getDomainValueForLink(xpath);
-    
-    
+
+
 //alert(domainValue)
     var paths;
     if (targetType === "xml" && xpath.indexOf("/target_") !== -1) {
@@ -342,7 +351,7 @@ function filterValues(xpath) {
     if (typeof domainValue === 'undefined') { //New map case, no need to filter
         return paths;
     }
-    
+
     var filteredPaths;
     if (!domainValue.startsWith("/")) { //If xpath does not start with a "/", add it
         domainValue = "/" + domainValue;
