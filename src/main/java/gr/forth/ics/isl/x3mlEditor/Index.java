@@ -175,6 +175,8 @@ public class Index extends BasicServlet {
                         targetAnalyzer = "0";
                     }
 
+                } else if (targetType.equals("owl")) {
+                    targetAnalyzer = "3";
                 }
 
 //                if (mappingFile.queryString("//target_info/target_schema/@schema_file/string()").length == 0) {
@@ -247,14 +249,20 @@ public class Index extends BasicServlet {
                         targetType = "rdf";
                     } else if (target.endsWith(".xsd") || target.endsWith(".xml")) {
                         targetType = "xml";
+                    } else if (target.endsWith(".owl")) {
+                        targetType = "owl";
                     }
                 } else {
                     if (targetType.equals("rdf")) {
-                        if (target.endsWith(".xsd") || target.endsWith(".xml")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".xml") || target.endsWith(".owl")) {
                             targetType = "Mixed";
                         }
                     } else if (targetType.equals("xml")) {
-                        if (target.endsWith(".rdf") || target.endsWith(".rdfs")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".xml") || target.endsWith(".owl")) {
+                            targetType = "Mixed";
+                        }
+                    } else if (targetType.equals("owl")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".xml") || target.endsWith(".owl")) {
                             targetType = "Mixed";
                         }
                     }

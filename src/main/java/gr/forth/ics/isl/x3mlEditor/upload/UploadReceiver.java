@@ -57,12 +57,11 @@ public class UploadReceiver extends BasicServlet {
     private static String CONTENT_LENGTH = "Content-Length";
     private static int RESPONSE_CODE = 200;
 
-
     /**
      *
      * @throws ServletException
      */
-        @Override
+    @Override
     public void init() throws ServletException {
     }
 
@@ -104,7 +103,7 @@ public class UploadReceiver extends BasicServlet {
         }
 
         DBFile uploadsDBFile = new DBFile(super.DBURI, super.adminCollection, "Uploads.xml", super.DBuser, super.DBpassword);
-      
+
         String use = "";
         if (xpath != null) {
             if (filename.endsWith("rdf") || filename.endsWith("rdfs")) {
@@ -147,7 +146,7 @@ public class UploadReceiver extends BasicServlet {
             writeToTempFile(req.getInputStream(), new File(UPLOAD_DIR, filename), expectedFileSize);
         }
 
-        Tidy tidy = new Tidy(DBURI, rootCollection,x3mlCollection, DBuser, DBpassword, uploadsFolder);
+        Tidy tidy = new Tidy(DBURI, rootCollection, x3mlCollection, DBuser, DBpassword, uploadsFolder);
         String duplicate = tidy.getDuplicate(UPLOAD_DIR + System.getProperty("file.separator") + filename, UPLOAD_DIR.getAbsolutePath());
         boolean duplicateFound = false;
 
@@ -171,29 +170,38 @@ public class UploadReceiver extends BasicServlet {
         if (isAttribute) {
 
             mappingFile.xAddAttribute(xpath, attributeName, filename);
-            if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf"))) {
-
+            if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf") || filename.endsWith("owl"))) {
                 if (!duplicateFound) {
                     //Uploading target schema files to eXist!
-                    dbc = new DBCollection(super.DBURI, x3mlCollection, super.DBuser, super.DBpassword);
-                    DBFile dbf = dbc.createFile(filename, "XMLDBFile");
-                    String content = readFile(new File(UPLOAD_DIR, filename), "UTF-8");
-                    dbf.setXMLAsString(content);
-                    dbf.store();
+                    try {
+                        dbc = new DBCollection(super.DBURI, x3mlCollection, super.DBuser, super.DBpassword);
+                        DBFile dbf = dbc.createFile(filename, "XMLDBFile");
+                        String content = readFile(new File(UPLOAD_DIR, filename), "UTF-8");
+                        dbf.setXMLAsString(content);
+                        dbf.store();
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                        msg = "File was uploaded but eXist queries target analyzer failed. Try using another target analyzer or upload a different file. Failure message: " + ex.getMessage().replace("\n", "").replace("\r", "").replace("\"", "'");;
+                    }
                 }
-
-                if (targetAnalyzer.equals("3")) {
+//                if (targetAnalyzer.equals("3")) {
 //                    Changing OntModel
+                try {
                     OntologyReasoner ont = getOntModel(mappingFile, id);
+
                     HttpSession session = sessionCheck(req, resp);
                     if (session == null) {
                         session = req.getSession();
                     }
                     session.setAttribute("modelInstance_" + id, ont);
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                    msg = "File was uploaded but Jena reasoner target analyzer failed. Try using another target analyzer or upload a different file. Failure message: " + ex.getMessage().replace("\n", "").replace("\r", "").replace("\"", "'");;
                 }
+//                }
 
             } else if (xpath.endsWith("/generator_policy_info") && (filename.endsWith("xml"))) {
-               
+
                 if (!duplicateFound) {
                     //Uploading generator policy files to eXist!
                     dbc = new DBCollection(super.DBURI, x3mlCollection, super.DBuser, super.DBpassword);
@@ -246,7 +254,7 @@ public class UploadReceiver extends BasicServlet {
 
             String json = "{\"success\": true, \"filename\": \"" + filename + "\", \"mime\": \"" + mime + "\"}";
             writer.print(json);
-          
+
         } else {
             writer.print("{\"error\": \"" + failureReason + "\"}");
         }

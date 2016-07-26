@@ -207,7 +207,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             <xsl:when test="//output/targetAnalyzer='2'">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
                                             </xsl:when>
-                                            <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml'">
+                                            <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml' or //output/targetType='owl'">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
                                             </xsl:when>
                                             <xsl:otherwise>
@@ -223,7 +223,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     </label>
                                     <label id="label3">
                                         <xsl:choose>
-                                            <xsl:when test="//output/targetAnalyzer='3'">
+                                            <xsl:when test="//output/targetAnalyzer='3' or //output/targetType='owl'">
                                                 <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
                                             </xsl:when>
                                             <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml'">

@@ -41,10 +41,12 @@ import isl.dms.xml.XMLTransform;
 import isl.reasoner.OntologyReasoner;
 import gr.forth.ics.isl.x3mlEditor.connections.ConnectionPool;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -501,7 +503,11 @@ public class BasicServlet extends HttpServlet {
         OntologyReasoner ont = new OntologyReasoner();
 
         for (String targetSchema : targetSchemas) {
-            ont.initiateModel(baseURL + "/FetchBinFile?id=" + id + "&file=" + targetSchema);
+            try {
+                ont.initiateModel(baseURL + "/FetchBinFile?id=" + id + "&file=" + URLEncoder.encode(targetSchema, "UTF-8"));
+            } catch (UnsupportedEncodingException ex) {
+                ex.printStackTrace();
+            }
         }
 
         return ont;

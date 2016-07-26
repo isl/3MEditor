@@ -172,9 +172,19 @@ function configurationOption(option, action) {
         if (action === "enable") {
             $("#targetAnalyzer").children("label").removeClass("active");
             $("#targetAnalyzer").find("input").removeAttr("checked");
-            $("#targetAnalyzer>#label2").removeClass("disabled").addClass("active");
-            $("#targetAnalyzer>#label3").removeClass("disabled");
-            $("#targetAnalyzer>#label2>input").attr("checked", "checked");
+
+
+
+            if (targetType == "owl") {
+                $("#targetAnalyzer>#label2").removeClass("disabled");
+                $("#targetAnalyzer>#label3").removeClass("disabled").addClass("active");
+                $("#targetAnalyzer>#label3>input").attr("checked", "checked");
+            } else if (targetType == "rdf") {
+                $("#targetAnalyzer>#label2").removeClass("disabled").addClass("active");
+                $("#targetAnalyzer>#label3").removeClass("disabled");
+                $("#targetAnalyzer>#label2>input").attr("checked", "checked");
+            }
+
         } else if (action === "enableXMLonly") {
             $("#targetAnalyzer").children("label").removeClass("active");
             $("#targetAnalyzer").find("input").removeAttr("checked");
@@ -262,7 +272,7 @@ function upload($this) {
         if (xpath.endsWith("source_schema/@schema_file")) {
             allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml'];
         } else {
-            allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml'];
+            allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml', 'owl'];
         }
     } else if (xpath.endsWith("xml_link") || xpath.endsWith("generator_link")) {
         uploadMessage = "Upload xml";
@@ -348,12 +358,18 @@ function upload($this) {
                             $("#addTarget").hide();
 
                         } else {
-                            targetType = "rdf"
-                            comboAPI = 2;
+                            if (filename.endsWith(".owl")) {
+                                targetType = "owl";
+                                comboAPI = 3;
+                            } else {
+                                targetType = "rdf";
+                                comboAPI = 2;
+                            }
                             configurationOption("targetAnalyzer", "enable");
                         }
 
                     }
+                    viewOnly();
                 }
             }
 
@@ -373,6 +389,9 @@ function upload($this) {
             $this.next().css('display', 'inline');
             $this.before($html);
             $this.toggle("slow");
+        } else {
+            var error =  responseJSON.error;
+            alert(error);
         }
     });
 }

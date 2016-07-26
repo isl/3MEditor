@@ -922,7 +922,7 @@ $('.saveXML-btn').click(function() {
                             checkResponse(data);
 
                             $(".mappings").html(data);
-                            $(".empty>td>div").attr("style","display:block"); //Showing otherwise hidden add buttons
+                            $(".empty>td>div").attr("style", "display:block"); //Showing otherwise hidden add buttons
                         });
                         req.fail(function() {
                             alert("Connection with server lost. Action failed!");
@@ -1335,6 +1335,8 @@ $("body").on("click", ".deleteFile", function() {
                     $("#addTarget").show();
 
                 }
+                viewOnly();
+
             }
 
 
