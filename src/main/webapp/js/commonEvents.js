@@ -38,7 +38,8 @@ var clipboard = {
 var clipBoardValue = "";
 var sourcePaths = "mini";
 var targetPaths = "mini";
-var targetRoot = "";
+var targetRoot = $(".targetPath").first().html();
+var sourceRoot = $(".sourcePath").first().html();
 
 /*
  * Page initialization
@@ -194,7 +195,7 @@ $('.nav a').click(function(e) {
                 sourceFilename = $("a:contains('view xml')").attr("title");
             }
 //            alert(sourceFilename)
-            var url = "FetchBinFile?file=" +  encodeURIComponent(sourceFilename);
+            var url = "FetchBinFile?file=" + encodeURIComponent(sourceFilename);
             var req = $.myPOST(url, "xml");
             req.done(function(xml) {
                 checkResponse(xml);

@@ -89,13 +89,16 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <br/>
                              
                                 <p>
-                                    Once a source schema file or an example xml file is uploaded the source analyzer engine is enabled by default.
+                                    Once a source schema file or an example xml file is uploaded the source analyzer engine is enabled by default (If uploaded
+                                    file is an xsd schema file, then user will also have to <b>MANUALLY</b> define an element name as root).
+<br/>
                                     User may choose to disable it. When it is enabled, source paths free text input fields are replaced by select boxes.
                                     Select box options are all possible xpaths. 
                                     <br/>
                                     <b>BEWARE! If both source schema and an example xml file are uploaded, schema is the one used to fill select boxes.</b>
                                     <br/>
-                                    <b>WARNING! At the moment, source analyzer engine works with xml files and may work with xsd files. No other file format is accepted.</b>
+                                    <b>WARNING! At the moment, source analyzer engine works with xml files and may work with xsd files. No other file format is accepted.
+                                    If you encounter problems with uploaded xsd files, try using a generated XML template file instead.</b>
 
                                     
                                 </p>
@@ -290,11 +293,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     <b>Jena reasoner</b>: It works with RDFS, RDF or OWL schema files. 
                                     Target analyzer engine is based on Jena reasoner. User chooses valid options from a select box.
                                     If there are no target schemas, user simply fills in input fields with free text. 
-                                    <b>(WARNING! The first time user clicks a row to edit, it will take some time to create combos)</b>
+                                    <b>(WARNING! The first time user clicks a row to edit, it may take some time to create combos)</b>
                                 </p>
-                                 <p>
-                                     <b>XML</b>: It works with <b>ONE</b> XSD or XML schema file. 
-                                    After user has defined a target xpath as root, target analyzer engine parses file and discovers all available xpaths.
+                                <p>
+                                    <b>XML</b>: It works with <b>ONE</b> XSD or XML schema file. 
+                                    After user has defined <b>MANUALLY</b> a target xpath as root, target analyzer engine parses file and discovers all available xpaths.
                                     User chooses xpaths from a select box.
                                     If there are no target schemas, user simply fills in input fields with free text. 
                                 </p>

@@ -165,7 +165,7 @@ public class Index extends BasicServlet {
                 HashMap<String, String> targetAnalysisResult = analyzeTarget(mappingFile);
                 targetType = targetAnalysisResult.get("targetType");
                 targetAnalyzerFiles = targetAnalysisResult.get("targetAnalyzerFiles");
-                if (targetType.equals("None") || targetType.equals("Mixed")) {
+                if (targetType.equals("None")) {
                     targetAnalyzer = "0";
                 } else if (targetType.equals("xml")) {
 

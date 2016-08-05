@@ -170,7 +170,7 @@ public class UploadReceiver extends BasicServlet {
         if (isAttribute) {
 
             mappingFile.xAddAttribute(xpath, attributeName, filename);
-            if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf") || filename.endsWith("owl"))) {
+            if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf") || filename.endsWith("owl")|| filename.endsWith("xml")|| filename.endsWith("xsd"))) {
                 if (!duplicateFound) {
                     //Uploading target schema files to eXist!
                     try {

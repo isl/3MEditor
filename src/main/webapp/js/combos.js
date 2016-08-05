@@ -235,7 +235,7 @@ function fillXMLSchemaCombo($this, type) {
                 if (sourceAnalyzerFile.endsWith(".xsd")) {
                     sourceAnalyzerFile = "../xml_schema/" + sourceAnalyzerFile;
                 }
-                var req = $.myPOST(url, {fileName: sourceAnalyzerFile}, "json");
+                var req = $.myPOST(url, {fileName: sourceAnalyzerFile, root: sourceRoot}, "json");
                 req.done(function(data) {
                     checkResponse(data);
 

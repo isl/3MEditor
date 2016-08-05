@@ -336,11 +336,22 @@ function upload($this) {
 
             } else { //Not sure if I want a default analyzer
                 if (xpath.endsWith("source_schema/@schema_file")) {
-                    sourceAnalyzer = "on";
-                    sourceAnalyzerFiles = filename + "***" + sourceAnalyzerFiles.split("***")[1];
-                    sourceAnalyzerPaths = "";
-                    configurationOption("sourceAnalyzer", "enable");
-                    viewOnly();
+
+                    if (filename.endsWith(".xsd")) {
+                        if ($(".sourcePath").first().html().length > 0) { //has specified root
+                            sourceAnalyzer = "on";
+                            sourceAnalyzerFiles = filename + "***" + sourceAnalyzerFiles.split("***")[1];
+                            sourceAnalyzerPaths = "";
+                            configurationOption("sourceAnalyzer", "enable");
+                            viewOnly();
+                        } else {
+                            alert("XML Schema uploaded. Once you specify a root source xpath in domain row, source analyzer is enabled! (Configuration tab)")
+                        }
+
+                    }
+
+
+
                 } else {
                     dataType = "target_info"; //Added only for this case, may have to make use of it for other cases too.
 
@@ -350,7 +361,7 @@ function upload($this) {
                                 comboAPI = 4;
                                 configurationOption("targetAnalyzer", "enableXMLonly");
                             } else {
-                                alert("XML Schema uploaded. Once you specify a root target xpath in domain column, XML target analyzer is enabled! (Configuration tab)")
+                                alert("XML Schema uploaded. Once you specify a root target xpath in domain row, XML target analyzer is enabled! (Configuration tab)")
                             }
                             targetType = "xml";
                             targetFiles = filename; //Atm only accept one xsd file!
@@ -390,7 +401,7 @@ function upload($this) {
             $this.before($html);
             $this.toggle("slow");
         } else {
-            var error =  responseJSON.error;
+            var error = responseJSON.error;
             alert(error);
         }
     });

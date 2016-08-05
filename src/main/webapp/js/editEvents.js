@@ -53,6 +53,17 @@ $("body").on("blur", ".form-control", function() {
             targetRoot = $input.val();
 
         }
+        if ($input.attr("data-xpath") === "//x3ml/mappings/mapping[1]/domain/source_node") {
+            if ($input.val().length > 0) {
+                sourceAnalyzer = "on";
+                configurationOption("sourceAnalyzer", "enable");
+            } else {
+                sourceAnalyzer = "off";
+                configurationOption("sourceAnalyzer", "disable");
+            }
+            sourceRoot = $input.val();
+        }
+
 
         var req = $.myPOST(url);
         req.done(function(data) {
