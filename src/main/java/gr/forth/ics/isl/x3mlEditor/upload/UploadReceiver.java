@@ -170,22 +170,24 @@ public class UploadReceiver extends BasicServlet {
         if (isAttribute) {
 
             mappingFile.xAddAttribute(xpath, attributeName, filename);
-            if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf") || filename.endsWith("owl")|| filename.endsWith("xml")|| filename.endsWith("xsd"))) {
-                if (!duplicateFound) {
-                    //Uploading target schema files to eXist!
-                    try {
-                        dbc = new DBCollection(super.DBURI, x3mlCollection, super.DBuser, super.DBpassword);
-                        DBFile dbf = dbc.createFile(filename, "XMLDBFile");
-                        String content = readFile(new File(UPLOAD_DIR, filename), "UTF-8");
-                        dbf.setXMLAsString(content);
-                        dbf.store();
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                        msg = "File was uploaded but eXist queries target analyzer failed. Try using another target analyzer or upload a different file. Failure message: " + ex.getMessage().replace("\n", "").replace("\r", "").replace("\"", "'");;
+            if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf") || filename.endsWith("owl") || filename.endsWith("ttl") || filename.endsWith("xml") || filename.endsWith("xsd"))) {
+
+//                if (!(filename.endsWith("ttl") || filename.endsWith("owl"))) {//Skip exist for owl or ttl
+                    if (!duplicateFound) {
+                        //Uploading target schema files to eXist!
+                        try {
+                            dbc = new DBCollection(super.DBURI, x3mlCollection, super.DBuser, super.DBpassword);
+                            DBFile dbf = dbc.createFile(filename, "XMLDBFile");
+                            String content = readFile(new File(UPLOAD_DIR, filename), "UTF-8");
+                            dbf.setXMLAsString(content);
+                            dbf.store();
+                        } catch (Exception ex) {
+                            System.out.println(ex.getMessage());
+                            msg = "File was uploaded but eXist queries target analyzer failed. Try using another target analyzer or upload a different file. Failure message: " + ex.getMessage().replace("\n", "").replace("\r", "").replace("\"", "'");;
+                        }
                     }
-                }
-//                if (targetAnalyzer.equals("3")) {
-//                    Changing OntModel
+//                }
+
                 try {
                     OntologyReasoner ont = getOntModel(mappingFile, id);
 
@@ -194,6 +196,7 @@ public class UploadReceiver extends BasicServlet {
                         session = req.getSession();
                     }
                     session.setAttribute("modelInstance_" + id, ont);
+                    msg=null;
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                     msg = "File was uploaded but Jena reasoner target analyzer failed. Try using another target analyzer or upload a different file. Failure message: " + ex.getMessage().replace("\n", "").replace("\r", "").replace("\"", "'");;

@@ -175,7 +175,7 @@ function configurationOption(option, action) {
 
 
 
-            if (targetType == "owl") {
+            if (targetType == "owl" || targetType == "ttl") {
                 $("#targetAnalyzer>#label2").removeClass("disabled");
                 $("#targetAnalyzer>#label3").removeClass("disabled").addClass("active");
                 $("#targetAnalyzer>#label3>input").attr("checked", "checked");
@@ -272,7 +272,7 @@ function upload($this) {
         if (xpath.endsWith("source_schema/@schema_file")) {
             allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml'];
         } else {
-            allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml', 'owl'];
+            allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml', 'owl', 'ttl'];
         }
     } else if (xpath.endsWith("xml_link") || xpath.endsWith("generator_link")) {
         uploadMessage = "Upload xml";
@@ -354,7 +354,6 @@ function upload($this) {
 
                 } else {
                     dataType = "target_info"; //Added only for this case, may have to make use of it for other cases too.
-
                     if (comboAPI == 0) {
                         if (filename.endsWith(".xsd") || filename.endsWith(".xml")) {
                             if ($(".targetPath").first().html().length > 0) { //has specified root
@@ -371,6 +370,9 @@ function upload($this) {
                         } else {
                             if (filename.endsWith(".owl")) {
                                 targetType = "owl";
+                                comboAPI = 3;
+                            } else if (filename.endsWith(".ttl")) {
+                                targetType = "ttl";
                                 comboAPI = 3;
                             } else {
                                 targetType = "rdf";

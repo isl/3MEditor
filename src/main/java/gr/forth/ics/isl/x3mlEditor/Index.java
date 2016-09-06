@@ -175,7 +175,7 @@ public class Index extends BasicServlet {
                         targetAnalyzer = "0";
                     }
 
-                } else if (targetType.equals("owl")) {
+                } else if (targetType.equals("owl") || targetType.equals("ttl")) {
                     targetAnalyzer = "3";
                 }
 
@@ -251,18 +251,24 @@ public class Index extends BasicServlet {
                         targetType = "xml";
                     } else if (target.endsWith(".owl")) {
                         targetType = "owl";
+                    } else if (target.endsWith(".ttl")) {
+                        targetType = "ttl";
                     }
                 } else {
                     if (targetType.equals("rdf")) {
-                        if (target.endsWith(".xsd") || target.endsWith(".xml") || target.endsWith(".owl")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".xml") || target.endsWith(".owl") || target.endsWith(".ttl")) {
                             targetType = "Mixed";
                         }
                     } else if (targetType.equals("xml")) {
-                        if (target.endsWith(".xsd") || target.endsWith(".xml") || target.endsWith(".owl")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".rdf") || target.endsWith(".owl") || target.endsWith(".ttl")) {
                             targetType = "Mixed";
                         }
                     } else if (targetType.equals("owl")) {
-                        if (target.endsWith(".xsd") || target.endsWith(".xml") || target.endsWith(".owl")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".rdf") || target.endsWith(".xml") || target.endsWith(".ttl")) {
+                            targetType = "Mixed";
+                        }
+                    } else if (targetType.equals("ttl")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".rdf") || target.endsWith(".xml") || target.endsWith(".owl")) {
                             targetType = "Mixed";
                         }
                     }
