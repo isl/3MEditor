@@ -195,7 +195,7 @@ $('.nav a').click(function(e) {
                 sourceFilename = $("a:contains('view xml')").attr("title");
             }
 //            alert(sourceFilename)
-            var url = "FetchBinFile?file=" + encodeURIComponent(sourceFilename);
+            var url = "FetchBinFile?file=" + encodeURIComponent(sourceFilename)+"&type=xml_link";
             var req = $.myPOST(url, "xml");
             req.done(function(xml) {
                 checkResponse(xml);
