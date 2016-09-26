@@ -150,7 +150,24 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <xsl:text>]</xsl:text>
                         </span>
                     </xsl:if>
-            
+                    <xsl:if test="../@global_variable and position()=1">
+                        <span style="margin-left:10px;">
+                            <xsl:text>[</xsl:text>
+                            <small class="global_variable">
+                                <xsl:value-of select="../@global_variable"/>
+                            </small>                           							
+                            <xsl:text>]</xsl:text>
+                        </span>
+                    </xsl:if>
+                    <xsl:if test="../@differentURI and position()=1">
+                        <span style="margin-left:10px;">
+                            <xsl:text>[</xsl:text>
+                            <small class="differentURI">
+                                <xsl:value-of select="../@differentURI"/>
+                            </small>                           							
+                            <xsl:text>]</xsl:text>
+                        </span>
+                    </xsl:if>
                     <xsl:if test="position()=1">
                         <xsl:choose>
                             <xsl:when test="../instance_info/constant">

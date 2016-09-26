@@ -695,7 +695,7 @@ $("body").on("click", ".add", function(e) {
         var vars = btnId.split("***");
         var xpath = vars[1];
 
-        if (xpath.endsWith("@variable")) { //@variable
+        if (xpath.endsWith("@variable") ||xpath.endsWith("@global_variable") || xpath.endsWith("@differentURI")) { //@variables
             //Server side
             action = "addAttr";
             var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action;
@@ -718,7 +718,7 @@ $("body").on("click", ".add", function(e) {
             }
         }
 
-        if (xpath.endsWith("@variable") || xpath.indexOf("/instance_info") !== -1) {
+        if (xpath.endsWith("@variable") ||xpath.endsWith("@global_variable") || xpath.endsWith("@differentURI") || xpath.indexOf("/instance_info") !== -1) {
             // HTML code        
             $(this).parent().addClass("disabled");
             $("*[id='" + xpath + "']").parent().parent().css("display", "block");

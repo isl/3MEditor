@@ -298,6 +298,18 @@ button.closeLike {
     position: relative;
     top: 0; left: 0; bottom: 0; right: 0;
 }
+.global_variable {
+    margin: auto;
+    position: relative;
+    top: 0; left: 0; bottom: 0; right: 0;
+    color: lime;
+}
+.differentURI {
+    margin: auto;
+    position: relative;
+    top: 0; left: 0; bottom: 0; right: 0;
+    color: orangered;
+}
 .types, .type {
     padding:0px;
 }
@@ -499,10 +511,20 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 .instance.dropdown-toggle,.instance.dropdown-toggle:link,.instance.dropdown-toggle:focus, .instance.dropdown-toggle:hover, .instance.dropdown-toggle:visited, .instance.dropdown-toggle:active {
     color: #428BCA;
 }
-.instance+ul>li>a, .language>label, .variable>label, .constant>label, .description>label, .language, .constant, .variable {
+.instance+ul>li>a, .language>label, .variable>label, .constant>label, .description>label, .language, .constant, .variable{
     color: #428BCA !important;
 }
-
+.instance+ul>li>a[title='add is Same as (global)'] {
+    color:lime !important;
+    
+}
+.instance+ul>li>a[title='add is Same as (path)'] {
+    color:orangered !important;
+    
+}
+/*.global_variable>label {
+    color: green !important;
+}*/
 
 .nextToIcon {
     padding-left: 15px;

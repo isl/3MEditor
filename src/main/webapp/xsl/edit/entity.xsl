@@ -107,10 +107,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     </xsl:choose>
                                 </xsl:attribute>
 
-                                <label class="control-label" for="sourceType" style="font-weight:normal;">is Same as</label>
+                                <label class="control-label" for="sourceType" style="font-weight:normal;">is Same as (map)</label>
                                 <div class="input-group input-group-sm col-xs-12">
                                     <span class="input-group-addon">[</span>
-                                    <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}" title="is Same as" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}">
+                                    <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}" title="is Same as (map)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}">
                                         <xsl:attribute name="value">
                                             <xsl:value-of select="@variable"></xsl:value-of>
                                         </xsl:attribute>
@@ -118,14 +118,75 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     <span class="input-group-addon">]</span>
                                            
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default toggle" type="button" title="Delete Variable">
+                                        <button class="btn btn-default toggle" type="button" title="Delete is Same as (map)">
                                             <!--<span class="glyphicon glyphicon-remove"></span>-->
                                             <span class="fa fa-times"></span>
 
                                         </button>      
                                     </span>
                                 </div>
+                               
                             </div> 
+                            <div class="global_variable col-xs-12 ">
+                                <xsl:attribute name="style">
+                                    <xsl:choose>
+                                        <xsl:when test="@global_variable">
+                                            <xsl:text>display:block;padding-left:0;padding-right:0;</xsl:text>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:text>display:none;padding-left:0;padding-right:0;</xsl:text>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                                <label class="control-label" for="is Same as (global)" style="font-weight:normal;">is Same as (global)</label>
+                                <div class="input-group input-group-sm col-xs-12">
+                                    <span class="input-group-addon">[</span>
+                                    <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@global_variable')}" title="is Same as (global)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@global_variable')}">
+                                        <xsl:attribute name="value">
+                                            <xsl:value-of select="@global_variable"></xsl:value-of>
+                                        </xsl:attribute>
+                                    </input>
+                                    <span class="input-group-addon">]</span>
+                                           
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default toggle" type="button" title="Delete is Same as (global)">
+                                            <!--<span class="glyphicon glyphicon-remove"></span>-->
+                                            <span class="fa fa-times"></span>
+
+                                        </button>      
+                                    </span>
+                                </div>
+                                
+                            </div>
+                            <div class="differentURI col-xs-12 ">
+                                <xsl:attribute name="style">
+                                    <xsl:choose>
+                                        <xsl:when test="@differentURI">
+                                            <xsl:text>display:block;padding-left:0;padding-right:0;</xsl:text>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:text>display:none;padding-left:0;padding-right:0;</xsl:text>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                                <label class="control-label" for="is Same as (path)" style="font-weight:normal;">is Same as (path)</label>
+                                <div class="input-group input-group-sm col-xs-12">
+                                    <span class="input-group-addon">[</span>
+                                    <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@differentURI')}" title="is Same as (path)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@differentURI')}">
+                                        <xsl:attribute name="value">
+                                            <xsl:value-of select="@differentURI"></xsl:value-of>
+                                        </xsl:attribute>
+                                    </input>
+                                    <span class="input-group-addon">]</span>
+                                           
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default toggle" type="button" title="Delete is Same as (path)">
+                                            <span class="fa fa-times"></span>
+                                        </button>      
+                                    </span>
+                                </div>
+                                
+                            </div>
                             <div class="col-xs-12" style="padding:2px 0 0 0;">
                                
                                 <div class=" btn-group" style="padding:0;">
@@ -135,33 +196,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
 
-<!--                                        <li>
-                                            <xsl:if test="instance_info/constant">
-                                                <xsl:attribute name="class">disabled</xsl:attribute>
-                                            </xsl:if>
-                                            <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/constant')}">is Constant</a>
-                                        </li>-->
                                         <li>
                                             <xsl:if test="@variable">
                                                 <xsl:attribute name="class">disabled</xsl:attribute>
                                             </xsl:if>
-                                            <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@variable')}" >is Same as</a>
+                                            <a class="add" title="add is Same as (map)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@variable')}" >is Same as (map)</a>
                                         </li>
                                    
-<!--                                        <li>
-                                            <xsl:if test="instance_info/language">
-                                                <xsl:attribute name="class">disabled</xsl:attribute>
-                                            </xsl:if>
-                                            <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/language')}">Language</a>
-                                        </li>
-                                        <li>
-                                            <xsl:if test="instance_info/description">
-                                                <xsl:attribute name="class">disabled</xsl:attribute>
-                                            </xsl:if>
-                                            <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/description')}">Description</a>
-                                        </li>-->
-                                    
-                               
+
                                   
                                     </ul>
                                        
@@ -214,10 +256,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     </xsl:choose>
                                 </xsl:attribute>
 
-                                <label class="control-label" for="sourceType" style="font-weight:normal;">is Same as</label>
+                                <label class="control-label" for="sourceType" style="font-weight:normal;">is Same as (map)</label>
                                 <div class="input-group input-group-sm col-xs-12">
                                     <span class="input-group-addon">[</span>
-                                    <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}" title="is Same as" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}">
+                                    <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}" title="is Same as (map)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}">
                                         <xsl:attribute name="value">
                                             <xsl:value-of select="@variable"></xsl:value-of>
                                         </xsl:attribute>
@@ -231,9 +273,70 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                                         </button>      
                                     </span>
-                                </div>
+                                </div>                               
                             </div>
-                    
+                            <div class="global_variable col-xs-12 ">
+                                <xsl:attribute name="style">
+                                    <xsl:choose>
+                                        <xsl:when test="@global_variable">
+                                            <xsl:text>display:block;padding-left:0;padding-right:0;</xsl:text>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:text>display:none;padding-left:0;padding-right:0;</xsl:text>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                                
+                                <label class="control-label" for="is Same as (global)" style="font-weight:normal;">is Same as (global)</label>
+                                <div class="input-group input-group-sm col-xs-12">
+                                    <span class="input-group-addon">[</span>
+                                    <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@global_variable')}" title="is Same as (global)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@global_variable')}">
+                                        <xsl:attribute name="value">
+                                            <xsl:value-of select="@global_variable"></xsl:value-of>
+                                        </xsl:attribute>
+                                    </input>
+                                    <span class="input-group-addon">]</span>
+                                           
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default toggle" type="button" title="Delete is Same as (global)">
+                                            <span class="fa fa-times"></span>
+
+                                        </button>      
+                                    </span>
+                                </div>
+                                
+                            </div>
+                            <div class="differentURI col-xs-12 ">
+                                <xsl:attribute name="style">
+                                    <xsl:choose>
+                                        <xsl:when test="@differentURI">
+                                            <xsl:text>display:block;padding-left:0;padding-right:0;</xsl:text>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:text>display:none;padding-left:0;padding-right:0;</xsl:text>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                                
+                                <label class="control-label" for="is Same as (path)" style="font-weight:normal;">is Same as (path)</label>
+                                <div class="input-group input-group-sm col-xs-12">
+                                    <span class="input-group-addon">[</span>
+                                    <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@differentURI')}" title="is Same as (path)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@differentURI')}">
+                                        <xsl:attribute name="value">
+                                            <xsl:value-of select="@differentURI"></xsl:value-of>
+                                        </xsl:attribute>
+                                    </input>
+                                    <span class="input-group-addon">]</span>
+                                           
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default toggle" type="button" title="Delete is Same as (path)">
+                                            <span class="fa fa-times"></span>
+
+                                        </button>      
+                                    </span>
+                                </div>
+                                
+                            </div>
                             <div class="language col-xs-12 ">
                                 <xsl:attribute name="style">
                                     <xsl:choose>
@@ -313,9 +416,20 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             <xsl:if test="@variable">
                                                 <xsl:attribute name="class">disabled</xsl:attribute>
                                             </xsl:if>
-                                            <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@variable')}" >is Same as</a>
+                                            <a class="add" title="add is Same as (map)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@variable')}" >is Same as (map)</a>
                                         </li>
-                                   
+                                        <li>
+                                            <xsl:if test="@global_variable">
+                                                <xsl:attribute name="class">disabled</xsl:attribute>
+                                            </xsl:if>
+                                            <a class="add" title="add is Same as (global)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@global_variable')}" >is Same as (global)</a>
+                                        </li>
+                                     <li>
+                                            <xsl:if test="@differentURI">
+                                                <xsl:attribute name="class">disabled</xsl:attribute>
+                                            </xsl:if>
+                                            <a class="add" title="add is Same as (path)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@differentURI')}" >is Same as (path)</a>
+                                        </li>
                                         <li>
                                             <xsl:if test="instance_info/language">
                                                 <xsl:attribute name="class">disabled</xsl:attribute>

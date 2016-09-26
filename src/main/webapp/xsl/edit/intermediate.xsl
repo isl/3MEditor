@@ -180,10 +180,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:choose>
                 </xsl:attribute>
 
-                <label class="control-label" for="sourceType" style="font-weight:normal;">is Same as</label>
+                <label class="control-label" for="sourceType" style="font-weight:normal;">is Same as (map)</label>
                 <div class="input-group input-group-sm col-xs-12">
                     <span class="input-group-addon">[</span>
-                    <input id="{concat($pathSoFar,'/@variable')}" title="is Same as" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@variable')}">
+                    <input id="{concat($pathSoFar,'/@variable')}" title="is Same as (map)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@variable')}">
                         <xsl:attribute name="value">
                             <xsl:value-of select="@variable"></xsl:value-of>
                         </xsl:attribute>
@@ -192,6 +192,66 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                            
                     <span class="input-group-btn">
                         <button class="btn btn-default toggle" type="button" title="Delete Variable">
+                            <span class="fa fa-times"></span>
+
+                        </button>      
+                    </span>
+                </div>
+            </div> 
+             <div class="global_variable col-xs-12 ">
+                <xsl:attribute name="style">
+                    <xsl:choose>
+                        <xsl:when test="@global_variable">
+                            <xsl:text>display:block;padding-left:0;padding-right:0;</xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:text>display:none;padding-left:0;padding-right:0;</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:attribute>
+
+                <label class="control-label" for="is Same as (global)" style="font-weight:normal;">is Same as (global)</label>
+                <div class="input-group input-group-sm col-xs-12">
+                    <span class="input-group-addon">[</span>
+                    <input id="{concat($pathSoFar,'/@global_variable')}" title="is Same as (global)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@global_variable')}">
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="@global_variable"></xsl:value-of>
+                        </xsl:attribute>
+                    </input>
+                    <span class="input-group-addon">]</span>
+                                           
+                    <span class="input-group-btn">
+                        <button class="btn btn-default toggle" type="button" title="Delete is Same as (global)">
+                            <span class="fa fa-times"></span>
+
+                        </button>      
+                    </span>
+                </div>
+            </div> 
+             <div class="differentURI col-xs-12 ">
+                <xsl:attribute name="style">
+                    <xsl:choose>
+                        <xsl:when test="@differentURI">
+                            <xsl:text>display:block;padding-left:0;padding-right:0;</xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:text>display:none;padding-left:0;padding-right:0;</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:attribute>
+
+                <label class="control-label" for="is Same as (path)" style="font-weight:normal;">is Same as (path)</label>
+                <div class="input-group input-group-sm col-xs-12">
+                    <span class="input-group-addon">[</span>
+                    <input id="{concat($pathSoFar,'/@differentURI')}" title="is Same as (path)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@differentURI')}">
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="@differentURI"></xsl:value-of>
+                        </xsl:attribute>
+                    </input>
+                    <span class="input-group-addon">]</span>
+                                           
+                    <span class="input-group-btn">
+                        <button class="btn btn-default toggle" type="button" title="Delete is Same as (path)">
                             <span class="fa fa-times"></span>
 
                         </button>      
@@ -211,7 +271,19 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <xsl:if test="@variable">
                                 <xsl:attribute name="class">disabled</xsl:attribute>
                             </xsl:if>
-                            <a class="add" href="" id="{concat('add***',$pathSoFar,'/@variable')}" >is Same as</a>
+                            <a class="add" title="add is Same as (map)" href="" id="{concat('add***',$pathSoFar,'/@variable')}" >is Same as (map)</a>
+                        </li>
+                         <li>
+                            <xsl:if test="@global_variable">
+                                <xsl:attribute name="class">disabled</xsl:attribute>
+                            </xsl:if>
+                            <a class="add" title="add is Same as (global)" href="" id="{concat('add***',$pathSoFar,'/@global_variable')}" >is Same as (global)</a>
+                        </li>
+                          <li>
+                            <xsl:if test="@differentURI">
+                                <xsl:attribute name="class">disabled</xsl:attribute>
+                            </xsl:if>
+                            <a class="add" title="add is Same as (path)" href="" id="{concat('add***',$pathSoFar,'/@differentURI')}" >is Same as (path)</a>
                         </li>
                     </ul>
                                       
