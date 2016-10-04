@@ -83,15 +83,12 @@ function fillCombo($this, setValue) {
             req.done(function(data) {
                 checkResponse(data);
 
-//            $.ajax({
-//                url: url,
-//                dataType: 'json'
-//            }).success(function(data) {
                 json = data;
                 if (setValue) {
                     var oldValue = $this.val().trim();
                     var wrongValue = false;
-                    if (JSON.stringify(json).indexOf('"' + oldValue + '"') === -1) {
+                  
+                    if (JSON.stringify(json).indexOf(oldValue) === -1) {
                         wrongValue = true;
                     }
                     $this.select2({
@@ -120,7 +117,7 @@ function fillCombo($this, setValue) {
                             data: json
                         });
                         oldValue = $this.parent().find(".select2-chosen").html();
-                        if (JSON.stringify(json).indexOf('"' + oldValue + '"') === -1) {
+                        if (JSON.stringify(json).indexOf(oldValue) === -1) {
                             if (oldValue.indexOf(":") !== -1) {
                                 oldValue = oldValue.substring(oldValue.indexOf(':') + 1);
                             }

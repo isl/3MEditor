@@ -151,13 +151,12 @@ public class GetListValues extends BasicServlet {
 //                    response.sendRedirect("http://localhost:8084/SourceAnalyzer/filePathServiceGet?fileName="+targetSchemas[0]);
 //                    return;
 //                } else {
+                results = getListValues(mappingFile, xpath, targetSchemas, session);
+                resultsList = new ArrayList(Arrays.asList(results));
 
-                    results = getListValues(mappingFile, xpath, targetSchemas, session);
-                    resultsList = new ArrayList(Arrays.asList(results));
-
-                    if (resultsList.size() > 0) {
-                        output = tableToJSON(currentValue, resultsList, filenameAndType, filenameAndPrefix, filenameAndURI);
-                    }
+                if (resultsList.size() > 0) {
+                    output = tableToJSON(currentValue, resultsList, filenameAndType, filenameAndPrefix, filenameAndURI);
+                }
 //                }
 
             } else if (targetMode == 3) {//
@@ -207,7 +206,6 @@ public class GetListValues extends BasicServlet {
 
     }
 
-   
     //MODE 3
     private ArrayList<String> getListValues(DBFile mappingFile, String xpath, OntologyReasoner ont) {
         ArrayList<String> resultsList = null;
@@ -507,11 +505,9 @@ public class GetListValues extends BasicServlet {
 
     private String tableToJSON(ArrayList<String> table, HashMap<String, String> prefixAndURI) {
         StringBuilder output = new StringBuilder();
-
         for (String res : table) {
             String strippedURL = res;
             if (res.startsWith("http://")) { //If URL then strip slashes part
-                strippedURL = res.substring(res.lastIndexOf("/") + 1);
 
                 for (String uri : prefixAndURI.keySet()) {
                     if (uri.length() > 0) {
@@ -521,7 +517,7 @@ public class GetListValues extends BasicServlet {
                         }
                     }
                 }
-
+                strippedURL = res.substring(res.lastIndexOf("/") + 1); //Moved this line here, so if prefix exists, it is used
             }
             output.append("{\"id\":\"").append(res).append("\",");
             output.append("\n\"text\":\"").append(strippedURL).append("\"},");
