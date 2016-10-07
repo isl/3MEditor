@@ -200,6 +200,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             <xsl:if test="@variable">
                                                 <xsl:attribute name="class">disabled</xsl:attribute>
                                             </xsl:if>
+                                              <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
                                             <a class="add" title="add is Same as (map)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@variable')}" >is Same as (map)</a>
                                         </li>
                                    
@@ -410,38 +411,51 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             <xsl:if test="instance_info/constant">
                                                 <xsl:attribute name="class">disabled</xsl:attribute>
                                             </xsl:if>
+                                            <img src="images/Constant-Icon.png" title="constant"/>
+
                                             <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/constant')}">is Constant</a>
-                                        </li>
-                                        <li>
-                                            <xsl:if test="@variable">
-                                                <xsl:attribute name="class">disabled</xsl:attribute>
-                                            </xsl:if>
-                                            <a class="add" title="add is Same as (map)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@variable')}" >is Same as (map)</a>
-                                        </li>
-                                        <li>
-                                            <xsl:if test="@global_variable">
-                                                <xsl:attribute name="class">disabled</xsl:attribute>
-                                            </xsl:if>
-                                            <a class="add" title="add is Same as (global)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@global_variable')}" >is Same as (global)</a>
-                                        </li>
-                                     <li>
-                                            <xsl:if test="@differentURI">
-                                                <xsl:attribute name="class">disabled</xsl:attribute>
-                                            </xsl:if>
-                                            <a class="add" title="add is Same as (path)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@differentURI')}" >is Same as (path)</a>
                                         </li>
                                         <li>
                                             <xsl:if test="instance_info/language">
                                                 <xsl:attribute name="class">disabled</xsl:attribute>
                                             </xsl:if>
+                                            <img src="images/Language-Icon.png" title="language"/>
+
                                             <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/language')}">Language</a>
                                         </li>
                                         <li>
                                             <xsl:if test="instance_info/description">
                                                 <xsl:attribute name="class">disabled</xsl:attribute>
                                             </xsl:if>
+                                            <img src="images/Description-Icon.png" title="description"/>
+
                                             <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/description')}">Description</a>
                                         </li>
+                                        <li>
+                                            <xsl:if test="@variable">
+                                                <xsl:attribute name="class">disabled</xsl:attribute>
+                                            </xsl:if>
+                                            <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
+
+                                            <a  class="add" title="add is Same as (map)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@variable')}">is Same as (map)</a>
+                                        </li>
+                                        <li>
+                                            <xsl:if test="@global_variable">
+                                                <xsl:attribute name="class">disabled</xsl:attribute>
+                                            </xsl:if>
+                                            <img src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
+
+                                            <a class="add" title="add is Same as (global)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@global_variable')}" >is Same as (global)</a>
+                                        </li>
+                                        <li>
+                                            <xsl:if test="@differentURI">
+                                                <xsl:attribute name="class">disabled</xsl:attribute>
+                                            </xsl:if>
+                                            <img src="images/PathVariable-Icon.png" title="variable applied on path"/>
+
+                                            <a class="add" title="add is Same as (path)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@differentURI')}" >is Same as (path)</a>
+                                        </li>
+                                       
                                     
                                
                                   

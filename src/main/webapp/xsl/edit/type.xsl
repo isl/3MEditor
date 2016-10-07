@@ -171,7 +171,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </xsl:when> 
                                 <xsl:otherwise>
                                     <input style="width:100%;" title="Entity" type="hidden" class="select2 input-sm" data-id="{.}" id="{$path}" data-xpath="{$path}">
-                                         <xsl:attribute name="value">
+                                        <xsl:attribute name="value">
                                             <xsl:choose>
                                                 <xsl:when test="//*/@targetMode='4'">
                                                     <xsl:value-of select="."></xsl:value-of>
@@ -276,12 +276,16 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     <xsl:if test="../instance_info/language">
                                         <xsl:attribute name="class">disabled</xsl:attribute>
                                     </xsl:if>
+                                    <img src="images/Language-Icon.png" title="language"/>
+
                                     <a class="add" href="" id="{concat('add***',$path,'/../instance_info/language')}">Language</a>
                                 </li>
                                 <li>
                                     <xsl:if test="../instance_info/description">
                                         <xsl:attribute name="class">disabled</xsl:attribute>
                                     </xsl:if>
+                                    <img src="images/Description-Icon.png" title="description"/>
+
                                     <a class="add" href="" id="{concat('add***',$path,'/../instance_info/description')}">Description</a>
                                 </li>
                                     

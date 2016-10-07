@@ -43,7 +43,7 @@
 }
 
 .popover-title {
-    font-size: 80%;
+font-size: 80%;
     color: black !important;
 
 }
@@ -51,6 +51,7 @@
     font-size: 80%;
     color: black !important;
 }
+/*.popover.in{opacity:1!important;}*/
 fieldset {
     border: 1px groove #ddd !important;
     padding: 0 1.4em 1.4em 1.4em !important;
@@ -294,6 +295,7 @@ button.closeLike {
     border: 0;
 }
 .variable {
+    color: #AA2121;
     margin: auto;
     position: relative;
     top: 0; left: 0; bottom: 0; right: 0;
@@ -302,7 +304,7 @@ button.closeLike {
     margin: auto;
     position: relative;
     top: 0; left: 0; bottom: 0; right: 0;
-    color: lime;
+    color: seagreen;
 }
 .differentURI {
     margin: auto;
@@ -318,8 +320,14 @@ button.closeLike {
     padding-right:0px;
 }
 .instance_info {
-    float:right;
-    margin-right: 15px;
+    /*    float:right;
+        margin-right: 15px;*/
+    display:inline;
+    background-color: white;
+    opacity: 0.7;
+    font-weight: bold;
+    color: black;
+    padding: 2px;
 }
 .relationship {
     font-style: italic;
@@ -509,19 +517,40 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
     color: black;
 }
 .instance.dropdown-toggle,.instance.dropdown-toggle:link,.instance.dropdown-toggle:focus, .instance.dropdown-toggle:hover, .instance.dropdown-toggle:visited, .instance.dropdown-toggle:active {
-    color: #428BCA;
+    /*color: #428BCA;*/
+    color:black;
+    font-weight: bold !important;
 }
-.instance+ul>li>a, .language>label, .variable>label, .constant>label, .description>label, .language, .constant, .variable{
-    color: #428BCA !important;
+.instance+ul>li>a, .variable>label,  .description>label,.language>label,.constant>label,.constant{
+    /*color: #428BCA !important;*/
+    font-weight: bold !important;
+    color:black;
+
+
 }
-.instance+ul>li>a[title='add is Same as (global)'] {
-    color:lime !important;
-    
+.dropdown-menu {
+    padding-top: 0px !important;
+     padding-bottom: 0px !important;
+}
+.instance+ul>li>img{
+    background-color: lightgrey;
+/*padding-top: 3px;
+padding-bottom: 3px;*/
+padding: 6px 4px 6px 4px;
+}
+
+.instance+ul>li>a {
+    display:inline;
+    padding-left: 8px;
+}
+/*.instance+ul>li>a[title='add is Same as (global)'] {
+    color:seagreen !important;
+
 }
 .instance+ul>li>a[title='add is Same as (path)'] {
     color:orangered !important;
-    
-}
+
+}*/
 /*.global_variable>label {
     color: green !important;
 }*/
@@ -617,3 +646,5 @@ input[title="Source Node"], input[title="Source Relation"] {
         display: none !important;
     }
 }
+
+

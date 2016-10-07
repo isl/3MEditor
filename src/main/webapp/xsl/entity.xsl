@@ -141,80 +141,109 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:if> 
                         <xsl:value-of select="$strippedURL"/>  
                     </span>
-                    <xsl:if test="../@variable and position()=1">
-                        <span style="margin-left:10px;">
-                            <xsl:text>[</xsl:text>
-                            <small class="variable">
-                                <xsl:value-of select="../@variable"/>
-                            </small>                           							
-                            <xsl:text>]</xsl:text>
-                        </span>
-                    </xsl:if>
-                    <xsl:if test="../@global_variable and position()=1">
-                        <span style="margin-left:10px;">
-                            <xsl:text>[</xsl:text>
-                            <small class="global_variable">
-                                <xsl:value-of select="../@global_variable"/>
-                            </small>                           							
-                            <xsl:text>]</xsl:text>
-                        </span>
-                    </xsl:if>
-                    <xsl:if test="../@differentURI and position()=1">
-                        <span style="margin-left:10px;">
-                            <xsl:text>[</xsl:text>
-                            <small class="differentURI">
-                                <xsl:value-of select="../@differentURI"/>
-                            </small>                           							
-                            <xsl:text>]</xsl:text>
-                        </span>
-                    </xsl:if>
                     <xsl:if test="position()=1">
-                        <xsl:choose>
-                            <xsl:when test="../instance_info/constant">
-                                <xsl:if test=".!=''">
-                        &#160;=&#160;<small class="constant">"<xsl:value-of select="../instance_info/constant"/>"</small>       
+                        <div class="instance_info">
+                            <xsl:attribute name="style">
+                                <xsl:choose>
+                                    <xsl:when test="../@variable or ../@global_variable or ../@differentURI or
+ ../instance_info/constant or ../instance_info/language or ../instance_info/description">
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        background-color:transparent;
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                                
+                            </xsl:attribute>
                             
-                                </xsl:if>       
-                            </xsl:when>
-                            <xsl:otherwise>&#160;</xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:if>
-            
-                    <xsl:if test="position()=1">
-                        <xsl:choose>
-                            <xsl:when test="../instance_info/language">
+                            <xsl:choose>
+                                <xsl:when test="../instance_info/constant">
+                                    <xsl:if test=".!=''">
+                        &#160;=&#160;<small class="constant">"<xsl:value-of select="../instance_info/constant"/>"</small>       
+                                        <xsl:if test="../@variable or ../@global_variable or ../@differentURI  or ../instance_info/language or ../instance_info/description">
+                                            <xsl:text>, </xsl:text>
+                                        </xsl:if>
+                                    </xsl:if>       
+                                </xsl:when>
+                                <xsl:otherwise>&#160;</xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:if test="../@variable">
+                                <span style="margin-left:3px;">
+                                    <img style="" src="images/MapVariable-Icon.png" title="variable applied on map"/>
+
+                                    <small class="variable" title="variable applied on map"> 
+                                        <xsl:text> [</xsl:text>
+                                        <xsl:value-of select="../@variable"/>  
+                                        <xsl:text>]</xsl:text>
+                                    </small>                           							
+                                    <xsl:if test="../@global_variable or ../@differentURI 
+  or ../instance_info/language or ../instance_info/description">
+                                        <xsl:text>, </xsl:text>
+                                    </xsl:if>
+                                </span>
+                            </xsl:if>
+                            <xsl:if test="../@global_variable">
+                                <span style="margin-left:3px;">
+                                    <img style="" src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
+
+                                    <small class="global_variable" title="variable applied globally">
+                                        <xsl:text> [</xsl:text>
+                                        <xsl:value-of select="../@global_variable"/>
+                                        <xsl:text>]</xsl:text>
+                                    </small>                           							
+                                   
+                                    <xsl:if test="../@differentURI or ../instance_info/language or ../instance_info/description">
+                                        <xsl:text>, </xsl:text>
+                                    </xsl:if>
+                                </span>
+                            </xsl:if>
+                            <xsl:if test="../@differentURI">
+                                <span style="margin-left:3px;">
+                                    <img style="" src="images/PathVariable-Icon.png" title="variable applied on path"/>
+
+                                    <small class="differentURI" title="variable applied on path">
+                                        <xsl:text> [</xsl:text>
+                                        <xsl:value-of select="../@differentURI"/>
+                                        <xsl:text>]</xsl:text>
+                                    </small>                           							
+                                   
+                                    <xsl:if test="../instance_info/language or ../instance_info/description">
+                                        <xsl:text>, </xsl:text>
+                                    </xsl:if>
+                                </span>
+                            </xsl:if>
+                           
+                  
+                            
+                            <xsl:choose>
+                                <xsl:when test="../instance_info/description">
                         &#160;
-                                <small class="language">
-                                    <xsl:value-of select="../instance_info/language"/>
-                                </small>                               
-                            </xsl:when>
-                            <xsl:otherwise>&#160;
+                                    <xsl:variable name="description" select="../instance_info/description"/>
+                                    <img style="" src="images/Description-Icon.png" class="description" title="Description" data-container="body" data-trigger="focus" data-toggle="popover" data-content="{$description}"/>
+                                    <xsl:if test="../instance_info/language">
+                                        <xsl:text> , </xsl:text>
+                                    </xsl:if>                               
+                                </xsl:when>
+                                <xsl:otherwise>&#160;
+                      
                         
-                        
-                            </xsl:otherwise>
-                        </xsl:choose>
-                        <xsl:choose>
-                            <xsl:when test="../instance_info/description">
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:choose>
+                                <xsl:when test="../instance_info/language">
                         &#160;
-                      
-                                <xsl:variable name="description" select="../instance_info/description"/>
-                                <a class="description" tabindex="0"
-                                   title="Description" data-trigger="focus" data-toggle="popover" data-content="{$description}">
-                                    <span style="display:inline;" class="small">(Description...)</span>
-                                </a>                         
-                       
-                                         
-                            </xsl:when>
-                            <xsl:otherwise>&#160;
-                      
+                                    <small class="language">
+                                        <xsl:value-of select="../instance_info/language"/>
+                                    </small>                               
+                                </xsl:when>
+                                <xsl:otherwise>&#160;
                         
-                            </xsl:otherwise>
-                        </xsl:choose>
+                        
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </div>
                     </xsl:if>
                     <br/>
-                    <!--                                        <xsl:if test="not(../additional)">
-                        <br/>
-                    </xsl:if>-->
+                  
                    
                 </xsl:for-each>
                
@@ -336,20 +365,30 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:text>]</xsl:text>
                 
                 <xsl:if test="entity/instance_info/language or entity/instance_info/description">
+                    
                     <br/>
-                    <small class="language">
-                        <xsl:value-of select="entity/instance_info/language"/>
-                    </small>     
-                                &#160;
+                    <div class="instance_info">
+                        
+                     
+                               
                       
-                    <xsl:if test="entity/instance_info/description">
-                        <xsl:variable name="description" select="entity/instance_info/description"/>
-                        <a class="description" tabindex="0"
+                        <xsl:if test="entity/instance_info/description">
+                            <xsl:variable name="description" select="entity/instance_info/description"/>
+                            <!--                            <a class="description" tabindex="0"
                            title="Description" data-trigger="focus" data-toggle="popover" data-content="{$description}">
-                            <span style="display:inline;" class="small">(Description...)</span>
-                        </a>                         
-                    </xsl:if>
-                         
+                                <span style="display:inline;" class="small">(Description...)</span>
+                            </a>                         -->
+                            <img style="" src="images/Description-Icon.png" class="description" title="Description" data-container="body" data-trigger="focus" data-toggle="popover" data-content="{$description}"/>
+                            <xsl:if test="entity/instance_info/language">
+                                <xsl:text> , </xsl:text>
+                            </xsl:if>                             
+                            
+                        </xsl:if>
+                         &#160;
+                        <small class="language">
+                            <xsl:value-of select="entity/instance_info/language"/>
+                        </small>     
+                    </div>
                 </xsl:if> 
 
             </div>

@@ -271,18 +271,24 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <xsl:if test="@variable">
                                 <xsl:attribute name="class">disabled</xsl:attribute>
                             </xsl:if>
+                                                                        <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
+
                             <a class="add" title="add is Same as (map)" href="" id="{concat('add***',$pathSoFar,'/@variable')}" >is Same as (map)</a>
                         </li>
                          <li>
                             <xsl:if test="@global_variable">
                                 <xsl:attribute name="class">disabled</xsl:attribute>
                             </xsl:if>
+                                                                        <img src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
+
                             <a class="add" title="add is Same as (global)" href="" id="{concat('add***',$pathSoFar,'/@global_variable')}" >is Same as (global)</a>
                         </li>
                           <li>
                             <xsl:if test="@differentURI">
                                 <xsl:attribute name="class">disabled</xsl:attribute>
                             </xsl:if>
+                                                                        <img src="images/PathVariable-Icon.png" title="variable applied on path"/>
+
                             <a class="add" title="add is Same as (path)" href="" id="{concat('add***',$pathSoFar,'/@differentURI')}" >is Same as (path)</a>
                         </li>
                     </ul>
