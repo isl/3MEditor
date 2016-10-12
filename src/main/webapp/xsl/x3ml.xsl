@@ -99,10 +99,17 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <div class="tab-content">
                                 
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="active">
+                                    <li>
+                                        <xsl:if test="count(//mapping)=1 and count(//mapping/link)=0">
+                                            <xsl:attribute name="class">active</xsl:attribute>
+                                        </xsl:if>
                                         <a href="#info" role="tab" data-toggle="tab">Info</a>
                                     </li>
-                                    <li >
+                                    <li>
+                                        
+                                        <xsl:if test="count(//mapping)>1 or count(//mapping/link)>1">
+                                            <xsl:attribute name="class">active</xsl:attribute>
+                                        </xsl:if>
                                         <a href="#matching_table" role="tab" data-toggle="tab">Matching Table</a>
                                     </li>
                                     <li >
@@ -137,7 +144,17 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </ul>     
                                
 
-                                <div class="tab-pane  fade active in" id="info">    
+                                <div id="info">   
+                                    <xsl:attribute name="class">
+                                        <xsl:choose>
+                                            <xsl:when test="count(//mapping)=1 and count(//mapping/link)=0">
+                                                tab-pane  fade active in
+                                            </xsl:when> 
+                                            <xsl:otherwise>
+                                                tab-pane  fade
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    </xsl:attribute>
                                     <xsl:if test="$action=0">
                                         
                                         <button title="" id="info_rawXML-btn" type="button" class="btn btn-default btn-sm pull-right" data-loading-text="Loading...">
@@ -164,7 +181,17 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </div>
                                
                           
-                                <div class="tab-pane fade " id="matching_table">
+                                <div id="matching_table">
+                                      <xsl:attribute name="class">
+                                        <xsl:choose>
+                                            <xsl:when test="count(//mapping)>1 or count(//mapping/link)>1">
+                                                tab-pane  fade active in
+                                            </xsl:when> 
+                                            <xsl:otherwise>
+                                                tab-pane  fade
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    </xsl:attribute>
                                     <xsl:if test="$action=0">
 
                                     
