@@ -221,15 +221,19 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:attribute>
                         <label class=" control-label" for="sourceType" style="font-weight:normal;">Language</label>
                         <div class="input-group input-group-sm">
-                            <input id="{concat($path,'/../instance_info/language')}" title="Language" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/../instance_info/language')}">
+                            <!--                            <input id="{concat($path,'/../instance_info/language')}" title="Language" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/../instance_info/language')}">
                                 <xsl:attribute name="value">
                                     <xsl:value-of select="../instance_info/language"></xsl:value-of>
                                 </xsl:attribute>
+                            </input>-->
+                            <input  style="width:100%" title="Language" type="hidden" class="select2 input-sm" data-id="{../instance_info/language}"  id="{concat($path,'/../instance_info/language')}" data-xpath="{concat($path,'/../instance_info/language')}">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="../instance_info/language"></xsl:value-of>
+                                </xsl:attribute>
+                                <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
                             </input>
-                                           
                             <span class="input-group-btn">
                                 <button class="btn btn-default btn-sm toggle" type="button" title="Delete Language">
-                                    <!--                                    <span class="glyphicon glyphicon-remove"></span>-->
                                     <span class="fa fa-times "></span>
                                 </button>      
                             </span>

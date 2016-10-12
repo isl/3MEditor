@@ -1071,8 +1071,12 @@ $("body").on("mouseleave", ".range", function() {
  * Handler fired when user clicks to delete XML element but just hide HTML block (e.g. instance_info)
  */
 $("body").on("click", ".toggle", function() {
-    var xpath = $(this).parent().parent().children(".form-control").attr("data-xpath");
-
+    var xpath;
+    if ($(this).attr("title")==="Delete Language") {//Added to support select2 drop down for language
+        xpath = $(this).parent().parent().children("input").attr("data-xpath");
+    } else {
+     xpath = $(this).parent().parent().children(".form-control").attr("data-xpath");
+}
     $(this).parent().parent().parent().css("display", "none");
 
     var url = "Delete?id=" + id + "&xpath=" + xpath;

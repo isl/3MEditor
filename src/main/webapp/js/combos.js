@@ -30,6 +30,195 @@
  * Scripts used for combo filling
  */
 
+     
+var languages = [{id: "", text: ""},
+{id: "ab", text: "ab"},
+{id: "aa", text: "aa"},
+{id: "af", text: "af"},
+{id: "ak", text: "ak"},
+{id: "sq", text: "sq"},
+{id: "am", text: "am"},
+{id: "ar", text: "ar"},
+{id: "an", text: "an"},
+{id: "hy", text: "hy"},
+{id: "as", text: "as"},
+{id: "av", text: "av"},
+{id: "ae", text: "ae"},
+{id: "ay", text: "ay"},
+{id: "az", text: "az"},
+{id: "bm", text: "bm"},
+{id: "ba", text: "ba"},
+{id: "eu", text: "eu"},
+{id: "be", text: "be"},
+{id: "bn", text: "bn"},
+{id: "bh", text: "bh"},
+{id: "bi", text: "bi"},
+{id: "bs", text: "bs"},
+{id: "br", text: "br"},
+{id: "bg", text: "bg"},
+{id: "my", text: "my"},
+{id: "ca", text: "ca"},
+{id: "ch", text: "ch"},
+{id: "ce", text: "ce"},
+{id: "ny", text: "ny"},
+{id: "zh", text: "zh"},
+{id: "cv", text: "cv"},
+{id: "kw", text: "kw"},
+{id: "co", text: "co"},
+{id: "cr", text: "cr"},
+{id: "hr", text: "hr"},
+{id: "cs", text: "cs"},
+{id: "da", text: "da"},
+{id: "dv", text: "dv"},
+{id: "nl", text: "nl"},
+{id: "dz", text: "dz"},
+{id: "en", text: "en"},
+{id: "eo", text: "eo"},
+{id: "et", text: "et"},
+{id: "ee", text: "ee"},
+{id: "fo", text: "fo"},
+{id: "fj", text: "fj"},
+{id: "fi", text: "fi"},
+{id: "fr", text: "fr"},
+{id: "ff", text: "ff"},
+{id: "gl", text: "gl"},
+{id: "ka", text: "ka"},
+{id: "de", text: "de"},
+{id: "el", text: "el"},
+{id: "gn", text: "gn"},
+{id: "gu", text: "gu"},
+{id: "ht", text: "ht"},
+{id: "ha", text: "ha"},
+{id: "he", text: "he"},
+{id: "hz", text: "hz"},
+{id: "hi", text: "hi"},
+{id: "ho", text: "ho"},
+{id: "hu", text: "hu"},
+{id: "ia", text: "ia"},
+{id: "id", text: "id"},
+{id: "ie", text: "ie"},
+{id: "ga", text: "ga"},
+{id: "ig", text: "ig"},
+{id: "ik", text: "ik"},
+{id: "io", text: "io"},
+{id: "is", text: "is"},
+{id: "it", text: "it"},
+{id: "iu", text: "iu"},
+{id: "ja", text: "ja"},
+{id: "jv", text: "jv"},
+{id: "kl", text: "kl"},
+{id: "kn", text: "kn"},
+{id: "kr", text: "kr"},
+{id: "ks", text: "ks"},
+{id: "kk", text: "kk"},
+{id: "km", text: "km"},
+{id: "ki", text: "ki"},
+{id: "rw", text: "rw"},
+{id: "ky", text: "ky"},
+{id: "kv", text: "kv"},
+{id: "kg", text: "kg"},
+{id: "ko", text: "ko"},
+{id: "ku", text: "ku"},
+{id: "kj", text: "kj"},
+{id: "la", text: "la"},
+{id: "lb", text: "lb"},
+{id: "lg", text: "lg"},
+{id: "li", text: "li"},
+{id: "ln", text: "ln"},
+{id: "lo", text: "lo"},
+{id: "lt", text: "lt"},
+{id: "lu", text: "lu"},
+{id: "lv", text: "lv"},
+{id: "gv", text: "gv"},
+{id: "mk", text: "mk"},
+{id: "mg", text: "mg"},
+{id: "ms", text: "ms"},
+{id: "ml", text: "ml"},
+{id: "mt", text: "mt"},
+{id: "mi", text: "mi"},
+{id: "mr", text: "mr"},
+{id: "mh", text: "mh"},
+{id: "mn", text: "mn"},
+{id: "na", text: "na"},
+{id: "nv", text: "nv"},
+{id: "nb", text: "nb"},
+{id: "nd", text: "nd"},
+{id: "ne", text: "ne"},
+{id: "ng", text: "ng"},
+{id: "nn", text: "nn"},
+{id: "no", text: "no"},
+{id: "ii", text: "ii"},
+{id: "nr", text: "nr"},
+{id: "oc", text: "oc"},
+{id: "oj", text: "oj"},
+{id: "cu", text: "cu"},
+{id: "om", text: "om"},
+{id: "or", text: "or"},
+{id: "os", text: "os"},
+{id: "pa", text: "pa"},
+{id: "pi", text: "pi"},
+{id: "fa", text: "fa"},
+{id: "pl", text: "pl"},
+{id: "ps", text: "ps"},
+{id: "pt", text: "pt"},
+{id: "qu", text: "qu"},
+{id: "rm", text: "rm"},
+{id: "rn", text: "rn"},
+{id: "ro", text: "ro"},
+{id: "ru", text: "ru"},
+{id: "sa", text: "sa"},
+{id: "sc", text: "sc"},
+{id: "sd", text: "sd"},
+{id: "se", text: "se"},
+{id: "sm", text: "sm"},
+{id: "sg", text: "sg"},
+{id: "sr", text: "sr"},
+{id: "gd", text: "gd"},
+{id: "sn", text: "sn"},
+{id: "si", text: "si"},
+{id: "sk", text: "sk"},
+{id: "sl", text: "sl"},
+{id: "so", text: "so"},
+{id: "st", text: "st"},
+{id: "az", text: "az"},
+{id: "es", text: "es"},
+{id: "su", text: "su"},
+{id: "sw", text: "sw"},
+{id: "ss", text: "ss"},
+{id: "sv", text: "sv"},
+{id: "ta", text: "ta"},
+{id: "te", text: "te"},
+{id: "tg", text: "tg"},
+{id: "th", text: "th"},
+{id: "ti", text: "ti"},
+{id: "bo", text: "bo"},
+{id: "tk", text: "tk"},
+{id: "tl", text: "tl"},
+{id: "tn", text: "tn"},
+{id: "to", text: "to"},
+{id: "tr", text: "tr"},
+{id: "ts", text: "ts"},
+{id: "tt", text: "tt"},
+{id: "tw", text: "tw"},
+{id: "ty", text: "ty"},
+{id: "ug", text: "ug"},
+{id: "uk", text: "uk"},
+{id: "ur", text: "ur"},
+{id: "uz", text: "uz"},
+{id: "ve", text: "ve"},
+{id: "vi", text: "vi"},
+{id: "vo", text: "vo"},
+{id: "wa", text: "wa"},
+{id: "cy", text: "cy"},
+{id: "wo", text: "wo"},
+{id: "fy", text: "fy"},
+{id: "xh", text: "xh"},
+{id: "yi", text: "yi"},
+{id: "yo", text: "yo"},
+{id: "za", text: "za"},
+{id: "zu", text: "zu"}
+]
+
 function getInstanceGeneratorNamesAndFillCombos() {
     var url = "Services?id=" + id + "&method=instanceGeneratorNames";
     var req = $.myPOST(url, "", "json");
@@ -68,13 +257,16 @@ function refreshCombos(updatedXpath, self) {
 
 
 function fillCombo($this, setValue) {
-
     var xpath = $this.attr('data-xpath');
+//    alert(xpath)
+
     if (typeof $this.attr("data-xpath") !== 'undefined') {
 
         var url;
         if (xpath.indexOf("/source_relation") !== -1 || xpath.indexOf("/source_node") !== -1) {
             fillXMLSchemaCombo($this, "source");
+        } else if (xpath.indexOf("/instance_info/language")!==-1) {
+            fillInstanceInfoCombo($this);
         } else if (targetType === "xml") {
             fillXMLSchemaCombo($this, "target");
         } else {
@@ -87,7 +279,7 @@ function fillCombo($this, setValue) {
                 if (setValue) {
                     var oldValue = $this.val().trim();
                     var wrongValue = false;
-                  
+
                     if (JSON.stringify(json).indexOf(oldValue) === -1) {
                         wrongValue = true;
                     }
@@ -139,12 +331,12 @@ function fillCombo($this, setValue) {
                 $(".loader").hide();
             });
             req.fail(function(jqXHR) {
-                
+
                 var responseText = jqXHR.responseText;
                 console.log(responseText);
                 var message = $(responseText).find("li").last().html();
 
-                alert("Problem occurred! Read following exception message and either try again or choose a different reasoner:\n"+message);
+                alert("Problem occurred! Read following exception message and either try again or choose a different reasoner:\n" + message);
                 $(".loader").hide();
             });
         }
@@ -208,7 +400,28 @@ function fillInstanceCombos(selector) {
     });
 
 }
+function fillInstanceInfoCombo($this) {
 
+    $this.select2({
+        allowClear: true,
+        placeholder: "Select a value",
+          createSearchChoice: function(term, data) {
+                if ($(data).filter(function() {
+                    return this.text.localeCompare(term) === 0;
+                }).length === 0) {
+                    return {
+                        id: term,
+                        text: term
+                    };
+                }
+            },
+        data: languages,
+        initSelection: function(element, callback) {
+            var data = {id: $this.attr("data-id"), text: $this.val()};
+            callback(data);
+        }
+    });
+}
 
 function fillXMLSchemaCombo($this, type) {
 

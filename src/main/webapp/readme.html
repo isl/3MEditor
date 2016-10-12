@@ -29,19 +29,21 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 <fieldset>
     <legend>3MEditor</legend>
     Version: <b>3.0</b><br/>
-    Build: <b>2016-10-06 (3ad48fc44b4c18a0e73a0e6c649d3c9de239b7ff)</b>
 </fieldset>
 
 <fieldset>
     <legend>Changelog</legend>
     <h4 style="text-decoration: underline;">2016</h4>
 
-     <h5 style="text-decoration: underline;">October</h5>
-     <p>06 October 2016: Instance_info block extreme makeover.</p>
-    
+    <h5 style="text-decoration: underline;">October</h5>
+    <p>12 October 2016: Language in instance_info is now a drop-down filled with language codes (ISO639-1). Fixed a bug that
+    allowed adding multiple elements when there should be only one (e.g. language, constant). Changed timeout for view mode from 10 secs
+    to 20.</p>
+    <p>06 October 2016: Instance_info block extreme makeover.</p>
+
     <h5 style="text-decoration: underline;">September</h5>
     <p>29 September 2016: Slight change concerning json output for Jena reasoner, to improve behavior (namespaces and
-    invalid messages issue)</p>
+        invalid messages issue)</p>
     <p>26 September 2016: Added support for global_variable and differentURI (attributes added in new x3ml schema v1.1).</p>
     <p>19 September 2016: Fixing a bug in Transformation tab (failed to load source file)</p>
     <p>06 September 2016: Adding support for ttl target schemas. Updating x3mlEngine to 1.7.1.</p>

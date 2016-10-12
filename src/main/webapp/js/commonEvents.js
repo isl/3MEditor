@@ -84,7 +84,7 @@ $(document).ready(function() {
             var url = "GetPart?id=" + id + "&part=mappings&mode=view";
             var $btn = $(this);
             $btn.button('loading');
-            var req = $.myPOST(url, "", "", 10000);
+            var req = $.myPOST(url, "", "", 20000);
             req.done(function(data) {
                 checkResponse(data);
                 $("#matching_table>div.mappings").html(data);
