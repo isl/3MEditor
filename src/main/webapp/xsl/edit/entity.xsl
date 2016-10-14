@@ -106,8 +106,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:attribute>
-
-                                <label class="control-label" for="sourceType" style="font-weight:normal;">is Same as (map)</label>
+                                <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
+                                <label class="control-label" for="sourceType" style="font-weight:normal;"> is Same as (map)</label>
                                 <div class="input-group input-group-sm col-xs-12">
                                     <span class="input-group-addon">[</span>
                                     <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}" title="is Same as (map)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}">
@@ -138,7 +138,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:attribute>
-                                <label class="control-label" for="is Same as (global)" style="font-weight:normal;">is Same as (global)</label>
+                                                            <img src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
+
+                                <label class="control-label" for="is Same as (global)" style="font-weight:normal;"> is Same as (global)</label>
                                 <div class="input-group input-group-sm col-xs-12">
                                     <span class="input-group-addon">[</span>
                                     <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@global_variable')}" title="is Same as (global)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@global_variable')}">
@@ -169,7 +171,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:attribute>
-                                <label class="control-label" for="is Same as (path)" style="font-weight:normal;">is Same as (path)</label>
+                                                            <img src="images/PathVariable-Icon.png" title="variable applied on path"/>
+
+                                <label class="control-label" for="is Same as (path)" style="font-weight:normal;"> is Same as (path)</label>
                                 <div class="input-group input-group-sm col-xs-12">
                                     <span class="input-group-addon">[</span>
                                     <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@differentURI')}" title="is Same as (path)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@differentURI')}">
@@ -200,7 +204,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             <xsl:if test="@variable">
                                                 <xsl:attribute name="class">disabled</xsl:attribute>
                                             </xsl:if>
-                                              <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
+                                            <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
                                             <a class="add" title="add is Same as (map)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@variable')}" >is Same as (map)</a>
                                         </li>
                                    
@@ -256,8 +260,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:attribute>
+                                <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
 
-                                <label class="control-label" for="sourceType" style="font-weight:normal;">is Same as (map)</label>
+                                <label class="control-label" for="sourceType" style="font-weight:normal;"> is Same as (map)</label>
                                 <div class="input-group input-group-sm col-xs-12">
                                     <span class="input-group-addon">[</span>
                                     <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}" title="is Same as (map)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@variable')}">
@@ -287,8 +292,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:attribute>
-                                
-                                <label class="control-label" for="is Same as (global)" style="font-weight:normal;">is Same as (global)</label>
+                                                            <img src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
+
+                                <label class="control-label" for="is Same as (global)" style="font-weight:normal;"> is Same as (global)</label>
                                 <div class="input-group input-group-sm col-xs-12">
                                     <span class="input-group-addon">[</span>
                                     <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@global_variable')}" title="is Same as (global)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@global_variable')}">
@@ -318,8 +324,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:attribute>
-                                
-                                <label class="control-label" for="is Same as (path)" style="font-weight:normal;">is Same as (path)</label>
+                                                            <img src="images/PathVariable-Icon.png" title="variable applied on path"/>
+
+                                <label class="control-label" for="is Same as (path)" style="font-weight:normal;"> is Same as (path)</label>
                                 <div class="input-group input-group-sm col-xs-12">
                                     <span class="input-group-addon">[</span>
                                     <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/@differentURI')}" title="is Same as (path)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/@differentURI')}">
@@ -353,11 +360,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <div class="input-group input-group-sm col-xs-12">
                                     <input  style="width:100%" title="Language" type="hidden" class="select2 input-sm" data-id="{instance_info/language}"  id="{concat($path,'/',name(..),'/entity[',$entPos,']/instance_info/language')}" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/instance_info/language')}">
                                         <xsl:attribute name="value">
-                                           <xsl:value-of select="instance_info/language"></xsl:value-of>
+                                            <xsl:value-of select="instance_info/language"></xsl:value-of>
                                         </xsl:attribute>
                                         <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
                                     </input>
-<!--                                    <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/instance_info/language')}" title="Language" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/instance_info/language')}">
+                                    <!--                                    <input id="{concat($path,'/',name(..),'/entity[',$entPos,']/instance_info/language')}" title="Language" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/instance_info/language')}">
                                         <xsl:attribute name="value">
                                             <xsl:value-of select="instance_info/language"></xsl:value-of>
                                         </xsl:attribute>
@@ -421,23 +428,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                                             <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/constant')}">is Constant</a>
                                         </li>
-                                        <li>
-                                            <xsl:if test="instance_info/language">
-                                                <xsl:attribute name="class">disabled</xsl:attribute>
-                                            </xsl:if>
-                                            <img src="images/Language-Icon.png" title="language"/>
-
-                                            <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/language')}">Language</a>
-                                        </li>
-                                        <li>
-                                            <xsl:if test="instance_info/description">
-                                                <xsl:attribute name="class">disabled</xsl:attribute>
-                                            </xsl:if>
-                                            <img src="images/Description-Icon.png" title="description"/>
-
-                                            <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/description')}">Description</a>
-                                        </li>
-                                        <li>
+                                         <li>
                                             <xsl:if test="@variable">
                                                 <xsl:attribute name="class">disabled</xsl:attribute>
                                             </xsl:if>
@@ -460,6 +451,23 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             <img src="images/PathVariable-Icon.png" title="variable applied on path"/>
 
                                             <a class="add" title="add is Same as (path)" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/@differentURI')}" >is Same as (path)</a>
+                                        </li>
+                                      
+                                        <li>
+                                            <xsl:if test="instance_info/description">
+                                                <xsl:attribute name="class">disabled</xsl:attribute>
+                                            </xsl:if>
+                                            <img src="images/Description-Icon.png" title="description"/>
+
+                                            <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/description')}">Description</a>
+                                        </li>
+                                         <li>
+                                            <xsl:if test="instance_info/language">
+                                                <xsl:attribute name="class">disabled</xsl:attribute>
+                                            </xsl:if>
+                                            <img src="images/Language-Icon.png" title="language"/>
+
+                                            <a class="add" href="" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/instance_info/language')}">Language</a>
                                         </li>
                                        
                                     

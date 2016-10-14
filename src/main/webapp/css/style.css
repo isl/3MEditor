@@ -295,7 +295,7 @@ button.closeLike {
     border: 0;
 }
 .variable {
-    color: #AA2121;
+    color: #B57518; //yellow
     margin: auto;
     position: relative;
     top: 0; left: 0; bottom: 0; right: 0;
@@ -304,13 +304,13 @@ button.closeLike {
     margin: auto;
     position: relative;
     top: 0; left: 0; bottom: 0; right: 0;
-    color: seagreen;
+    color: #1B738E;//blue
 }
 .differentURI {
     margin: auto;
     position: relative;
     top: 0; left: 0; bottom: 0; right: 0;
-    color: orangered;
+    color: #AA2121;//red
 }
 .types, .type {
     padding:0px;
@@ -377,6 +377,8 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 .iconContainer {
     padding:0px;
     margin-bottom: 2px;
+                             margin-top: 2px ;
+
 }
 
 .col-xs-6.iconContainer{ //Test!
@@ -521,7 +523,7 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
     color:black;
     font-weight: bold !important;
 }
-.instance+ul>li>a, .variable>label,  .description>label,.language>label,.constant>label,.constant{
+.instance+ul>li>a,  .description>label,.language>label,.constant>label,.constant{
     /*color: #428BCA !important;*/
     font-weight: bold !important;
     color:black;
@@ -543,17 +545,20 @@ padding: 6px 4px 6px 4px;
     display:inline;
     padding-left: 8px;
 }
-/*.instance+ul>li>a[title='add is Same as (global)'] {
-    color:seagreen !important;
+
+.instance+ul>li>a[title='add is Same as (map)'] {
+    color:#B57518 !important;
+
+}
+
+.instance+ul>li>a[title='add is Same as (global)'] {
+    color:#1B738E !important;
 
 }
 .instance+ul>li>a[title='add is Same as (path)'] {
-    color:orangered !important;
+    color:#AA2121 !important;
 
-}*/
-/*.global_variable>label {
-    color: green !important;
-}*/
+}
 
 .nextToIcon {
     padding-left: 15px;
@@ -662,4 +667,7 @@ since `pointer-events: none` kills the cursor state, too.
 .targetPath { 
     word-break: break-all;
      overflow: hidden;     
+}
+img+label {
+    padding-left: 5px;
 }

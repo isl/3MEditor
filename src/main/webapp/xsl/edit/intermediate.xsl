@@ -179,8 +179,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:attribute>
+                <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
 
-                <label class="control-label" for="sourceType" style="font-weight:normal;">is Same as (map)</label>
+                <label class="control-label" for="sourceType" style="font-weight:normal;"> is Same as (map)</label>
                 <div class="input-group input-group-sm col-xs-12">
                     <span class="input-group-addon">[</span>
                     <input id="{concat($pathSoFar,'/@variable')}" title="is Same as (map)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@variable')}">
@@ -198,7 +199,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </span>
                 </div>
             </div> 
-             <div class="global_variable col-xs-12 ">
+            <div class="global_variable col-xs-12 ">
                 <xsl:attribute name="style">
                     <xsl:choose>
                         <xsl:when test="@global_variable">
@@ -209,8 +210,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:attribute>
+                <img src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
 
-                <label class="control-label" for="is Same as (global)" style="font-weight:normal;">is Same as (global)</label>
+                <label class="control-label" for="is Same as (global)" style="font-weight:normal;"> is Same as (global)</label>
                 <div class="input-group input-group-sm col-xs-12">
                     <span class="input-group-addon">[</span>
                     <input id="{concat($pathSoFar,'/@global_variable')}" title="is Same as (global)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@global_variable')}">
@@ -228,7 +230,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </span>
                 </div>
             </div> 
-             <div class="differentURI col-xs-12 ">
+            <div class="differentURI col-xs-12 ">
                 <xsl:attribute name="style">
                     <xsl:choose>
                         <xsl:when test="@differentURI">
@@ -239,8 +241,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:attribute>
-
-                <label class="control-label" for="is Same as (path)" style="font-weight:normal;">is Same as (path)</label>
+                <img src="images/PathVariable-Icon.png" title="variable applied on path"/>
+                <label class="control-label" for="is Same as (path)" style="font-weight:normal;"> is Same as (path)</label>
                 <div class="input-group input-group-sm col-xs-12">
                     <span class="input-group-addon">[</span>
                     <input id="{concat($pathSoFar,'/@differentURI')}" title="is Same as (path)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@differentURI')}">
@@ -271,23 +273,23 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <xsl:if test="@variable">
                                 <xsl:attribute name="class">disabled</xsl:attribute>
                             </xsl:if>
-                                                                        <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
+                            <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
 
                             <a class="add" title="add is Same as (map)" href="" id="{concat('add***',$pathSoFar,'/@variable')}" >is Same as (map)</a>
                         </li>
-                         <li>
+                        <li>
                             <xsl:if test="@global_variable">
                                 <xsl:attribute name="class">disabled</xsl:attribute>
                             </xsl:if>
-                                                                        <img src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
+                            <img src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
 
                             <a class="add" title="add is Same as (global)" href="" id="{concat('add***',$pathSoFar,'/@global_variable')}" >is Same as (global)</a>
                         </li>
-                          <li>
+                        <li>
                             <xsl:if test="@differentURI">
                                 <xsl:attribute name="class">disabled</xsl:attribute>
                             </xsl:if>
-                                                                        <img src="images/PathVariable-Icon.png" title="variable applied on path"/>
+                            <img src="images/PathVariable-Icon.png" title="variable applied on path"/>
 
                             <a class="add" title="add is Same as (path)" href="" id="{concat('add***',$pathSoFar,'/@differentURI')}" >is Same as (path)</a>
                         </li>
