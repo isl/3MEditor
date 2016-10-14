@@ -659,3 +659,7 @@ since `pointer-events: none` kills the cursor state, too.
  pointer-events: none;
 }
 
+.targetPath { 
+    word-break: break-all;
+     overflow: hidden;     
+}

@@ -69,75 +69,75 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:variable>
             
                     <xsl:if test="position()=1">
-                        <xsl:choose>
+                        <span style="float:left;">
+                            <xsl:choose>
 
-                            <xsl:when test="name(../../..)='range'">
-                                <xsl:if test="position()=1">
-                                    <span >
-                                        <xsl:choose>
-                                            <xsl:when test="../additional">
-                                                <xsl:attribute name="style">margin-right:0px;</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute name="style">margin-right:30px;</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
+                                <xsl:when test="name(../../..)='range'">
+                                    <xsl:if test="position()=1">
+                                        <span >
+                                            <xsl:choose>
+                                                <xsl:when test="../additional">
+                                                    <xsl:attribute name="style">margin-right:0px;</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute name="style">margin-right:30px;</xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
                                     
-                                        <img src="images/range.png"/>
-                                    </span>   
-                                </xsl:if>  
-                            </xsl:when>
-                            <xsl:when test="name(../../..)='domain'">
-                                <xsl:if test="position()=1">
-                                    <span >
-                                        <xsl:choose>
-                                            <xsl:when test="../additional">
-                                                <xsl:attribute name="style">margin-right:0px;</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute name="style">margin-right:30px;</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
+                                            <img src="images/range.png"/>
+                                        </span>   
+                                    </xsl:if>  
+                                </xsl:when>
+                                <xsl:when test="name(../../..)='domain'">
+                                    <xsl:if test="position()=1">
+                                        <span >
+                                            <xsl:choose>
+                                                <xsl:when test="../additional">
+                                                    <xsl:attribute name="style">margin-right:0px;</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute name="style">margin-right:30px;</xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
                                     
-                                        <img src="images/domain.png"/>
-                                    </span>   
+                                            <img src="images/domain.png"/>
+                                        </span>   
                                   
                                     
                                     
-                                </xsl:if>  
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <span>
-                                    <xsl:choose>
-                                        <xsl:when test="../additional">
-                                            <xsl:attribute name="style">margin-right:0px;</xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:attribute name="style">margin-right:30px;</xsl:attribute>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
+                                    </xsl:if>  
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <span>
+                                        <xsl:choose>
+                                            <xsl:when test="../additional">
+                                                <xsl:attribute name="style">margin-right:0px;</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:attribute name="style">margin-right:30px;</xsl:attribute>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
                                     
-                                    <img src="images/intermediate.png"/>
-                                </span>   
+                                        <img src="images/intermediate.png"/>
+                                    </span>   
                                
-                            </xsl:otherwise>
-                        </xsl:choose>
-                        <xsl:if test="../additional">
-                            <span style="margin-right:7px;">
-                                <img src="images/constant.png"/>
-                            </span> 
-                        </xsl:if>
-                        
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:if test="../additional">
+                                <span style="margin-right:7px;">
+                                    <img src="images/constant.png"/>
+                                </span> 
+                            </xsl:if>
+                        </span>
                     </xsl:if>
-        
+          
             
                     <span title="{.}" class="targetPath" data-miniPath="{$strippedURL}" data-fullPath="{.}">
-
+                        <xsl:if test="../additional and string-length($strippedURL)>20"> <!-- Trying to follow Korina's guidelines-->
+                            <xsl:attribute name="style">display: block;</xsl:attribute>  
+                        </xsl:if>
                         <xsl:if test="position()>1">
-                            <xsl:attribute name="style">margin-left:53px;</xsl:attribute>
-
-                   
-                 
+                            <xsl:attribute name="style">margin-left:53px;</xsl:attribute>                 
                         </xsl:if> 
                         <xsl:value-of select="$strippedURL"/>  
                     </span>
