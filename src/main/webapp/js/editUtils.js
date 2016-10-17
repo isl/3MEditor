@@ -338,13 +338,15 @@ function upload($this) {
                 if (xpath.endsWith("source_schema/@schema_file")) {
 
                     if (filename.endsWith(".xsd")) {
+                        sourceAnalyzerFiles = filename + "***" + sourceAnalyzerFiles.split("***")[1];
+                        sourceAnalyzerPaths = "";
                         if ($(".sourcePath").first().html().length > 0) { //has specified root
                             sourceAnalyzer = "on";
-                            sourceAnalyzerFiles = filename + "***" + sourceAnalyzerFiles.split("***")[1];
-                            sourceAnalyzerPaths = "";
+
                             configurationOption("sourceAnalyzer", "enable");
                             viewOnly();
                         } else {
+
                             alert("XML Schema uploaded. Once you specify a root source xpath in domain row, source analyzer is enabled! (Configuration tab)")
                         }
 
