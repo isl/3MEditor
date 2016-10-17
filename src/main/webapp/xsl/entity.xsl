@@ -158,7 +158,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <xsl:choose>
                                 <xsl:when test="../instance_info/constant">
                                     <xsl:if test=".!=''">
-                        &#160;=&#160;<small class="constant">"<xsl:value-of select="../instance_info/constant"/>"</small>       
+                        &#160;=&#160;<span class="constant">"<xsl:value-of select="../instance_info/constant"/>"</span>       
                                         <xsl:if test="../@variable or ../@global_variable or ../@differentURI  or ../instance_info/language or ../instance_info/description">
                                             <xsl:text>, </xsl:text>
                                         </xsl:if>
@@ -170,11 +170,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <span style="margin-left:3px;">
                                     <img style="" src="images/MapVariable-Icon.png" title="variable applied on map"/>
 
-                                    <small class="variable" title="variable applied on map"> 
+                                    <span  class="variable" title="variable applied on map"> 
                                         <xsl:text> [</xsl:text>
                                         <xsl:value-of select="../@variable"/>  
                                         <xsl:text>]</xsl:text>
-                                    </small>                           							
+                                    </span>                           							
                                     <xsl:if test="../@global_variable or ../@differentURI 
   or ../instance_info/language or ../instance_info/description">
                                         <xsl:text>, </xsl:text>
@@ -185,11 +185,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <span style="margin-left:3px;">
                                     <img style="" src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
 
-                                    <small class="global_variable" title="variable applied globally">
+                                    <span class="global_variable" title="variable applied globally">
                                         <xsl:text> [</xsl:text>
                                         <xsl:value-of select="../@global_variable"/>
                                         <xsl:text>]</xsl:text>
-                                    </small>                           							
+                                    </span>                           							
                                    
                                     <xsl:if test="../@differentURI or ../instance_info/language or ../instance_info/description">
                                         <xsl:text>, </xsl:text>
@@ -200,11 +200,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <span style="margin-left:3px;">
                                     <img style="" src="images/PathVariable-Icon.png" title="variable applied on path"/>
 
-                                    <small class="differentURI" title="variable applied on path">
+                                    <span class="differentURI" title="variable applied on path">
                                         <xsl:text> [</xsl:text>
                                         <xsl:value-of select="../@differentURI"/>
                                         <xsl:text>]</xsl:text>
-                                    </small>                           							
+                                    </span>                           							
                                    
                                     <xsl:if test="../instance_info/language or ../instance_info/description">
                                         <xsl:text>, </xsl:text>
@@ -231,9 +231,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <xsl:choose>
                                 <xsl:when test="../instance_info/language">
                         &#160;
-                                    <small class="language">
+                                    <span class="language">
                                         <xsl:value-of select="../instance_info/language"/>
-                                    </small>                               
+                                    </span>                               
                                 </xsl:when>
                                 <xsl:otherwise>&#160;
                         
@@ -355,7 +355,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:choose>
                     <xsl:when test="entity/instance_info/constant">
                         <xsl:if test=".!=''">
-                        &#160;=&#160;<small class="constant">"<xsl:value-of select="entity/instance_info/constant"/>"</small>       
+                        &#160;=&#160;<span class="constant">"<xsl:value-of select="entity/instance_info/constant"/>"</span>       
                             
                         </xsl:if>       
                     </xsl:when>
@@ -385,9 +385,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             
                         </xsl:if>
                          &#160;
-                        <small class="language">
+                        <span class="language">
                             <xsl:value-of select="entity/instance_info/language"/>
-                        </small>     
+                        </span>     
                     </div>
                 </xsl:if> 
 

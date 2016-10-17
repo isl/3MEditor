@@ -345,7 +345,38 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </div>
                                 
                             </div>
-                            <div class="language col-xs-12 ">
+                           
+                            <div class="description col-xs-12">
+                                <xsl:attribute name="style">
+                                    <xsl:choose>
+                                        <xsl:when test="instance_info/description">
+                                            <xsl:text>display:block;padding-left:0;padding-right:0;</xsl:text>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:text>display:none;padding-left:0;padding-right:0;</xsl:text>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                                <label class=" control-label" for="sourceType" style="font-weight:normal;">Description</label>
+                                <div class="input-group  ">
+
+                                    <textarea id="{concat($path,'/',name(..),'/entity[',$entPos,']/instance_info/description')}" placeholder="Fill in value" class="form-control input-sm" rows="3" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/instance_info/description')}">
+                                        <xsl:value-of select="instance_info/description"></xsl:value-of>
+                                    </textarea>
+                                    <!--                                    <span class="input-group-addon">
+                                        <button class="btn btn-sm toggle closeLike" type="button" title="Delete Description">
+                                            <span class="fa fa-times smallerIcon"></span>
+                                        </button>      
+                                    </span>-->
+                                    <span class="input-group-addon" style="background-color:white;">
+                                        <button class="btn btn-default btn-sm toggle" type="button" title="Delete Description"  style="border:0;">
+                                            <span class="fa fa-times "></span>
+                                        </button>      
+                                    </span>
+                                
+                                </div>
+                            </div>          
+                  <div class="language col-xs-12 ">
                                 <xsl:attribute name="style">
                                     <xsl:choose>
                                         <xsl:when test="instance_info/language">
@@ -378,37 +409,6 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     </span>
                                 </div>
                             </div>
-                            <div class="description col-xs-12">
-                                <xsl:attribute name="style">
-                                    <xsl:choose>
-                                        <xsl:when test="instance_info/description">
-                                            <xsl:text>display:block;padding-left:0;padding-right:0;</xsl:text>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:text>display:none;padding-left:0;padding-right:0;</xsl:text>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:attribute>
-                                <label class=" control-label" for="sourceType" style="font-weight:normal;">Description</label>
-                                <div class="input-group  ">
-
-                                    <textarea id="{concat($path,'/',name(..),'/entity[',$entPos,']/instance_info/description')}" placeholder="Fill in value" class="form-control input-sm" rows="3" data-xpath="{concat($path,'/',name(..),'/entity[',$entPos,']/instance_info/description')}">
-                                        <xsl:value-of select="instance_info/description"></xsl:value-of>
-                                    </textarea>
-                                    <!--                                    <span class="input-group-addon">
-                                        <button class="btn btn-sm toggle closeLike" type="button" title="Delete Description">
-                                            <span class="fa fa-times smallerIcon"></span>
-                                        </button>      
-                                    </span>-->
-                                    <span class="input-group-addon" style="background-color:white;">
-                                        <button class="btn btn-default btn-sm toggle" type="button" title="Delete Description"  style="border:0;">
-                                            <span class="fa fa-times "></span>
-                                        </button>      
-                                    </span>
-                                
-                                </div>
-                            </div>          
-                 
                     
                             <div class="col-xs-12" style="padding:2px 0 0 0;">
                                 <!--<label class="control-label" for="">&#160;</label>-->

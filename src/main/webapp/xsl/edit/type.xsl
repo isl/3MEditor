@@ -208,7 +208,33 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </div>
                    
                
-                    <div class="language form-group " >
+                   
+                    <div class="description form-group">
+                        <xsl:attribute name="style">
+                            <xsl:choose>
+                                <xsl:when test="../instance_info/description">
+                                    <xsl:text>display:block;padding-left:10px;margin-right:15px;</xsl:text>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:text>display:none;padding-left:10px;margin-right:15px;</xsl:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:attribute>
+                        <label class=" control-label" for="sourceType" style="font-weight:normal;">Description</label>
+                        <div class="input-group">
+
+                            <textarea id="{concat($path,'/../instance_info/description')}" placeholder="Fill in value" class="form-control input-sm" rows="3" data-xpath="{concat($path,'/../instance_info/description')}">
+                                <xsl:value-of select="../instance_info/description"></xsl:value-of>
+                            </textarea>
+                            <span class="input-group-addon" style="background-color:white;">
+                                <button class="btn btn-default btn-sm toggle" type="button" title="Delete Description"  style="border:0;">
+                                    <span class="fa fa-times "></span>
+                                </button>      
+                            </span>
+                                
+                        </div>
+                    </div>          
+                   <div class="language form-group " >
                         <xsl:attribute name="style">
                             <xsl:choose>
                                 <xsl:when test="../instance_info/language">
@@ -239,32 +265,6 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             </span>
                         </div>
                     </div>
-                    <div class="description form-group">
-                        <xsl:attribute name="style">
-                            <xsl:choose>
-                                <xsl:when test="../instance_info/description">
-                                    <xsl:text>display:block;padding-left:10px;margin-right:15px;</xsl:text>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:text>display:none;padding-left:10px;margin-right:15px;</xsl:text>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:attribute>
-                        <label class=" control-label" for="sourceType" style="font-weight:normal;">Description</label>
-                        <div class="input-group">
-
-                            <textarea id="{concat($path,'/../instance_info/description')}" placeholder="Fill in value" class="form-control input-sm" rows="3" data-xpath="{concat($path,'/../instance_info/description')}">
-                                <xsl:value-of select="../instance_info/description"></xsl:value-of>
-                            </textarea>
-                            <span class="input-group-addon" style="background-color:white;">
-                                <button class="btn btn-default btn-sm toggle" type="button" title="Delete Description"  style="border:0;">
-                                    <span class="fa fa-times "></span>
-                                </button>      
-                            </span>
-                                
-                        </div>
-                    </div>          
-                  
                     
                     <div class="form-group" style="padding-left:10px;padding-top:5px;">
                         <!--<label class="control-label" for="">&#160;</label>-->
