@@ -50,7 +50,7 @@ import java.util.zip.ZipInputStream;
  * @author samarita
  */
 public class Utils {
-    
+
     /**
      *
      * @param regexp
@@ -78,7 +78,6 @@ public class Utils {
         return results;
 
     }
-       
 
     /**
      *
@@ -102,9 +101,9 @@ public class Utils {
      *
      */
     public void lengthyProcess() {
-        for (int i=0;i<1000000;i++) {
+        for (int i = 0; i < 1000000; i++) {
             System.out.println(i);
-            i=i+1;
+            i = i + 1;
         }
     }
 
@@ -128,7 +127,7 @@ public class Utils {
         }
         return ResultString;
     }
-    
+
     /**
      * Time method
      *
@@ -248,6 +247,12 @@ public class Utils {
                     if (y.contains("/")) { //in case class has full URI name, strip it
                         y = y.substring(y.lastIndexOf("/") + 1);
                     }
+                    if (x.contains(":")) { //in case class has prefix, strip it
+                        x = x.substring(x.lastIndexOf(":") + 1);
+                    }
+                    if (y.contains(":")) { //in case class has prefix, strip it
+                        y = y.substring(y.lastIndexOf(":") + 1);
+                    }
 
                     //Bad temp solution...will replace in the future
                     String character = x.charAt(1) + "";
@@ -269,8 +274,17 @@ public class Utils {
                     if (y.endsWith("i")) {
                         y = y.replace("i", "");
                     }
-                    Integer a = Integer.parseInt(x);
-                    Integer b = Integer.parseInt(y);
+                    Integer a = 2000; //Declared initial values as fail safes for non numeric values
+                    Integer b = 2000; //Declared initial values as fail safes for non numeric values
+                    try {
+                        a = Integer.parseInt(x);
+                    } catch (NumberFormatException ex) {
+
+                    }
+                    try {
+                        b = Integer.parseInt(y);
+                    } catch (NumberFormatException ex) {
+                    }
                     return a.compareTo(b);
                 }
             });
@@ -297,8 +311,8 @@ public class Utils {
         if (mimes.length == 0) {
             return "Other";
         } else {
-            if (use!=null && use.length()>0 && mimes.length > 1) {
-                String mime = uploads.queryString("//mime[type/@use ='"+use+"' and type='" + file + "']/../name()")[0];
+            if (use != null && use.length() > 0 && mimes.length > 1) {
+                String mime = uploads.queryString("//mime[type/@use ='" + use + "' and type='" + file + "']/../name()")[0];
                 return mime;
             } else {
                 return mimes[0];

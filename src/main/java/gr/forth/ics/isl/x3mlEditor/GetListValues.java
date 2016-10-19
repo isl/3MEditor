@@ -220,10 +220,16 @@ public class GetListValues extends BasicServlet {
                 if (selectedEntities.length == 1 && selectedEntities[0].equals("")) {
                     resultsList = new ArrayList<String>();
                 } else {
-                    String selection = selectedEntities[0];
-                    selection = replacePrefixWithURI(mappingFile, selection);
-
-                    resultsList = ont.listProperties(selection);
+                    for (String selection : selectedEntities) {
+                        selection = replacePrefixWithURI(mappingFile, selection);
+                        ArrayList<String> propResults = ont.listProperties(selection);
+                        if (resultsList != null) {//First remove duplicates
+                            resultsList.removeAll(propResults);
+                            resultsList.addAll(propResults); //Then merge
+                        } else {
+                            resultsList = propResults;
+                        }
+                    }
                 }
             } else {
                 resultsList = new ArrayList<String>();
@@ -255,6 +261,8 @@ public class GetListValues extends BasicServlet {
         } else {
             resultsList = ont.getAllClasses();
         }
+        resultsList = new Utils().sort(resultsList); //Use custom order
+
         return resultsList;
     }
 
