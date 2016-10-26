@@ -67,8 +67,18 @@ $(document).ready(function() {
 
     $("#matching_table").on("click", ".columnHide", function() {
         var $this = $(this);
+        var imageSrc;
+       
         var colName = $this.closest("th").attr('class');
-        $("th." + colName).hide().after("<th class='" + colName + "'><i title='Click to expand column' class='columnShow fa fa-arrow-right'></i></th>");
+        $("th." + colName).hide().each(function() {
+            var $this = $(this);
+            if ($this.parent().hasClass("dummyHeader")) {//Use white image for dummyHeader and black for rest
+                imageSrc = "images/expand-column-white.png";
+            } else {
+                imageSrc = "images/expand-column.png";
+            }
+            $this.after("<th class='" + colName + "'><img class='columnShow' title='Click to expand column' src='" + imageSrc + "'/></th>");
+        });
         $("td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
     });
 
@@ -195,7 +205,7 @@ $('.nav a').click(function(e) {
                 sourceFilename = $("a:contains('view xml')").attr("title");
             }
 //            alert(sourceFilename)
-            var url = "FetchBinFile?file=" + encodeURIComponent(sourceFilename)+"&type=xml_link";
+            var url = "FetchBinFile?file=" + encodeURIComponent(sourceFilename) + "&type=xml_link";
             var req = $.myPOST(url, "xml");
             req.done(function(xml) {
                 checkResponse(xml);

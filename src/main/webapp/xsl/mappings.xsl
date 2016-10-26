@@ -64,13 +64,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <thead>
                         <tr>
                             <th></th>
-                            <th class="sourceCol">SOURCE<i class="columnHide fa fa-arrow-left" title="Click to collapse column"></i>
+                            <th class="sourceCol">SOURCE <img class="columnHide" title="Click to collapse column" src="images/collapse-column.png"/><!--i class="columnHide fa fa-arrow-left" title="Click to collapse column"></i-->
                             </th>                           
                             <th class="targetCol">
 
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        TARGET<i class="columnHide fa fa-arrow-left" title="Click to collapse column"></i>
+                                        TARGET <img class="columnHide" title="Click to collapse column" src="images/collapse-column.png"/>
                                     </div>
                                     <xsl:if test="//additional">
                                         <div class="col-xs-6">
@@ -82,8 +82,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </div>
                                 
                             </th>
-                            <th class="ifCol">IF RULE<i class="columnHide fa fa-arrow-left" title="Click to collapse column"></i></th>
-                            <th class="commentsHead" >COMMENTS<i class="columnHide fa fa-arrow-left" title="Click to collapse column"></i>
+                            <th class="ifCol">IF RULE <img class="columnHide" title="Click to collapse column" src="images/collapse-column.png"/></th>
+                            <th class="commentsHead" >COMMENTS <img class="columnHide" title="Click to collapse column" src="images/collapse-column.png"/>
                                 <button  title="Click to collapse/expand map" type="button" class="btn btn-default btn-sm collapseExpand pull-right">
                                     <span class="glyphicon glyphicon-sort"></span>
                                 </button>
