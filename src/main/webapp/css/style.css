@@ -306,12 +306,6 @@ button.closeLike {
     top: 0; left: 0; bottom: 0; right: 0;
     color: #1B738E;//blue
 }
-.differentURI {
-    margin: auto;
-    position: relative;
-    top: 0; left: 0; bottom: 0; right: 0;
-    color: #AA2121;//red
-}
 .types, .type {
     padding:0px;
 }
