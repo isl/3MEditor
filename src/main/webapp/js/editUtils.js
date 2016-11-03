@@ -50,7 +50,26 @@ function viewOnlySpecificPath(xpath) {
         });
     });
 }
+/*
+ * Gets view html for specific generator
+ */
+function viewOnlyGenerator() {
+    $(".focus").each(function(index) {
+        var $editableToView = $(this);
+        var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode=view&generatorsStatus=" + generatorsStatus;
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
 
+            $editableToView.replaceWith(data);
+
+        });
+        req.fail(function() {
+            alert("Connection with server lost. Action failed!");
+        });
+
+    });
+}
 /*
  * Refreshes html table in generators mode
  */

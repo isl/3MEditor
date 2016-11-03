@@ -82,13 +82,16 @@ $("body").on("blur", ".form-control", function() {
 /*
  * Handler fired when user changes selection in select2 box
  */
-$("#matching_table").on("change", ".select2", function(e) {
+$("#matching_table, #generatorsTab").on("change", ".select2", function(e) {
     var $input = $(this);
     var xpath = $input.attr('data-xpath');
     goAhead = true;
 
     if (xpath.indexOf("instance_generator/@name") !== -1 || (xpath.indexOf("label_generator[") !== -1 && xpath.endsWith("/@name"))) {
-        confirmDialog("GeneratorName");
+        var argsLength = $(".focus").find(".args").html().length;
+        if (argsLength > 0) { //If no args, then no need for a confirmation dialog about arguments
+            confirmDialog("GeneratorName");
+        }
     }
     if (goAhead) {
 
@@ -467,6 +470,8 @@ $("body").on("click", ".add", function(e) {
 
         });
     } else if (btnId.endsWith("/instance_generator") || btnId.endsWith("/label_generator")) { //Adding instance_generator or label_generator
+        viewOnlyGenerator();
+
         var generatorType;
         if (btnId.endsWith("/instance_generator")) {
             generatorType = "instance";
@@ -695,7 +700,7 @@ $("body").on("click", ".add", function(e) {
         var vars = btnId.split("***");
         var xpath = vars[1];
 
-        if (xpath.endsWith("@variable") ||xpath.endsWith("@global_variable") || xpath.endsWith("@differentURI")) { //@variables
+        if (xpath.endsWith("@variable") || xpath.endsWith("@global_variable") || xpath.endsWith("@differentURI")) { //@variables
             //Server side
             action = "addAttr";
             var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action;
@@ -718,7 +723,7 @@ $("body").on("click", ".add", function(e) {
             }
         }
 
-        if (xpath.endsWith("@variable") ||xpath.endsWith("@global_variable") || xpath.endsWith("@differentURI") || xpath.indexOf("/instance_info") !== -1) {
+        if (xpath.endsWith("@variable") || xpath.endsWith("@global_variable") || xpath.endsWith("@differentURI") || xpath.indexOf("/instance_info") !== -1) {
             // HTML code        
             $(this).parent().addClass("disabled");
             $("*[id='" + xpath + "']").parent().parent().css("display", "block");
@@ -770,6 +775,9 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                 var $blockToRemove = $("*[id='" + vars[1] + "']");
                 var xpath = $blockToRemove.attr("data-xpath");
                 selector = "." + $blockToRemove.attr("class");
+                if (selector === ".label_generator focus") {
+                    selector = ".label_generator.clickable";
+                }
 
             }
             var url = "Delete?id=" + id + "&xpath=" + xpath + '&targetAnalyzer=' + comboAPI;
@@ -792,7 +800,6 @@ $("body").on("click", ".close,.closeOnHeader", function() {
 
                         var currentXpath = $btn.attr("data-xpath");
 //                        var currentXpath = $btn.attr("id");
-
 
                         var currentHtml = $btn.html();
 
@@ -866,7 +873,7 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                         $(".dummyHeader").remove();
                         $(".dummyDomain").remove();
                     }
-                    if (selector === ".instance_generator") {
+                    if (selector === ".instance_generator focus") {
                         //Show add link button again
                         $("button[id='add***" + xpath + "']").show();
                     }
@@ -1072,11 +1079,11 @@ $("body").on("mouseleave", ".range", function() {
  */
 $("body").on("click", ".toggle", function() {
     var xpath;
-    if ($(this).attr("title")==="Delete Language") {//Added to support select2 drop down for language
+    if ($(this).attr("title") === "Delete Language") {//Added to support select2 drop down for language
         xpath = $(this).parent().parent().children("input").attr("data-xpath");
     } else {
-     xpath = $(this).parent().parent().children(".form-control").attr("data-xpath");
-}
+        xpath = $(this).parent().parent().children(".form-control").attr("data-xpath");
+    }
     $(this).parent().parent().parent().css("display", "none");
 
     var url = "Delete?id=" + id + "&xpath=" + xpath;
@@ -1176,17 +1183,17 @@ $("#matching_table").on("click", ".clickable", function() {
                 var $newHead = $head.find("th"); //No need to slice now, since I only get first thead                
 //                var $newHead = $head.find("th").slice(0, 5);
                 var $newHeadCells = $("<tr/>").append($newHead);
-                $newHeadCells.find("th").last().append($(buttonGroupHtml));
+                $newHeadCells.find("th").last().prepend($(buttonGroupHtml));
                 //Change image for collapse/expang icons
                 $newHeadCells.find("img.columnHide").each(function() {
                     var $this = $(this);
-                    $this.attr("src","images/collapse-column-white.png")
+                    $this.attr("src", "images/collapse-column-white.png")
                 });
                 $newHeadCells.find("img.columnShow").each(function() {
                     var $this = $(this);
-                    $this.attr("src","images/expand-column-white.png")
+                    $this.attr("src", "images/expand-column-white.png")
                 });
-                
+
                 var theadRow = "<tr class='dummyHeader'>" + $newHeadCells.html() + "</tr>";
                 var $theadRow = $(theadRow);
                 var domainRow = "<tr class='dummyDomain'/>";

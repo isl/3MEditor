@@ -43,6 +43,42 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
          syntax recommendation http://www.w3.org/TR/xslt 
     -->
     <xsl:template match="mappings" name="mappings">
+        <xsl:if test="$action=2">
+            
+             <div class="btn-group-vertical  btn-sm pull-right actionsToolbar" >
+                                            <button title="Click to view" id="table_view-btn" type="button" class="btn btn-default btn-sm " data-loading-text="Loading...">
+                                                <span class="glyphicon glyphicon-eye-open pull-left"></span>
+                                                <span class="pull-left" style="margin-left:5px;">View mode</span>
+                                            </button>
+                                            <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                                                <span class="glyphicon glyphicon-sort pull-left"></span> 
+                                                <span class="pull-left" style="margin-left:5px;">Collapse</span>
+                                               
+                                                <br/>
+                                               
+                                                <span class="pull-left" style="margin-left:18px;">Expand All</span>
+
+                                            </button>
+                                            <button title="Click to scroll to top" id="scrollTop-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                                                <span class="fa fa-chevron-up pull-left"></span> 
+                                                <span class="pull-left" style="margin-left:3px;">Top</span>
+                                            </button>
+                                           
+                                            <button title="Click to scroll to bottom" id="scrollBottom-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                                                <span class="fa fa-chevron-down pull-left"></span> 
+                                                <span class="pull-left" style="margin-left:3px;">Bottom</span>
+                                            </button>
+                                            
+                                           
+                                            <button title="" id="rawXML-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                                                <span class="fa fa-lg  fa-code pull-left"></span>
+                                                <span class="pull-left" style="margin-left:3px;">XML</span> 
+                                            </button>
+                                           
+                                        </div>
+        </xsl:if>
+        
+        
         <fieldset>
             <legend style="font-size:80% !important;padding:2px 0 2px 0;" align="right"> 
                 
@@ -121,10 +157,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         <button data-xpath="{concat('//x3ml/mappings/mapping[',$mappingPos,']')}" id="{concat('add***','//x3ml/mappings/mapping[',$mappingPos,']')}" title="Click to add map" type="button" class="btn btn-default btn-sm  add">
                                             <span class="glyphicon glyphicon-plus"></span>&#160;Map</button>
                                     </div>
-                                    <!--                                    <div class="col-xs-1">
-                                        <button  title="Click to collapse/expand map" type="button" class="btn btn-default btn-sm collapseExpand">
-                                            <span class="glyphicon glyphicon-sort"></span>&#160;Map</button>
-                                    </div>-->
+                                   
                                 </div> 
                             </td>    
                         </tr>       

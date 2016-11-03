@@ -121,7 +121,7 @@ public class Add extends BasicServlet {
                 mappingFrag = "<instance_generator name='" + instanceGeneratorName + "'>" + mappingFrag + "</instance_generator>";
                 mappingFrag = mappingFrag.replaceFirst("/?>", " generatorsStatus='" + generatorsStatus + "' container='" + xpath + "' xpath='" + xpath + "'$0");
 
-                output = transform(mappingFrag, super.baseURL + "/xsl/generators/instance_generator.xsl");
+                output = transform(mappingFrag, super.baseURL + "/xsl/generators/edit/instance_generator.xsl");
 
             } else if (action.startsWith("addOptional")) {
                 String[] actionParts = action.split("___");
@@ -144,6 +144,7 @@ public class Add extends BasicServlet {
 
                 }
 
+                System.out.println(mappingFrag);
                 if (xsl != null) {
                     if (mappingFrag.startsWith("<source")) {
                         mappingFrag = mappingFrag.replaceFirst("targetMode=", "sourceAnalyzer='" + sourceAnalyzer + "' targetMode=");
@@ -151,7 +152,7 @@ public class Add extends BasicServlet {
 
                     }
                     if (xsl.equals("instance_generator.xsl") || xsl.equals("arg.xsl") || xsl.equals("label_generator.xsl")) {
-                        output = transform(mappingFrag, baseURL + "/xsl/generators/" + xsl);
+                        output = transform(mappingFrag, baseURL + "/xsl/generators/edit/" + xsl);
                     } else {
                         output = transform(mappingFrag, baseURL + "/xsl/edit/" + xsl);
                     }

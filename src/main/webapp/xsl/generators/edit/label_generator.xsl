@@ -29,14 +29,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:include href="arg.xsl"/>
-
+    <xsl:import href="arg.xsl"/>
+   
     <xsl:output method="html"/>
 
     <!-- TODO customize transformation rules 
          syntax recommendation http://www.w3.org/TR/xslt 
     -->
-    <xsl:template name="instance_generator" match="instance_generator">
+    <xsl:template name="label_generator" match="label_generator">
         <xsl:param name="pathSoFar"/>
 
         <xsl:variable name="container">
@@ -44,11 +44,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:when test="$pathSoFar!=''">
                     <xsl:value-of select="$pathSoFar"/>
                 </xsl:when>
+                  <xsl:when test="@xpath!=''">
+                    <xsl:value-of select="@xpath"/>
+                </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="@container"/>
                 </xsl:otherwise>
             </xsl:choose>
-        </xsl:variable>    
+        </xsl:variable>
         <xsl:variable name="generatorsStatus">
             <xsl:choose>
                 <xsl:when test="@generatorsStatus">
@@ -62,38 +65,67 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-
                    
-        <div class="instance_generator clickable" id="{$container}" data-xpath="{$container}">
+                   
+        <div class="label_generator focus" id="{$container}" data-xpath="{$container}">
             <xsl:attribute name="style">
                 <xsl:choose>
                     <xsl:when test="contains($container,'additional')">margin-left:0px;</xsl:when>
                 </xsl:choose>
             </xsl:attribute>
-           
+            <button title="Delete Label Generator" type="button" class="close" id="{concat('delete***',$container)}" >
+                <span class="fa fa-times smallerIcon" style="color:black;"></span>
+
+            </button>
             <div class="row">
                 <div class="col-sm-12">
 
-                    <label class="control-label" for="{concat($container,'/@name')}">Instance Generator Name</label>
-                    <p class="form-control-static">
-                        <xsl:value-of select="@name"/>
-                    </p>
+                    <label class="control-label" for="{concat($container,'/@name')}">Label Generator Name</label>
                     
+                    <xsl:choose>
+                        <xsl:when test="$generatorsStatus='manual'">  
+                            <input id="{concat($container,'/@name')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Label Generator Name" data-xpath="{concat($container,'/@name')}">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="@name"></xsl:value-of>
+                                </xsl:attribute>
+                            </input>
+                        </xsl:when>
+                        <xsl:otherwise>
+                           
+                            <input style="width:100%;" title="Label Generator Name" type="hidden" class="select2 input-sm"  id="{concat($container,'/@name')}" data-id="{@name}" data-xpath="{concat($container,'/@name')}">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="@name"></xsl:value-of>
+                                </xsl:attribute>
+                                <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
+                            </input>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </div>
             </div>
                       
             <div class="args" id="{concat($container,'/args')}">
-                <xsl:for-each select="arg">                      
+                <xsl:for-each select="arg">
+                      
                     <xsl:call-template name="arg">
                         <xsl:with-param name="pathSoFar" select="concat($container,'/arg[',position(),']')"/>
-                    </xsl:call-template>                           
-                </xsl:for-each>                    
+                    </xsl:call-template>
+                           
+                </xsl:for-each>
+                    
             </div>
-         
+            <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Argument" type="button" class="btn btn-link btn-sm  add white">
+                Add Argument</button>              
+            <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Arguments" type="button" class="btn btn-link btn-sm  add white" style="display:none;">
+                Get Arguments</button>  
+               
                 
               
         </div>
-               
+                    
+           
+                      
+        
+
     </xsl:template>
 
 </xsl:stylesheet>

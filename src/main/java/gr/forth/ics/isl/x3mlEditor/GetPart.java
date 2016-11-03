@@ -93,9 +93,12 @@ public class GetPart extends BasicServlet {
                 if (mode.equals("edit")) {
                     if (xpath.endsWith("domain")) {
                         xsl = baseURL + "/xsl/edit/domain.xsl";
+                    } else if (xpath.endsWith("instance_generator")) {
+                        xsl = baseURL + "/xsl/generators/edit/instance_generator.xsl";
+                    } else if (xpath.contains("label_generator[")) {
+                        xsl = baseURL + "/xsl/generators/edit/label_generator.xsl";
                     } else {
                         xsl = baseURL + "/xsl/edit/link.xsl";
-
                     }
                 } else {
                     if (xpath.endsWith("path")) {
@@ -106,6 +109,10 @@ public class GetPart extends BasicServlet {
                         xsl = baseURL + "/xsl/domain.xsl";
                     } else if (xpath.endsWith("mappings")) {
                         xsl = baseURL + "/xsl/mappings.xsl";
+                    } else if (xpath.endsWith("instance_generator")) {
+                        xsl = baseURL + "/xsl/generators/instance_generator.xsl";
+                    } else if (xpath.contains("label_generator[")) {
+                        xsl = baseURL + "/xsl/generators/label_generator.xsl";
                     }
 
                 }
@@ -144,14 +151,19 @@ public class GetPart extends BasicServlet {
                 query = "count(//mapping)";
                 queryResults = mappingFile.queryString(query);
                 result = result.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "' mappingsCount='" + queryResults[0] + "'");
+            } else if (result.startsWith("<instance_generator")) {
+                result = result.replaceFirst("<instance_generator", "<instance_generator container='" + xpath + "' generatorsStatus='" + request.getParameter("generatorsStatus") + "'");
+            } else if (result.startsWith("<label_generator")) {
+                result = result.replaceFirst("<label_generator", "<label_generator container='" + xpath + "' generatorsStatus='" + request.getParameter("generatorsStatus") + "'");
             }
             if (result.startsWith("<mappings>") && mode.equals("instance")) {
                 result = result.replaceFirst("<mappings", "<mappings mode='" + mode + "' status='" + request.getParameter("generatorsStatus") + "'");
 
             }
+            System.out.println("RESULT2=" + result);
 
             output = transform(result, xsl);
-
+//            System.out.println(output);
             if (output != null) {
                 if (output.contains("mapping[]") || output.contains("link[]")) { //Special case! Need to find out position
                     Utils utils = new Utils();

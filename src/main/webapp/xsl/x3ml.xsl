@@ -113,6 +113,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         <a href="#matching_table" role="tab" data-toggle="tab">Matching Table</a>
                                     </li>
                                     <li >
+                                        <a href="#generatorsTab" role="tab" data-toggle="tab">Generators</a>
+                                    </li>
+                                    <li >
                                         <a href="#graph" role="tab" data-toggle="tab">Analysis</a>
                                     </li>
                                     <xsl:if test="$action!=1">
@@ -155,24 +158,17 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </xsl:attribute>
-                                    <xsl:if test="$action=0">
-                                        
+                                    <xsl:if test="$action=0">                                        
                                         <button title="" id="info_rawXML-btn" type="button" class="btn btn-default btn-sm pull-right" data-loading-text="Loading...">
                                             <span class="fa fa-lg fa-code pull-left"></span>
                                             <span class="pull-left" style="margin-left:3px;">XML</span> 
                                         </button>
-                                        <!--<div class="btn-group-vertical" role="group" aria-label="...">-->
                                         <button id="info_edit-btn" type="button" class="btn btn-default btn-sm pull-right" data-loading-text="Loading...">
                                             <span class="glyphicon glyphicon-pencil"></span> Edit
                                         </button>  
-
                                         <button id="info_view-btn" type="button" class="btn btn-default btn-sm pull-right" data-loading-text="Loading..." style="display:none;">
                                             <span class="glyphicon glyphicon-eye-open"></span> View
-                                        </button>  
-                                        
-                                       
-                                       
-                                        <!--</div>-->
+                                        </button>                                          
                                     </xsl:if>
                                     
                                     <div>
@@ -182,7 +178,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                
                           
                                 <div id="matching_table">
-                                      <xsl:attribute name="class">
+                                    <xsl:attribute name="class">
                                         <xsl:choose>
                                             <xsl:when test="count(//mapping)>1 or count(//mapping/link)>1">
                                                 tab-pane  fade active in
@@ -225,15 +221,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                                 <span class="pull-left" style="margin-left:3px;">XML</span> 
                                             </button>
                                            
-                                            <!--                                            <button title="Click to expand all mappings" id="expandAll-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="fa fa-plus-square pull-left"></span> Expand 
-                                            </button>-->
                                         </div>
                                     </xsl:if>
                                     <div class="mappings">  
                                         <xsl:apply-templates select="//mappings"/>
                                     </div>
-                                    <!--xsl:call-template name="mappings"/-->
                                 
                                 </div>
                                 <div class="tab-pane fade " id="configuration">
@@ -242,6 +234,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         <xsl:call-template name="configuration"/>
                                     </div>
                                 
+                                </div>
+                                <div class="tab-pane fade " id="generatorsTab">
                                 </div>
                                 <div class="tab-pane fade " id="graph">
                                 </div>

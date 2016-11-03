@@ -142,7 +142,7 @@ public class Index extends BasicServlet {
             //Actions: 0=edit, 1=view, 2=instance+label
             if (action.equals("instance")) {
                 xmlMiddle.append("<viewMode>").append("2").append("</viewMode>");
-                xmlMiddle.append("<generator mode='" + generatorsStatus + "'>").append("instance").append("</generator>");
+                xmlMiddle.append("<generator mode='").append(generatorsStatus).append("'>").append("instance").append("</generator>");
 
                 String[] usernames = mappingFile.queryString("//admin/locked/string()");
                 if (usernames.length > 0) {

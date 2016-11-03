@@ -54,21 +54,21 @@ $(document).ready(function() {
         placement: "right"
     });
 
-    $("#matching_table").on("click", ".collapseExpand", function() {
+    $("#matching_table, #generatorsTab").on("click", ".collapseExpand", function() {
         $(this).parentsUntil("thead").parent().next("tbody").children("tr.path, tr.range").toggle();
     });
 
-    $("#matching_table").on("click", ".columnShow", function() {
+    $("#matching_table, #generatorsTab").on("click", ".columnShow", function() {
         var $this = $(this);
         var colName = $this.closest("th").attr('class');
         $("." + colName).toggle();
         $("." + colName + ":hidden").remove();
     });
 
-    $("#matching_table").on("click", ".columnHide", function() {
+    $("#matching_table, #generatorsTab").on("click", ".columnHide", function() {
         var $this = $(this);
         var imageSrc;
-       
+
         var colName = $this.closest("th").attr('class');
         $("th." + colName).hide().each(function() {
             var $this = $(this);
@@ -86,62 +86,69 @@ $(document).ready(function() {
     if (mode === 0) { //edit_mode
         comboAPI = $('#targetAnalyzer input:radio:checked').val();
 
-
-        $('#table_view-btn').click(function() {
-
-            $("body").css("opacity", "0.4");
-
-            var url = "GetPart?id=" + id + "&part=mappings&mode=view";
-            var $btn = $(this);
-            $btn.button('loading');
-            var req = $.myPOST(url, "", "", 20000);
-            req.done(function(data) {
-                checkResponse(data);
-                $("#matching_table>div.mappings").html(data);
-                if (sourcePaths === "full") {
-                    $(".sourcePath").each(function(index) {
-                        var $sourcePathSpan = $(this);
-                        findProperPathValue($sourcePathSpan);
-                    });
+        $("#matching_table, #generatorsTab").on("click", "#table_view-btn", function() {
+//        $('#table_view-btn').click(function() {
+          
+            if ($(".active").children("a").html() === "Generators") {
+                if ($(".focus").length > 0) {
+                    initGenerators();
                 }
-                if (targetPaths === "full") {
-                    $(".targetPath").each(function(index) {
-                        var $targetPathSpan = $(this);
-                        findProperPathValue($targetPathSpan);
+            } else {
+
+                $("body").css("opacity", "0.4");
+
+                var url = "GetPart?id=" + id + "&part=mappings&mode=view";
+                var $btn = $(this);
+                $btn.button('loading');
+                var req = $.myPOST(url, "", "", 20000);
+                req.done(function(data) {
+                    checkResponse(data);
+                    $("#matching_table>div.mappings").html(data);
+                    if (sourcePaths === "full") {
+                        $(".sourcePath").each(function(index) {
+                            var $sourcePathSpan = $(this);
+                            findProperPathValue($sourcePathSpan);
+                        });
+                    }
+                    if (targetPaths === "full") {
+                        $(".targetPath").each(function(index) {
+                            var $targetPathSpan = $(this);
+                            findProperPathValue($targetPathSpan);
+                        });
+                    }
+                    $btn.button('reset');
+                    $('.description').popover({
+                        trigger: "hover",
+                        placement: "right"
                     });
-                }
-                $btn.button('reset');
-                $('.description').popover({
-                    trigger: "hover",
-                    placement: "right"
+
+                    $('.collapseExpand').click(function() {
+                        $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
+                    });
+                    $(".empty").find("div.row").css("display", "block");
+                    $("body").css("opacity", "1");
+
+
                 });
-
-                $('.collapseExpand').click(function() {
-                    $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
+                req.fail(function() {
+                    alert("Connection with server lost. Action failed!");
+                    $btn.button('reset');
+                    $("body").css("opacity", "1");
                 });
-                $(".empty").find("div.row").css("display", "block");
-                $("body").css("opacity", "1");
-
-
-            });
-            req.fail(function() {
-                alert("Connection with server lost. Action failed!");
-                $btn.button('reset');
-                $("body").css("opacity", "1");
-            });
-
+            }
 
         });
-        $('#collapseExpandAll-btn').click(function() {
+        $("#matching_table, #generatorsTab").on("click", "#collapseExpandAll-btn", function() {
             $("tr.path, tr.range").toggle();
         });
-        $('#scrollTop-btn').click(function() {
+        $("#matching_table, #generatorsTab").on("click", "#scrollTop-btn", function() {
             $("html, body").animate({scrollTop: 0}, "slow");
         });
-        $('#scrollBottom-btn').click(function() {
+        $("#matching_table, #generatorsTab").on("click", "#scrollBottom-btn", function() {
             $("html, body").animate({scrollTop: $(document).height()}, "slow");
         });
-        $('#info_rawXML-btn, #rawXML-btn').click(function() {
+        $("body").on("click", "#info_rawXML-btn, #rawXML-btn", function() {
+//        $('#info_rawXML-btn, #rawXML-btn').click(function() {
             $("#myModal").find("textarea").val("");
             var xpath = "";
 
@@ -150,7 +157,11 @@ $(document).ready(function() {
 
             } else {
                 if ($(".edit").length === 0) { //All
-                    xpath = "//x3ml/mappings";
+                    if ($(".focus").length === 0) {
+                        xpath = "//x3ml/mappings";
+                    } else {//Generator
+                        xpath = $(".focus").attr("data-xpath");
+                    }
                 } else if ($(".edit").length === 1) { //Domain
                     xpath = $(".edit").attr("data-xpath");
                 } else if ($(".edit").length === 2) {//Link
@@ -175,7 +186,38 @@ $(document).ready(function() {
             $("#myModal").modal('show');
 
         });
+
+        $("#generatorsTab").on("click", ".instance_generator.clickable, .label_generator.clickable", function(e) {
+
+            viewOnlyGenerator();
+
+            var $generator = $(this);
+            var xpath = $generator.attr("data-xpath")
+
+            var url = "GetPart?id=" + id + "&xpath=" + xpath + "&mode=edit&generatorsStatus=" + generatorsStatus;
+            var req = $.myPOST(url);
+            req.done(function(data) {
+                checkResponse(data);
+                $generator.replaceWith(data);
+                if (generatorsStatus === "auto") {
+                    getInstanceGeneratorNamesAndFillCombos();
+                } else {
+                    fillInstanceCombos(".arg");
+                }
+            });
+            req.fail(function() {
+                alert("Connection with server lost. Action failed!");
+            });
+
+
+        });
+//        $("#generatorsTab").on("click", ".label_generator", function(e) {
+//            alert("Label clicked");
+//        });
+
     } else if (mode === 2) { //generators mode
+
+
         if (generatorsStatus === "auto") {
             getInstanceGeneratorNamesAndFillCombos();
         } else {
@@ -194,6 +236,9 @@ $('.nav a').click(function(e) {
     e.preventDefault();
     if ($(this).html() === "About") {
         $("#about").load("readme.html");
+    } else if ($(this).html() === "Generators") {
+        initGenerators();
+
     } else if ($(this).html() === "Analysis") {
         $("#graph").load("analysis.html");
     } else if ($(this).html() === "Transformation") {
@@ -241,7 +286,61 @@ $('.nav a').click(function(e) {
 });
 
 
+function initGenerators() {
 
+
+    $("body").css("opacity", "0.4");
+
+    var url = "GetPart?id=" + id + "&part=mappings&mode=instance";
+
+    var req = $.myPOST(url, "", "", 20000);
+    req.done(function(data) {
+        checkResponse(data);
+        $("#generatorsTab").html(data);
+        if (sourcePaths === "full") {
+            $(".sourcePath").each(function(index) {
+                var $sourcePathSpan = $(this);
+                findProperPathValue($sourcePathSpan);
+            });
+        }
+        if (targetPaths === "full") {
+            $(".targetPath").each(function(index) {
+                var $targetPathSpan = $(this);
+                findProperPathValue($targetPathSpan);
+            });
+        }
+        $('.description').popover({
+            trigger: "hover",
+            placement: "right"
+        });
+
+        $('.collapseExpand').click(function() {
+            $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
+        });
+        $(".empty").find("div.row").css("display", "block");
+
+        if (generatorsStatus === "auto") {
+            getInstanceGeneratorNamesAndFillCombos();
+        } else {
+            fillInstanceCombos(".arg");
+        }
+
+        $("body").css("opacity", "1");
+
+
+    });
+    req.fail(function() {
+        alert("Connection with server lost. Action failed!");
+        $btn.button('reset');
+        $("body").css("opacity", "1");
+    });
+
+
+
+
+
+
+}
 
 
 

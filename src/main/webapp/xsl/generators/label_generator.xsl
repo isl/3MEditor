@@ -44,8 +44,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:when test="$pathSoFar!=''">
                     <xsl:value-of select="$pathSoFar"/>
                 </xsl:when>
-                <xsl:otherwise>
+                 <xsl:when test="@xpath!=''">
                     <xsl:value-of select="@xpath"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="@container"/>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
@@ -64,39 +67,20 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         </xsl:variable>
                    
                    
-        <div class="label_generator" id="{$container}" data-xpath="{$container}">
+        <div class="label_generator clickable" id="{$container}" data-xpath="{$container}">
             <xsl:attribute name="style">
                 <xsl:choose>
                     <xsl:when test="contains($container,'additional')">margin-left:0px;</xsl:when>
                 </xsl:choose>
             </xsl:attribute>
-            <button title="Delete Label Generator" type="button" class="close" id="{concat('delete***',$container)}" >
-                <span class="fa fa-times smallerIcon" style="color:black;"></span>
-
-            </button>
+          
             <div class="row">
                 <div class="col-sm-12">
 
                     <label class="control-label" for="{concat($container,'/@name')}">Label Generator Name</label>
-                    
-                    <xsl:choose>
-                        <xsl:when test="$generatorsStatus='manual'">  
-                            <input id="{concat($container,'/@name')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Label Generator Name" data-xpath="{concat($container,'/@name')}">
-                                <xsl:attribute name="value">
-                                    <xsl:value-of select="@name"></xsl:value-of>
-                                </xsl:attribute>
-                            </input>
-                        </xsl:when>
-                        <xsl:otherwise>
-                           
-                            <input style="width:100%;" title="Label Generator Name" type="hidden" class="select2 input-sm"  id="{concat($container,'/@name')}" data-id="{@name}" data-xpath="{concat($container,'/@name')}">
-                                <xsl:attribute name="value">
-                                    <xsl:value-of select="@name"></xsl:value-of>
-                                </xsl:attribute>
-                                <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
-                            </input>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                                          <p class="form-control-static">
+                        <xsl:value-of select="@name"/>
+                    </p>
                 </div>
             </div>
                       
@@ -110,10 +94,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:for-each>
                     
             </div>
-            <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Argument" type="button" class="btn btn-link btn-sm  add white">
-                Add Argument</button>              
-            <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Arguments" type="button" class="btn btn-link btn-sm  add white" style="display:none;">
-                Get Arguments</button>  
+          
                
                 
               
