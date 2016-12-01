@@ -53,7 +53,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             <td class="sourceCol"> 
                 <div class="row">
                     <div class="col-xs-1 iconContainer">
-                        <img src="images/range.png"/>
+                        <xsl:choose>
+                            <xsl:when test="//range/@noRelation or (../path//relation='' and not(../path//node) and ../../domain/source_node=source_node)">
+                                <img src="images/domain.png"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <img src="images/range.png"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </div>
                     <div class="col-xs-11 nextToIcon">
                         <xsl:call-template name="stripPath">

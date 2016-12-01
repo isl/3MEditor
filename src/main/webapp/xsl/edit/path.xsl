@@ -41,20 +41,43 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <xsl:param name="mappingPos"/>
              
 
-        <tr class="edit" data-xpath="{//path/@xpath}" id="{//path/@xpath}">
+        <tr data-xpath="{//path/@xpath}" id="{//path/@xpath}">
+            <xsl:attribute name="class">
+                 <xsl:choose>
+                    <xsl:when test="//path/@noRelation">
+                        <xsl:text>edit noRelation</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>  
+                        <xsl:text>edit</xsl:text>              
+                    </xsl:otherwise>
+                </xsl:choose>    
+            </xsl:attribute>
             <td title="{//path/@xpath}">P</td>
-            <td  style="background-color:white;padding:0 0 0 0;min-width:200px;" class="sourceCol">                
-                <xsl:apply-templates select="source_relation"/>               
+            <td  style="background-color:white;padding:0 0 0 0;min-width:200px;" class="sourceCol">
+                
+
+                <xsl:choose>
+                    <xsl:when test="//path/@noRelation">
+                        <div class="text-center" style="margin-top:15px;">
+                            <i class="fa fa-repeat" aria-hidden="true"></i>
+                            <button data-xpath="" id="" title="" type="button" class="btn noRelationRestore btn-link btn-sm">
+                             Restore source relation
+                            </button>
+                        </div>
+                    </xsl:when>
+                    <xsl:otherwise>                
+                        <xsl:apply-templates select="source_relation"/>               
+                    </xsl:otherwise>
+                </xsl:choose>    
+                           
             </td>
             <td style="min-width:600px;padding:0 0 0 0;" class="targetCol">        
                 <xsl:for-each select="target_relation">
                     <xsl:call-template name="target_relation"/>
                 </xsl:for-each>
-                <!--<xsl:apply-templates select="target_relation"/>-->
                                
             </td>
             <td class="ifCol">                
-                <!--<label class="control-label" for="">Rules</label>--> 
 
                 <xsl:for-each select="target_relation">
                     <div class="rules" data-xpath="{concat(//path/@xpath,'/target_relation/if')}">
@@ -138,6 +161,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                  
                 </div>
             </xsl:for-each>
+        </div>
+        <div class="col-xs-11">
+            <button data-xpath="" id="" title="" type="button" class="btn noRelationUpdate btn-link btn-sm pull-right">
+                no source relation</button>
         </div>
         
         <div class="col-xs-11">

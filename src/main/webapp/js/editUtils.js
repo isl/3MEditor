@@ -102,8 +102,12 @@ function viewOnly() {
         var $row = $(this);
         if (typeof $(this).attr("data-xpath") !== 'undefined') { //if path===undefined abort useless request
 
+            var mode = "view"; //Default
+            if ($row.hasClass("noRelation")) {
+                mode = "viewNoRelation";
+            }
 
-            var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode=view";
+            var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode="+mode;
             var req = $.myPOST(url);
 
             req.done(function(data) {

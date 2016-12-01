@@ -100,6 +100,21 @@ public class GetPart extends BasicServlet {
                     } else {
                         xsl = baseURL + "/xsl/edit/link.xsl";
                     }
+                } else if (mode.startsWith("noRelation")) {//Special mode! Must update XML before returning HTML
+                    if (mode.equals("noRelationUpdate")) {
+                        String[] results = mappingFile.queryString(query + "/../domain/source_node/string()");
+                        String domainValue = "";
+                        if (results != null && results.length > 0) {
+                            domainValue = mappingFile.queryString(query + "/../domain/source_node/string()")[0];
+                        }
+                        mappingFile.xUpdate(query + "/path/source_relation", "<relation/>");
+                        mappingFile.xUpdate(query + "/range/source_node", domainValue);
+                    } else if (mode.equals("noRelationRestore")) {
+                        mappingFile.xUpdate(query + "/range/source_node", "");
+
+                    }
+                    xsl = baseURL + "/xsl/edit/link.xsl";
+
                 } else {
                     if (xpath.endsWith("path")) {
                         xsl = baseURL + "/xsl/path.xsl";
@@ -144,8 +159,14 @@ public class GetPart extends BasicServlet {
         if (queryResults != null && queryResults.length > 0 && baseURL != null) {
             String result = queryResults[0];
             if (result.startsWith("<link>")) { //Edit mode
-                result = result.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "/path" + "'>");
-                result = result.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "/range" + "'>");
+
+                String noRelation = "";
+                if (mode.startsWith("noRelation") && !mode.endsWith("Restore")) {//Add noRelation attribute to choose noRelation View
+                    noRelation = "noRelation=''";
+                }
+
+                result = result.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "/path" + "' " + noRelation + ">");
+                result = result.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "/range" + "' " + noRelation + ">");
 
             } else if (result.startsWith("<domain>")) { //Edit mode
                 query = "count(//mapping)";
@@ -160,7 +181,10 @@ public class GetPart extends BasicServlet {
                 result = result.replaceFirst("<mappings", "<mappings mode='" + mode + "' status='" + request.getParameter("generatorsStatus") + "'");
 
             }
-            System.out.println("RESULT2=" + result);
+
+            if (mode.equals("viewNoRelation")) {
+                result = result.replaceFirst(">", " noRelation=''>");
+            }
 
             output = transform(result, xsl);
 //            System.out.println(output);

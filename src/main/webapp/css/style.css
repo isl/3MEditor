@@ -665,3 +665,12 @@ since `pointer-events: none` kills the cursor state, too.
 img+label {
     padding-left: 5px;
 }
+.noRelationUpdate {
+    color:red ;
+    padding:0 10px 0 0;
+    margin:0;
+}
+.noRelationRestore {
+        color:black ;
+
+}

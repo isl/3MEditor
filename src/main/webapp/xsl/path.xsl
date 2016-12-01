@@ -70,26 +70,32 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     </xsl:template>
 
     <xsl:template match="source_relation">
-       
-        <xsl:for-each select="*">
-            <div class="row">
-                <div class="col-xs-1 iconContainer">
-                    <xsl:choose>
-                        <xsl:when test="name()='relation'">
-                            <img src="images/property.png"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <img src="images/intermediate.png"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </div>
-                <div class=" col-xs-11 nextToIcon">
-                    <xsl:call-template name="stripPath">
-                        <xsl:with-param name="path" select="." />
-                    </xsl:call-template>
-                </div>
-            </div>            
-        </xsl:for-each>
+        <xsl:choose>
+            <xsl:when test="//path/@noRelation or (relation='' and not(node) and ../../../domain/source_node=../../range/source_node)">
+                <div class="row"/>    
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:for-each select="*">
+                    <div class="row">    
+                        <div class="col-xs-1 iconContainer">
+                            <xsl:choose>
+                                <xsl:when test="name()='relation'">
+                                    <img src="images/property.png"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <img src="images/intermediate.png"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </div>
+                        <div class=" col-xs-11 nextToIcon">
+                            <xsl:call-template name="stripPath">
+                                <xsl:with-param name="path" select="." />
+                            </xsl:call-template>
+                        </div>                 
+                    </div>            
+                </xsl:for-each>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
 </xsl:stylesheet>

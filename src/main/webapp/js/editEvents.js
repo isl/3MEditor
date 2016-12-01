@@ -1160,7 +1160,19 @@ $("#matching_table").on("click", ".clickable", function() {
             if (comboAPI > 0 && targetType === "xml") {
                 comboAPI = 4;
             }
-            var url = "GetPart?id=" + id + "&xpath=" + $path.attr("data-xpath") + "&mode=edit&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
+            /*Detect noRelation or not*/
+            var editMode = "edit"; //default
+            if ($path.hasClass("path")) {
+                if ($path.find(".sourceCol").children(".row").children().length == 0) {
+                    editMode = "noRelation";
+                }
+            } else if ($path.hasClass("range")) {
+                if ($path.prev().find(".sourceCol").children(".row").children().length == 0) {
+                    editMode = "noRelation";
+                }
+            }
+
+            var url = "GetPart?id=" + id + "&xpath=" + $path.attr("data-xpath") + "&mode=" + editMode + "&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
             var req = $.myPOST(url);
             req.done(function(data) {
                 checkResponse(data);
@@ -1246,6 +1258,53 @@ $("#matching_table").on("click", ".clickable", function() {
         }
     }
 });
+
+/*
+ * Handler fired when user clicks "no source relation"
+ */
+$("body").on("click", ".noRelationUpdate, .noRelationRestore", function() {
+    var $noSourceRelation = $(this);
+
+    /* Path cell*/
+    var $sourcePathCell = $noSourceRelation.parentsUntil(".sourceCol").parent();
+    var pathXpath = $sourcePathCell.parent().attr("data-xpath");
+    var linkXpath = pathXpath.substr(0, pathXpath.lastIndexOf('/'));
+    /* Range cell*/
+    var $sourceRangeCell = $sourcePathCell.parent().next().children(".sourceCol");
+
+    var mode = "";
+    if ($(this).html().indexOf("Restore") !== -1) {
+        mode = "noRelationRestore";
+    } else {
+        mode = "noRelationUpdate";
+    }
+
+    var url = "GetPart?id=" + id + "&xpath=" + linkXpath + "&mode=" + mode + "&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
+    var req = $.myPOST(url);
+    req.done(function(data) {
+        checkResponse(data);
+        var $link = $(data);
+        var $newPathCell = $link.find(".sourceCol").eq(0);
+        var $newRangeCell = $link.find(".sourceCol").eq(1);
+        $sourcePathCell.replaceWith($newPathCell);
+        $sourceRangeCell.replaceWith($newRangeCell);
+        if (mode === "noRelationRestore") {
+            $(".edit").removeClass("noRelation");
+            fillCombos();
+        } else {
+           $(".edit").addClass("noRelation");
+
+        }
+
+    });
+    req.fail(function() {
+        alert("Connection with server lost. Action failed!");
+    });
+
+
+});
+
+
 /*
  * --------------------------------- INFO TAB ----------------------------------
  */

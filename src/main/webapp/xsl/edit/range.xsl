@@ -37,37 +37,67 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     -->
     <xsl:template match="range">
       
-        <tr class="edit" data-xpath="{//range/@xpath}" >
+        <tr data-xpath="{//range/@xpath}" >
+            <xsl:attribute name="class">
+                <xsl:choose>
+                    <xsl:when test="//range/@noRelation">
+                        <xsl:text>edit noRelation</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>  
+                        <xsl:text>edit</xsl:text>              
+                    </xsl:otherwise>
+                </xsl:choose>    
+            </xsl:attribute>
             <td title="{//range/@xpath}">R</td>
             <td style="padding:0 0 0 0;" class="sourceCol">
                 <div class="row "  style="margin-left:0px;">
                     <div class="col-xs-1 icon">
                         <label class="control-label" for="">&#160;</label>
-                        <img src="images/range.png"/>
+                        <xsl:choose>
+                            <xsl:when test="//range/@noRelation">
+                               
+                                <img src="images/domain.png" style="margin-top:13px;"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <img src="images/range.png"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </div>
             
                     <div class="col-xs-9">
                         <div class="form-group">
 
-                            <label class="control-label topPadded" for="pathSourceNode" >Source Node</label>
-<xsl:choose>
-<xsl:when test="//*/@sourceAnalyzer='off'">                                 
-                             <input title="Source Node"  id="pathSourceNode" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat(//range/@xpath,'/source_node')}">
-                                <xsl:attribute name="value">
-                                    <xsl:value-of select="source_node"/>                    
-                                </xsl:attribute>
-                            </input>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <input style="width:100%" title="Source Node" type="hidden" class="select2 input-sm" data-id="{source_node}" id="pathSourceNode" data-xpath="{concat(//range/@xpath,'/source_node')}">
-                                <xsl:attribute name="value">
-                                    <xsl:value-of select="source_node"></xsl:value-of>
-                                </xsl:attribute>
-                                <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
-                            </input>
-                        </xsl:otherwise>
-                    </xsl:choose>
-
+                            <label class="control-label topPadded" for="pathSourceNode"  style="min-width:80px;">Source Node</label>
+                            
+                            <xsl:choose>
+                                <xsl:when test="//range/@noRelation">
+                                    <p class="form-control-static">
+                                        <xsl:call-template name="stripPath">
+                                            <xsl:with-param name="path" select="source_node" />
+                                        </xsl:call-template>                                    
+                                    </p>
+                                </xsl:when>
+                                <xsl:otherwise>                
+                                    <xsl:choose>
+                                        <xsl:when test="//*/@sourceAnalyzer='off'">                                 
+                                            <input title="Source Node"  id="pathSourceNode" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat(//range/@xpath,'/source_node')}">
+                                                <xsl:attribute name="value">
+                                                    <xsl:value-of select="source_node"/>                    
+                                                </xsl:attribute>
+                                            </input>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <input style="width:100%" title="Source Node" type="hidden" class="select2 input-sm" data-id="{source_node}" id="pathSourceNode" data-xpath="{concat(//range/@xpath,'/source_node')}">
+                                                <xsl:attribute name="value">
+                                                    <xsl:value-of select="source_node"></xsl:value-of>
+                                                </xsl:attribute>
+                                                <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
+                                            </input>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:otherwise>
+                            </xsl:choose>    
+                          
 
                         </div>
                     </div>
@@ -111,7 +141,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:for-each>            
             </td>
             <td class="commentsHead">         
-                 <div class="comments" id="{concat(//range/@xpath,'/comments')}" data-xpath="{concat(//range/@xpath,'/comments')}">                       
+                <div class="comments" id="{concat(//range/@xpath,'/comments')}" data-xpath="{concat(//range/@xpath,'/comments')}">                       
                     <xsl:apply-templates select="comments"/>                         
                 </div>
                 <xsl:call-template name="addCommentButton"></xsl:call-template>   
