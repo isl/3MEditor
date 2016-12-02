@@ -570,7 +570,13 @@ $("body").on("click", ".add", function(e) {
         var xpath = vars[1];
         var $bucket = $("div[data-xpath='" + xpath + "']");
         var sibs = $bucket.children().length;
-
+        if (xpath.indexOf("source_relation") !== -1) {//source intermediate (Do not allow adding Intermediate if Source Relation is blank           
+            var firstSourceRelationValue = $btn.parent().parent().find("input").eq(0).attr("value");
+            if (firstSourceRelationValue.trim()==="") {
+                alert("Please fill in Source Relation before adding Intermediate!"); //Useful alert. DO NOT DELETE!
+                return;
+            }
+        }
         xpath = xpath + "[last()]";
         action = "addOptional___" + xpath;
 
@@ -581,7 +587,7 @@ $("body").on("click", ".add", function(e) {
         req.done(function(data) {
             checkResponse(data);
 
-//            //Client side  
+            //Client side  
 
             if (sibs > 0) {
                 $bucket.children().last().after(data);
@@ -1292,7 +1298,7 @@ $("body").on("click", ".noRelationUpdate, .noRelationRestore", function() {
             $(".edit").removeClass("noRelation");
             fillCombos();
         } else {
-           $(".edit").addClass("noRelation");
+            $(".edit").addClass("noRelation");
 
         }
 
