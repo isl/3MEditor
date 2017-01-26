@@ -79,10 +79,14 @@ public class Index extends BasicServlet {
         String lang = request.getParameter("lang");
         String action = request.getParameter("action");
         String sourceAnalyzer = request.getParameter("sourceAnalyzer");
+         String mappingSuggester = request.getParameter("mappingSuggester");
+         if (mappingSuggester == null ) {
+             mappingSuggester = mappingSuggesterStatus;
+         }
         String sourceAnalyzerFiles = "***";
         String targetType = "";
         String targetAnalyzerFiles = "***";
-        String targetAnalyzer = request.getParameter("targetAnalyzer");
+        String targetAnalyzer = request.getParameter("targetAnalyzer");        
         if (targetAnalyzer == null) {
             targetAnalyzer = targetPathSuggesterAlgorithm;
         }
@@ -209,6 +213,7 @@ public class Index extends BasicServlet {
             } else {
                 xmlMiddle.append("<sourceAnalyzer>").append(sourceAnalyzer).append("</sourceAnalyzer>");
                 xmlMiddle.append("<sourceAnalyzerFiles>").append(sourceAnalyzerFiles).append("</sourceAnalyzerFiles>");
+                xmlMiddle.append("<mappingSuggester>").append(mappingSuggester).append("</mappingSuggester>");
 
                 xmlMiddle.append("<targetAnalyzer>").append(targetAnalyzer).append("</targetAnalyzer>");
                 xmlMiddle.append("<targetType>").append(targetType).append("</targetType>");

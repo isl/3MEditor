@@ -54,13 +54,16 @@ $("body").on("blur", ".form-control", function() {
 
         }
         if ($input.attr("data-xpath") === "//x3ml/mappings/mapping[1]/domain/source_node") {
-            if ($input.val().length > 0) {
-                sourceAnalyzer = "on";
-                configurationOption("sourceAnalyzer", "enable");
-            } else {
-                sourceAnalyzer = "off";
-                configurationOption("sourceAnalyzer", "disable");
-            }
+            //Commented out because I don't think it is convenient to enable/disable analyzer based on domain value
+//            if ($input.val().length > 0 && sourceAnalyzerFiles!=='***') {//If first domain has value and there are source files, then enable source analyzer 
+//                sourceAnalyzer = "on";
+//                configurationOption("sourceAnalyzer", "enable");
+//            } 
+            
+//            if ($input.val().length === 0) {
+//                sourceAnalyzer = "off";
+//                configurationOption("sourceAnalyzer", "disable");
+//            }
             sourceRoot = $input.val();
         }
 

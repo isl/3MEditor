@@ -128,6 +128,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <param-value>on</param-value>
     </context-param>
     <context-param>
+        <description>Default mapping suggester status. Values accepted:on,off.</description>
+        <param-name>mappingSuggesterStatus</param-name>
+        <param-value>off</param-value>
+    </context-param>
+    <context-param>
         <description>Default generators status. Values accepted:auto, manual.</description>
         <param-name>generatorsStatus</param-name>
         <param-value>auto</param-value>

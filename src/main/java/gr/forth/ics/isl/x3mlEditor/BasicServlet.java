@@ -92,6 +92,7 @@ public class BasicServlet extends HttpServlet {
             /**
              *
              */
+            mappingSuggesterStatus,
             generatorsStatus;
 
     protected static int serverPort, maxCollsize;
@@ -232,6 +233,7 @@ public class BasicServlet extends HttpServlet {
             maxCollsize = Integer.parseInt(sc.getInitParameter("maxCollsize"));
             targetPathSuggesterAlgorithm = sc.getInitParameter("targetPathSuggesterAlgorithm");
             sourceAnalyzerStatus = sc.getInitParameter("sourceAnalyzerStatus");
+            mappingSuggesterStatus = sc.getInitParameter("mappingSuggesterStatus");
             generatorsStatus = sc.getInitParameter("generatorsStatus");
 
             generatorNamesBuiltInX3MLEngine = sc.getInitParameter("generatorNamesBuiltInX3MLEngine").split(", ");

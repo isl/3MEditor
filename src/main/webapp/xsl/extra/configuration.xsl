@@ -90,8 +90,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                              
                                 <p>
                                     Once a source schema file or an example xml file is uploaded the source analyzer engine is enabled by default (If uploaded
-                                    file is an xsd schema file, then user will also have to <b>MANUALLY</b> define an element name as root).
-<br/>
+                                    file is an xsd schema file, then user will also have to <b>MANUALLY</b> define an element name as root).<br/>
                                     User may choose to disable it. When it is enabled, source paths free text input fields are replaced by select boxes.
                                     Select box options are all possible xpaths. 
                                     <br/>
@@ -351,13 +350,50 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <br/>
                             <div class="col-sm-12">
                                 <label class="control-label" for="targetAnalyzer">Mapping Suggester: </label>
-                                                                
-                                <!--                            </div>
-                                <div class="col-sm-9">-->
+                                <div class="btn-group" id="mappingSuggester" data-toggle="buttons">
+                                    <label id="label9">
+                                        <xsl:choose>
+                                            <xsl:when test="//output/mappingSuggester='on'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>                                              
+                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>                                                   
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                        <input name="mappingSuggester" type="radio" class="toggle" value="on" autocomplete="off">
+                                            <xsl:if test="//output/mappingSuggester='on'">
+                                                <xsl:attribute  name="checked">checked</xsl:attribute>
+                                            </xsl:if>
+                                        </input>                                            
+                                        <xsl:text> On</xsl:text>
+                                    </label>
+                                    <label id="label10">
+                                        <xsl:choose>
+                                            <xsl:when test="//output/mappingSuggester!='on'">
+                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                        <input name="mappingSuggester" type="radio" class="toggle" value="off" autocomplete="off">
+                                            <xsl:if test="//output/mappingSuggester!='on'">
+                                                <xsl:attribute  name="checked">checked</xsl:attribute>
+                                            </xsl:if>
+                                        </input>                                            
+                                        <xsl:text> Off</xsl:text>
+                                    </label>
+                                    
+                                    
+                                </div>
                                 <br/>
                                 <br/>
-                                <p>Not available yet!</p>
-                                 
+                             
+                                <p>
+                                   Under construction
+
+                                    
+                                </p>
                             </div>
                         </div>
                     </div>
