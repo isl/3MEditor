@@ -155,8 +155,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             </div>
             <div class="col-xs-11 rels">
                 <div style="padding-left:0;padding-right:18px;" class="container col-xs-6 right-bordered">
-                    <button style="padding-right:0;" data-xpath="{concat(../@xpath,'/target_relation/intermediate')}" id="{concat('add***',../@xpath,'/target_relation/intermediate')}" title="Add Intermediate" type="button" class="btn btn-link btn-sm add  pull-right ">
-                        Add Intermediate</button>
+                    <button style="padding-right:0;padding-left:0;" data-xpath="{concat(../@xpath,'/target_relation/intermediate')}" id="{concat('add***',../@xpath,'/target_relation/intermediate')}" title="Add Intermediate" type="button" class="btn btn-link btn-sm add   ">
+                        Add intermediate</button>
                 </div>
             </div>
         </div>

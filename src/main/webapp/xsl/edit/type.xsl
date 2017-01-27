@@ -270,7 +270,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         <!--<label class="control-label" for="">&#160;</label>-->
                         <!--<div class="input-group ">-->
                         <div class=" btn-group ">
-                            <button type="button" class="btn btn-link btn-sm  dropdown-toggle instance" data-toggle="dropdown" style="padding:0;border:0;">
+                            <button type="button" class="btn btn-link btn-sm  dropdown-toggle instance" data-toggle="dropdown" style="padding:0 0 0 17px;border:0;">
                                 Add instance info
 
                                 <span class="caret"></span>

@@ -161,9 +161,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                 </xsl:call-template>
             </div>
-            <div class="col-xs-12" style="padding-right:0;">
+            <div class="col-xs-12" style="padding-right:0;padding-left:0;">
      
-                <button   data-xpath="{concat('add***',$pathSoFar,'/type')}" id="{concat('add***',$pathSoFar,'/type')}" title="Add additional class" type="button" class="btn btn-link btn-sm  add pull-right">
+                <button   data-xpath="{concat('add***',$pathSoFar,'/type')}" id="{concat('add***',$pathSoFar,'/type')}" title="Add additional class" type="button" class="btn btn-link btn-sm  add ">
                     Add additional class</button>
      
             </div>
@@ -181,7 +181,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:attribute>
                 <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
 
-                <label class="control-label" for="sourceType" style="font-weight:normal;"> is Same as (map)</label>
+                <label class="control-label" for="sourceType" style="font-weight:normal;"> Is same as (map)</label>
                 <div class="input-group input-group-sm col-xs-12">
                     <span class="input-group-addon">[</span>
                     <input id="{concat($pathSoFar,'/@variable')}" title="is Same as (map)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@variable')}">
@@ -212,7 +212,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:attribute>
                 <img src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
 
-                <label class="control-label" for="is Same as (global)" style="font-weight:normal;"> is Same as (global)</label>
+                <label class="control-label" for="is Same as (global)" style="font-weight:normal;"> Is same as (global)</label>
                 <div class="input-group input-group-sm col-xs-12">
                     <span class="input-group-addon">[</span>
                     <input id="{concat($pathSoFar,'/@global_variable')}" title="is Same as (global)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@global_variable')}">
@@ -246,7 +246,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             </xsl:if>
                             <img src="images/MapVariable-Icon.png" title="variable applied on map"/>
 
-                            <a class="add" title="add is Same as (map)" href="" id="{concat('add***',$pathSoFar,'/@variable')}" >is Same as (map)</a>
+                            <a class="add" title="add is Same as (map)" href="" id="{concat('add***',$pathSoFar,'/@variable')}" >Is same as (map)</a>
                         </li>
                         <li>
                             <xsl:if test="@global_variable">
@@ -254,7 +254,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             </xsl:if>
                             <img src="images/GlobalVariable-Icon.png" title="variable applied globally"/>
 
-                            <a class="add" title="add is Same as (global)" href="" id="{concat('add***',$pathSoFar,'/@global_variable')}" >is Same as (global)</a>
+                            <a class="add" title="add is Same as (global)" href="" id="{concat('add***',$pathSoFar,'/@global_variable')}" >Is same as (global)</a>
                         </li>
                        
                     </ul>
@@ -280,8 +280,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:call-template>
             </div>
                     
-            <button data-xpath="{concat('add***',$pathSoFar,'/additional')}" id="{concat('add***',$pathSoFar,'/additional')}" title="Add Constant Expression" type="button" class="btn btn-link btn-sm  add pull-right">
-                Add Constant Expression</button>
+            <button data-xpath="{concat('add***',$pathSoFar,'/additional')}" id="{concat('add***',$pathSoFar,'/additional')}" title="Add Constant Expression" type="button" class="btn btn-link btn-sm  add ">
+                Add constant expression</button>
 
         </div>
                     

@@ -43,7 +43,7 @@
 }
 
 .popover-title {
-font-size: 80%;
+    font-size: 80%;
     color: black !important;
 
 }
@@ -371,7 +371,7 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 .iconContainer {
     padding:0px;
     margin-bottom: 2px;
-                             margin-top: 2px ;
+    margin-top: 2px ;
 
 }
 
@@ -526,13 +526,13 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 }
 .dropdown-menu {
     padding-top: 0px !important;
-     padding-bottom: 0px !important;
+    padding-bottom: 0px !important;
 }
 .instance+ul>li>img{
     background-color: lightgrey;
-/*padding-top: 3px;
-padding-bottom: 3px;*/
-padding: 6px 4px 6px 4px;
+    /*padding-top: 3px;
+    padding-bottom: 3px;*/
+    padding: 6px 4px 6px 4px;
 }
 
 .instance+ul>li>a {
@@ -577,7 +577,7 @@ tr.edit,.dummyDomain,.dummyHeader {
 
 button[title="Add additional class"] {
     padding-right: 0px !important;
-
+ padding-left: 0px !important;
 }
 button[title="Click to add link"], button[title="Click to add map"], button[title="Click to collapse/expand map"] {
     padding: 2px 5px 2px 5px;
@@ -650,27 +650,45 @@ Mimic cursor style from native .dropdown-menu > .disabled > a{} styles,
 since `pointer-events: none` kills the cursor state, too. 
 */
 .dropdown-menu > .disabled{
- cursor: not-allowed; 
+    cursor: not-allowed; 
 }
 
 /* The real magic ;) */
 .dropdown-menu > .disabled > a{
- pointer-events: none;
+    pointer-events: none;
 }
 
 .targetPath { 
     word-break: break-all;
-     overflow: hidden;     
+    overflow: hidden;     
 }
 img+label {
     padding-left: 5px;
 }
 .noRelationUpdate {
-    color:red ;
-    padding:0 10px 0 0;
+    padding:0 10px 0 22px;
     margin:0;
 }
-.noRelationRestore {
-        color:black ;
+/*.noRelationRestore {
+    color:black ;
+}*/
 
+/*New links view*/
+.add, .btn-link, .add:hover, .btn-link:hover, a {
+    color: #2a6496 !important;
+}
+button[title*="Click to add"] {
+    color: black !important;
+}
+button[title="Add Constant Expression"] {
+    padding-left: 0;
+}
+button[title="Add Instance Generator"][data-xpath*="/domain/"] {
+    color: #86CEEA !important;
+}
+button[title="Add Label Generator"][data-xpath*="/domain/"] {
+    color: #86CEEA !important;
+}
+button[title="Add Argument"][data-xpath*="/instance_generator"] {
+    color: #86CEEA !important;
 }

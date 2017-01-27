@@ -163,14 +163,15 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             </xsl:for-each>
         </div>
         <div class="col-xs-11">
-            <button data-xpath="" id="" title="" type="button" class="btn noRelationUpdate btn-link btn-sm pull-right">
-                no source relation</button>
+            <button style="padding-left: 22px;" data-xpath="{concat(//path/@xpath,'/source_relation/intermediate')}" id="{concat('add***',//path/@xpath,'/source_relation/intermediate')}" title="Add Intermediate" type="button" class="btn btn-link btn-sm  add">
+                Add intermediate</button>
+        </div>
+        <div class="col-xs-11">
+            <button data-xpath="" id="" title="" type="button" class="btn noRelationUpdate btn-link btn-sm">
+                Set blank source relation</button>
         </div>
         
-        <div class="col-xs-11">
-            <button data-xpath="{concat(//path/@xpath,'/source_relation/intermediate')}" id="{concat('add***',//path/@xpath,'/source_relation/intermediate')}" title="Add Intermediate" type="button" class="btn btn-link btn-sm  add pull-right">
-                Add Intermediate</button>
-        </div>
+        
 
     </xsl:template>
 

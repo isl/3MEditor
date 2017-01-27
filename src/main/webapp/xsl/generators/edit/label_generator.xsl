@@ -113,10 +113,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:for-each>
                     
             </div>
-            <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Argument" type="button" class="btn btn-link btn-sm  add white">
-                Add Argument</button>              
+            <button style="padding:0;" data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Argument" type="button" class="btn btn-link btn-sm  add white">
+                Add argument</button>              
             <button data-xpath="{concat('add***',$container,'/arg')}" id="{concat('add***',$container,'/arg')}" title="Add Arguments" type="button" class="btn btn-link btn-sm  add white" style="display:none;">
-                Get Arguments</button>  
+                Get arguments</button>  
                
                 
               

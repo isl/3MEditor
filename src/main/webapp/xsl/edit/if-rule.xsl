@@ -230,7 +230,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         
         <div class=" btn-group">
             <button type="button" class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" id="addRuleButton">
-                Add Rule
+                Add rule
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu" id="addRuleMenu">

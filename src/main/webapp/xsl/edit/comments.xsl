@@ -266,8 +266,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         
         <div class=" btn-group">
             <button type="button" class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown">
-                <!--                <span class="glyphicon glyphicon-plus"></span>&#160;Rule-->
-                Add Comment about
+                Add comment about
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">

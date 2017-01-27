@@ -277,7 +277,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:if test="instance_generator">
                     <xsl:attribute name="style">display:none;margin-left:86px;</xsl:attribute>
                 </xsl:if>
-                Add Instance Generator</button>
+                Add instance generator</button>
             <button style="margin-left:86px;" data-xpath="{concat('add***',$pathSoFar,'/label_generator')}" id="{concat('add***',$pathSoFar,'/label_generator')}" title="Add Label Generator" type="button">
                 <xsl:choose> 
                     <xsl:when test="name(../..)='domain'">
@@ -289,7 +289,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:otherwise>
                 </xsl:choose>
                 
-                Add Label Generator</button>
+                Add label generator</button>
         </xsl:if>
        
     </xsl:template>
@@ -409,8 +409,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:if test="entity/instance_generator">
                     <xsl:attribute name="style">display:none;margin-left:86px;</xsl:attribute>
                 </xsl:if>
-                Add Instance Generator</button>
-            <button style="margin-left:86px;" data-xpath="{concat('add***',$pathSoFar,'/label_generator')}" id="{concat('add***',$pathSoFar,'/label_generator')}" title="Add Label Generator" type="button">
+                Add instance generator</button>
+            <button style="margin-left:0;padding-left:0;" data-xpath="{concat('add***',$pathSoFar,'/label_generator')}" id="{concat('add***',$pathSoFar,'/label_generator')}" title="Add Label Generator" type="button">
                 <xsl:choose> 
                     <xsl:when test="name(../..)='domain'">
                         <xsl:attribute name="class">btn btn-link btn-sm  add white</xsl:attribute>
@@ -421,7 +421,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:otherwise>
                 </xsl:choose>
                 
-                Add Label Generator</button>
+                Add label generator</button>
         </xsl:if>
        
             

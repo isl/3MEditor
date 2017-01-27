@@ -45,37 +45,37 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <xsl:template match="mappings" name="mappings">
         <xsl:if test="$action=2">
             
-             <div class="btn-group-vertical  btn-sm pull-right actionsToolbar" >
-                                            <button title="Click to view" id="table_view-btn" type="button" class="btn btn-default btn-sm " data-loading-text="Loading...">
-                                                <span class="glyphicon glyphicon-eye-open pull-left"></span>
-                                                <span class="pull-left" style="margin-left:5px;">View mode</span>
-                                            </button>
-                                            <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="glyphicon glyphicon-sort pull-left"></span> 
-                                                <span class="pull-left" style="margin-left:5px;">Collapse</span>
+            <div class="btn-group-vertical  btn-sm pull-right actionsToolbar" >
+                <button title="Click to view" id="table_view-btn" type="button" class="btn btn-default btn-sm " data-loading-text="Loading...">
+                    <span class="glyphicon glyphicon-eye-open pull-left"></span>
+                    <span class="pull-left" style="margin-left:5px;">View mode</span>
+                </button>
+                <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                    <span class="glyphicon glyphicon-sort pull-left"></span> 
+                    <span class="pull-left" style="margin-left:5px;">Collapse</span>
                                                
-                                                <br/>
+                    <br/>
                                                
-                                                <span class="pull-left" style="margin-left:18px;">Expand All</span>
+                    <span class="pull-left" style="margin-left:18px;">Expand All</span>
 
-                                            </button>
-                                            <button title="Click to scroll to top" id="scrollTop-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="fa fa-chevron-up pull-left"></span> 
-                                                <span class="pull-left" style="margin-left:3px;">Top</span>
-                                            </button>
+                </button>
+                <button title="Click to scroll to top" id="scrollTop-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                    <span class="fa fa-chevron-up pull-left"></span> 
+                    <span class="pull-left" style="margin-left:3px;">Top</span>
+                </button>
                                            
-                                            <button title="Click to scroll to bottom" id="scrollBottom-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="fa fa-chevron-down pull-left"></span> 
-                                                <span class="pull-left" style="margin-left:3px;">Bottom</span>
-                                            </button>
+                <button title="Click to scroll to bottom" id="scrollBottom-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                    <span class="fa fa-chevron-down pull-left"></span> 
+                    <span class="pull-left" style="margin-left:3px;">Bottom</span>
+                </button>
                                             
                                            
-                                            <button title="" id="rawXML-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="fa fa-lg  fa-code pull-left"></span>
-                                                <span class="pull-left" style="margin-left:3px;">XML</span> 
-                                            </button>
+                <button title="" id="rawXML-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                    <span class="fa fa-lg  fa-code pull-left"></span>
+                    <span class="pull-left" style="margin-left:3px;">XML</span> 
+                </button>
                                            
-                                        </div>
+            </div>
         </xsl:if>
         
         
@@ -143,11 +143,19 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:for-each>
                            
                         <tr class="empty">
-                            <td  colspan="5"  style="border-left-width:0;">                              
+                            <td  colspan="5"  style="border-left-width:0;">                             
                                 <div class="row">
-                                    <xsl:if test="$action!=0">
-                                        <xsl:attribute name="style">display:none;</xsl:attribute>
-                                    </xsl:if>
+                                    <xsl:attribute name="style">
+                                        <xsl:choose>
+                                            <xsl:when test="$action='0'">
+                                                <xsl:text>display:block;</xsl:text>                                      
+                                            </xsl:when>
+                                            <xsl:otherwise>                                        
+                                                <xsl:text>display:none;</xsl:text>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    </xsl:attribute>
+
                                     <div class="col-xs-1 col-xs-offset-5">
                                         <button data-xpath="{concat('//x3ml/mappings/mapping[',$mappingPos,']/link')}" id="{concat('add***','//x3ml/mappings/mapping[',$mappingPos,']/link')}" type="button" class="btn btn-default btn-sm add" title="Click to add link">
                                             <span class="glyphicon glyphicon-plus"></span>&#160;Link</button>

@@ -317,7 +317,6 @@ function initGenerators() {
         $('.collapseExpand').click(function() {
             $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
         });
-        $(".empty").find("div.row").css("display", "block");
 
         if (generatorsStatus === "auto") {
             getInstanceGeneratorNamesAndFillCombos();
