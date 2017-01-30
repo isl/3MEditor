@@ -81,33 +81,36 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <div class="col-sm-4">
                     <label class=" control-label" for="{concat($container,'/@type')}">Type</label>
                     
-<!--                    <xsl:choose>
-                        <xsl:when test="$generatorsStatus='manual'">      
-                            <input id="{concat($container,'/@type')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Argument type" data-xpath="{concat($container,'/@type')}">
-                                <xsl:attribute name="value">
-                                    <xsl:value-of select="@type"></xsl:value-of>
-                                </xsl:attribute>
-                            </input>
-                        </xsl:when>
-                        <xsl:otherwise>-->
-                            <input style="width:100%;" title="Argument type" type="hidden" class="select2 input-sm"  id="{concat($container,'/@type')}" data-id="{@type}" data-xpath="{concat($container,'/@type')}">
-                                <xsl:attribute name="value">
-                                    <xsl:value-of select="@type"></xsl:value-of>
-                                </xsl:attribute>
-                                <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
-                            </input>
-<!--                        </xsl:otherwise>
+                    <!--                    <xsl:choose>
+                    <xsl:when test="$generatorsStatus='manual'">      
+                        <input id="{concat($container,'/@type')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Argument type" data-xpath="{concat($container,'/@type')}">
+                            <xsl:attribute name="value">
+                                <xsl:value-of select="@type"></xsl:value-of>
+                            </xsl:attribute>
+                        </input>
+                    </xsl:when>
+                    <xsl:otherwise>-->
+                    <input style="width:100%;" title="Argument type" type="hidden" class="select2 input-sm"  id="{concat($container,'/@type')}" data-id="{@type}" data-xpath="{concat($container,'/@type')}">
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="@type"></xsl:value-of>
+                        </xsl:attribute>
+                        <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
+                    </input>
+                    <!--                        </xsl:otherwise>
                     </xsl:choose>-->
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
                     <label class=" control-label" for="{$container}">Value</label>
-                    <input id="{$container}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Argument value" data-xpath="{$container}">
+<!--                    <input id="{$container}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Argument value" data-xpath="{$container}">
                         <xsl:attribute name="value">
                             <xsl:value-of select="."></xsl:value-of>
                         </xsl:attribute>
-                    </input>
+                    </input>-->
+                    <textarea id="{$container}" placeholder="Fill in value" class="form-control input-sm" rows="2" title="Argument value" data-xpath="{$container}">
+                        <xsl:value-of select="."></xsl:value-of>
+                    </textarea>
                 </div>
             </div>
         </div>

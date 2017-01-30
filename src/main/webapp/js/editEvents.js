@@ -59,7 +59,7 @@ $("body").on("blur", ".form-control", function() {
 //                sourceAnalyzer = "on";
 //                configurationOption("sourceAnalyzer", "enable");
 //            } 
-            
+
 //            if ($input.val().length === 0) {
 //                sourceAnalyzer = "off";
 //                configurationOption("sourceAnalyzer", "disable");
@@ -495,26 +495,28 @@ $("body").on("click", ".add", function(e) {
         action = "addOptional___" + xpath;
         xsl = generatorType + "_generator.xsl";
 
-
         var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs + "&targetAnalyzer=" + comboAPI + "&generatorsStatus=" + generatorsStatus;
         var req = $.myPOST(url);
         req.done(function(data) {
             checkResponse(data);
-
+            alert(data)
+//
             //Client side  
 
 
-            if ($bucket.children().length === 0) { //No generator
-                $bucket.html(data);
+            if ($bucket.children().length === 1) { //No generator
+                $bucket.children(".generatorButtons, .additionalGeneratorButtons").before(data);
             } else {
                 if (generatorType === "instance") {
                     $bucket.prepend(data);
                 } else {
-                    $bucket.append(data);
+//                    $bucket.append(data);
+                    $bucket.children(".generatorButtons, .additionalGeneratorButtons").before(data);
+
                 }
             }
             if (generatorType === "instance") {
-                $bucket.next("button[id='add***" + xpath + "']").hide(); //Hide add instance generator link
+                $bucket.find("button[id='add***" + xpath + "']").hide(); //Hide add instance generator link
                 if (generatorsStatus === "auto") {
                     fillInstanceCombos(".instance_generator");
                 }
@@ -575,7 +577,7 @@ $("body").on("click", ".add", function(e) {
         var sibs = $bucket.children().length;
         if (xpath.indexOf("source_relation") !== -1) {//source intermediate (Do not allow adding Intermediate if Source Relation is blank           
             var firstSourceRelationValue = $btn.parent().parent().find("input").eq(0).attr("value");
-            if (firstSourceRelationValue.trim()==="") {
+            if (firstSourceRelationValue.trim() === "") {
                 alert("Please fill in Source Relation before adding Intermediate!"); //Useful alert. DO NOT DELETE!
                 return;
             }

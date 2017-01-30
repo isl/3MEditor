@@ -458,7 +458,7 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 .instance_generator {
     border: 1px white solid ;
     background-color: #606160;
-    margin-left:96px;
+    margin-left:50px;
     color:white;
     padding-left: 10px;
     padding-right: 10px;
@@ -466,7 +466,7 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 .label_generator {
     border: 1px white solid ;
     background-color: #D6EBED;
-    margin-left:96px;
+    margin-left:50px;
     color:black;
     padding-left: 10px;
     padding-right: 10px;
@@ -691,4 +691,10 @@ button[title="Add Label Generator"][data-xpath*="/domain/"] {
 }
 button[title="Add Argument"][data-xpath*="/instance_generator"] {
     color: #86CEEA !important;
+}
+.generatorButtons {
+    margin-left: 25px !important;
+}
+.additionalGeneratorButtons {
+    padding-left: 0;
 }

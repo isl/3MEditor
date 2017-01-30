@@ -85,7 +85,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:choose>
                     <xsl:when test="$action=0">Click on a row to edit the matching table</xsl:when>
                     <xsl:when test="$action=1">View mode</xsl:when>
-                    <xsl:when test="$action=2">Instance Generator mode</xsl:when>
+                    <xsl:when test="$action=2">Add generators using "Add instance generator" and "Add label generator" links or click on a generator box to edit it</xsl:when>
 
                     <xsl:otherwise>Click on a row to edit the matching table</xsl:otherwise>
                     
