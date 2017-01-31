@@ -64,7 +64,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         </xsl:variable>
 
                    
-        <div class="instance_generator clickable" id="{$container}" data-xpath="{$container}">
+        <div class="instance_generator clickable" id="{$container}" data-xpath="{$container}" title="Click to edit generator">
             <xsl:attribute name="style">
                 <xsl:choose>
                     <xsl:when test="contains($container,'additional')">margin-left:0px;</xsl:when>

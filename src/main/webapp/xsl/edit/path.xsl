@@ -43,7 +43,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
         <tr data-xpath="{//path/@xpath}" id="{//path/@xpath}">
             <xsl:attribute name="class">
-                 <xsl:choose>
+                <xsl:choose>
                     <xsl:when test="//path/@noRelation">
                         <xsl:text>edit noRelation</xsl:text>
                     </xsl:when>
@@ -58,10 +58,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                 <xsl:choose>
                     <xsl:when test="//path/@noRelation">
-                        <div class="text-center" style="margin-top:15px;">
+                        <div style="margin-top:15px;margin-left:30px;">
                             <i class="fa fa-repeat" aria-hidden="true"></i>
                             <button data-xpath="" id="" title="" type="button" class="btn noRelationRestore btn-link btn-sm">
-                             Restore source relation
+                                Restore source relation
                             </button>
                         </div>
                     </xsl:when>
@@ -167,7 +167,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 Add intermediate</button>
         </div>
         <div class="col-xs-11">
-            <button data-xpath="" id="" title="" type="button" class="btn noRelationUpdate btn-link btn-sm">
+            <button data-xpath="" id="" title="This feature allows to map the source domain to
+ 2 different target nodes, which are associated via the relation specified in the target." type="button" class="btn noRelationUpdate btn-link btn-sm">
                 Set blank source relation</button>
         </div>
         
