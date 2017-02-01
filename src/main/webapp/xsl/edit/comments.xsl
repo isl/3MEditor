@@ -265,13 +265,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         
         
         <div class=" btn-group">
-            <button type="button" class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-link btn-sm dropdown-toggle addCommentButton" data-toggle="dropdown">
                 Add comment about
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <!--<a class="add" href="" id="{concat('add***',$pathSoFar,'***Equality')}" >Equality</a>-->
                     <xsl:if test="comments/comment/rationale!=''">
                         <xsl:attribute name="class">disabled</xsl:attribute>
                     </xsl:if>

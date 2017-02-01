@@ -455,10 +455,15 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 
 }
 
+.generatorsBox {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
 .instance_generator {
     border: 1px white solid ;
     background-color: #606160;
-    margin-left:50px;
+    margin-left:46px;
     color:white;
     padding-left: 10px;
     padding-right: 10px;
@@ -466,7 +471,7 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
 .label_generator {
     border: 1px white solid ;
     background-color: #D6EBED;
-    margin-left:50px;
+    margin-left:46px;
     color:black;
     padding-left: 10px;
     padding-right: 10px;
@@ -513,16 +518,10 @@ td>div.row,.intermediate>div.row,.source_intermediate>div.row {
     color: black;
 }
 .instance.dropdown-toggle,.instance.dropdown-toggle:link,.instance.dropdown-toggle:focus, .instance.dropdown-toggle:hover, .instance.dropdown-toggle:visited, .instance.dropdown-toggle:active {
-    /*color: #428BCA;*/
     color:black;
-    font-weight: bold !important;
 }
 .instance+ul>li>a,  .description>label,.language>label,.constant>label,.constant{
-    /*color: #428BCA !important;*/
-    font-weight: bold !important;
     color:black;
-
-
 }
 .dropdown-menu {
     padding-top: 0px !important;
@@ -577,7 +576,7 @@ tr.edit,.dummyDomain,.dummyHeader {
 
 button[title="Add additional class"] {
     padding-right: 0px !important;
- padding-left: 0px !important;
+    padding-left: 0px !important;
 }
 button[title="Click to add link"], button[title="Click to add map"], button[title="Click to collapse/expand map"] {
     padding: 2px 5px 2px 5px;
@@ -666,20 +665,34 @@ img+label {
     padding-left: 5px;
 }
 .noRelationUpdate {
-    padding:0 10px 0 22px;
+    padding:0 10px 5px 22px;
     margin:0;
 }
 
 /*New links view*/
 .add, .btn-link, .add:hover, .btn-link:hover, a {
     color: #2a6496 !important;
+    /*    padding-top:3px;
+        padding-bottom: 3px;*/
 }
+#addRuleButton, .addCommentButton {
+    padding-left: 0;
+}
+
 button[title*="Click to add"] {
     color: black !important;
 }
 button[title="Add Constant Expression"] {
     padding-left: 0;
 }
+/*button[title="Add Instance Generator"] {
+   
+}
+button[title="Add Label Generator"] {
+   
+}*/
+
+
 button[title="Add Instance Generator"][data-xpath*="/domain/"] {
     color: #86CEEA !important;
 }
@@ -690,8 +703,14 @@ button[title="Add Argument"][data-xpath*="/instance_generator"] {
     color: #86CEEA !important;
 }
 .generatorButtons {
-    margin-left: 25px !important;
+    margin-left: 21px !important;
 }
+.generatorButtons>button, .additionalGeneratorButtons>button {
+    padding-bottom: 0 !important;
+}
+/*.generatorButtons + .generatorButtons>button, .additionalGeneratorButtons +.additionalGeneratorButtons>button{
+    padding-top: 0 !important;
+}*/
 .additionalGeneratorButtons {
     padding-left: 0;
 }

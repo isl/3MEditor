@@ -231,7 +231,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </div>
             </div> 
            
-            <div class="col-xs-12" style="padding:2px 0 0 0;">
+            <div class="col-xs-12" style="padding:0 0 0 0;">
                 <div class=" btn-group" style="padding:0;">
                     <button type="button" class="btn btn-link btn-sm  dropdown-toggle instance" data-toggle="dropdown" style="padding:0;border:0;">
                         Add instance info

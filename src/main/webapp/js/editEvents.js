@@ -499,8 +499,7 @@ $("body").on("click", ".add", function(e) {
         var req = $.myPOST(url);
         req.done(function(data) {
             checkResponse(data);
-            alert(data)
-//
+
             //Client side  
 
 
