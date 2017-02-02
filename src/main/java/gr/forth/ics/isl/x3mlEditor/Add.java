@@ -184,7 +184,7 @@ public class Add extends BasicServlet {
                         if (mappingFrag.startsWith("<mapping>")) {
                             mappingFrag = mappingFrag.replaceFirst("<mapping", "<mapping targetMode='" + targetMode + "' xpath='" + xpath + "[" + pos + "]'");
 
-                            mappingFrag = mappingFrag.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/domain'");
+                            mappingFrag = mappingFrag.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/domain' mappingsCount='"+pos+"'");
                             mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/path" + "'>");
                             mappingFrag = mappingFrag.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/range" + "'>");
                         } else if (mappingFrag.startsWith("<link>")) { //Edit mode
@@ -199,6 +199,7 @@ public class Add extends BasicServlet {
                             mappingFrag = mappingFrag.replaceFirst(">", " pos='" + pos + "'>");
                         }
                     }
+                    System.out.println("MAPFRAG="+mappingFrag);
                     if (xsl != null) {
                         output = transform(mappingFrag, super.baseURL + "/xsl/edit/" + xsl);
 

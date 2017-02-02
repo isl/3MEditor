@@ -370,7 +370,7 @@ $("body").on("click", ".add", function(e) {
         var vars = btnId.split("***");
         var xpath = vars[1];
         var $addPlace = $("tbody[id='" + xpath + "']");
-
+        var newPath = getNextPath(xpath);
         //Server side 
         action = "addAfter";
         xsl = "mapping.xsl";
@@ -399,11 +399,15 @@ $("body").on("click", ".add", function(e) {
 
 
             viewOnly();
+            var finalRows = addDummyRows(data, $addPlace.children("tr").first(), "add");
             $addPlace.after(data);
-//            alert(xpath);
+
+
+
             //For now make link viewable (may have to reconsider and just add a domain)
             viewOnlySpecificPath(getNextPath(xpath) + "/link[1]/path");
             viewOnlySpecificPath(getNextPath(xpath) + "/link[1]/range");
+            $("tbody[data-xpath='"+newPath+"'").prepend(finalRows);
 
             //Client side  
             fillCombos();
@@ -699,9 +703,11 @@ $("body").on("click", ".add", function(e) {
 
             if (sibs === 0) { //First link
                 xpath = xpath.replaceAll("/link", "/domain");
-                $("tr[data-xpath='" + xpath + "']").after(data);
+                var finalRows = addDummyRows(data, $("tr[data-xpath='" + xpath + "']"), "add");
+                $("tr[data-xpath='" + xpath + "']").after(finalRows);
             } else { //Add after last 
-                $("tr[data-xpath^='" + xpath + "']").last().after(data);
+                var finalRows = addDummyRows(data, $("tr[data-xpath^='" + xpath + "']"), "add");
+                $("tr[data-xpath^='" + xpath + "']").last().after(finalRows);
             }
             fillCombos();
         });
@@ -1186,66 +1192,9 @@ $("#matching_table").on("click", ".clickable", function() {
             var req = $.myPOST(url);
             req.done(function(data) {
                 checkResponse(data);
+                var finalRows = addDummyRows(data, $path, "edit");
+                $path.replaceWith(finalRows);
 
-                //Adding header and domain to help editing
-                var $data = $(data);
-                //Creating buttonGroup from hidden actions cell
-                var $buttonGroup = $data.find(".actions");
-                $buttonGroup.children("div").addClass("btn-group-xs").removeClass("btn-group-vertical");
-                $buttonGroup.find("button").addClass("btn-default").removeClass("close").removeClass("closeLike").addClass("btn-xs").removeClass("btn-sm");
-                $buttonGroup.find("span").removeClass("smallerIcon");
-                $buttonGroup.find("button").last().addClass("closeOnHeader");
-                var buttonGroupHtml = $buttonGroup.html();
-                buttonGroupHtml = buttonGroupHtml.replaceAll("<br>", "");
-                //Creating dummy header row and adding buttonGroup
-//                var $head = $("thead").clone();
-                var $head = $("thead").first().clone();//Changed because I do not need all theads!
-
-                $head.find("button").remove(); //Removing umwanted collapse/expand button
-                var $newHead = $head.find("th"); //No need to slice now, since I only get first thead                
-//                var $newHead = $head.find("th").slice(0, 5);
-                var $newHeadCells = $("<tr/>").append($newHead);
-                $newHeadCells.find("th").last().prepend($(buttonGroupHtml));
-                //Change image for collapse/expang icons
-                $newHeadCells.find("img.columnHide").each(function() {
-                    var $this = $(this);
-                    $this.attr("src", "images/collapse-column-white.png")
-                });
-                $newHeadCells.find("img.columnShow").each(function() {
-                    var $this = $(this);
-                    $this.attr("src", "images/expand-column-white.png")
-                });
-
-                var theadRow = "<tr class='dummyHeader'>" + $newHeadCells.html() + "</tr>";
-                var $theadRow = $(theadRow);
-                var domainRow = "<tr class='dummyDomain'/>";
-                $path.hide();
-                if ($path.hasClass("domain")) {
-
-                    //Show/hide paste accordingly
-                    if (clipboard["mapping"] === "") {
-                        $theadRow.find(".paste").hide();
-                    }
-                } else {
-                    if ($path.hasClass("path")) {
-                        $path.next().remove();
-                    } else {
-                        $path.prev().remove();
-                    }
-                    //Also add domainrow
-                    domainRow = "<tr class='dummyDomain'>" + $path.siblings(".domain").html() + "</tr>";
-                    //Show/hide paste accordingly
-                    if (clipboard["link"] === "") {
-                        $theadRow.find(".paste").hide();
-                    }
-                }
-                theadRow = "<tr class='dummyHeader'>" + $theadRow.html() + "</tr>";
-                var helpRows = theadRow + domainRow;
-
-                //Code added to support accordion columns
-                data = hideColumns($theadRow, data);
-
-                $path.replaceWith(helpRows + data);
                 $path.fadeIn(500);
                 fillCombos();
                 $(".types").each(function() {

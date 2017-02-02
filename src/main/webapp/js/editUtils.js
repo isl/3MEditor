@@ -107,7 +107,7 @@ function viewOnly() {
                 mode = "viewNoRelation";
             }
 
-            var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode="+mode;
+            var url = "GetPart?id=" + id + "&xpath=" + $(this).attr("data-xpath") + "&mode=" + mode;
             var req = $.myPOST(url);
 
             req.done(function(data) {
@@ -280,6 +280,78 @@ function getPosition(path) {
     return posAsInt;
 
 }
+
+/*
+ * 
+ * Adds dummy rows above editable ones (domain or link) and returns entire block
+ * @action is either edit or add
+ */
+function addDummyRows(data, $path, action) {
+    //Adding header and domain to help editing
+    var $data = $(data);
+    var $buttonGroup = $data.find(".actions");
+    $buttonGroup.children("div").addClass("btn-group-xs").removeClass("btn-group-vertical");
+    $buttonGroup.find("button").addClass("btn-default").removeClass("close").removeClass("closeLike").addClass("btn-xs").removeClass("btn-sm");
+    $buttonGroup.find("span").removeClass("smallerIcon");
+    $buttonGroup.find("button[title^='Delete']").addClass("closeOnHeader");
+    var buttonGroupHtml = $buttonGroup.html();
+    buttonGroupHtml = buttonGroupHtml.replaceAll("<br>", "");
+
+    //Creating dummy header row and adding buttonGroup
+    var $head = $("thead").first().clone();//Changed because I do not need all theads!
+    $head.find("button").remove(); //Removing unwanted collapse/expand button
+    var $newHead = $head.find("th"); //No need to slice now, since I only get first thead   
+    var $newHeadCells = $("<tr/>").append($newHead);
+    $newHeadCells.find("th").last().prepend($(buttonGroupHtml));
+
+    //Change image for collapse/expang icons
+    $newHeadCells.find("img.columnHide").each(function() {
+        var $this = $(this);
+        $this.attr("src", "images/collapse-column-white.png")
+    });
+    $newHeadCells.find("img.columnShow").each(function() {
+        var $this = $(this);
+        $this.attr("src", "images/expand-column-white.png")
+    });
+
+    var theadRow = "<tr class='dummyHeader'>" + $newHeadCells.html() + "</tr>";
+    var $theadRow = $(theadRow);
+    var domainRow = "<tr class='dummyDomain'/>";
+
+
+    if (action === "edit") {
+        $path.hide();
+    }
+    if ($path.hasClass("domain")||$path.hasClass("edit")) {
+
+        //Show/hide paste accordingly
+        if (clipboard["mapping"] === "") {
+            $theadRow.find(".paste").hide();
+        }
+    } else {
+        if (action === "edit") {
+            if ($path.hasClass("path")) {
+                $path.next().remove();
+            } else {
+                $path.prev().remove();
+            }
+        }
+        //Also add domainrow
+        domainRow = "<tr class='dummyDomain'>" + $path.siblings(".domain").html() + "</tr>";
+        //Show/hide paste accordingly
+        if (clipboard["link"] === "") {
+            $theadRow.find(".paste").hide();
+        }
+    }
+    theadRow = "<tr class='dummyHeader'>" + $theadRow.html() + "</tr>";
+    var helpRows = theadRow + domainRow;
+
+    //Code added to support accordion columns
+    data = hideColumns($theadRow, data);
+    return helpRows + data;
+}
+
+
 
 /*
  * Upload file mechanism

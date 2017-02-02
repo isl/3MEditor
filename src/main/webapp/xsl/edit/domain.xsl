@@ -149,7 +149,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         <span class="fa fa-clipboard smallerIcon" ></span> 
                     </button>
                     
-                    <xsl:if test="@mappingsCount&gt;1">
+                    <xsl:if test="@mappingsCount!='1'">
                         <br/>
                         <button title="Delete Map" type="button" class="close btn btn-sm" id="{concat('delete***',$pathSoFar,'/..')}">
                             <span class="fa fa-times smallerIcon" ></span>
