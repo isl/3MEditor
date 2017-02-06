@@ -224,12 +224,7 @@ function getInstanceGeneratorNamesAndFillCombos() {
     req.done(function(data) {
         checkResponse(data);
 
-//    $.ajax({
-//        url: url,
-//        dataType: 'json'
-//    }).success(function(data) {
         instanceGeneratorsNames = data;
-//        alert(instanceGeneratorsNames)
         fillInstanceCombos();
     });
 }

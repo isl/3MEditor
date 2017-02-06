@@ -287,7 +287,7 @@ $('.nav a').click(function(e) {
 
 
 function initGenerators() {
-
+    viewOnly(); //To avoid combo mixup (matching table-generators)
 
     $("body").css("opacity", "0.4");
 
