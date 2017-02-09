@@ -508,13 +508,13 @@ $("body").on("click", ".add", function(e) {
 
 
             if ($bucket.children().length === 1) { //No generator
-                $bucket.children(".generatorButtons, .additionalGeneratorButtons").before(data);
+                $bucket.children(".generatorButtons, .additionalGeneratorButtons").first().before(data);
             } else {
                 if (generatorType === "instance") {
                     $bucket.prepend(data);
                 } else {
 //                    $bucket.append(data);
-                    $bucket.children(".generatorButtons, .additionalGeneratorButtons").before(data);
+                    $bucket.children(".generatorButtons, .additionalGeneratorButtons").first().before(data);
 
                 }
             }

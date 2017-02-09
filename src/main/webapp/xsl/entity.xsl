@@ -249,7 +249,17 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <xsl:if test="$action=2">
           
             <!-- Entity generators -->
-            <div id="{concat($pathSoFar,'/generators')}" class="col-xs-6 generatorsBox">
+            <div id="{concat($pathSoFar,'/generators')}" >
+                <xsl:attribute name="class">               
+                    <xsl:choose>
+                        <xsl:when test="additional">
+                            <xsl:text>col-xs-6 generatorsBox</xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:text>col-xs-12 generatorsBox</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:attribute>
                 <xsl:for-each select="instance_generator">
                     <xsl:call-template name="instance_generator">
                         <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/instance_generator')"/>
@@ -278,6 +288,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             </div>   
            
             <div id="{concat($pathSoFar,'/additional/entity/generators')}" class="col-xs-6 generatorsBox">
+              
                 <xsl:for-each select="additional">
                     <!-- If additional, then its generators side-by-side-->
                

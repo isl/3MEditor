@@ -78,18 +78,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:attribute>
                     </input>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <label class=" control-label" for="{concat($container,'/@type')}">Type</label>
                     
-                    <!--                    <xsl:choose>
-                    <xsl:when test="$generatorsStatus='manual'">      
-                        <input id="{concat($container,'/@type')}" type="text" class="form-control input-sm" placeholder="Fill in value" title="Argument type" data-xpath="{concat($container,'/@type')}">
-                            <xsl:attribute name="value">
-                                <xsl:value-of select="@type"></xsl:value-of>
-                            </xsl:attribute>
-                        </input>
-                    </xsl:when>
-                    <xsl:otherwise>-->
+                  
                     <input style="width:100%;" title="Argument type" type="hidden" class="select2 input-sm"  id="{concat($container,'/@type')}" data-id="{@type}" data-xpath="{concat($container,'/@type')}">
                         <xsl:attribute name="value">
                             <xsl:value-of select="@type"></xsl:value-of>

@@ -285,10 +285,24 @@ $('.nav a').click(function(e) {
     }
 });
 
+/*
+ * Handler fired when switching tabs
+ */
+$('.nav-tabs a').on('show.bs.tab', function(event){
+    var activeTabText = $(event.target).text();         // active tab
+//    var previousTabText = $(event.relatedTarget).text();  // previous tab
+    if (activeTabText==="Generators") {
+        viewOnly(); //To avoid combo mixup (matching table-generators)
+    } else  if (activeTabText==="Matching Table") {
+        viewOnlyGenerator();
+    }
+
+    
+});
+
 
 function initGenerators() {
-    viewOnly(); //To avoid combo mixup (matching table-generators)
-
+    
     $("body").css("opacity", "0.4");
 
     var url = "GetPart?id=" + id + "&part=mappings&mode=instance";
@@ -330,7 +344,7 @@ function initGenerators() {
     });
     req.fail(function() {
         alert("Connection with server lost. Action failed!");
-        $btn.button('reset');
+//        $btn.button('reset');
         $("body").css("opacity", "1");
     });
 
