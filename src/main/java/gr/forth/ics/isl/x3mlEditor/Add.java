@@ -184,7 +184,7 @@ public class Add extends BasicServlet {
                         if (mappingFrag.startsWith("<mapping>")) {
                             mappingFrag = mappingFrag.replaceFirst("<mapping", "<mapping targetMode='" + targetMode + "' xpath='" + xpath + "[" + pos + "]'");
 
-                            mappingFrag = mappingFrag.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/domain' mappingsCount='"+pos+"'");
+                            mappingFrag = mappingFrag.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/domain' mappingsCount='" + pos + "'");
                             mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/path" + "'>");
                             mappingFrag = mappingFrag.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/range" + "'>");
                         } else if (mappingFrag.startsWith("<link>")) { //Edit mode
@@ -195,13 +195,18 @@ public class Add extends BasicServlet {
                             xpath = xpath.replaceAll("last\\(\\)", "" + pos);
                             mappingFrag = mappingFrag.replaceFirst("/>", " targetMode='" + targetMode + "' container='" + container + "' xpath='" + xpath + "'/>");
                             mappingFrag = "<entity>" + mappingFrag + "</entity>"; //dummy root to make it work with existing type.xsl
+                        } else if (mappingFrag.startsWith("<namespace")) {
+                            xpath = xpath.replaceAll("\\[last\\(\\)\\]", "");
+                            mappingFrag = mappingFrag.replaceFirst("/>", " pos='" + pos + "'"+ " xpath='" + xpath + "[" + pos + "]'/>");
+
                         } else {
                             mappingFrag = mappingFrag.replaceFirst(">", " pos='" + pos + "'>");
                         }
                     }
-                    System.out.println("MAPFRAG="+mappingFrag);
+//                    System.out.println("MAPFRAG=" + mappingFrag);
                     if (xsl != null) {
                         output = transform(mappingFrag, super.baseURL + "/xsl/edit/" + xsl);
+//                        System.out.println("OUT="+output);
 
                     }
                 }

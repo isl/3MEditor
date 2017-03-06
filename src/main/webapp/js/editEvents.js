@@ -341,7 +341,7 @@ $("body").on("click", ".add", function(e) {
     if (btnId === "addTarget") {
         //Server side
         action = "addAfter";
-        xpath = "//x3ml/info/target_info[last()]";
+        xpath = "//x3ml/info/target/target_info[last()]";
         xsl = "info.xsl";
         var sibs = $(".target_info").length;
 
@@ -358,14 +358,59 @@ $("body").on("click", ".add", function(e) {
             });
         });
         //Server side
-        action = "add";
-        xpath = "//x3ml/namespaces/namespace";
-        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action;
+//        action = "add";
+//        xpath = "//x3ml/namespaces/namespace";
+//        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action;
+//        var req = $.myPOST(url);
+//        req.done(function(data) {
+//            checkResponse(data);
+//
+//        });
+    } else if (btnId === "addSource") {
+        //Server side
+        action = "addAfter";
+        xpath = "//x3ml/info/source/source_info[last()]";
+        xsl = "info.xsl";
+        var sibs = $(".source_info").length;
+
+        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs;
         var req = $.myPOST(url);
         req.done(function(data) {
             checkResponse(data);
 
+            //Client side        
+            $(".source_info").last().after(data);
+            $(".source_info").last().find('.fileUpload').each(function() {
+                var $this = $(this);
+                upload($this);
+            });
         });
+    } else if (btnId.indexOf("/namespace") !== -1) {//Adding namespace
+        var vars = btnId.split("***");
+        var xpath = vars[1];
+//        alert(xpath)
+
+        //Server side
+        action = "addAfter";
+        var $namespacesDiv = $("div[id='" + xpath + "']");
+        var sibs = $namespacesDiv.children("div").length;
+
+        xpath = xpath + "/namespace[last()]";
+        xsl = "namespace.xsl";
+
+        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs;
+        var req = $.myPOST(url);
+        req.done(function(data) {
+
+            checkResponse(data);
+
+            //Client side        
+            $namespacesDiv.children("div").last().after(data);
+            $namespacesDiv.children("div").find(".namespaceDeleteButton").removeClass("hidden").show();//Since more than one namespaces, show delete
+
+        });
+
+
     } else if (btnId.indexOf("/domain") === -1 && btnId.indexOf("/link") === -1) { //If no link and no domain -> Has to be mapping
         var vars = btnId.split("***");
         var xpath = vars[1];
@@ -407,7 +452,7 @@ $("body").on("click", ".add", function(e) {
             //For now make link viewable (may have to reconsider and just add a domain)
             viewOnlySpecificPath(getNextPath(xpath) + "/link[1]/path");
             viewOnlySpecificPath(getNextPath(xpath) + "/link[1]/range");
-            $("tbody[data-xpath='"+newPath+"'").prepend(finalRows);
+            $("tbody[data-xpath='" + newPath + "'").prepend(finalRows);
 
             //Client side  
             fillCombos();
@@ -791,6 +836,13 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                 var $blockToRemove = $("*[id='" + vars[1] + "']");
                 var xpath = $blockToRemove.attr("data-xpath");
                 selector = "." + $blockToRemove.attr("class");
+                if (selector.indexOf("namespace") !== -1) {
+                    if ($blockToRemove.siblings().length === 1) {//If there is only one namespace, you CANNOT delete it                           
+                        $blockToRemove.parent().find(".namespaceDeleteButton").hide();
+                        
+                    }
+                     selector = ".namespace";
+                }
                 if (selector === ".label_generator focus") {
                     selector = ".label_generator.clickable";
                 }
@@ -900,6 +952,7 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                         refreshCombos(xpath, false);
 
                     }
+
                 }
 
 

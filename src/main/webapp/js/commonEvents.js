@@ -88,7 +88,7 @@ $(document).ready(function() {
 
         $("#matching_table, #generatorsTab").on("click", "#table_view-btn", function() {
 //        $('#table_view-btn').click(function() {
-          
+
             if ($(".active").children("a").html() === "Generators") {
                 if ($(".focus").length > 0) {
                     initGenerators();
@@ -224,6 +224,9 @@ $(document).ready(function() {
             fillInstanceCombos(".arg");
         }
     }
+    if (schemaVersion === "1.1") {
+        alert("You are using an older x3ml schema version (1.1). Please update your x3ml files to version 1.2 or use an earlier 3MEditor version (3.1).");
+    } 
 
 });
 
@@ -288,21 +291,21 @@ $('.nav a').click(function(e) {
 /*
  * Handler fired when switching tabs
  */
-$('.nav-tabs a').on('show.bs.tab', function(event){
+$('.nav-tabs a').on('show.bs.tab', function(event) {
     var activeTabText = $(event.target).text();         // active tab
 //    var previousTabText = $(event.relatedTarget).text();  // previous tab
-    if (activeTabText==="Generators") {
+    if (activeTabText === "Generators") {
         viewOnly(); //To avoid combo mixup (matching table-generators)
-    } else  if (activeTabText==="Matching Table") {
+    } else if (activeTabText === "Matching Table") {
         viewOnlyGenerator();
     }
 
-    
+
 });
 
 
 function initGenerators() {
-    
+
     $("body").css("opacity", "0.4");
 
     var url = "GetPart?id=" + id + "&part=mappings&mode=instance";

@@ -30,6 +30,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:include href="../externalFileLink.xsl"></xsl:include>
+    <xsl:include href="namespaces.xsl"></xsl:include>
+
     <xsl:output method="html"></xsl:output>
     <!-- TODO customize transformation rules 
          syntax recommendation http://www.w3.org/TR/xslt 
@@ -80,16 +82,55 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </div>
                     </div>
                 </fieldset>
-                <xsl:apply-templates select="source_info"></xsl:apply-templates>
+                <xsl:for-each select="source">
+
+                    <fieldset>
+                        <legend>Source</legend>
+                        <div class="row">
+
+                            <span class="help-block col-sm-8">This section consists of information about the source schema. If you upload an XSD file and define a root element manually, the "Source Analyzer" option is enabled 
+                                (<b>Configuration tab</b>) and you may select source paths from a drop down.
+                            </span>
+                            <div class="col-sm-4">
+                                <label class="control-label" for="sourceCollection">Collection</label>
+                                <input type="text" id="sourceCollection" class="form-control input-sm" placeholder="Fill in value" data-xpath="//x3ml/info/source/source_collection">
+                                    <xsl:attribute name="value">
+                                        <xsl:value-of select="source_collection"></xsl:value-of>
+                                    </xsl:attribute>
+                                </input>
+                            </div>
+                        </div>
+                        <xsl:apply-templates select="source_info"></xsl:apply-templates>
+                        <div class="row">
+                            <div class="col-sm-2 col-sm-offset-5">
+                                <br></br>
+                                <button id="addSource" type="button" class="btn btn-default btn-block  add btn-sm">
+                                    <span class="glyphicon glyphicon-plus"></span>&#160;Source
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </xsl:for-each>
                 <fieldset>
                     <legend>Target</legend>
-                    <span class="help-block">This section consists of information about the target schema(s). If you do not upload at least one target schema file,
-                        then you will have to fill in target paths using text input fields. Once a target schema file is uploaded (for xsd files you will also 
-                        have to define a root element manually), the "Target Analyzer" option is
-                        enabled (<b>Configuration tab</b>) and you may use one of our analyzers. If you choose
-                        to do so, you may select appropriate target paths from a drop down.
-                    </span>
-                    <xsl:apply-templates select="target_info"></xsl:apply-templates>
+                    <div class="row">
+
+                        <span class="help-block col-sm-8">This section consists of information about the target schema(s). If you do not upload at least one target schema file,
+                            then you will have to fill in target paths using text input fields. Once a target schema file is uploaded (for xsd files you will also 
+                            have to define a root element manually), the "Target Analyzer" option is
+                            enabled (<b>Configuration tab</b>) and you may use one of our analyzers. If you choose
+                            to do so, you may select appropriate target paths from a drop down.
+                        </span>
+                        <div class="col-sm-4">
+                            <label class="control-label" for="targetCollection">Collection</label>
+                            <input id="targetCollection" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//x3ml/info/target/target_collection">
+                                <xsl:attribute name="value">
+                                    <xsl:value-of select="target_collection"></xsl:value-of>
+                                </xsl:attribute>
+                            </input>
+                        </div>
+                    </div>
+                    <xsl:apply-templates select="target/target_info"></xsl:apply-templates>
                     <div class="row">
                         <div class="col-sm-2 col-sm-offset-5">
                             <br></br>
@@ -99,22 +140,44 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </div>
                     </div>
                 </fieldset>
+                <xsl:for-each select="../namespaces">
+                    <xsl:call-template name="namespaces">
+                        <xsl:with-param name="namespacesPath" select="'//x3ml/namespaces'"/>
+                    </xsl:call-template>     
+                </xsl:for-each>
+
                 <xsl:apply-templates select="mapping_info"></xsl:apply-templates>
                 <xsl:apply-templates select="example_data_info"></xsl:apply-templates>
             </form>
         </div>
     </xsl:template>
     <xsl:template match="source_info" name="source_info">
-        <fieldset>
-            <legend>Source</legend>
+        <xsl:variable name="pos">
+            <xsl:choose>
+                <xsl:when test="@pos">
+                    <xsl:value-of select="@pos"></xsl:value-of>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="position()"></xsl:value-of>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="pathSoFar">
+            <xsl:value-of select="concat('//x3ml/info/source/source_info[',$pos,']')"></xsl:value-of>
+        </xsl:variable>
+        <div id="{$pathSoFar}" class="source_info" data-xpath="{$pathSoFar}" style="padding-top:2px;">
+
             <div class="form-group">
-                <span class="help-block">This section consists of information about the source schema. If you upload an XSD file and define a root element manually, the "Source Analyzer" option is enabled 
-                    (<b>Configuration tab</b>) and you may select source paths from a drop down.
-                </span>
+
                 <div class="row">
-                    <div class="col-sm-4">
-                        <label class="control-label" for="sourceSchema">Schema</label>
-                        <input id="sourceSchema" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//x3ml/info/source_info/source_schema">
+                    <xsl:if test="$pos!=1">
+                        <xsl:attribute name="style">
+                            <xsl:text>border-top: 1px #e5e5e5 solid;padding-top:2px;</xsl:text>
+                        </xsl:attribute>
+                    </xsl:if>
+                    <div class="col-sm-3">
+                        <label class="control-label" for="{concat($pathSoFar,'/source_schema')}">Schema</label>
+                        <input id="{concat($pathSoFar,'/source_schema')}" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/source_schema')}">
                             <xsl:attribute name="value">
                                 <xsl:value-of select="source_schema"></xsl:value-of>
                             </xsl:attribute>
@@ -124,12 +187,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <xsl:call-template name="externalFileLink">
                                 </xsl:call-template>
                                 <xsl:if test="@schema_file">
-                                    <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete source schema" id="{concat('delete***//x3ml/info/source_info/source_schema/@schema_file')}">
+                                    <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete source schema" id="{concat('delete***',$pathSoFar,'/source_schema/@schema_file')}">
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </button>
                                 </xsl:if>
                             </div>
-                            <span title="Upload rdfs or xsd file" data-xpath="{concat('//x3ml/info/source_info/source_schema/@schema_file')}" class="fileUpload">
+                            <span title="Upload rdfs or xsd file" data-xpath="{concat($pathSoFar,'/source_schema')}" class="fileUpload">
                                 <xsl:if test="@schema_file">
                                     <xsl:attribute name="style">
                                         <xsl:text>display:none;</xsl:text>
@@ -140,33 +203,42 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:for-each>
                     </div>
                     <div class="col-sm-2">
-                        <label class="control-label" for="sourceSchemaType">Type</label>
-                        <input id="sourceSchemaType" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//x3ml/info/source_info/source_schema/@type">
+                        <label class="control-label" for="{concat($pathSoFar,'/source_schema/@type')}">Type</label>
+                        <input id="{concat($pathSoFar,'/source_schema/@type')}" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/source_schema/@type')}">
                             <xsl:attribute name="value">
                                 <xsl:value-of select="source_schema/@type"></xsl:value-of>
                             </xsl:attribute>
                         </input>
                     </div>
                     <div class="col-sm-2">
-                        <label class=" control-label" for="sourceSchemaVersion">Version</label>
-                        <input id="sourceSchemaVersion" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//x3ml/info/source_info/source_schema/@version">
+                        <label class=" control-label" for="{concat($pathSoFar,'/target_schema/@version')}">Version</label>
+                        <input id="{concat($pathSoFar,'/source_schema/@version')}" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/source_schema/@version')}">
                             <xsl:attribute name="value">
                                 <xsl:value-of select="source_schema/@version"></xsl:value-of>
                             </xsl:attribute>
                         </input>
                     </div>
-                    <div class="col-sm-4">
-                        <label class="control-label" for="sourceCollection">Collection</label>
-                        <input type="text" id="sourceCollection" class="form-control input-sm" placeholder="Fill in value" data-xpath="//x3ml/info/source_info/source_collection">
-                            <xsl:attribute name="value">
-                                <xsl:value-of select="source_collection"></xsl:value-of>
-                            </xsl:attribute>
-                        </input>
-                    </div>
+                   
+
+                    <xsl:variable name="source_infoPos" select="position()"/>
+                    <button title="Delete Source" type="button" class="close sourceInfoDeleteButton" id="{concat('delete***',$pathSoFar)}">
+                      
+                        <span class="fa fa-times smallerIcon" ></span>
+                        <span class="sr-only">Close</span>
+                    </button>    
+                    <xsl:for-each select="namespaces">
+                        <xsl:call-template name="namespaces">
+                            <xsl:with-param name="namespacesPath" select="concat($pathSoFar,'/namespaces')"/>
+                        </xsl:call-template>     
+                    </xsl:for-each>
+
                 </div>
             </div>
-        </fieldset>
+        </div>
     </xsl:template>
+    
+    
+    
     <xsl:template match="target_info" name="target_info">
         <xsl:variable name="pos">
             <xsl:choose>
@@ -178,20 +250,19 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="namespacePos" select="$pos+2"></xsl:variable>
         <xsl:variable name="pathSoFar">
-            <xsl:value-of select="concat('//x3ml/info/target_info[',$pos,']')"></xsl:value-of>
+            <xsl:value-of select="concat('//x3ml/info/target/target_info[',$pos,']')"></xsl:value-of>
         </xsl:variable>
-        <div id="{$pathSoFar}" class="target_info" data-xpath="{$pathSoFar}">
+        <div id="{$pathSoFar}" class="target_info" data-xpath="{$pathSoFar}" style="padding-top:2px;">
             <div class="form-group">
               
                 <div class="row">
-                    <xsl:if test="@pos">
+                    <xsl:if test="$pos!=1">
                         <xsl:attribute name="style">
-                            <xsl:text>border-top: 1px #e5e5e5 solid;</xsl:text>
+                            <xsl:text>border-top: 1px #e5e5e5 solid;padding-top:2px;</xsl:text>
                         </xsl:attribute>
                     </xsl:if>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <label class="control-label" for="{concat($pathSoFar,'/target_schema')}">Schema</label>
 						
                         <input title="Target schema" id="{concat($pathSoFar,'/target_schema')}" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/target_schema')}">
@@ -203,12 +274,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <xsl:call-template name="externalFileLink">
                             </xsl:call-template>
                             <xsl:if test="target_schema/@schema_file">
-                                <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete target schema" id="{concat('delete***//x3ml/info/target_info[',$pos,']','/target_schema/@schema_file')}">
+                                <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete target schema" id="{concat('delete***',$pathSoFar,'/target_schema/@schema_file')}">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </button>
                             </xsl:if>
                         </div>
-                        <span title="Upload rdf,rdfs,owl,ttl or xsd file" data-xpath="{concat('//x3ml/info/target_info[',$pos,']','/target_schema/@schema_file')}" class="fileUpload">
+                        <span title="Upload rdf,rdfs,owl,ttl or xsd file" data-xpath="{concat($pathSoFar,'/target_schema/@schema_file')}" class="fileUpload">
                             <xsl:if test="target_schema/@schema_file">
                                 <xsl:attribute name="style">
                                     <xsl:text>display:none;</xsl:text>
@@ -232,55 +303,23 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             </xsl:attribute>
                         </input>
                     </div>
-                    <div class="col-sm-3">
-                        <label class="control-label" for="{concat($pathSoFar,'/target_collection')}">Collection</label>
-                        <input id="{concat($pathSoFar,'/target_collection')}" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/target_collection')}">
-                            <xsl:attribute name="value">
-                                <xsl:value-of select="target_collection"></xsl:value-of>
-                            </xsl:attribute>
-                        </input>
-                    </div>
-					
+                  					
                                         
-                    <button title="Delete Target" type="button"  class="close targetInfoDeleteButton" id="{concat('delete***',$pathSoFar)}">
+                   
+                    <xsl:variable name="target_infoPos" select="position()"/>
+                    <button title="Delete Target" type="button" class="close targetInfoDeleteButton" id="{concat('delete***',$pathSoFar)}">
+                       
                         <span class="fa fa-times smallerIcon" ></span>
                         <span class="sr-only">Close</span>
-                    </button>
-                                        
+                    </button>    
+                    <xsl:for-each select="namespaces">
+                        <xsl:call-template name="namespaces">
+                            <xsl:with-param name="namespacesPath" select="concat($pathSoFar,'/namespaces')"/>
+                        </xsl:call-template>     
+                    </xsl:for-each>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <xsl:choose>
-                        <xsl:when test="position()!=last()">
-                            <xsl:attribute name="style">
-                                <xsl:text>border-bottom: 1px #e5e5e5 solid;padding-bottom:10px;</xsl:text>
-                            </xsl:attribute>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:attribute name="style">
-                                <xsl:text>padding-bottom:10px;</xsl:text>
-                            </xsl:attribute>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                    <div class="col-sm-6">
-                        <label class="control-label" for="{concat('//namespace[',$namespacePos,']/@prefix')}">Namespace prefix</label>
-                        <input id="{concat('//namespace[',$namespacePos,']/@prefix')}" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat('//namespace[',$namespacePos,']/@prefix')}">
-                            <xsl:attribute name="value">
-                                <xsl:value-of select="//namespace[position()=$namespacePos]/@prefix"></xsl:value-of>
-                            </xsl:attribute>
-                        </input>
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="control-label" for="{concat('//namespace[',$namespacePos,']/@uri')}">Namespace uri</label>
-                        <input id="{concat('//namespace[',$namespacePos,']/@uri')}" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat('//namespace[',$namespacePos,']/@uri')}">
-                            <xsl:attribute name="value">
-                                <xsl:value-of select="//namespace[position()=$namespacePos]/@uri"></xsl:value-of>
-                            </xsl:attribute>
-                        </input>
-                    </div>
-                </div>
-            </div>
+                       
         </div>
     </xsl:template>
     <xsl:template match="mapping_info" name="mapping_info">

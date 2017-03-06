@@ -154,7 +154,7 @@ public class Delete extends BasicServlet {
 
             mappingFile.xRemove(xpath);
         }
-        if (xpath.startsWith("//x3ml/info/target_info")) { //Special case, need to delete relative namespace (+2)
+        if (xpath.startsWith("//x3ml/info/target/target_info")) { 
 
             if (targetAnalyzer.equals("3")) { //Deleting target schema means replacing ont model
                 OntologyReasoner ont = getOntModel(mappingFile, id);
@@ -166,14 +166,7 @@ public class Delete extends BasicServlet {
                 session.setAttribute("modelInstance_" + id, ont);
             }
 
-            if (!xpath.endsWith("@schema_file")) { //Only need to delete namespace when deleting entire target_info, not just file
-                String position = xpath.substring(xpath.lastIndexOf("[") + 1, xpath.lastIndexOf("]"));
-
-                if (position != null) {
-                    int namespacePos = Integer.parseInt(position) + 2;
-                    mappingFile.xRemove("//namespaces/namespace[position()=" + namespacePos + "]");
-                }
-            }
+          
         }
 
         out.close();

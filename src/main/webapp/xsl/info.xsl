@@ -78,17 +78,54 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     
                     </div>
                 </fieldset>       
-                <xsl:apply-templates select="source_info"/>     
-                <fieldset>
-                    <legend>Target</legend>
-                    <span class="help-block">This section consists of information about the target schema(s). If you do not upload at least one target schema file,
-                        then you will have to fill in target paths using text input fields. Once a target schema file is uploaded (for xsd files you will also 
-                        have to define a root element manually), the "Target Analyzer" option is
-                        enabled (<b>Configuration tab</b>) and you may use one of our analyzers. If you choose
-                        to do so, you may select appropriate target paths from a drop down.
-                    </span>
-                    <xsl:apply-templates select="target_info"/>     
-                </fieldset>       
+                <xsl:for-each select="source">
+                    <fieldset>
+                        <legend>Source</legend>
+                        <div class="row">
+                            <span class="help-block col-sm-8">This section consists of information about the source schema. If you upload an XSD file and define a root element manually, the "Source Analyzer" option is enabled 
+                                (<b>Configuration tab</b>) and you may select source paths from a drop down.
+                            </span>
+                            <div class="col-sm-4"> 
+                                <label class="control-label">Collection</label>
+                                <p class="form-control-static">
+                                    <xsl:value-of select="source_collection"/>
+                                </p>
+                            </div>
+                        </div>
+                        <xsl:apply-templates select="source_info"/>             
+                    </fieldset> 
+                </xsl:for-each>     
+                <xsl:for-each select="target">
+                    <fieldset>
+                        <legend>Target</legend>
+                        <div class="row">
+                            <span class="help-block col-sm-8">This section consists of information about the target schema(s). If you do not upload at least one target schema file,
+                                then you will have to fill in target paths using text input fields. Once a target schema file is uploaded (for xsd files you will also 
+                                have to define a root element manually), the "Target Analyzer" option is
+                                enabled (<b>Configuration tab</b>) and you may use one of our analyzers. If you choose
+                                to do so, you may select appropriate target paths from a drop down.
+                            </span>
+                            <div class="col-sm-4">
+                                <label class="control-label">Collection</label>
+                                <p class="form-control-static">
+                                    <xsl:value-of select="target_collection"/>
+                                </p>
+                            </div> 
+                        </div>
+                        <xsl:apply-templates select="target_info"/>     
+                    </fieldset>       
+                </xsl:for-each>
+                <xsl:for-each select="//x3ml/namespaces">
+                    <fieldset>
+                        <legend>Namespaces</legend>
+                        <div class="row">
+                            <span class="help-block col-sm-12">This section consists of information about namespaces not declared in source or target schemas block.
+                            </span>
+                           
+                        </div>
+                        <xsl:call-template name="namespaces"/>     
+                    </fieldset>       
+                </xsl:for-each>
                 <xsl:apply-templates select="mapping_info"/>      
                 <xsl:apply-templates select="example_data_info"/>    
             </form>
@@ -96,61 +133,115 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     </xsl:template>
     
     <xsl:template match="source_info" name="source_info">
-        <fieldset>
-            <legend>Source</legend>
-            <div class="form-group">
-                <span class="help-block">This section consists of information about the source schema. If you upload an XSD file and define a root element manually, the "Source Analyzer" option is enabled 
-                    (<b>Configuration tab</b>) and you may select source paths from a drop down.
-                </span>
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <label class="control-label">Schema</label>                                   
-                        <p class="form-control-static">
-                            <xsl:value-of select="source_schema"/>   
+       
+        <div class="form-group" style="padding-top:2px;">
+            <div class="row">
+                <xsl:if test="position()!=last()">
+                    <xsl:attribute name="style">
+                        <xsl:text>border-bottom: 1px #e5e5e5 solid;"</xsl:text>
+                    </xsl:attribute>
+                </xsl:if>
+                <div class="col-sm-3">
+                    <label class="control-label">Schema</label>                                   
+                    <p class="form-control-static">
+                        <xsl:value-of select="source_schema"/>   
                             &#160; 
-                            <xsl:for-each select="source_schema">
-                                <xsl:call-template name="externalFileLink" >       
+                        <xsl:for-each select="source_schema">
+                            <xsl:call-template name="externalFileLink" >       
 
-                                </xsl:call-template>
-                            </xsl:for-each>
-                        </p>
-                    </div> 
-                    <div class="col-sm-2">          
-                        <label class="control-label">Type</label>
-                        <p class="form-control-static">
-                            <xsl:value-of select="source_schema/@type"/>
-                        </p>
-                    </div>
-                    <div class="col-sm-2"> 
-                        <label class=" control-label">Version</label>
-                        <p class="form-control-static">
-                            <xsl:value-of select="source_schema/@version"/>
-                        </p>
-                    </div>
-                    <div class="col-sm-4"> 
-                        <label class="control-label">Collection</label>
-                        <p class="form-control-static">
-                            <xsl:value-of select="source_collection"/>
-                        </p>
-                    </div>
-                   
-                </div>               
+                            </xsl:call-template>
+                        </xsl:for-each>
+                    </p>
+                </div> 
+                <div class="col-sm-2">          
+                    <label class="control-label">Type</label>
+                    <p class="form-control-static">
+                        <xsl:value-of select="source_schema/@type"/>
+                    </p>
+                </div>
+                <div class="col-sm-2"> 
+                    <label class=" control-label">Version</label>
+                    <p class="form-control-static">
+                        <xsl:value-of select="source_schema/@version"/>
+                    </p>
+                </div>
+                <xsl:for-each select="namespaces">
+                    <xsl:call-template name="namespaces"/>     
+                </xsl:for-each>
+                    
+                
             </div>
-           
-        </fieldset>         
+        </div>
+    </xsl:template>
+    
+    <xsl:template  name="namespaces">
+        <xsl:choose>
+            <xsl:when test="name(..)='x3ml'">
+                <xsl:for-each select="namespace">
+                    <div class="row">
+            
+                        <div class="col-sm-4">
+                            <label class="control-label">Namespace prefix</label>    
+                            <p class="form-control-static">
+                                <xsl:value-of select="@prefix"/>   
+                                     
+                            </p>
+                        </div>
+                        <div class="col-sm-8">                                  
+                            <label class="control-label">Namespace uri</label>       
+                            <p class="form-control-static">
+                                <xsl:value-of select="@uri"/>
+                            </p>             
+                        </div>
+                    </div> 
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:for-each select="namespace">
+                    <div style="padding-left:0;">
+                        <xsl:attribute name="class">
+                            <xsl:choose>
+                                <xsl:when test="position()=1">
+                                    <xsl:text>col-sm-5</xsl:text>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:text>col-sm-5 col-sm-offset-7</xsl:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:attribute>
+                        <div class="col-sm-4">
+                            <label class="control-label">Namespace prefix</label>    
+                            <p class="form-control-static">
+                                <xsl:value-of select="@prefix"/>   
+                                     
+                            </p>
+                        </div>
+                        <div class="col-sm-8">                                  
+                            <label class="control-label">Namespace uri</label>       
+                            <p class="form-control-static">
+                                <xsl:value-of select="@uri"/>
+                            </p>             
+                        </div>
+                    </div> 
+                </xsl:for-each>
+            </xsl:otherwise>
+        </xsl:choose>
+              
+
+                   
     </xsl:template>
     
     <xsl:template match="target_info" name="target_info">
-        <xsl:variable name="pos">
-            <xsl:value-of select="position()"/>
-        </xsl:variable>
-        <xsl:variable name="namespacePos" select="$pos+2"/>
-     
-        <div class="form-group">
+           
+        <div class="form-group" style="padding-top:2px;">
             
             <div class="row">
-                <div class="col-sm-4">
+                <xsl:if test="position()!=last()">
+                    <xsl:attribute name="style">
+                        <xsl:text>border-bottom: 1px #e5e5e5 solid;"</xsl:text>
+                    </xsl:attribute>
+                </xsl:if>
+                <div class="col-sm-3">
                     <label class="control-label">Schema</label>                                   
                     <p class="form-control-static">
                         <xsl:value-of select="target_schema"/>   
@@ -172,38 +263,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         <xsl:value-of select="target_schema/@version"/>
                     </p>
                 </div>
-                <div class="col-sm-4">
-                    <label class="control-label">Collection</label>
-                    <p class="form-control-static">
-                        <xsl:value-of select="target_collection"/>
-                    </p>
-                </div> 
+                <xsl:for-each select="namespaces">
+                    <xsl:call-template name="namespaces"/>     
+                </xsl:for-each>
+ 
             </div>               
         </div>
-        <div class="form-group">
-            
-            <div class="row" >
-                <xsl:if test="position()!=last()">
-                    <xsl:attribute name="style">
-                        <xsl:text>border-bottom: 1px #e5e5e5 solid;"</xsl:text>
-                    </xsl:attribute>
-                </xsl:if>
-                <div class="col-sm-6">
-                    <label class="control-label">Namespace prefix</label>                                   
-                    <p class="form-control-static">
-                        <xsl:value-of select="//namespace[position()=$namespacePos]/@prefix"/>   
-                                     
-                    </p>
-                </div> 
-                <div class="col-sm-6">          
-                    <label class="control-label">Namespace uri</label>
-                    <p class="form-control-static">
-                        <xsl:value-of select="//namespace[position()=$namespacePos]/@uri"/>
-                    </p>
-                </div>
-                
-            </div>               
-        </div>
+
        
            
     </xsl:template>

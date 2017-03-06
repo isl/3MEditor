@@ -53,6 +53,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     var targetXPaths = "";
                     var generatorsStatus = "<xsl:value-of select="$generatorsStatus"/>";
                     var instanceGeneratorsNames = "";
+                    var schemaVersion = "<xsl:value-of select="//output/schemaVersion"/>";
                 </script>
                 <!-- Bootstrap -->
                 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen,print"/>
