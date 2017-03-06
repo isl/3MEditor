@@ -232,31 +232,17 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                    
                 </xsl:for-each>
                
-
-            </div>
-        
-            <xsl:if test="additional">
-                <div class="grayColor col-xs-6">
-                    <xsl:for-each select="additional">
-                        <xsl:apply-templates select=".">
-                            <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/additional[',position(),']/entity')"/>
-                        </xsl:apply-templates>
-                    </xsl:for-each>
-                </div>
-            </xsl:if>
-           
-        </div>
-        <xsl:if test="$action=2">
+<xsl:if test="$action=2">
           
             <!-- Entity generators -->
-            <div id="{concat($pathSoFar,'/generators')}" >
+            <div id="{concat($pathSoFar,'/generators')}">
                 <xsl:attribute name="class">               
                     <xsl:choose>
                         <xsl:when test="additional">
-                            <xsl:text>col-xs-6 generatorsBox</xsl:text>
+                            <xsl:text>generatorsBox</xsl:text>
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:text>col-xs-12 generatorsBox</xsl:text>
+                            <xsl:text>generatorsBox</xsl:text>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:attribute>
@@ -286,42 +272,23 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </div>
                 
             </div>   
-           
-            <div id="{concat($pathSoFar,'/additional/entity/generators')}" class="col-xs-6 generatorsBox">
-              
-                <xsl:for-each select="additional">
-                    <!-- If additional, then its generators side-by-side-->
-               
-                    <xsl:for-each select="entity/instance_generator">
-                        <xsl:call-template name="instance_generator">
-                            <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/additional/entity/instance_generator')"/>
-                        </xsl:call-template>
-                    </xsl:for-each>
-                    <xsl:for-each select="entity/label_generator">
-                        <xsl:call-template name="label_generator">
-                            <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/additional/entity/label_generator[',position(),']')"/>
-                        </xsl:call-template>
-                    </xsl:for-each>
-                    <div class="col-xs-12 additionalGeneratorButtons"> 
-
-                        <button style="padding-left:0;padding-right:20px;" class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/additional/entity/instance_generator')}" id="{concat('add***',$pathSoFar,'/additional/entity/instance_generator')}" title="Add Instance Generator" type="button">
-                            <xsl:if test="entity/instance_generator">
-                                <xsl:attribute name="style">display:none;padding-left:0;padding-right:20px;</xsl:attribute>
-                            </xsl:if>
-                            <xsl:text>Add instance generator</xsl:text>
-                        </button>
-                    </div>
-                    <div class="col-xs-12 additionalGeneratorButtons"> 
-                        <button style="padding-left:0;" class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/additional/entity/label_generator')}" id="{concat('add***',$pathSoFar,'/additional/entity/label_generator')}" title="Add Label Generator" type="button">
-                            <xsl:text>Add label generator</xsl:text>
-                        </button>
-                    </div>
-                
-                </xsl:for-each>
-            </div>   
-              
-            
+          
         </xsl:if>
+            </div>
+        
+            <xsl:if test="additional">
+                <div class="grayColor col-xs-6">
+                    <xsl:for-each select="additional">
+                        <xsl:apply-templates select=".">
+                            <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/additional[',position(),']/entity')"/>
+                        </xsl:apply-templates>
+                    </xsl:for-each>
+                </div>
+            </xsl:if>
+           
+       
+        
+         </div>
        
     </xsl:template>
     
@@ -401,7 +368,39 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
             </div>
         </div>
+        <xsl:if test="$action=2">
+            <div id="{concat($pathSoFar,'/generators')}" class="col-xs-12 generatorsBox">
+              
+               
+               
+                <xsl:for-each select="entity/instance_generator">
+                    <xsl:call-template name="instance_generator">
+                        <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/instance_generator')"/>
+                    </xsl:call-template>
+                </xsl:for-each>
+                <xsl:for-each select="entity/label_generator">
+                    <xsl:call-template name="label_generator">
+                        <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/label_generator[',position(),']')"/>
+                    </xsl:call-template>
+                </xsl:for-each>
+                <div class="col-xs-12 additionalGeneratorButtons"> 
 
+                    <button style="padding-left:0;padding-right:20px;" class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/instance_generator')}" id="{concat('add***',$pathSoFar,'/instance_generator')}" title="Add Instance Generator" type="button">
+                        <xsl:if test="entity/instance_generator">
+                            <xsl:attribute name="style">display:none;padding-left:0;padding-right:20px;</xsl:attribute>
+                        </xsl:if>
+                        <xsl:text>Add instance generator</xsl:text>
+                    </button>
+                </div>
+                <div class="col-xs-12 additionalGeneratorButtons"> 
+                    <button style="padding-left:0;" class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/label_generator')}" id="{concat('add***',$pathSoFar,'/label_generator')}" title="Add Label Generator" type="button">
+                        <xsl:text>Add label generator</xsl:text>
+                    </button>
+                </div>
+                
+            </div>
+        </xsl:if>
+              
     </xsl:template>
 
 </xsl:stylesheet>

@@ -624,7 +624,7 @@ $("body").on("click", ".add", function(e) {
         var $bucket = $("div[data-xpath='" + xpath + "']");
         var sibs = $bucket.children().length;
         if (xpath.indexOf("source_relation") !== -1) {//source intermediate (Do not allow adding Intermediate if Source Relation is blank           
-            var firstSourceRelationValue = $btn.parent().parent().find("input").eq(0).attr("value");
+            var firstSourceRelationValue = $btn.parent().parent().find("input[title='Source Relation']").eq(0).attr("value");
             if (firstSourceRelationValue.trim() === "") {
                 alert("Please fill in Source Relation before adding Intermediate!"); //Useful alert. DO NOT DELETE!
                 return;
@@ -839,9 +839,9 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                 if (selector.indexOf("namespace") !== -1) {
                     if ($blockToRemove.siblings().length === 1) {//If there is only one namespace, you CANNOT delete it                           
                         $blockToRemove.parent().find(".namespaceDeleteButton").hide();
-                        
+
                     }
-                     selector = ".namespace";
+                    selector = ".namespace";
                 }
                 if (selector === ".label_generator focus") {
                     selector = ".label_generator.clickable";

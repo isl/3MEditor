@@ -579,7 +579,7 @@ public class GetListValues extends BasicServlet {
         for (String res : table) {
             String strippedURL = res;
             if (res.startsWith("http://")) { //If URL then strip slashes part
-System.out.println(res);
+//System.out.println(res);
                 for (String uri : prefixAndURI.keySet()) {
                     if (uri.length() > 0) {
                         if (res.startsWith(uri)) {
