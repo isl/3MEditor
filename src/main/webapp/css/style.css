@@ -671,7 +671,7 @@ img+label {
 
 /*New links view*/
 .add, .btn-link, .add:hover, .btn-link:hover, a {
-    color: #2a6496 !important;
+    color: #428BCA !important;
     /*    padding-top:3px;
         padding-bottom: 3px;*/
 }
@@ -692,6 +692,9 @@ button[title="Add Label Generator"] {
    
 }*/
 
+.domain>.commentsHead>a {
+    color:#86CEEA !important;
+}
 
 button[title="Add Instance Generator"][data-xpath*="/domain/"] {
     color: #86CEEA !important;

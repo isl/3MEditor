@@ -25,9 +25,9 @@
  *
  * This file is part of the 3MEditor webapp of Mapping Memory Manager project.
  */
-
 package gr.forth.ics.isl.x3mlEditor;
 
+import gr.forth.ics.isl.x3mlEditor.utilities.Utils;
 import isl.dbms.DBCollection;
 import isl.dbms.DBFile;
 import java.io.IOException;
@@ -64,8 +64,20 @@ public class Action extends BasicServlet {
         String collectionPath = getPathforFile(dbc, xmlId, id);
         DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
 
-        if (action.equals("close")) { //Added from FeXML File servlet to unlock file
+        if (action.equals("close")) { //Added from FeXML File servlet to unlock file and (NEW) also set lastModified tag
             mappingFile.xUpdate("//admin/locked", "no");
+
+            int lastModifiedCount = mappingFile.queryString("//admin/lastModified").length;
+            Utils utils = new Utils();
+            String datestamp = utils.getDateYearFirst();
+            String timestamp = utils.getTimeWithDelims(":");
+            if (lastModifiedCount > 0) {
+                mappingFile.xUpdate("//admin/lastModified", datestamp);
+                mappingFile.xUpdate("//admin/lastModified/@time", timestamp);
+
+            } else {
+                mappingFile.xAppend("//admin", "<lastModified time='" + timestamp + "'>" + datestamp + "</lastModified>");
+            }
         } else if (action.equals("paste")) {
             String xpath = request.getParameter("xpath");
             if (xpath.contains("***")) {
@@ -83,7 +95,7 @@ public class Action extends BasicServlet {
             if (results != null) {
                 if (results.length > 0) {
                     for (String res : results) {
-                        output = output  + res+"\n";
+                        output = output + res + "\n";
                     }
                 }
             }

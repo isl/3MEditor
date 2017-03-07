@@ -140,7 +140,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <context-param>
         <description>X3ML engine built in Generator names</description>
         <param-name>generatorNamesBuiltInX3MLEngine</param-name>
-        <param-value>Constant, Literal, prefLabel, UUID</param-value>
+        <param-value>Constant, Literal, prefLabel, UUID, ConcatMultipleTerms</param-value>
     </context-param>
     
     <filter>

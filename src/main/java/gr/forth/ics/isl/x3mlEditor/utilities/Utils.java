@@ -97,6 +97,16 @@ public class Utils {
         return myformat.format(day) + "-" + myformat.format(month) + "-" + year;
     }
 
+    public String getDateYearFirst() {
+        String now = getDate();
+        String[] dateParts = now.split("-");
+        if (dateParts.length > 2) {
+            return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
+        } else {
+            return null;
+        }
+    }
+
     /**
      *
      */
@@ -145,6 +155,10 @@ public class Utils {
         int min = cal.get(Calendar.MINUTE);             // 0..59
         int sec = cal.get(Calendar.SECOND);             // 0..59
         return myformat.format(hour24) + myformat.format(min) + myformat.format(sec);
+    }
+     public String getTimeWithDelims(String delim) {
+        String now = getTime();
+       return now.substring(0,2)+delim+now.substring(2,4)+delim+now.substring(4,6);
     }
 
     /**
