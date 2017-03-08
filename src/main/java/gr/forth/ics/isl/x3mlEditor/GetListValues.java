@@ -397,7 +397,6 @@ public class GetListValues extends BasicServlet {
                     title = title.substring(3);
                 }
                 res = resValues[1];
-              
 
                 ArrayList valuesSoFar = valuesBySchema.get(title);
                 if (valuesSoFar == null) {
@@ -430,9 +429,15 @@ public class GetListValues extends BasicServlet {
                     key = "../" + key;
                     type = analyzer.getTitleForFile(key, "target");
                 }
-                prefix = analyzer.getPrefixesForFile(key, "target").get(0);
+                ArrayList<String> prefixes = analyzer.getPrefixesForFile(key, "target");
+                if (!prefixes.isEmpty()) {
+                    prefix = analyzer.getPrefixesForFile(key, "target").get(0);
+                }
             } else {
-                prefix = analyzer.getPrefixesForFile(key, "target").get(0);
+                ArrayList<String> prefixes = analyzer.getPrefixesForFile(key, "target");
+                if (!prefixes.isEmpty()) {
+                    prefix = analyzer.getPrefixesForFile(key, "target").get(0);
+                }
                 type = analyzer.getTitleForFile(key, "target");
 
             }

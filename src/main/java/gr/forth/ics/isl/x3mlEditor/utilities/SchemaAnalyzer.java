@@ -102,8 +102,13 @@ public class SchemaAnalyzer {
             prefixes = targetSchemaPrexifes.get(filename);
         } else if (type.equals("source")) {
             prefixes = sourceSchemaPrexifes.get(filename);
-
         }
+        
+        if (prefixes.isEmpty()) { //reverting to namespaces block  (LEGACY mode)
+           prefixes =new ArrayList<String>(allNamespacePrefixes.subList(2,3));//removing first 2 (rdfs,xsd)
+  
+        }
+
         return prefixes;
     }
 
