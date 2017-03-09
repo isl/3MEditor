@@ -314,8 +314,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <span class="help-block">This section consists of information about example data (source and target) and generator policy. 
                     Once a source record XML file is uploaded, the "Transformation" tab is enabled (<b>Transformation tab</b>).
                     In order to test how your source record XML file transforms to RDF/XML, N-triples or Turtle, you will probably also have to upload a generator policy XML file. 
-                </span>
-                <span class="help-block">If you have not uploaded an XSD source schema yet, the "Source Analyzer" option will also be enabled 
+                <br/>If you have not uploaded an XSD source schema yet, the "Source Analyzer" option will also be enabled 
                     once a source record XML file is uploaded (<b>Configuration tab</b>) and you may select source paths from a drop down.
                 </span>
                 <div class="row">
