@@ -56,6 +56,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         </xsl:variable>
                           
         <tr class="edit" data-xpath="{$pathSoFar}">
+             <td style="text-align:center;vertical-align:middle;" title="{@index}">
+                <xsl:value-of select="@index"/>
+            </td>
             <td title="{$pathSoFar}">D</td>
             <td style="padding:0 0 0 0;min-width:200px;" class="sourceCol">
                 <div class="row "  style="margin-left:0px;">

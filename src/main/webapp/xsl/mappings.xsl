@@ -100,6 +100,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <thead>
                         <tr>
                             <th></th>
+                            <th></th>
                             <th class="sourceCol">SOURCE <img class="columnHide" title="Click to collapse column" src="images/collapse-column.png"/><!--i class="columnHide fa fa-arrow-left" title="Click to collapse column"></i-->
                             </th>                           
                             <th class="targetCol">

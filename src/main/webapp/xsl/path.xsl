@@ -47,8 +47,23 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <tr class="path clickable" data-xpath="{concat('//x3ml/mappings/mapping[',$mappingPos,']/link[',$linkPos,']')}" >
             <xsl:if test="$action=0">
                 <xsl:attribute name="title">Click to edit link</xsl:attribute>
-            </xsl:if>           
-            <td title="{concat($mappingPos,'_',$linkPos)}">P</td>
+            </xsl:if>  
+             <xsl:variable name="index">
+                <xsl:choose>
+                    <xsl:when test="$mappingPos!=''">
+                         <xsl:value-of select="concat($mappingPos,'.',$linkPos)"/>
+                    </xsl:when>
+                    <xsl:when test="@index!=''">
+                        <xsl:value-of select="@index"></xsl:value-of>
+                    </xsl:when>
+                </xsl:choose>
+            </xsl:variable>
+            
+            <td title="{$index}" rowspan="2" style="text-align:center">
+               <xsl:value-of select="$index"></xsl:value-of>
+            </td>
+         
+            <td>P</td>
             <td class="sourceCol"> 
                 <xsl:apply-templates select="source_relation"/>
             </td>                    

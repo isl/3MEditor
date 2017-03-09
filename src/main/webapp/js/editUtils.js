@@ -287,6 +287,9 @@ function getPosition(path) {
  * @action is either edit or add
  */
 function addDummyRows(data, $path, action) {
+    
+          
+    
     //Adding header and domain to help editing
     var $data = $(data);
     var $buttonGroup = $data.find(".actions");

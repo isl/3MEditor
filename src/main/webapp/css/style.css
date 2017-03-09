@@ -164,7 +164,6 @@ tr:not(.empty):not(.edit):not(.dummyDomain):not(.dummyHeader) {
 }
 
 
-tr>td:nth-child(2),
 tr>td:nth-child(3),
 tr>td:nth-child(4),
 tr>td:nth-child(5),
@@ -206,32 +205,47 @@ tr.domain:hover {
 }
 
 
-/* Path */
+/* Path
+Changed first-child with nth-child(2) ie second child, since a new column was added
+*/
 tr.path:nth-child(4n+2) > td {
     background-color: #DEEED8 ;
 }
-tr.path:nth-child(4n+2) > td:first-child {
+tr.path:nth-child(4n+2) > td:nth-child(2) {
     background-color: #C9D6C4 ;
 }
 tr.path:nth-child(4n+4) > td {
     background-color: #F0EDED ;
 }
-tr.path:nth-child(4n+4) > td:first-child {
+tr.path:nth-child(4n+4) > td:nth-child(2) {
     background-color: #D7D6D4 ;
 }
 /* Range */
 tr.range:nth-child(4n+3) > td {
     background-color: #C4D3BE ;
 }
-tr.range:nth-child(4n+3) > td:first-child {
+tr.range:nth-child(4n+3) > td:nth-child(2) {
     background-color: #B8C3B5 ;
 }
 tr.range:nth-child(4n+5) > td {
     background-color: #E0E0E0 ;
 }
-tr.range:nth-child(4n+5) > td:first-child {
+tr.range:nth-child(4n+5) > td:nth-child(2) {
     background-color: #C7C6C6 ;
 }
+/* Numbers column styling */
+tr>td:first-child {
+    background-color: #F0EDED !important;
+    color:black;
+    border-bottom: 1px solid black !important;
+}
+tr:not(.dummyHeader)>th:first-child {
+    background-color: #F0EDED !important;
+    color:black;
+        /*border-bottom: 1px solid  #F0EDED !important;*/
+
+}
+
 
 /* Empty */
 tr.empty>td {
@@ -331,7 +345,7 @@ button.closeLike {
 }
 
 .mappings {
-    margin-right: 49px;
+    margin-right: 5px;
 }
 .actionsToolbar {
     padding: 0px;
@@ -716,4 +730,19 @@ button[title="Add Argument"][data-xpath*="/instance_generator"] {
 }*/
 .additionalGeneratorButtons {
     padding-left: 0;
+}
+
+
+/* Making room for extra table column (numbering)*/
+.panel-body {
+    padding-left: 0px ;
+    padding-right: 0px ;
+}
+.panel-body>.col-md-12 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.mappings>fieldset, #generatorsTab>fieldset {
+    padding-left:5px !important;
+    padding-right:5px !important;
 }

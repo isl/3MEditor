@@ -160,18 +160,21 @@ public class GetPart extends BasicServlet {
             String result = queryResults[0];
             if (result.startsWith("<link>")) { //Edit mode
 
+                String index = getIndex(xpath);
                 String noRelation = "";
                 if (mode.startsWith("noRelation") && !mode.endsWith("Restore")) {//Add noRelation attribute to choose noRelation View
                     noRelation = "noRelation=''";
                 }
 
-                result = result.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "/path" + "' " + noRelation + ">");
+                result = result.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "/path" + "' " + noRelation + " index='" + index + "'>");
                 result = result.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "/range" + "' " + noRelation + ">");
 
             } else if (result.startsWith("<domain>")) { //Edit mode
                 query = "count(//mapping)";
                 queryResults = mappingFile.queryString(query);
-                result = result.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "' mappingsCount='" + queryResults[0] + "'");
+                String mapIndex = getIndex(xpath);
+
+                result = result.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "' mappingsCount='" + queryResults[0] + "' index='" + mapIndex + "'");
             } else if (result.startsWith("<instance_generator")) {
                 result = result.replaceFirst("<instance_generator", "<instance_generator container='" + xpath + "' generatorsStatus='" + request.getParameter("generatorsStatus") + "'");
             } else if (result.startsWith("<label_generator")) {
@@ -181,13 +184,15 @@ public class GetPart extends BasicServlet {
                 result = result.replaceFirst("<mappings", "<mappings mode='" + mode + "' status='" + request.getParameter("generatorsStatus") + "'");
 
             }
-
+            if (result.startsWith("<path>")) {
+                String index = getIndex(xpath);
+                result = result.replaceFirst("<path>", "<path index='" + index + "'>");
+            }
             if (mode.equals("viewNoRelation")) {
                 result = result.replaceFirst(">", " noRelation=''>");
             }
 
             output = transform(result, xsl);
-//            System.out.println(output);
             if (output != null) {
                 if (output.contains("mapping[]") || output.contains("link[]")) { //Special case! Need to find out position
                     Utils utils = new Utils();

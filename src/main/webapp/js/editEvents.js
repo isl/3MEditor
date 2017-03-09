@@ -1220,11 +1220,8 @@ $("#matching_table").on("click", ".clickable", function() {
         $("body").css("opacity", "0.4");
         var $path = $(this);
         if ($path.hasClass("empty")) {
-
             $("body").css("opacity", "1");
         } else {
-
-
             //First make clicked part editable
             if (comboAPI > 0 && targetType === "xml") {
                 comboAPI = 4;

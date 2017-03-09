@@ -374,6 +374,17 @@ public class BasicServlet extends HttpServlet {
         return collection.query(q);
     }
 
+    public String getIndex(String xpath) {
+        String mapIndex = xpath.substring(xpath.indexOf("[") + 1, xpath.indexOf("]"));
+        if (xpath.contains("link")) {
+            String linkIndex = xpath.substring(xpath.lastIndexOf("[") + 1, xpath.lastIndexOf("]"));
+            String index = mapIndex + "." + linkIndex;
+            return index;
+        } else {
+            return mapIndex;
+        }
+    }
+
     /**
      *
      * @param coll

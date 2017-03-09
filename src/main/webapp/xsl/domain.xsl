@@ -49,7 +49,22 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             <xsl:if test="$action=0">
                 <xsl:attribute name="title">Click to edit domain</xsl:attribute>
             </xsl:if>
-            <td title="{concat($mappingPos)}">D</td>
+            <xsl:variable name="index">
+                <xsl:choose>
+                    <xsl:when test="$mappingPos!=''">
+                        <xsl:value-of select="$mappingPos"></xsl:value-of>
+                    </xsl:when>
+                    <xsl:when test="@index!=''">
+                        <xsl:value-of select="@index"></xsl:value-of>
+                    </xsl:when>
+                </xsl:choose>
+            </xsl:variable>
+            
+            <td title="$index" style="text-align:center;">
+                <xsl:value-of select="$index"/>
+            </td>
+
+            <td>D</td>
             <td class="sourceCol">
                 <div class="row">
                     <div class="col-xs-1 iconContainer">

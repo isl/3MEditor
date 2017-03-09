@@ -144,7 +144,7 @@ public class Add extends BasicServlet {
 
                 }
 
-                System.out.println(mappingFrag);
+//                System.out.println(mappingFrag);
                 if (xsl != null) {
                     if (mappingFrag.startsWith("<source")) {
                         mappingFrag = mappingFrag.replaceFirst("targetMode=", "sourceAnalyzer='" + sourceAnalyzer + "' targetMode=");
@@ -184,11 +184,17 @@ public class Add extends BasicServlet {
                         if (mappingFrag.startsWith("<mapping>")) {
                             mappingFrag = mappingFrag.replaceFirst("<mapping", "<mapping targetMode='" + targetMode + "' xpath='" + xpath + "[" + pos + "]'");
 
-                            mappingFrag = mappingFrag.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/domain' mappingsCount='" + pos + "'");
-                            mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/path" + "'>");
+                            String mapIndex = getIndex(xpath + "[" + pos + "]");
+                            mappingFrag = mappingFrag.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/domain' mappingsCount='" + pos + "' index='" + mapIndex + "'");
+                           
+                            String linkIndex = getIndex(xpath + "[" + pos + "]/link[1]");
+                            mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/path" + "' index='"+linkIndex+"'>");
+                          
                             mappingFrag = mappingFrag.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/range" + "'>");
                         } else if (mappingFrag.startsWith("<link>")) { //Edit mode
-                            mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "[" + pos + "]/path" + "'>");
+                            String index = getIndex(xpath+ "[" + pos + "]");
+
+                            mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "[" + pos + "]/path" + "' index='" + index + "'>");
                             mappingFrag = mappingFrag.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "[" + pos + "]/range" + "'>");
                         } else if (mappingFrag.startsWith("<type")) { //Edit mode
                             String container = xpath.replaceAll("\\[last\\(\\)\\]", "");
@@ -197,7 +203,7 @@ public class Add extends BasicServlet {
                             mappingFrag = "<entity>" + mappingFrag + "</entity>"; //dummy root to make it work with existing type.xsl
                         } else if (mappingFrag.startsWith("<namespace")) {
                             xpath = xpath.replaceAll("\\[last\\(\\)\\]", "");
-                            mappingFrag = mappingFrag.replaceFirst("/>", " pos='" + pos + "'"+ " xpath='" + xpath + "[" + pos + "]'/>");
+                            mappingFrag = mappingFrag.replaceFirst("/>", " pos='" + pos + "'" + " xpath='" + xpath + "[" + pos + "]'/>");
 
                         } else {
                             mappingFrag = mappingFrag.replaceFirst(">", " pos='" + pos + "'>");
