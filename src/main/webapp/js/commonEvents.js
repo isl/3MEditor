@@ -48,6 +48,10 @@ $(document).ready(function() {
 //$.ajaxSetup({
 //  timeout: 10000
 //});
+    $(".mappings").mCustomScrollbar({
+        theme: "rounded-dots-dark",
+        autoHideScrollbar: true
+    });
 
     $('.description').popover({
         trigger: "hover",
@@ -142,10 +146,13 @@ $(document).ready(function() {
             $("tr.path, tr.range").toggle();
         });
         $("#matching_table, #generatorsTab").on("click", "#scrollTop-btn", function() {
-            $("html, body").animate({scrollTop: 0}, "slow");
+//            $("html, body").animate({scrollTop: 0}, "slow");
+            $(".mappings").mCustomScrollbar("scrollTo", "top");
         });
         $("#matching_table, #generatorsTab").on("click", "#scrollBottom-btn", function() {
-            $("html, body").animate({scrollTop: $(document).height()}, "slow");
+//            $("html, body").animate({scrollTop: $(document).height()}, "slow");
+            $(".mappings").mCustomScrollbar("scrollTo", "bottom");
+
         });
         $("body").on("click", "#info_rawXML-btn, #rawXML-btn", function() {
 //        $('#info_rawXML-btn, #rawXML-btn').click(function() {
@@ -226,7 +233,7 @@ $(document).ready(function() {
     }
     if (schemaVersion === "1.1") {
         alert("You are using an older x3ml schema version (1.1). Please update your x3ml files to version 1.2 or use an earlier 3MEditor version (3.1).");
-    } 
+    }
 
 });
 

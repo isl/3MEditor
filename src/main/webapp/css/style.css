@@ -251,6 +251,7 @@ tr:not(.dummyHeader)>th:first-child {
 tr.empty>td {
     background-color: white !important;
     padding: 5px !important;
+    border-bottom: 0 !important;
 }
 
 tr.edit>td
@@ -742,10 +743,15 @@ button[title="Add Argument"][data-xpath*="/instance_generator"] {
     padding-left: 5px;
     padding-right: 5px;
 }
-.mappings>fieldset, #generatorsTab>fieldset {
+.mappings fieldset, #generatorsTab fieldset {
     padding-left:5px !important;
     padding-right:5px !important;
 }
+.mCSB_container {
+    /*margin-right:10px !important;*/
+}
+/* Backgrounds and stylin*/
+
 .well {
     background-color: white;
 }
