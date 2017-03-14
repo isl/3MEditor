@@ -765,3 +765,7 @@ button[title="Add Argument"][data-xpath*="/instance_generator"] {
     background-color: #F5F5F5;
     font-style: italic;
 }
+.actionsToolbar img {
+    margin-left: 5px !important;
+    margin-top: 2px !important;
+}

@@ -333,6 +333,7 @@ function initGenerators() {
         } else {//if view mode 
             $("#generatorsTab .actionsToolbar").hide(); //hide actions toolbar
             $(".generatorButtons").hide(); //hide add links
+            $(".additionalGeneratorButtons").hide(); //hide additional add links
             $("#generatorsTab legend").html("View mode"); //change legend
             
         }
