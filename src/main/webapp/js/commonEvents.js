@@ -48,15 +48,12 @@ $(document).ready(function() {
 //$.ajaxSetup({
 //  timeout: 10000
 //});
-    $(".mappings").mCustomScrollbar({
-        theme: "rounded-dots-dark",
-        autoHideScrollbar: true
-    });
-
     $('.description').popover({
         trigger: "hover",
         placement: "right"
     });
+
+    initScrollbar("Mappings");
 
     $("#matching_table, #generatorsTab").on("click", ".collapseExpand", function() {
         $(this).parentsUntil("thead").parent().next("tbody").children("tr.path, tr.range").toggle();
@@ -107,7 +104,8 @@ $(document).ready(function() {
                 var req = $.myPOST(url, "", "", 20000);
                 req.done(function(data) {
                     checkResponse(data);
-                    $("#matching_table>div.mappings").html(data);
+                    $("#matching_table>div.mappings .mCSB_container").html(data);
+
                     if (sourcePaths === "full") {
                         $(".sourcePath").each(function(index) {
                             var $sourcePathSpan = $(this);
@@ -145,15 +143,7 @@ $(document).ready(function() {
         $("#matching_table, #generatorsTab").on("click", "#collapseExpandAll-btn", function() {
             $("tr.path, tr.range").toggle();
         });
-        $("#matching_table, #generatorsTab").on("click", "#scrollTop-btn", function() {
-//            $("html, body").animate({scrollTop: 0}, "slow");
-            $(".mappings").mCustomScrollbar("scrollTo", "top");
-        });
-        $("#matching_table, #generatorsTab").on("click", "#scrollBottom-btn", function() {
-//            $("html, body").animate({scrollTop: $(document).height()}, "slow");
-            $(".mappings").mCustomScrollbar("scrollTo", "bottom");
 
-        });
         $("body").on("click", "#info_rawXML-btn, #rawXML-btn", function() {
 //        $('#info_rawXML-btn, #rawXML-btn').click(function() {
             $("#myModal").find("textarea").val("");
@@ -244,6 +234,8 @@ $(document).ready(function() {
  */
 $('.nav a').click(function(e) {
     e.preventDefault();
+    $("body").css("opacity", "1");
+
     if ($(this).html() === "About") {
         $("#about").load("readme.html");
     } else if ($(this).html() === "Generators") {
@@ -295,20 +287,7 @@ $('.nav a').click(function(e) {
     }
 });
 
-/*
- * Handler fired when switching tabs
- */
-$('.nav-tabs a').on('show.bs.tab', function(event) {
-    var activeTabText = $(event.target).text();         // active tab
-//    var previousTabText = $(event.relatedTarget).text();  // previous tab
-    if (activeTabText === "Generators") {
-        viewOnly(); //To avoid combo mixup (matching table-generators)
-    } else if (activeTabText === "Matching Table") {
-        viewOnlyGenerator();
-    }
 
-
-});
 
 
 function initGenerators() {
@@ -316,7 +295,7 @@ function initGenerators() {
     $("body").css("opacity", "0.4");
 
     var url = "GetPart?id=" + id + "&part=mappings&mode=instance";
-
+    
     var req = $.myPOST(url, "", "", 20000);
     req.done(function(data) {
         checkResponse(data);
@@ -342,10 +321,20 @@ function initGenerators() {
             $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
         });
 
-        if (generatorsStatus === "auto") {
-            getInstanceGeneratorNamesAndFillCombos();
-        } else {
-            fillInstanceCombos(".arg");
+        initScrollbar("Generators");
+
+
+        if (mode === 0) { //Fill combos only if edit mode
+            if (generatorsStatus === "auto") {
+                getInstanceGeneratorNamesAndFillCombos();
+            } else {
+                fillInstanceCombos(".arg");
+            }
+        } else {//if view mode 
+            $("#generatorsTab .actionsToolbar").hide(); //hide actions toolbar
+            $(".generatorButtons").hide(); //hide add links
+            $("#generatorsTab legend").html("View mode"); //change legend
+            
         }
 
         $("body").css("opacity", "1");

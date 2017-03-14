@@ -194,9 +194,40 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </xsl:choose>
                                     </xsl:attribute>
                                     <xsl:if test="$action=0">
+<div class="btn-group  btn-sm actionsToolbar" >
+     <button title="Click to scroll to top" id="scrollTop-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                                                <span class="fa fa-chevron-up pull-left"></span> 
+                                                <span class="pull-left" style="margin-left:3px;">TOP</span>
+                                            </button>
+                                           
+                                            <button title="Click to scroll to bottom" id="scrollBottom-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                                                <span class="fa fa-chevron-down pull-left"></span> 
+                                                <span class="pull-left" style="margin-left:3px;">BOTTOM</span>
+                                            </button>
+                                            <button title="Click to view" id="table_view-btn" type="button" class="btn btn-default btn-sm " data-loading-text="Loading...">
+                                                <span class="glyphicon glyphicon-eye-open pull-left"></span>
+                                                <span class="pull-left" style="margin-left:5px;">VIEW MODE</span>
+                                            </button>
+<!--                                            <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                                                <span class="glyphicon glyphicon-sort pull-left"></span> 
+                                                <span class="pull-left" style="margin-left:5px;">Collapse</span>
+                                               
+                                                <br/>
+                                               
+                                                <span class="pull-left" style="margin-left:18px;">Expand All</span>
 
+                                            </button>-->
+                                           
+                                            
+                                           
+                                            <button title="" id="rawXML-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                                                <span class="fa fa-lg  fa-code pull-left"></span>
+                                                <span class="pull-left" style="margin-left:3px;">XML</span> 
+                                            </button>
+                                           
+                                        </div>
                                     
-                                        <div class="btn-group-vertical  btn-sm pull-right actionsToolbar" >
+<!--                                        <div class="btn-group-vertical  btn-sm pull-right actionsToolbar" >
                                             <button title="Click to view" id="table_view-btn" type="button" class="btn btn-default btn-sm " data-loading-text="Loading...">
                                                 <span class="glyphicon glyphicon-eye-open pull-left"></span>
                                                 <span class="pull-left" style="margin-left:5px;">View mode</span>
@@ -226,11 +257,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                                 <span class="pull-left" style="margin-left:3px;">XML</span> 
                                             </button>
                                            
-                                        </div>
+                                        </div>-->
                                     </xsl:if>
-                                    <div class="mappings">  
+                                    <!--<div class="mappings">-->  
                                         <xsl:apply-templates select="//mappings"/>
-                                    </div>
+                                    <!--</div>-->
                                 
                                 </div>
                                 <div class="tab-pane fade " id="configuration">

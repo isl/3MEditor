@@ -287,9 +287,9 @@ function getPosition(path) {
  * @action is either edit or add
  */
 function addDummyRows(data, $path, action) {
-    
-          
-    
+
+
+
     //Adding header and domain to help editing
     var $data = $(data);
     var $buttonGroup = $data.find(".actions");
@@ -325,7 +325,7 @@ function addDummyRows(data, $path, action) {
     if (action === "edit") {
         $path.hide();
     }
-    if ($path.hasClass("domain")||$path.hasClass("edit")) {
+    if ($path.hasClass("domain") || $path.hasClass("edit")) {
 
         //Show/hide paste accordingly
         if (clipboard["mapping"] === "") {

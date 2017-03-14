@@ -1269,6 +1269,20 @@ $("#matching_table").on("click", ".clickable", function() {
 });
 
 /*
+ * Handler fired when switching tabs
+ */
+$('.nav-tabs a').on('show.bs.tab', function(event) {
+    var activeTabText = $(event.target).text();         // active tab
+//    var previousTabText = $(event.relatedTarget).text();  // previous tab
+    if (activeTabText === "Generators") {
+        viewOnly(); //To avoid combo mixup (matching table-generators)
+    } else if (activeTabText === "Matching Table") {
+        viewOnlyGenerator();
+    }
+});
+
+
+/*
  * Handler fired when user clicks "no source relation"
  */
 $("body").on("click", ".noRelationUpdate, .noRelationRestore", function() {

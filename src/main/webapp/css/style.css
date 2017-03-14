@@ -350,10 +350,16 @@ button.closeLike {
 }
 .actionsToolbar {
     padding: 0px;
-    z-index: 1;
+    border: 1px solid #ddd;
+    width: 100%;
+    margin-top: 5px;
+/*    z-index: 1;
     position: fixed;
     float:right;
-    right:0px;
+    right:0px;*/
+}
+.actionsToolbar>button {
+    border: none;
 }
 
 .additional {
