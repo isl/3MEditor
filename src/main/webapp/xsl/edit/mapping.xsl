@@ -40,25 +40,28 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     -->
     <xsl:template match="mapping">
         <thead>
-                        <tr>
-                            <th></th>
-                            <th>SOURCE</th>
-                            <th>
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        TARGET
-                                    </div>
-                                    <xsl:if test="//additional">
-                                        <div class="col-xs-6">
-                                            CONSTANT EXPRESSION
-                                        </div>
-                                    </xsl:if>
-                                </div>
-                            </th>
-                            <th>IF RULE</th>
-                            <th class="commentsHead" >COMMENTS <button  title="Click to collapse/expand map" type="button" class="btn btn-default btn-sm collapseExpand pull-right">
-                                            <span class="glyphicon glyphicon-sort"></span></button></th>
-                        </tr>
+            <tr>
+                <th></th>
+                <th>SOURCE</th>
+                <th>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            TARGET
+                        </div>
+                        <xsl:if test="//additional">
+                            <div class="col-xs-6">
+                                CONSTANT EXPRESSION
+                            </div>
+                        </xsl:if>
+                    </div>
+                </th>
+                <th>IF RULE</th>
+                <th class="commentsHead" >COMMENTS <button  title="Click to collapse/expand map" type="button" class="btn btn-default btn-sm collapseExpand pull-right">
+                        <img src="images/collapse-map.png" />
+
+                    </button>
+                </th>
+            </tr>
         </thead>
         <tbody class="mapping" id="{//mapping/@xpath}" data-xpath="{//mapping/@xpath}">
  
@@ -67,30 +70,30 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
             </xsl:apply-templates>  
             
-              <tr class="empty">
-                            <td  colspan="5"  style="border-left-width:0;">                              
-                                <div class="row">
+            <tr class="empty">
+                <td  colspan="5"  style="border-left-width:0;">                              
+                    <div class="row">
                                    
-                                    <div class="col-xs-1 col-xs-offset-5">
-                                         <button data-xpath="{concat(//mapping/@xpath,'/link')}" id="{concat('add***',//mapping/@xpath,'/link')}" type="button" class="btn btn-default btn-sm add" title="Click to add link">
+                        <div class="col-xs-1 col-xs-offset-5">
+                            <button data-xpath="{concat(//mapping/@xpath,'/link')}" id="{concat('add***',//mapping/@xpath,'/link')}" type="button" class="btn btn-default btn-sm add" title="Click to add link">
                                 <span class="glyphicon glyphicon-plus"></span>&#160;Link</button>
                                         
                                         
-<!--                                        <button data-xpath="{concat('//x3ml/mappings/mapping[',$mappingPos,']/link')}" id="{concat('add***','//x3ml/mappings/mapping[',$mappingPos,']/link')}" type="button" class="btn btn-default btn-sm add" title="Click to add link">
-                                            <span class="glyphicon glyphicon-plus"></span>&#160;Link</button>-->
-                                    </div>
+                            <!--                                        <button data-xpath="{concat('//x3ml/mappings/mapping[',$mappingPos,']/link')}" id="{concat('add***','//x3ml/mappings/mapping[',$mappingPos,']/link')}" type="button" class="btn btn-default btn-sm add" title="Click to add link">
+                            <span class="glyphicon glyphicon-plus"></span>&#160;Link</button>-->
+                        </div>
                                 
-                                    <div class="col-xs-1">
+                        <div class="col-xs-1">
                                         
-                                         <button data-xpath="{//mapping/@xpath}" id="{concat('add***',//mapping/@xpath)}" title="Click to add map" type="button" class="btn btn-default btn-sm  add">
+                            <button data-xpath="{//mapping/@xpath}" id="{concat('add***',//mapping/@xpath)}" title="Click to add map" type="button" class="btn btn-default btn-sm  add">
                                 <span class="glyphicon glyphicon-plus"></span>&#160;Map</button>
                                         
 
-                                    </div>
+                        </div>
 
-                                </div> 
-                            </td>    
-                        </tr>       
+                    </div> 
+                </td>    
+            </tr>       
             
         </tbody>
         

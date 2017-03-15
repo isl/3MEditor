@@ -30,6 +30,16 @@ $(window).on('beforeunload', function() {
     closeAndUnlock(id);
 });
 
+function toggleCollapseExpandImage($btn) {
+    var imgSrc = $btn.children("img").attr("src");
+    if (imgSrc === "images/collapse-map.png") {
+        $btn.children("img").attr("src", "images/expand-map.png");
+    } else if (imgSrc === "images/expand-map.png") {
+        $btn.children("img").attr("src", "images/collapse-map.png");
+    }
+}
+
+
 function initScrollbar(table) {
     if (table === "Mappings") {
         $(".mappings").mCustomScrollbar({

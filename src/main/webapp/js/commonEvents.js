@@ -57,6 +57,13 @@ $(document).ready(function() {
 
     $("#matching_table, #generatorsTab").on("click", ".collapseExpand", function() {
         $(this).parentsUntil("thead").parent().next("tbody").children("tr.path, tr.range").toggle();
+        toggleCollapseExpandImage($(this));
+//        var imgSrc = $(this).children("img").attr("src");
+//        if (imgSrc === "images/collapse-map.png") {
+//            $(this).children("img").attr("src", "images/expand-map.png");
+//        } else if (imgSrc === "images/expand-map.png") {
+//            $(this).children("img").attr("src", "images/collapse-map.png");
+//        }
     });
 
     $("#matching_table, #generatorsTab").on("click", ".columnShow", function() {
@@ -190,6 +197,14 @@ $(document).ready(function() {
 
                     $('.collapseExpand').click(function() {
                         $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
+                        toggleCollapseExpandImage($(this));
+
+//                        var imgSrc = $(this).children("img").attr("src");
+//                        if (imgSrc === "images/collapse-map.png") {
+//                            $(this).children("img").attr("src", "images/expand-map.png");
+//                        } else if (imgSrc === "images/expand-map.png") {
+//                            $(this).children("img").attr("src", "images/collapse-map.png");
+//                        }
                     });
                     $(".empty").find("div.row").css("display", "block");
                     $("body").css("opacity", "1");
@@ -206,13 +221,33 @@ $(document).ready(function() {
         });
         $("#matching_table, #generatorsTab").on("click", "#collapseExpandAll-btn", function() {
             var activeTab = $(".active").children("a").html();
-        var tabId;
-        if (activeTab === "Matching Table") {
-            tabId = "#matching_table";
-        } else {
-            tabId = "#generatorsTab";
-        }
-            $(tabId+" tr.path,"+tabId+" tr.range").toggle();
+            var tabId;
+            if (activeTab === "Matching Table") {
+                tabId = "#matching_table";
+            } else {
+                tabId = "#generatorsTab";
+            }
+            
+           var imgSrc = $(this).children("img").attr("src");
+            if (imgSrc === "images/collapse-map.png") {
+                 $(tabId + " tr.path," + tabId + " tr.range").hide();
+            } else if (imgSrc === "images/expand-map.png") {
+                   $(tabId + " tr.path," + tabId + " tr.range").show();
+            }
+         
+          
+            
+            toggleCollapseExpandImage($(this));
+            $(tabId + " .collapseExpand").each(function() {//toggle all buttons
+                toggleCollapseExpandImage($(this));
+            });
+
+//            var imgSrc = $(this).children("img").attr("src");
+//            if (imgSrc === "images/collapse-map.png") {
+//                $(this).children("img").attr("src", "images/expand-map.png");
+//            } else if (imgSrc === "images/expand-map.png") {
+//                $(this).children("img").attr("src", "images/collapse-map.png");
+//            }
         });
 
         $("body").on("click", "#info_rawXML-btn, #rawXML-btn", function() {
@@ -390,6 +425,14 @@ function initGenerators() {
 
         $('.collapseExpand').click(function() {
             $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
+            toggleCollapseExpandImage($(this));
+
+//            var imgSrc = $(this).children("img").attr("src");
+//            if (imgSrc === "images/collapse-map.png") {
+//                $(this).children("img").attr("src", "images/expand-map.png");
+//            } else if (imgSrc === "images/expand-map.png") {
+//                $(this).children("img").attr("src", "images/collapse-map.png");
+//            }
         });
 
         initScrollbar("Generators");

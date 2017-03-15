@@ -86,7 +86,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                                             </button>
                                             <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm col-sm-2" data-loading-text="Loading...">
-                                                <span class="glyphicon glyphicon-sort pull-right"></span> 
+                                                <img class="pull-right"  src="images/collapse-map.png" />
                                                 <span class="pull-right" style="margin-left:3px;">(ALL) MAPS</span>
                                             </button>
                                         </div>
@@ -134,7 +134,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <th class="ifCol">IF RULE</th>
                                 <th class="commentsHead" >COMMENTS
                                     <button  title="Click to collapse/expand map" type="button" class="btn btn-default btn-sm collapseExpand pull-right">
-                                        <span class="glyphicon glyphicon-sort"></span>
+                                                <img src="images/collapse-map.png" />
                                     </button>
                                 </th>
                             </tr>

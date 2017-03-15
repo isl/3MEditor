@@ -37,7 +37,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
          syntax recommendation http://www.w3.org/TR/xslt 
     -->
     <xsl:template match="info" name="info">
-        <div class="well">
+        <div class="well" id="infoWell">
             <form role="form" class="infoForm">
                 <fieldset>
                     <legend>General</legend>

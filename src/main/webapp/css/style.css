@@ -769,3 +769,7 @@ button[title="Add Argument"][data-xpath*="/instance_generator"] {
     margin-left: 5px !important;
     margin-top: 2px !important;
 }
+#infoWell {
+    margin-top: 5px;
+    padding: 5px;
+}

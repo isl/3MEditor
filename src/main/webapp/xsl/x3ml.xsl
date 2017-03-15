@@ -163,17 +163,21 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </xsl:attribute>
-                                    <xsl:if test="$action=0">                                        
-                                        <button title="" id="info_rawXML-btn" type="button" class="btn btn-default btn-sm pull-right" data-loading-text="Loading...">
-                                            <span class="fa fa-lg fa-code pull-left"></span>
-                                            <span class="pull-left" style="margin-left:3px;">XML</span> 
-                                        </button>
-                                        <button id="info_edit-btn" type="button" class="btn btn-default btn-sm pull-right" data-loading-text="Loading...">
-                                            <span class="glyphicon glyphicon-pencil"></span> Edit
-                                        </button>  
-                                        <button id="info_view-btn" type="button" class="btn btn-default btn-sm pull-right" data-loading-text="Loading..." style="display:none;">
-                                            <span class="glyphicon glyphicon-eye-open"></span> View
-                                        </button>                                          
+                                    <xsl:if test="$action=0">  
+                                        <div class="btn-group  btn-sm actionsToolbar" >
+                                            
+                                            <button id="info_edit-btn" type="button" class="btn btn-default btn-sm pull-left" data-loading-text="Loading...">
+                                                <span class="glyphicon glyphicon-pencil"></span> EDIT
+                                            </button>  
+                                            <button id="info_view-btn" type="button" class="btn btn-default btn-sm pull-left" data-loading-text="Loading..." style="display:none;border-left:1px solid #ddd;">
+                                                <span class="glyphicon glyphicon-eye-open"></span> VIEW MODE
+                                            </button>   
+                                            <button title="" id="info_rawXML-btn" type="button" class="btn btn-default btn-sm pull-left" data-loading-text="Loading...">
+                                                <span class="fa fa-lg fa-code pull-left"></span>
+                                                <span class="pull-left" style="margin-left:3px;">XML</span> 
+                                            </button>          
+                                        </div>                                      
+                                        
                                     </xsl:if>
                                     
                                     <div>
@@ -194,8 +198,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </xsl:choose>
                                     </xsl:attribute>
                                     <xsl:if test="$action=0">
-<div class="btn-group  btn-sm actionsToolbar" >
-     <button title="Click to scroll to top" id="scrollTop-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
+                                        <div class="btn-group  btn-sm actionsToolbar" >
+                                            <button title="Click to scroll to top" id="scrollTop-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
                                                 <span class="fa fa-caret-up  fa-lg pull-left"></span> 
                                                 <span class="pull-left" style="margin-left:3px;">TOP</span>
                                             </button>
@@ -208,18 +212,6 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                                 <span class="glyphicon glyphicon-eye-open pull-left"></span>
                                                 <span class="pull-left" style="margin-left:5px;">VIEW MODE</span>
                                             </button>
-<!--                                            <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="glyphicon glyphicon-sort pull-left"></span> 
-                                                <span class="pull-left" style="margin-left:5px;">Collapse</span>
-                                               
-                                                <br/>
-                                               
-                                                <span class="pull-left" style="margin-left:18px;">Expand All</span>
-
-                                            </button>-->
-                                           
-                                            
-                                           
                                             <button title="" id="rawXML-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
                                                 <span class="fa fa-lg  fa-code pull-left"></span>
                                                 <span class="pull-left" style="margin-left:3px;">XML</span> 
@@ -248,7 +240,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                                             </button>
                                             <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm col-sm-2" data-loading-text="Loading...">
-                                                <span class="glyphicon glyphicon-sort pull-right"></span> 
+                                                <img class="pull-right"  src="images/collapse-map.png" />
                                                 <span class="pull-right" style="margin-left:3px;">(ALL) MAPS</span>
                                             </button>
 
