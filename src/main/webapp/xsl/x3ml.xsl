@@ -196,12 +196,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     <xsl:if test="$action=0">
 <div class="btn-group  btn-sm actionsToolbar" >
      <button title="Click to scroll to top" id="scrollTop-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="fa fa-chevron-up pull-left"></span> 
+                                                <span class="fa fa-caret-up  fa-lg pull-left"></span> 
                                                 <span class="pull-left" style="margin-left:3px;">TOP</span>
                                             </button>
                                            
                                             <button title="Click to scroll to bottom" id="scrollBottom-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="fa fa-chevron-down pull-left"></span> 
+                                                <span class="fa fa-caret-down  fa-lg pull-left"></span> 
                                                 <span class="pull-left" style="margin-left:3px;">BOTTOM</span>
                                             </button>
                                             <button title="Click to view" id="table_view-btn" type="button" class="btn btn-default btn-sm " data-loading-text="Loading...">
@@ -228,30 +228,30 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </div>
                                     
                                         <div class="btn-group  btn-sm actionsToolbar" >
-                                            <button title="" id="allSources-btn" type="button" class="btn btn-default btn-sm col-sm-2" data-loading-text="Loading...">
+                                            <button title="Click to collapse column" id="allSources-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
                                                 <span class="pull-left" style="margin-left:3px;">(ALL) SOURCES</span> 
-                                                <img class="pull-left" title="Click to collapse column" src="images/collapse-column.png" />
+                                                <img class="pull-left" src="images/collapse-column.png" />
                                             </button>
-                                            <button title="" id="allSources-btn" type="button" class="btn btn-default btn-sm col-sm-4 " data-loading-text="Loading...">
+                                            <button title="Click to collapse column" id="allTargets-btn" type="button" class="btn btn-default btn-sm col-sm-4 columnHide" data-loading-text="Loading...">
                                                 <span  style="margin-left:3px;">(ALL) TARGETS</span> 
-                                                <img  title="Click to collapse column" src="images/collapse-column.png" />
+                                                <img   src="images/collapse-column.png" />
 
                                             </button>
-                                            <button title="" id="allSources-btn" type="button" class="btn btn-default btn-sm col-sm-2 " data-loading-text="Loading...">
-                                                <img class="pull-right" title="Click to collapse column" src="images/collapse-column.png" />
+                                            <button title="Click to collapse column" id="allRules-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
+                                                <img class="pull-right"  src="images/collapse-column.png" />
                                                 <span class="pull-right" style="margin-left:3px;">(ALL) IF RULES</span> 
 
                                             </button>
-                                            <button title="" id="allSources-btn" type="button" class="btn btn-default btn-sm col-sm-2 " data-loading-text="Loading...">
-                                                <img class="pull-right" title="Click to collapse column" src="images/collapse-column.png" />
+                                            <button title="Click to collapse column" id="allComments-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
+                                                <img class="pull-right"  src="images/collapse-column.png" />
                                                 <span class="pull-right" style="margin-left:3px;">(ALL) COMMENTS</span> 
 
                                             </button>
-                                            <button title="" id="allSources-btn" type="button" class="btn btn-default btn-sm col-sm-2 " data-loading-text="Loading...">
-                                                <img class="pull-right" title="Click to collapse column" src="images/collapse-column.png" />
-                                                <span class="pull-right" style="margin-left:3px;">(ALL) MAPS</span> 
-
+                                            <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm col-sm-2" data-loading-text="Loading...">
+                                                <span class="glyphicon glyphicon-sort pull-right"></span> 
+                                                <span class="pull-right" style="margin-left:3px;">(ALL) MAPS</span>
                                             </button>
+
                                         </div>
                                     
                                     </xsl:if>

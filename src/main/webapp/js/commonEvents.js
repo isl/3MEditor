@@ -61,26 +61,90 @@ $(document).ready(function() {
 
     $("#matching_table, #generatorsTab").on("click", ".columnShow", function() {
         var $this = $(this);
-        var colName = $this.closest("th").attr('class');
-        $("." + colName).toggle();
-        $("." + colName + ":hidden").remove();
+        var type = $this.attr("type");
+
+        var activeTab = $(".active").children("a").html();
+        var tabId;
+        if (activeTab === "Matching Table") {
+            tabId = "#matching_table";
+        } else {
+            tabId = "#generatorsTab";
+        }
+
+        var btnId = $this.attr("id");
+        var colName;
+        if (type === "button") {
+
+            if (btnId === "allSources-btn") {
+                colName = "sourceCol";
+            } else if (btnId === "allTargets-btn") {
+                colName = "targetCol";
+            } else if (btnId === "allRules-btn") {
+                colName = "ifCol";
+            } else if (btnId === "allComments-btn") {
+                colName = "commentsHead";
+            }
+            $(tabId + " ." + colName).toggle();
+            $(tabId + " ." + colName + ":hidden").remove();
+            $this.addClass("columnHide").removeClass("columnShow");
+            $this.attr("title", "Click to collapse column");
+            $this.children("img").attr("src", "images/collapse-column.png");
+
+        } else {
+            colName = $this.closest("th").attr('class');
+            $("." + colName).toggle();
+            $("." + colName + ":hidden").remove();
+        }
+
+
     });
 
     $("#matching_table, #generatorsTab").on("click", ".columnHide", function() {
         var $this = $(this);
         var imageSrc;
+        var type = $this.attr("type");
+        var activeTab = $(".active").children("a").html();
+        var tabId;
+        if (activeTab === "Matching Table") {
+            tabId = "#matching_table";
+        } else {
+            tabId = "#generatorsTab";
+        }
+        var btnId = $this.attr("id");
+        var colName;
+        if (type === "button") {
 
-        var colName = $this.closest("th").attr('class');
-        $("th." + colName).hide().each(function() {
-            var $this = $(this);
-            if ($this.parent().hasClass("dummyHeader")) {//Use white image for dummyHeader and black for rest
-                imageSrc = "images/expand-column-white.png";
-            } else {
-                imageSrc = "images/expand-column.png";
+            if (btnId === "allSources-btn") {
+                colName = "sourceCol";
+            } else if (btnId === "allTargets-btn") {
+                colName = "targetCol";
+            } else if (btnId === "allRules-btn") {
+                colName = "ifCol";
+            } else if (btnId === "allComments-btn") {
+                colName = "commentsHead";
             }
-            $this.after("<th class='" + colName + "'><img class='columnShow' title='Click to expand column' src='" + imageSrc + "'/></th>");
-        });
-        $("td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
+            $this.removeClass("columnHide").addClass("columnShow");
+            $this.attr("title", "Click to expand column");
+            $this.children("img").attr("src", "images/expand-column.png");
+
+            $(tabId + " th." + colName).hide().after("<th class='" + colName + "'>&#160;</th>");
+            $(tabId + " td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
+
+        } else {
+            colName = $this.closest("th").attr('class');
+
+            $("th." + colName).hide().each(function() {
+                var $this = $(this);
+                if ($this.parent().hasClass("dummyHeader")) {//Use white image for dummyHeader and black for rest
+                    imageSrc = "images/expand-column-white.png";
+                } else {
+                    imageSrc = "images/expand-column.png";
+                }
+                $this.after("<th class='" + colName + "'><img class='columnShow' title='Click to expand column' src='" + imageSrc + "'/></th>");
+            });
+            $("td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
+
+        }
     });
 
 
@@ -141,7 +205,14 @@ $(document).ready(function() {
 
         });
         $("#matching_table, #generatorsTab").on("click", "#collapseExpandAll-btn", function() {
-            $("tr.path, tr.range").toggle();
+            var activeTab = $(".active").children("a").html();
+        var tabId;
+        if (activeTab === "Matching Table") {
+            tabId = "#matching_table";
+        } else {
+            tabId = "#generatorsTab";
+        }
+            $(tabId+" tr.path,"+tabId+" tr.range").toggle();
         });
 
         $("body").on("click", "#info_rawXML-btn, #rawXML-btn", function() {
@@ -295,7 +366,7 @@ function initGenerators() {
     $("body").css("opacity", "0.4");
 
     var url = "GetPart?id=" + id + "&part=mappings&mode=instance";
-    
+
     var req = $.myPOST(url, "", "", 20000);
     req.done(function(data) {
         checkResponse(data);
@@ -335,7 +406,7 @@ function initGenerators() {
             $(".generatorButtons").hide(); //hide add links
             $(".additionalGeneratorButtons").hide(); //hide additional add links
             $("#generatorsTab legend").html("View mode"); //change legend
-            
+
         }
 
         $("body").css("opacity", "1");
