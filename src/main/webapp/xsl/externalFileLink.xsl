@@ -69,7 +69,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <xsl:with-param name="filename" select="@rdf_link">
                         
                             </xsl:with-param>
-                            <xsl:with-param name="message" select="'view rdf'"/>
+                            <xsl:with-param name="message" select="'view target'"/>
 
                         </xsl:call-template>
                       

@@ -169,7 +169,8 @@ public class BasicServlet extends HttpServlet {
             /**
              *
              */
-            schemaFolder;
+            schemaFolder,
+            targetRecordsFolder;
 
     /**
      *
@@ -226,6 +227,7 @@ public class BasicServlet extends HttpServlet {
             configQueriesCollection = sc.getInitParameter("configQueriesCollection");
             uploadsFolder = sc.getInitParameter("uploadsFolder");
             schemaFolder = sc.getInitParameter("schemaFolder");
+            targetRecordsFolder = sc.getInitParameter("targetRecordsFolder");
 
             systemURL = sc.getInitParameter("systemURL");
             stateOfSite = sc.getInitParameter("stateOfSite");

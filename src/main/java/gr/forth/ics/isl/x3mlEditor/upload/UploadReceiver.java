@@ -178,7 +178,7 @@ public class UploadReceiver extends BasicServlet {
                         try {
                             dbc = new DBCollection(super.DBURI, x3mlCollection, super.DBuser, super.DBpassword);
                             DBFile dbf = dbc.createFile(filename, "XMLDBFile");
-                            String content = readFile(new File(UPLOAD_DIR, filename), "UTF-8");
+                            String content = new Utils().readFile(new File(UPLOAD_DIR, filename), "UTF-8");
                             dbf.setXMLAsString(content);
                             dbf.store();
                         } catch (Exception ex) {
@@ -209,7 +209,7 @@ public class UploadReceiver extends BasicServlet {
                     //Uploading generator policy files to eXist!
                     dbc = new DBCollection(super.DBURI, x3mlCollection, super.DBuser, super.DBpassword);
                     DBFile dbf = dbc.createFile(filename, "XMLDBFile");
-                    String content = readFile(new File(UPLOAD_DIR, filename), "UTF-8");
+                    String content = new Utils().readFile(new File(UPLOAD_DIR, filename), "UTF-8");
                     dbf.setXMLAsString(content);
                     dbf.store();
                 }
@@ -264,24 +264,5 @@ public class UploadReceiver extends BasicServlet {
 
     }
 
-    /**
-     *
-     * @param f
-     * @param enc
-     * @return
-     */
-    private String readFile(File f, String enc) {
-        try {
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
-            byte[] arr = new byte[(int) f.length()];
-            in.read(arr, 0, arr.length);
-            in.close();
-
-            return new String(arr, enc);
-        } catch (Exception ex) {
-            ex.printStackTrace(System.out);
-            throw new Error("IO Error in readFile");
-        }
-    }
 
 }

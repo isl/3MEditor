@@ -328,7 +328,7 @@ $(document).ready(function() {
         }
     }
     if (schemaVersion === "1.1") {
-        alert("You are using an older x3ml schema version (1.1). Please update your x3ml files to version 1.2 or use an earlier 3MEditor version (3.1).");
+//        alert("You are using an older x3ml schema version (1.1). Please update your x3ml files to version 1.2 or use an earlier 3MEditor version (3.1).");
     }
 
 });

@@ -1336,7 +1336,7 @@ $("body").on("click", ".noRelationUpdate, .noRelationRestore", function() {
  * Handler fired when user clicks to view info 
  */
 $('#info_view-btn').click(function() {
-    $("body").css("opacity", "0.4");
+    $("body").css("opacity", "0.4");    
     var url = "GetPart?id=" + id + "&part=info&mode=view";
     var $btn = $(this);
     $btn.button('loading');
@@ -1535,11 +1535,31 @@ $("body").on("click", "#runEngine", function() {
     var req = $.myPOST(url, {sourceFile: source}, "html");
     req.done(function(data) {
         checkResponse(data);
-
-//    $.post(url, {sourceFile: source}, "html").done(function(data) {
-        data = String(data).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+//        data = String(data).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         $(".loader").hide();
-        $("#engineResult").html(data);
+        $("#engineResult").val(data);
+        $("#saveTarget").removeClass("disabled");
     });
 });
 
+/*
+ * Handler fired when user saves as target record
+ */
+$("body").on("click", "#saveTarget", function() {
+
+
+    var output = $(".outputFormat  label.active input").val();
+    var targetRecord = $("#engineResult").val();
+    targetRecord = String(targetRecord).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+    console.log(targetRecord);
+    var url = "Services?method=storeFile&id=" + id + "&type=" + output;
+    var req = $.myPOST(url, {content: targetRecord}, "html");
+    req.done(function(data) {
+        alert(data);
+        viewOnlyInfo();
+    });
+
+
+
+
+});

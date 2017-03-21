@@ -31,6 +31,7 @@ import isl.dbms.DBCollection;
 import isl.dbms.DBFile;
 import static gr.forth.ics.isl.x3mlEditor.BasicServlet.applicationCollection;
 import gr.forth.ics.isl.x3mlEditor.utilities.GeneratorPolicy;
+import gr.forth.ics.isl.x3mlEditor.utilities.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -85,8 +86,8 @@ public class Services extends BasicServlet {
 
         if (method.equals("export") || output.equals("xml")) {
             String version = request.getParameter("version");
-            if (version!=null) {
-                dbc = new DBCollection(DBURI, versionsCollection + "/Mapping/Mapping"+id+"/"+version, DBuser, DBpassword);
+            if (version != null) {
+                dbc = new DBCollection(DBURI, versionsCollection + "/Mapping/Mapping" + id + "/" + version, DBuser, DBpassword);
                 collectionPath = getPathforFile(dbc, xmlId, id);
             }
 
@@ -151,6 +152,30 @@ public class Services extends BasicServlet {
             out.println(",\n" + xmlMiddle);
             out.println("]\n"
                     + "}");
+
+        } else if (method.equals("storeFile")) {
+            String type = request.getParameter("type");
+            String content = request.getParameter("content");
+//            System.out.println("CONTENT="+request.getParameter("content"));
+           
+            String extension = "rdf";
+            if (type.equals("Turtle")) {
+                extension = "ttl";
+            } else if (type.equals("N-triples")) {
+                extension = "trig";
+            }
+            String filename = "Mapping" + id + "." + extension;
+            new Utils().writeFile(targetRecordsFolder + filename, content);
+            //example_data_target_record
+            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+            String[] results = mappingFile.queryString("//example_data_target_record/@rdf_link/string()");
+            System.out.println(results.length);
+            if (results.length==0) {
+                mappingFile.xAddAttribute("//example_data_target_record", "rdf_link", filename);
+            } else if (results.length>0) {
+                mappingFile.xUpdate("//example_data_target_record/@rdf_link", filename);
+            }
+             out.println("Saved "+filename);
 
         }
 

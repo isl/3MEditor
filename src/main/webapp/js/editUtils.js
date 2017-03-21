@@ -71,6 +71,23 @@ function viewOnlyGenerator() {
     });
 }
 /*
+ * Gets view html for info tab
+ */
+function viewOnlyInfo() {
+    var url = "GetPart?id=" + id + "&part=info&mode=view";
+    var req = $.myPOST(url);
+
+    req.done(function(data) {
+        checkResponse(data);
+
+        $("#info>div:not(.actionsToolbar)").html(data);
+        $('#info_edit-btn').toggle();
+    });
+    req.fail(function() {
+        alert("Connection with server lost. Action failed!");
+    });
+}
+/*
  * Refreshes html table in generators mode
  */
 function refreshTable() {
@@ -381,8 +398,8 @@ function upload($this) {
         allowedExtensions = ['html', 'htm'];
 
     } else if (xpath.endsWith("rdf_link")) {
-        uploadMessage = "Upload rdf";
-        allowedExtensions = ['rdf'];
+        uploadMessage = "Upload Target";
+        allowedExtensions = ['rdf','ttl','trig'];
 
 //    }  else if (xpath.endsWith("generator_link")) {
 //        uploadMessage = "Upload File";
@@ -415,8 +432,8 @@ function upload($this) {
 
             var linkText = "view";
             var dataType = "";
-            if (uploadMessage === "Upload rdf") {
-                linkText = "view rdf";
+            if (uploadMessage === "Upload Target") {
+                linkText = "view target";
             } else if (uploadMessage === "Upload xml") {
 
                 if (!xpath.endsWith("generator_link")) { //Don't enable source analyzer for generator policy files
