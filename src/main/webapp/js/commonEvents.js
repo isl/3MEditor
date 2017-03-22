@@ -227,16 +227,16 @@ $(document).ready(function() {
             } else {
                 tabId = "#generatorsTab";
             }
-            
-           var imgSrc = $(this).children("img").attr("src");
+
+            var imgSrc = $(this).children("img").attr("src");
             if (imgSrc === "images/collapse-map.png") {
-                 $(tabId + " tr.path," + tabId + " tr.range").hide();
+                $(tabId + " tr.path," + tabId + " tr.range").hide();
             } else if (imgSrc === "images/expand-map.png") {
-                   $(tabId + " tr.path," + tabId + " tr.range").show();
+                $(tabId + " tr.path," + tabId + " tr.range").show();
             }
-         
-          
-            
+
+
+
             toggleCollapseExpandImage($(this));
             $(tabId + " .collapseExpand").each(function() {//toggle all buttons
                 toggleCollapseExpandImage($(this));
@@ -357,35 +357,37 @@ $('.nav a').click(function(e) {
             } else {
                 sourceFilename = $("a:contains('view xml')").attr("title");
             }
-//            alert(sourceFilename)
             var url = "FetchBinFile?file=" + encodeURIComponent(sourceFilename) + "&type=xml_link";
             var req = $.myPOST(url, "xml");
             req.done(function(xml) {
                 checkResponse(xml);
-
-//            $.post(url, "xml").done(function(xml) {
                 var xmlString = (new XMLSerializer()).serializeToString(xml);
                 $("#sourceFile").val(xmlString);
             });
 
-//            var generatorPolicyFilename = $("a:contains('view generator xml')").attr("href");
-//            var url = "FetchBinFile?file=" + generatorPolicyFilename;
-            var url = "";
+            url = "";
             if ($("info_view-btn").is(':visible')) {//edit_mode
                 url = $("div:visible>a:contains('view generator xml')").attr("href");
             } else {
                 url = $("a:contains('view generator xml')").attr("href");
             }
 
-//            alert(url)
-//            $.post(url, "xml").done(function(xml) {
-            var req = $.myPOST(url, "xml");
+            req = $.myPOST(url, "xml");
             req.done(function(xml) {
-//                checkResponse(xml); //Fetch does not return html with title, should not check
-
                 var xmlString = (new XMLSerializer()).serializeToString(xml);
-
                 $("#generator").val(xmlString);
+            });
+
+            url = "";
+            if ($("info_view-btn").is(':visible')) {//edit_mode
+                url = $("div:visible>a:contains('view target')").attr("href");
+            } else {
+                url = $("a:contains('view target')").attr("href");
+            }
+            req = $.myPOST(url, "xml");
+            req.done(function(xml) {
+//                var xmlString = (new XMLSerializer()).serializeToString(xml);
+                $("#engineResult").val(xml);
             });
 
         });

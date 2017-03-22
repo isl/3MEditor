@@ -76,12 +76,12 @@ function viewOnlyGenerator() {
 function viewOnlyInfo() {
     var url = "GetPart?id=" + id + "&part=info&mode=view";
     var req = $.myPOST(url);
-
     req.done(function(data) {
         checkResponse(data);
 
         $("#info>div:not(.actionsToolbar)").html(data);
-        $('#info_edit-btn').toggle();
+        $('#info_edit-btn').show();
+        $('#info_view-btn').hide();
     });
     req.fail(function() {
         alert("Connection with server lost. Action failed!");
