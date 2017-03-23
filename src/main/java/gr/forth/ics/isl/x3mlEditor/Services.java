@@ -157,7 +157,7 @@ public class Services extends BasicServlet {
             String type = request.getParameter("type");
             String content = request.getParameter("content");
 //            System.out.println("CONTENT="+request.getParameter("content"));
-           
+
             String extension = "rdf";
             if (type.equals("Turtle")) {
                 extension = "ttl";
@@ -165,17 +165,17 @@ public class Services extends BasicServlet {
                 extension = "trig";
             }
             String filename = "Mapping" + id + "." + extension;
-            new Utils().writeFile(targetRecordsFolder + filename, content);
+            new Utils().writeFile(uploadsFolder + "example_files/" + filename, content);
             //example_data_target_record
             DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
             String[] results = mappingFile.queryString("//example_data_target_record/@rdf_link/string()");
             System.out.println(results.length);
-            if (results.length==0) {
+            if (results.length == 0) {
                 mappingFile.xAddAttribute("//example_data_target_record", "rdf_link", filename);
-            } else if (results.length>0) {
+            } else if (results.length > 0) {
                 mappingFile.xUpdate("//example_data_target_record/@rdf_link", filename);
             }
-             out.println("Saved "+filename);
+            out.println("Saved " + filename);
 
         }
 

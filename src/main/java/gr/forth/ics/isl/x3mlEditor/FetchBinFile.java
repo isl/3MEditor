@@ -86,16 +86,16 @@ public class FetchBinFile extends BasicServlet {
         filename = filename.substring(filename.lastIndexOf("/") + 1);
         // Set content size
         File file = new File(path);
-
+        System.out.println(path);
         if (!file.exists()) {
-            if (filename.endsWith("ttl") && use.equals("rdf_link")) {//Special case (generated ttl file from Transformation tab)
-                path = targetRecordsFolder+filename;
-                file = new File(path);
-            }
-            if (response.getContentType() == null) {
-                response.setContentType(mimeType + ";charset=UTF-8");
-                response.setHeader("Content-disposition", "inline; filename=\"" + filename + "\"");
-            }
+//            if (filename.endsWith("ttl") && use.equals("rdf_link")) {//OBSOLETE! Should not happenSpecial case (generated ttl file from Transformation tab)
+//                path = targetRecordsFolder+filename;
+//                file = new File(path);
+//            }
+//            if (response.getContentType() == null) {
+//                response.setContentType(mimeType + ";charset=UTF-8");
+//                response.setHeader("Content-disposition", "inline; filename=\"" + filename + "\"");
+//            }
 
         } else {
             if (response.getContentType() == null) {

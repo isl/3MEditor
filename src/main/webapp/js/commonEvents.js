@@ -384,11 +384,16 @@ $('.nav a').click(function(e) {
             } else {
                 url = $("a:contains('view target')").attr("href");
             }
-            req = $.myPOST(url, "xml");
-            req.done(function(xml) {
-//                var xmlString = (new XMLSerializer()).serializeToString(xml);
-                $("#engineResult").val(xml);
-            });
+
+            if (typeof url === 'undefined') { //If no target record disable Visualize
+                $("#visualizeTarget").addClass("disabled");
+            } else {
+                req = $.myPOST(url, "xml");
+                req.done(function(xml) {
+                    $("#engineResult").val(xml);
+                });
+            }
+
 
         });
 

@@ -1336,7 +1336,7 @@ $("body").on("click", ".noRelationUpdate, .noRelationRestore", function() {
  * Handler fired when user clicks to view info 
  */
 $('#info_view-btn').click(function() {
-    $("body").css("opacity", "0.4");    
+    $("body").css("opacity", "0.4");
     var url = "GetPart?id=" + id + "&part=info&mode=view";
     var $btn = $(this);
     $btn.button('loading');
@@ -1539,6 +1539,7 @@ $("body").on("click", "#runEngine", function() {
         $(".loader").hide();
         $("#engineResult").val(data);
         $("#saveTarget").removeClass("disabled");
+
     });
 });
 
@@ -1547,19 +1548,30 @@ $("body").on("click", "#runEngine", function() {
  */
 $("body").on("click", "#saveTarget", function() {
 
-
     var output = $(".outputFormat  label.active input").val();
     var targetRecord = $("#engineResult").val();
     targetRecord = String(targetRecord).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
-    console.log(targetRecord);
     var url = "Services?method=storeFile&id=" + id + "&type=" + output;
     var req = $.myPOST(url, {content: targetRecord}, "html");
     req.done(function(data) {
-        alert(data);
+        alert(data); //useful
         viewOnlyInfo();
+        $("#visualizeTarget").removeClass("disabled");
+
     });
-
-
-
+});
+/*
+ * Handler fired when user clicks Visualize
+ */
+$("body").on("click", "#visualizeTarget", function() {
+    var filename;
+    if ($("info_view-btn").is(':visible')) {//edit_mode
+        filename = $("div:visible>a:contains('view target')").attr("title");
+    } else {
+        filename = $("a:contains('view target')").attr("title");
+    }
+    var subject = $("#subject").val();
+    //Temp solution, will have to replace with relative URL when properly deployed
+    window.open("http://139.91.183.38/RDFVisualizer/?resource=" + subject + "&filename=" + filename, "_blank");
 
 });
