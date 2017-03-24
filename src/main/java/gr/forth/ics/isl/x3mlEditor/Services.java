@@ -32,8 +32,11 @@ import isl.dbms.DBFile;
 import static gr.forth.ics.isl.x3mlEditor.BasicServlet.applicationCollection;
 import gr.forth.ics.isl.x3mlEditor.utilities.GeneratorPolicy;
 import gr.forth.ics.isl.x3mlEditor.utilities.Utils;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -177,10 +180,109 @@ public class Services extends BasicServlet {
             }
             out.println("Saved " + filename);
 
+        } else if (method.equals("getNamespaces")) {
+            String filename = request.getParameter("filename");
+            Utils utils = new Utils();
+            HashMap<String, String> results = new HashMap<String, String>();
+            if (filename.endsWith("ttl") || filename.endsWith("rdf") || filename.endsWith("rdfs")) {
+                File schemaFile = new File(uploadsFolder + "rdf_schema/" + filename);
+                String content = utils.readFile(schemaFile, "UTF-8");
+
+                if (filename.endsWith(".ttl")) {
+                    results = findNamespaces("ttl", content);
+                } else {
+                    results = findNamespaces("rdf", content);
+                }
+            } else if (filename.endsWith("xsd")) {
+                File schemaFile = new File(uploadsFolder + "xml_schema/" + filename);
+                String content = utils.readFile(schemaFile, "UTF-8");
+                results = findNamespaces("xsd", content);
+            } else if (filename.endsWith("xml")) {
+                File schemaFile = new File(uploadsFolder + "example_files/" + filename);
+                String content = utils.readFile(schemaFile, "UTF-8");
+                results = findNamespaces("xml", content);
+            }
+            String xpath = request.getParameter("xpath");
+            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+
+            String relevantNamespacesXpath = xpath.substring(0, xpath.lastIndexOf("]") + 1) + "/namespaces";
+            StringBuilder namespacesXML = new StringBuilder();
+            String baseNamespace = results.get("base");
+            int index = 1;
+            if (baseNamespace != null) {
+                String namespaceXML = "<namespace prefix='' uri='" + baseNamespace + "'/>";
+                namespacesXML = namespacesXML.append(namespaceXML);
+                String namespaceXpath = relevantNamespacesXpath + "/namespace[" + index + "]";
+                namespaceXML = namespaceXML.replaceFirst("/>", " pos='" + index + "'" + " xpath='" + namespaceXpath + "'/>");
+                String html = transform(namespaceXML, super.baseURL + "/xsl/edit/namespace.xsl");
+                out.println(html);
+                index = index + 1;
+                results.remove("base");
+            }
+            for (String prefix : results.keySet()) {
+                String namespaceXML = "<namespace prefix='" + prefix + "' uri='" + results.get(prefix) + "'/>";
+                namespacesXML = namespacesXML.append(namespaceXML);
+
+                String namespaceXpath = relevantNamespacesXpath + "/namespace[" + index + "]";
+                namespaceXML = namespaceXML.replaceFirst("/>", " pos='" + index + "'" + " xpath='" + namespaceXpath + "'/>");
+                String html = transform(namespaceXML, super.baseURL + "/xsl/edit/namespace.xsl");
+                out.println(html);
+                index = index + 1;
+            }
+
+            mappingFile.xUpdate(relevantNamespacesXpath, namespacesXML.toString());
         }
 
         out.close();
 
+    }
+
+    private HashMap<String, String> findNamespaces(String type, String content) {
+        Utils utils = new Utils();
+        HashMap<String, String> results = new HashMap<String, String>();
+
+        if (type.equals("ttl")) {
+            ArrayList<String> prefixAndNamespaces = utils.findReg("(?<=@prefix)\\s+.*(?=>)", content, 0);
+            for (String prefixAndNamespace : prefixAndNamespaces) {
+                prefixAndNamespace = prefixAndNamespace.trim();
+
+                if (prefixAndNamespace.contains(": <")) {
+                    String[] res = prefixAndNamespace.split(": <");
+                    String prefix = res[0].trim();
+                    String namespace = res[1].trim();
+                    if (!(prefix.equals("rdf") || prefix.equals("rdfs") || prefix.equals("xsd"))) {
+                        results.put(prefix, namespace);
+                    }
+                    results.put(prefix, namespace);
+                }
+            }
+        } else if (type.equals("rdf") || type.equals("xsd") || type.equals("xml")) {
+            ArrayList<String> prefixAndNamespaces = utils.findReg("(?<=xmlns:).*?(?=\"(\\s+|>))", content, 0);
+            for (String prefixAndNamespace : prefixAndNamespaces) {
+                prefixAndNamespace = prefixAndNamespace.trim();
+                if (prefixAndNamespace.contains("=\"") || prefixAndNamespace.contains("= \"")) {
+                    String[] res = prefixAndNamespace.split("=\\s*\"");
+                    String prefix = res[0].trim();
+                    String namespace = res[1].trim();
+                    if (!(prefix.equals("rdf") || prefix.equals("rdfs") || prefix.equals("xsd"))) {
+                        results.put(prefix, namespace);
+                    }
+                }
+            }
+            prefixAndNamespaces = utils.findReg("(?<=xml:)base.*?(?=\"(\\s+|>))", content, 0);
+            for (String prefixAndNamespace : prefixAndNamespaces) {
+                prefixAndNamespace = prefixAndNamespace.trim();
+                if (prefixAndNamespace.contains("=\"") || prefixAndNamespace.contains("= \"")) {
+                    String[] res = prefixAndNamespace.split("=\\s*\"");
+                    String prefix = res[0].trim();
+                    String namespace = res[1].trim();
+                    if (!(prefix.equals("rdf") || prefix.equals("rdfs") || prefix.equals("xsd"))) {
+                        results.put(prefix, namespace);
+                    }
+                }
+            }
+        }
+        return results;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

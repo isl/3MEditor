@@ -399,7 +399,7 @@ function upload($this) {
 
     } else if (xpath.endsWith("rdf_link")) {
         uploadMessage = "Upload Target";
-        allowedExtensions = ['rdf','ttl','trig'];
+        allowedExtensions = ['rdf', 'ttl', 'trig'];
 
 //    }  else if (xpath.endsWith("generator_link")) {
 //        uploadMessage = "Upload File";
@@ -470,6 +470,9 @@ function upload($this) {
 
 
                 } else {
+
+
+
                     dataType = "target_info"; //Added only for this case, may have to make use of it for other cases too.
                     if (comboAPI == 0) {
                         if (filename.endsWith(".xsd") || filename.endsWith(".xml")) {
@@ -501,6 +504,12 @@ function upload($this) {
                     }
                     viewOnly();
                 }
+
+                if (confirm("Do you wish to search file for namespaces and automatically fill in relevant fields? WARNING: This action will overwrite any current namespaces!") === true) {
+                     getNamespaces(filename, xpath);
+                   
+                }
+
             }
 
             if (xpath.endsWith("generator_link")) {
@@ -523,6 +532,25 @@ function upload($this) {
             var error = responseJSON.error;
             alert(error);
         }
+    });
+}
+
+function getNamespaces(filename, xpath) {
+    var namespacesXpath = xpath.replace(/\]\/.*/g, "]/namespaces");
+
+//alert(namespacesXpath)
+    console.log(" --- " + filename);
+    var url = "Services?id=" + id + "&method=getNamespaces&filename=" + filename + "&xpath=" + encodeURIComponent(xpath);
+    var req = $.myPOST(url);
+    req.done(function(data) {
+        checkResponse(data);
+
+//        alert(data);
+        $(".namespaces[id='" + namespacesXpath + "']").html(data);
+
+    });
+    req.fail(function() {
+        alert("Connection with server lost. Action failed!");
     });
 }
 
