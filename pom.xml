@@ -1,10 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>Forth-ICS</groupId>
     <artifactId>3MEditor</artifactId>
-    <version>1.0</version>
+    <version>3.2-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>3MEditor</name>
@@ -15,6 +14,21 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <organization>
+        <name>Institute of Computer Science - FORTH-ICS</name>
+        <url>https://www.ics.forth.gr/</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>samarita</id>
+            <name>Georgios Samaritakis</name>
+            <email>samarita@ics.forth.gr</email>
+            <organization>FORTH-ICS</organization>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,7 +43,7 @@
         <dependency>
             <groupId>com.github.isl</groupId>
             <artifactId>Reasoner</artifactId>
-            <version>-SNAPSHOT</version>
+            <version>7c26fd7</version>
         </dependency>
         <dependency>
             <groupId>com.github.isl</groupId>
