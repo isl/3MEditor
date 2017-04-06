@@ -65,31 +65,31 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </button>
 
             </div>
-             <div class="btn-group  btn-sm actionsToolbar" >
-                                            <button title="Click to collapse column" id="allSources-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
-                                                <span class="pull-left" style="margin-left:3px;">(ALL) SOURCES</span> 
-                                                <img class="pull-left" src="images/collapse-column.png" />
-                                            </button>
-                                            <button title="Click to collapse column" id="allTargets-btn" type="button" class="btn btn-default btn-sm col-sm-4 columnHide" data-loading-text="Loading...">
-                                                <span  style="margin-left:3px;">(ALL) TARGETS</span> 
-                                                <img   src="images/collapse-column.png" />
+            <div class="btn-group  btn-sm actionsToolbar" >
+                <button title="Click to collapse column" id="allSources-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
+                    <span class="pull-left" style="margin-left:3px;">(ALL) SOURCES</span> 
+                    <img class="pull-left" src="images/collapse-column.png" />
+                </button>
+                <button title="Click to collapse column" id="allTargets-btn" type="button" class="btn btn-default btn-sm col-sm-4 columnHide" data-loading-text="Loading...">
+                    <span  style="margin-left:3px;">(ALL) TARGETS</span> 
+                    <img   src="images/collapse-column.png" />
 
-                                            </button>
-                                            <button title="Click to collapse column" id="allRules-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
-                                                <img class="pull-right"  src="images/collapse-column.png" />
-                                                <span class="pull-right" style="margin-left:3px;">(ALL) IF RULES</span> 
+                </button>
+                <button title="Click to collapse column" id="allRules-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
+                    <img class="pull-right"  src="images/collapse-column.png" />
+                    <span class="pull-right" style="margin-left:3px;">(ALL) IF RULES</span> 
 
-                                            </button>
-                                            <button title="Click to collapse column" id="allComments-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
-                                                <img class="pull-right"  src="images/collapse-column.png" />
-                                                <span class="pull-right" style="margin-left:3px;">(ALL) COMMENTS</span> 
+                </button>
+                <button title="Click to collapse column" id="allComments-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
+                    <img class="pull-right"  src="images/collapse-column.png" />
+                    <span class="pull-right" style="margin-left:3px;">(ALL) COMMENTS</span> 
 
-                                            </button>
-                                            <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm col-sm-2" data-loading-text="Loading...">
-                                                <img class="pull-right"  src="images/collapse-map.png" />
-                                                <span class="pull-right" style="margin-left:3px;">(ALL) MAPS</span>
-                                            </button>
-                                        </div>
+                </button>
+                <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm col-sm-2" data-loading-text="Loading...">
+                    <img class="pull-right"  src="images/collapse-map.png" />
+                    <span class="pull-right" style="margin-left:3px;">(ALL) MAPS</span>
+                </button>
+            </div>
         </xsl:if>
         <div class="mappings">
             <fieldset>
@@ -112,7 +112,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         <xsl:variable name="mappingPos" select="position()"/>
                         <thead>
                             <tr>
-                                <th></th>
+                                <th class="mapIndex"></th>
                                 <th></th>
                                 <th class="sourceCol">SOURCE</th>                           
                                 <th class="targetCol">
@@ -134,7 +134,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <th class="ifCol">IF RULE</th>
                                 <th class="commentsHead" >COMMENTS
                                     <button  title="Click to collapse/expand map" type="button" class="btn btn-default btn-sm collapseExpand pull-right">
-                                                <img src="images/collapse-map.png" />
+                                        <img src="images/collapse-map.png" />
                                     </button>
                                 </th>
                             </tr>
@@ -156,7 +156,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             </xsl:for-each>
                            
                             <tr class="empty">
-                                <td  colspan="5"  style="border-left-width:0;">                             
+                                <td  colspan="6"  style="border-left-width:0;">                             
                                     <div class="row">
                                         <xsl:attribute name="style">
                                             <xsl:choose>

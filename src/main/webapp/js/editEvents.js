@@ -1111,9 +1111,8 @@ $("#matching_table").on("click", "#addRuleButton", function(e) {
  * Handler fired when user enters mouse over a path
  */
 $("body").on("mouseenter", ".path", function() {
-    $(this).css("border-top", "2px solid black").css("border-left", "2px solid black")
-            .css("border-right", "2px solid black");
-    $(this).next().css("border-bottom", "2px solid black").css("border-left", "2px solid black").css("border-right", "2px solid black");
+    $(this).css("border-top", "2px solid gray").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
+    $(this).next().css("border-bottom", "2px solid gray").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
 
 });
 
@@ -1129,8 +1128,8 @@ $("body").on("mouseleave", ".path", function() {
  * Handler fired when user enters mouse over a range
  */
 $("body").on("mouseenter", ".range", function() {
-    $(this).prev().css("border-top", "2px solid black").css("border-left", "2px solid black").css("border-right", "2px solid black");
-    $(this).css("border-bottom", "2px solid black").css("border-left", "2px solid black").css("border-right", "2px solid black");
+    $(this).prev().css("border-top", "2px solid gray").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
+    $(this).css("border-bottom", "2px solid gray").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
 
 });
 /*
@@ -1210,6 +1209,67 @@ $("body").on("click", ".delete", function() {
 
 
     }
+});
+
+/*
+ * Handler fired when user clicks mapIndex (mapping)
+ */
+$("#matching_table").on("click", ".mapIndex", function(event) {
+    var $index = $(this);
+    var $mappingHeader = $index.parentsUntil("table");
+    var $mapping = $index.parentsUntil("table").next("tbody");
+    var index = $mapping.find(".index").first().attr("title");
+
+    var ctrlKeyPressed = event.ctrlKey;
+    var arrayIndex = selectedMaps.indexOf(index);
+
+    if (ctrlKeyPressed && $(".selected").length > 0) {
+
+        if (arrayIndex === -1) {
+            selectedMaps.push(index);
+            $mappingHeader.addClass("selected");
+        }
+    } else {
+        selectedMaps.length = 0;
+        selectedMaps.push(index);
+        $("thead.selected").removeClass("selected");
+        $mappingHeader.addClass("selected");
+
+    }
+    console.log(selectedMaps);
+    return false; //To prevent opening row in edit mode   
+
+
+});
+
+
+/*
+ * Handler fired when user clicks index (domain or link)
+ */
+$("#matching_table").on("click", ".index", function(event) {
+    var $index = $(this);
+    var $parent = $index.parent();
+    var index = $index.attr("title");
+    var ctrlKeyPressed = event.ctrlKey;
+
+    var arrayIndex = selectedRows.indexOf(index);
+
+    if (ctrlKeyPressed && $(".selected").length > 0) {
+
+        if (arrayIndex === -1) {
+            selectedRows.push(index);
+            $parent.addClass("selected");
+        }
+    } else {
+        selectedRows.length = 0;
+        selectedRows.push(index);
+        $("tr.selected").removeClass("selected");
+        $parent.addClass("selected");
+
+    }
+    console.log(selectedRows);
+    return false; //To prevent opening row in edit mode   
+
 });
 
 /*

@@ -231,10 +231,48 @@ public class Services extends BasicServlet {
             }
 
             mappingFile.xUpdate(relevantNamespacesXpath, namespacesXML.toString());
+        } else if (method.equals("update")) {
+            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+            updateX3ml(mappingFile, "1.1", "1.2");
+            out.println("Updated! Please wait to reload mapping.");
+
         }
 
         out.close();
 
+    }
+
+    private void updateX3ml(DBFile x3mlFile, String from, String to) {
+        if (from.equals("1.1") && to.equals("1.2")) {
+            x3mlFile.xInsertAfter("//x3ml/info/general_description", "<source/>");//create source block
+            x3mlFile.xInsertAfter("//x3ml/info/source", "<target/>");//create target block
+            x3mlFile.xMoveInside("//x3ml/info/source_info[1]/source_collection", "//x3ml/info/source");//move only source collection
+            x3mlFile.xMoveInside("//x3ml/info/target_info[1]/target_collection", "//x3ml/info/target");//move first target collection
+            x3mlFile.xRemove("//x3ml/info/target_info/target_collection");//delete other target collection 
+
+            x3mlFile.xMoveBefore("//x3ml/info/source_info", "//x3ml/info/source/source_collection");//move source_info inside source
+            x3mlFile.xMoveBefore("//x3ml/info/target_info", "//x3ml/info/target/target_collection");//move target_info inside target
+            String[] namespaces = x3mlFile.queryString("//namespace");
+            int targetInfosLength = x3mlFile.queryString("//target_info").length;
+
+            int index = 0;
+            StringBuilder newNamespacesBlock = new StringBuilder();
+            for (String namespace : namespaces) {
+                if (index < 2) {//DO NOTHING
+                } else if (index < targetInfosLength + 2) {
+                    int targetIndex = index - 1;
+                    x3mlFile.xInsertAfter("//x3ml/info/target/target_info[" + targetIndex + "]/target_schema", "<namespaces>" + namespace + "</namespaces>");//create target block
+                } else {
+                    newNamespacesBlock = newNamespacesBlock.append(namespace);
+                }
+                index = index + 1;
+            }
+            if (newNamespacesBlock.length() > 0) {
+                x3mlFile.xUpdate("//x3ml/namespaces", newNamespacesBlock.toString());
+            } else {
+                x3mlFile.xUpdate("//x3ml/namespaces", "<namespace prefix='' uri=''/>");
+            }
+        }
     }
 
     private HashMap<String, String> findNamespaces(String type, String content) {

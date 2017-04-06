@@ -40,6 +40,8 @@ var sourcePaths = "mini";
 var targetPaths = "mini";
 var targetRoot = $(".targetPath").first().html();
 var sourceRoot = $(".sourcePath").first().html();
+var selectedRows = new Array();
+var selectedMaps = new Array();
 
 /*
  * Page initialization
@@ -58,12 +60,6 @@ $(document).ready(function() {
     $("#matching_table, #generatorsTab").on("click", ".collapseExpand", function() {
         $(this).parentsUntil("thead").parent().next("tbody").children("tr.path, tr.range").toggle();
         toggleCollapseExpandImage($(this));
-//        var imgSrc = $(this).children("img").attr("src");
-//        if (imgSrc === "images/collapse-map.png") {
-//            $(this).children("img").attr("src", "images/expand-map.png");
-//        } else if (imgSrc === "images/expand-map.png") {
-//            $(this).children("img").attr("src", "images/collapse-map.png");
-//        }
     });
 
     $("#matching_table, #generatorsTab").on("click", ".columnShow", function() {
@@ -198,13 +194,6 @@ $(document).ready(function() {
                     $('.collapseExpand').click(function() {
                         $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
                         toggleCollapseExpandImage($(this));
-
-//                        var imgSrc = $(this).children("img").attr("src");
-//                        if (imgSrc === "images/collapse-map.png") {
-//                            $(this).children("img").attr("src", "images/expand-map.png");
-//                        } else if (imgSrc === "images/expand-map.png") {
-//                            $(this).children("img").attr("src", "images/collapse-map.png");
-//                        }
                     });
                     $(".empty").find("div.row").css("display", "block");
                     $("body").css("opacity", "1");
@@ -242,12 +231,6 @@ $(document).ready(function() {
                 toggleCollapseExpandImage($(this));
             });
 
-//            var imgSrc = $(this).children("img").attr("src");
-//            if (imgSrc === "images/collapse-map.png") {
-//                $(this).children("img").attr("src", "images/expand-map.png");
-//            } else if (imgSrc === "images/expand-map.png") {
-//                $(this).children("img").attr("src", "images/collapse-map.png");
-//            }
         });
 
         $("body").on("click", "#info_rawXML-btn, #rawXML-btn", function() {
@@ -328,7 +311,14 @@ $(document).ready(function() {
         }
     }
     if (schemaVersion === "1.1") {
-        alert("You are using an older x3ml schema version (1.1). Please update your x3ml files to version 1.2 or use an earlier 3MEditor version (3.1).");
+        if (confirm("You are using an older x3ml schema version (1.1). Do you wish to update your mapping to version 1.2?") === true) {
+            var url = "Services?method=update&id=" + id + "&from=1.1&to=1.2";
+            var req = $.myPOST(url);
+            req.done(function(data) {
+                alert(data);
+                location.reload();
+            });
+        }
     }
 
 });

@@ -201,7 +201,7 @@ tr.domain>td a {
     color:white;
 }
 tr.domain:hover {
-    border: 2px solid black;
+    border: 2px solid gray !important;
 }
 
 
@@ -242,7 +242,7 @@ tr>td:first-child {
 tr:not(.dummyHeader)>th:first-child {
     background-color: #F0EDED !important;
     color:black;
-        /*border-bottom: 1px solid  #F0EDED !important;*/
+    /*border-bottom: 1px solid  #F0EDED !important;*/
 
 }
 
@@ -353,10 +353,10 @@ button.closeLike {
     border: 1px solid #ddd;
     width: 100%;
     margin-top: 5px;
-/*    z-index: 1;
-    position: fixed;
-    float:right;
-    right:0px;*/
+    /*    z-index: 1;
+        position: fixed;
+        float:right;
+        right:0px;*/
 }
 .actionsToolbar>button {
     border: none;
@@ -772,4 +772,22 @@ button[title="Add Argument"][data-xpath*="/instance_generator"] {
 #infoWell {
     margin-top: 5px;
     padding: 5px;
+}
+.selected  {
+    border-top: 2px solid black !important;
+    border-left: 2px solid black !important;
+    border-right: 2px solid black !important;
+}
+.selected.domain {
+    border-bottom: 2px solid black !important;
+}
+.selected+.range {
+    border-bottom: 2px solid black !important;
+    border-left: 2px solid black !important;
+    border-right: 2px solid black !important;
+}
+thead.selected+tbody {
+    border-bottom: 2px solid black !important;
+    border-left: 2px solid black !important;
+    border-right: 2px solid black !important;
 }

@@ -60,7 +60,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:choose>
             </xsl:variable>
             
-            <td title="$index" style="text-align:center;">
+            <td class="index" title="{$index}" style="text-align:center;">
                 <xsl:value-of select="$index"/>
             </td>
 

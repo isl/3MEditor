@@ -71,7 +71,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             </xsl:apply-templates>  
             
             <tr class="empty">
-                <td  colspan="5"  style="border-left-width:0;">                              
+                <td  colspan="6"  style="border-left-width:0;">                              
                     <div class="row">
                                    
                         <div class="col-xs-1 col-xs-offset-5">
