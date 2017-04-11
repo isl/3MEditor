@@ -1106,6 +1106,25 @@ $("#matching_table").on("click", "#addRuleButton", function(e) {
     }
 });
 
+/*
+ * Handler fired when user enters mouse over a mapping header
+ */
+$("body").on("mouseenter", "thead", function() {
+    $(this).css("border-top", "2px solid gray").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
+    $(this).next("tbody").children("tr:not(.empty)").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
+    $(this).next("tbody").children("tr.empty").css("border-top", "2px solid gray");
+
+
+});
+///*
+// * Handler fired when user leaves mouse from a mapping header
+// */
+$("body").on("mouseleave", "thead", function() {
+    $(this).css("border-top", "1px solid black").css("border-left", "1px solid black").css("border-right", "1px solid black");
+    $(this).next("tbody").children("tr:not(.empty)").css("border-left", "1px solid black").css("border-right", "1px solid black");
+    $(this).next("tbody").children("tr.empty").css("border-top", "1px solid black");
+});
+
 
 /*
  * Handler fired when user enters mouse over a path
@@ -1216,7 +1235,7 @@ $("body").on("click", ".delete", function() {
  */
 $("#matching_table").on("click", ".mapIndex", function(event) {
     var $index = $(this);
-    var $mappingHeader = $index.parentsUntil("table");
+    var $mappingHeader = $index.parent().parent();
     var $mapping = $index.parentsUntil("table").next("tbody");
     var index = $mapping.find(".index").first().attr("title");
 

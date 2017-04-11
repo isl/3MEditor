@@ -786,8 +786,11 @@ button[title="Add Argument"][data-xpath*="/instance_generator"] {
     border-left: 2px solid black !important;
     border-right: 2px solid black !important;
 }
-thead.selected+tbody {
-    border-bottom: 2px solid black !important;
+
+thead.selected+tbody>tr:not(.empty) {
     border-left: 2px solid black !important;
     border-right: 2px solid black !important;
+}
+thead.selected+tbody>tr.empty {
+    border-top: 2px solid black !important;
 }

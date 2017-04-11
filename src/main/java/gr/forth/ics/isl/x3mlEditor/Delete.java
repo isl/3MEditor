@@ -156,7 +156,7 @@ public class Delete extends BasicServlet {
         }
         if (xpath.startsWith("//x3ml/info/target/target_info")) { 
 
-            if (targetAnalyzer.equals("3")) { //Deleting target schema means replacing ont model
+//            if (targetAnalyzer.equals("3")) { //Deleting target schema means replacing ont model
                 OntologyReasoner ont = getOntModel(mappingFile, id);
 
                 HttpSession session = sessionCheck(request, response);
@@ -164,7 +164,7 @@ public class Delete extends BasicServlet {
                     session = request.getSession();
                 }
                 session.setAttribute("modelInstance_" + id, ont);
-            }
+//            }
 
           
         }
