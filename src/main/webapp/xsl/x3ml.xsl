@@ -72,6 +72,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <script src="js/utils.js"></script>
                
                 <link rel="stylesheet" href="css/font-awesome-4.5.0/css/font-awesome.min.css"/>
+                
+                 <xsl:if test="$action!=1"> <!-- If edit or instance mode-->
+                    <link rel="stylesheet" href="js/contextMenu/jquery.contextMenu.css" />
+                 </xsl:if>
+                
                 <!-- Temp code...just testing icons-->
                 <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>-->
 
@@ -316,10 +321,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <script src="js/bootstrap.min.js"></script>
                 <script src="js/commonEvents.js"></script>
                 <xsl:if test="$action!=1"> <!-- If edit or instance mode-->
+                    <script src="js/contextMenu/jquery.contextMenu.min.js"></script>
+
+
                     <script src="js/combos.js"></script>
                     <script src="js/editUtils.js"></script>
                     <script src="js/editEvents.js"></script>
-                    
+
                 </xsl:if>
 
                 <script src="js/select2-3.5.1/select2.min.js"/>

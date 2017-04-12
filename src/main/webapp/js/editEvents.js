@@ -807,7 +807,6 @@ $("body").on("click", ".close,.closeOnHeader", function() {
         var btnId = $btn.attr("id");
         var vars = btnId.split("***");
 
-
         if (vars.length > 0) {
             var xpath = vars[1];
             var selector;
@@ -860,17 +859,11 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                     $rulesDiv.prepend(data);
                 } else {
 
-
                     $blockToRemove.nextAll(selector).each(function() {
-//                        if ((selector === "tbody") || selector === ".path, .range") { //Testing only for maps and links at first to fix issue 30
                         $btn = $(this); //DANGER! It makes sense but I wonder if it works for all cases (tested with maps-links-args-generators)
-//                        }
 
                         var currentXpath = $btn.attr("data-xpath");
-//                        var currentXpath = $btn.attr("id");
-
                         var currentHtml = $btn.html();
-
 
                         var newPath = getPreviousPath(currentXpath);
 
@@ -878,19 +871,14 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                             if (clipboard["mapping"].indexOf(currentXpath) !== -1) {
                                 clipboard["mapping"] = newPath; //Update clipboard value!
                             }
-
-
                         } else if (selector === ".path, .range") { //link
-
                             if (clipboard["link"].indexOf(currentXpath) !== -1) {
                                 clipboard["link"] = newPath; //Update clipboard value!
                             }
-
                         }
 
                         $btn.attr("id", newPath);
                         $btn.attr("data-xpath", newPath);
-
 
                         var newHtml = currentHtml.replaceAll(currentXpath, newPath);
                         if (newPath.indexOf("/intermediate") !== -1) { //Intermediate faux element has to be replaced
@@ -902,7 +890,6 @@ $("body").on("click", ".close,.closeOnHeader", function() {
 
                                 newHtml = newHtml.replaceAll("/source_relation/node[" + currentPos + "]", "/source_relation/node[" + newPos + "]");
                                 newHtml = newHtml.replaceAll("/source_relation/relation[" + relationPos + "]", "/source_relation/relation[" + currentPos + "]");
-
                             } else {
                                 var relationshipPos = currentPos + 1;
                                 var newPos = currentPos - 1;
@@ -919,9 +906,7 @@ $("body").on("click", ".close,.closeOnHeader", function() {
 
                     if (selector === ".comments") {
                         $blockToRemove.children().fadeOut("slow").remove();
-
                         $blockToRemove.next("div.btn-group").find("li").removeClass("disabled");
-
                     } else {
                         if (selector === ".target_info") {
                             if ($(".target_info").length === 2) {
@@ -931,8 +916,6 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                         if (selector === "tbody") {
                             $blockToRemove.prev("thead").fadeOut("slow").remove();
                         }
-
-
                         $blockToRemove.fadeOut("slow").remove();
                     }
 
@@ -947,15 +930,10 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                     }
 
                     if (selector === ".intermediate") {
-//                    alert(xpath);
                         xpath = xpath.replace(/\/intermediate\[\d+\]/g, "/relationship[1]"); //Could not make replaceAll work, so used replace instead
                         refreshCombos(xpath, false);
-
                     }
-
                 }
-
-
             });
         }
     }
@@ -1241,6 +1219,10 @@ $("#matching_table").on("click", ".mapIndex", function(event) {
 
     var ctrlKeyPressed = event.ctrlKey;
     var arrayIndex = selectedMaps.indexOf(index);
+    //If you select map, you deselect link and vice versa
+    selectedRows.length = 0;
+    $("tr.selected").removeClass("selected");
+
 
     if (ctrlKeyPressed && $(".selected").length > 0) {
 
@@ -1270,6 +1252,11 @@ $("#matching_table").on("click", ".index", function(event) {
     var $parent = $index.parent();
     var index = $index.attr("title");
     var ctrlKeyPressed = event.ctrlKey;
+
+    //If you select map, you deselect link and vice versa
+    selectedMaps.length = 0;
+    $("thead.selected").removeClass("selected");
+
 
     var arrayIndex = selectedRows.indexOf(index);
 
@@ -1653,4 +1640,81 @@ $("body").on("click", "#visualizeTarget", function() {
     //Temp solution, will have to replace with relative URL when properly deployed
     window.open("http://139.91.183.38/RDFVisualizer/?resource=" + subject + "&filename=" + filename, "_blank");
 
+});
+/*
+ * Right click context menu code
+ */
+$(function() {
+    $.contextMenu({
+        selector: '.selected',
+        build: function($triggerElement, e) {
+            var xpath = $triggerElement.attr("data-xpath");
+            if ($triggerElement.hasClass("domain")) {
+                return {
+                    callback: function(key, options) {
+                        var m = "clicked: " + key +" on element with xpath:"+xpath;
+                        window.console && console.log(m) || alert(m);
+                    },
+                    items: {
+                        "": {name: "", icon: ""}
+//                        "copy": {name: "Copy domain", icon: "copy"},
+//                        "delete": {name: "Delete domain", icon: "delete"}
+                    }
+                };
+            } else if ($triggerElement.hasClass("path")) {
+                return {
+                    callback: function(key, options) {                        
+                        var m = "clicked: " + key +" on element with xpath:"+xpath;
+                        window.console && console.log(m) || alert(m);
+                    },
+                    items: {
+                        "copyLink": {name: "Copy link", icon: "copy"},
+                        "deleteLink": {name: "Delete link", icon: "delete"}
+                    }
+                };
+            } else {
+                xpath = $triggerElement.next().attr("data-xpath");
+                return {
+                    callback: function(key, options) {
+                        var m = "clicked: " + key +" on element with xpath:"+xpath;
+                        window.console && console.log(m) || alert(m);
+                    },
+                    items: {
+                        "copyMap": {name: "Copy map", icon: "copy"},
+                        "deleteMap": {name: "Delete map", icon: "delete"}
+                    }
+                };
+            }
+
+
+        }
+//        callback: function(key, options) {
+//
+////            var m = "clicked: " + key;
+////            window.console && console.log(m) || alert(m);
+//  var originalElement = $('.context-menu-active');
+//            var m = "clicked: " + originalElement.attr("class");
+//            window.console && console.log(m);
+//
+//
+//        },
+//        items: {
+//            
+//            
+//           
+////            "paste": {name: "Certificate", icon: "fa-certificate"}
+////                "edit": {name: "Edit", icon: "edit"},
+////                "cut": {name: "Cut", icon: "cut"},
+//               "copy": {name: "Copy map", icon: "copy"},
+//            "delete": {name: "Delete", icon: "delete"}
+////            "sep1": "---------",
+////            "quit": {name: "Quit", icon: function() {
+////                    return 'context-menu-icon context-menu-icon-quit';
+////                }}
+//        }
+    });
+
+    $('.context-menu-one').on('click', function(e) {
+        console.log('clicked', this);
+    })
 });
