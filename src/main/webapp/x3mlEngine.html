@@ -26,7 +26,7 @@ Authors : Georgios Samaritakis, Konstantina Konsolaki.
 This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
 -->
-<div class="well" id="config">                     
+<div class="well" id="transformation">                     
 
     <form  role="form" >
         <fieldset>
@@ -34,11 +34,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             <br/>
             <p>
                 If you have a Generator Policy xml file available, please upload it (Info tab). Otherwise you are provided with 
-                a generic one.<br/>
+                a generic one. If a target record file has already been uploaded (Info tab), you may view it in "Target Record RDF File".<br/>
                 You may modify both source and generator files on the fly, but changes will be lost next time you click on the Transformation tab.
                 (You may read instructions about generators by clicking <a href="Notes.pdf" target="_blank">Notes about Generators</a>).<br/>
                 Choose UUID size and output format and then click "Run Transformation".
-                View metadata transformed (or x3ml exception messages) inside "Target Record RDF File" textarea.</p>
+                View metadata transformed (or x3ml exception messages) inside "Target Record RDF File" textarea. 
+                You may save transformed metadata as your target record file by clicking "Save as Target Record" button. However, this 
+                action will overwrite any previous metadata, so use it with caution!</p>
             <div class="form-group ">
 
                 <div class="row">
@@ -100,22 +102,31 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                     </div>
                     <div class="col-sm-6 " style="margin-top:18px;">
-                        <button id="runEngine" type="button" class="btn btn-default btn-sm">Run Transformation</button>
+                        <button title="Click button to run transformation" id="runEngine" type="button" class="btn btn-default btn-sm">Run Transformation</button>
                     </div>
                 </div>
                 <div class="form-group ">
 
                     <div class="row">
-                        <div class="col-sm-12">
-                            <label class="control-label" >Target Record RDF File (Using x3ml engine version 1.7.3)</label>     
+                        <div class="col-sm-10">
+                            <label class="control-label" >Target Record RDF File (Using x3ml engine version 1.7.5)</label>     
                             <img class="loader" src="js/select2-3.5.1/select2-spinner.gif" style="display:none;"/>
-
-                            <textarea id="engineResult" style="width:100%;" rows="20" readonly="readonly">
-
+                            <textarea id="engineResult" style="width:100%;" rows="20">
                             </textarea>
+                        </div>      
+                        <div class="col-sm-2 ">
+                            <button title="Click button to save as your mapping target record file" style="margin-top:18px;" id="saveTarget" type="button" class="btn btn-default btn-sm disabled">Save as Target Record</button>
+                        </div>
 
+                        <div class="col-sm-2" style="margin-top:18px;">
+                            <label class="control-label" >Subject</label>     
+                            <input title="Subject"  id="subject" type="text" class="form-control input-sm" placeholder="Fill in value"/>
+                        </div>
+                        <div class="col-sm-2 ">
+                            <button title="Click button to visualize target record file" style="margin-top:18px;" id="visualizeTarget" type="button" class="btn btn-default btn-sm">Visualize selected subject</button>
                         </div>
                     </div>
+
 
                 </div>
         </fieldset>

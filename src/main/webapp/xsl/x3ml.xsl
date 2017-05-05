@@ -53,9 +53,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     var targetXPaths = "";
                     var generatorsStatus = "<xsl:value-of select="$generatorsStatus"/>";
                     var instanceGeneratorsNames = "";
+                    var schemaVersion = "<xsl:value-of select="//output/schemaVersion"/>";
                 </script>
                 <!-- Bootstrap -->
                 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen,print"/>
+                <link rel="stylesheet" href="js/mCustomScrollbar/jquery.mCustomScrollbar.min.css" />
+
                 <link href="js/select2-3.5.1/select2.css" rel="stylesheet" />
                 <link href="js/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
                 <link href="css/style.css" rel="stylesheet" media="screen,print"/>
@@ -64,9 +67,16 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <link href="css/fineuploader.css" rel="stylesheet"/>
                 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
                 <script src="js/jquery.min.js"></script>
+                <script src="js/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>               
+
                 <script src="js/utils.js"></script>
                
                 <link rel="stylesheet" href="css/font-awesome-4.5.0/css/font-awesome.min.css"/>
+                
+                 <xsl:if test="$action!=1"> <!-- If edit or instance mode-->
+                    <link rel="stylesheet" href="js/contextMenu/jquery.contextMenu.css" />
+                 </xsl:if>
+                
                 <!-- Temp code...just testing icons-->
                 <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>-->
 
@@ -158,17 +168,21 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </xsl:attribute>
-                                    <xsl:if test="$action=0">                                        
-                                        <button title="" id="info_rawXML-btn" type="button" class="btn btn-default btn-sm pull-right" data-loading-text="Loading...">
-                                            <span class="fa fa-lg fa-code pull-left"></span>
-                                            <span class="pull-left" style="margin-left:3px;">XML</span> 
-                                        </button>
-                                        <button id="info_edit-btn" type="button" class="btn btn-default btn-sm pull-right" data-loading-text="Loading...">
-                                            <span class="glyphicon glyphicon-pencil"></span> Edit
-                                        </button>  
-                                        <button id="info_view-btn" type="button" class="btn btn-default btn-sm pull-right" data-loading-text="Loading..." style="display:none;">
-                                            <span class="glyphicon glyphicon-eye-open"></span> View
-                                        </button>                                          
+                                    <xsl:if test="$action=0">  
+                                        <div class="btn-group  btn-sm actionsToolbar" >
+                                            
+                                            <button id="info_edit-btn" type="button" class="btn btn-default btn-sm pull-left" data-loading-text="Loading...">
+                                                <span class="glyphicon glyphicon-pencil"></span> EDIT
+                                            </button>  
+                                            <button id="info_view-btn" type="button" class="btn btn-default btn-sm pull-left" data-loading-text="Loading..." style="display:none;border-left:1px solid #ddd;">
+                                                <span class="glyphicon glyphicon-eye-open"></span> VIEW MODE
+                                            </button>   
+                                            <button title="" id="info_rawXML-btn" type="button" class="btn btn-default btn-sm pull-left" data-loading-text="Loading...">
+                                                <span class="fa fa-lg fa-code pull-left"></span>
+                                                <span class="pull-left" style="margin-left:3px;">XML</span> 
+                                            </button>          
+                                        </div>                                      
+                                        
                                     </xsl:if>
                                     
                                     <div>
@@ -189,43 +203,58 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </xsl:choose>
                                     </xsl:attribute>
                                     <xsl:if test="$action=0">
-
-                                    
-                                        <div class="btn-group-vertical  btn-sm pull-right actionsToolbar" >
-                                            <button title="Click to view" id="table_view-btn" type="button" class="btn btn-default btn-sm " data-loading-text="Loading...">
-                                                <span class="glyphicon glyphicon-eye-open pull-left"></span>
-                                                <span class="pull-left" style="margin-left:5px;">View mode</span>
-                                            </button>
-                                            <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="glyphicon glyphicon-sort pull-left"></span> 
-                                                <span class="pull-left" style="margin-left:5px;">Collapse</span>
-                                               
-                                                <br/>
-                                               
-                                                <span class="pull-left" style="margin-left:18px;">Expand All</span>
-
-                                            </button>
+                                        <div class="btn-group  btn-sm actionsToolbar" >
                                             <button title="Click to scroll to top" id="scrollTop-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="fa fa-chevron-up pull-left"></span> 
-                                                <span class="pull-left" style="margin-left:3px;">Top</span>
+                                                <span class="fa fa-caret-up  fa-lg pull-left"></span> 
+                                                <span class="pull-left" style="margin-left:3px;">TOP</span>
                                             </button>
                                            
                                             <button title="Click to scroll to bottom" id="scrollBottom-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
-                                                <span class="fa fa-chevron-down pull-left"></span> 
-                                                <span class="pull-left" style="margin-left:3px;">Bottom</span>
+                                                <span class="fa fa-caret-down  fa-lg pull-left"></span> 
+                                                <span class="pull-left" style="margin-left:3px;">BOTTOM</span>
                                             </button>
-                                            
-                                           
+                                            <button title="Click to view" id="table_view-btn" type="button" class="btn btn-default btn-sm " data-loading-text="Loading...">
+                                                <span class="glyphicon glyphicon-eye-open pull-left"></span>
+                                                <span class="pull-left" style="margin-left:5px;">VIEW MODE</span>
+                                            </button>
                                             <button title="" id="rawXML-btn" type="button" class="btn btn-default btn-sm" data-loading-text="Loading...">
                                                 <span class="fa fa-lg  fa-code pull-left"></span>
                                                 <span class="pull-left" style="margin-left:3px;">XML</span> 
                                             </button>
                                            
                                         </div>
+                                    
+                                        <div class="btn-group  btn-sm actionsToolbar" >
+                                            <button title="Click to collapse column" id="allSources-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
+                                                <span class="pull-left" style="margin-left:3px;">(ALL) SOURCES</span> 
+                                                <img class="pull-left" src="images/collapse-column.png" />
+                                            </button>
+                                            <button title="Click to collapse column" id="allTargets-btn" type="button" class="btn btn-default btn-sm col-sm-4 columnHide" data-loading-text="Loading...">
+                                                <span  style="margin-left:3px;">(ALL) TARGETS</span> 
+                                                <img   src="images/collapse-column.png" />
+
+                                            </button>
+                                            <button title="Click to collapse column" id="allRules-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
+                                                <img class="pull-right"  src="images/collapse-column.png" />
+                                                <span class="pull-right" style="margin-left:3px;">(ALL) IF RULES</span> 
+
+                                            </button>
+                                            <button title="Click to collapse column" id="allComments-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
+                                                <img class="pull-right"  src="images/collapse-column.png" />
+                                                <span class="pull-right" style="margin-left:3px;">(ALL) COMMENTS</span> 
+
+                                            </button>
+                                            <button title="Click to collapse/expand all maps" id="collapseExpandAll-btn" type="button" class="btn btn-default btn-sm col-sm-2" data-loading-text="Loading...">
+                                                <img class="pull-right"  src="images/collapse-map.png" />
+                                                <span class="pull-right" style="margin-left:3px;">(ALL) MAPS</span>
+                                            </button>
+
+                                        </div>
+                                    
                                     </xsl:if>
-                                    <div class="mappings">  
-                                        <xsl:apply-templates select="//mappings"/>
-                                    </div>
+                                    <!--<div class="mappings">-->  
+                                    <xsl:apply-templates select="//mappings"/>
+                                    <!--</div>-->
                                 
                                 </div>
                                 <div class="tab-pane fade " id="configuration">
@@ -292,10 +321,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <script src="js/bootstrap.min.js"></script>
                 <script src="js/commonEvents.js"></script>
                 <xsl:if test="$action!=1"> <!-- If edit or instance mode-->
+                    <script src="js/contextMenu/jquery.contextMenu.min.js"></script>
+
+
                     <script src="js/combos.js"></script>
                     <script src="js/editUtils.js"></script>
                     <script src="js/editEvents.js"></script>
-                    
+
                 </xsl:if>
 
                 <script src="js/select2-3.5.1/select2.min.js"/>

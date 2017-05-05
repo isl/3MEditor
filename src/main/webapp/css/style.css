@@ -39,7 +39,7 @@
 }
 
 .nav-tabs>li.active a{
-    background-color: #f5f5f5;
+    background-color: white;
 }
 
 .popover-title {
@@ -164,7 +164,6 @@ tr:not(.empty):not(.edit):not(.dummyDomain):not(.dummyHeader) {
 }
 
 
-tr>td:nth-child(2),
 tr>td:nth-child(3),
 tr>td:nth-child(4),
 tr>td:nth-child(5),
@@ -202,41 +201,57 @@ tr.domain>td a {
     color:white;
 }
 tr.domain:hover {
-    border: 2px solid black;
+    border: 2px solid gray !important;
 }
 
 
-/* Path */
+/* Path
+Changed first-child with nth-child(2) ie second child, since a new column was added
+*/
 tr.path:nth-child(4n+2) > td {
     background-color: #DEEED8 ;
 }
-tr.path:nth-child(4n+2) > td:first-child {
+tr.path:nth-child(4n+2) > td:nth-child(2) {
     background-color: #C9D6C4 ;
 }
 tr.path:nth-child(4n+4) > td {
     background-color: #F0EDED ;
 }
-tr.path:nth-child(4n+4) > td:first-child {
+tr.path:nth-child(4n+4) > td:nth-child(2) {
     background-color: #D7D6D4 ;
 }
 /* Range */
 tr.range:nth-child(4n+3) > td {
     background-color: #C4D3BE ;
 }
-tr.range:nth-child(4n+3) > td:first-child {
+tr.range:nth-child(4n+3) > td:nth-child(2) {
     background-color: #B8C3B5 ;
 }
 tr.range:nth-child(4n+5) > td {
     background-color: #E0E0E0 ;
 }
-tr.range:nth-child(4n+5) > td:first-child {
+tr.range:nth-child(4n+5) > td:nth-child(2) {
     background-color: #C7C6C6 ;
 }
+/* Numbers column styling */
+tr>td:first-child {
+    background-color: #F0EDED !important;
+    color:black;
+    border-bottom: 1px solid black !important;
+}
+tr:not(.dummyHeader)>th:first-child {
+    background-color: #F0EDED !important;
+    color:black;
+    /*border-bottom: 1px solid  #F0EDED !important;*/
+
+}
+
 
 /* Empty */
 tr.empty>td {
     background-color: white !important;
     padding: 5px !important;
+    border-bottom: 0 !important;
 }
 
 tr.edit>td
@@ -331,14 +346,20 @@ button.closeLike {
 }
 
 .mappings {
-    margin-right: 49px;
+    margin-right: 5px;
 }
 .actionsToolbar {
     padding: 0px;
-    z-index: 1;
-    position: fixed;
-    float:right;
-    right:0px;
+    border: 1px solid #ddd;
+    width: 100%;
+    margin-top: 5px;
+    /*    z-index: 1;
+        position: fixed;
+        float:right;
+        right:0px;*/
+}
+.actionsToolbar>button {
+    border: none;
 }
 
 .additional {
@@ -671,7 +692,7 @@ img+label {
 
 /*New links view*/
 .add, .btn-link, .add:hover, .btn-link:hover, a {
-    color: #2a6496 !important;
+    color: #428BCA !important;
     /*    padding-top:3px;
         padding-bottom: 3px;*/
 }
@@ -692,6 +713,9 @@ button[title="Add Label Generator"] {
    
 }*/
 
+.domain>.commentsHead>a {
+    color:#86CEEA !important;
+}
 
 button[title="Add Instance Generator"][data-xpath*="/domain/"] {
     color: #86CEEA !important;
@@ -713,4 +737,60 @@ button[title="Add Argument"][data-xpath*="/instance_generator"] {
 }*/
 .additionalGeneratorButtons {
     padding-left: 0;
+}
+
+
+/* Making room for extra table column (numbering)*/
+.panel-body {
+    padding-left: 0px ;
+    padding-right: 0px ;
+}
+.panel-body>.col-md-12 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.mappings fieldset, #generatorsTab fieldset {
+    padding-left:5px !important;
+    padding-right:5px !important;
+}
+.mCSB_container {
+    /*margin-right:10px !important;*/
+}
+/* Backgrounds and stylin*/
+
+.well {
+    background-color: white;
+}
+.help-block, #configuration p, #config p, #transformation p {
+    background-color: #F5F5F5;
+    font-style: italic;
+}
+.actionsToolbar img, #collapseExpandAll-btn .glyphicon{
+    margin-left: 5px !important;
+    margin-top: 2px !important;
+}
+#infoWell {
+    margin-top: 5px;
+    padding: 5px;
+}
+.selected  {
+    border-top: 2px solid black !important;
+    border-left: 2px solid black !important;
+    border-right: 2px solid black !important;
+}
+.selected.domain {
+    border-bottom: 2px solid black !important;
+}
+.selected+.range {
+    border-bottom: 2px solid black !important;
+    border-left: 2px solid black !important;
+    border-right: 2px solid black !important;
+}
+
+thead.selected+tbody>tr:not(.empty) {
+    border-left: 2px solid black !important;
+    border-right: 2px solid black !important;
+}
+thead.selected+tbody>tr.empty {
+    border-top: 2px solid black !important;
 }

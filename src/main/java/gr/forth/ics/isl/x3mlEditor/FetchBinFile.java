@@ -65,7 +65,7 @@ public class FetchBinFile extends BasicServlet {
         DBFile uploadsDBFile = new DBFile(super.DBURI, super.adminCollection, "Uploads.xml", super.DBuser, super.DBpassword);
         String use = "";
         if (type != null) {
-            if (filename.endsWith("rdf") || filename.endsWith("rdfs")) {
+            if (filename.endsWith("rdf") || filename.endsWith("rdfs") || filename.endsWith("ttl")) {
                 if (type.equals("example_data_target_record")) {
                     use = "rdf_link";
                 } else {
@@ -80,17 +80,22 @@ public class FetchBinFile extends BasicServlet {
             }
         }
         String mime = new Utils().findMime(uploadsDBFile, filename, use);
-
         path = path + mime + System.getProperty("file.separator");
         String mimeType = getServletContext().getMimeType(filename);
-
         path = path + filename;
-
         filename = filename.substring(filename.lastIndexOf("/") + 1);
         // Set content size
         File file = new File(path);
-
+        System.out.println(path);
         if (!file.exists()) {
+//            if (filename.endsWith("ttl") && use.equals("rdf_link")) {//OBSOLETE! Should not happenSpecial case (generated ttl file from Transformation tab)
+//                path = targetRecordsFolder+filename;
+//                file = new File(path);
+//            }
+//            if (response.getContentType() == null) {
+//                response.setContentType(mimeType + ";charset=UTF-8");
+//                response.setHeader("Content-disposition", "inline; filename=\"" + filename + "\"");
+//            }
 
         } else {
             if (response.getContentType() == null) {

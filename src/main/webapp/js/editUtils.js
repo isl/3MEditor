@@ -71,6 +71,23 @@ function viewOnlyGenerator() {
     });
 }
 /*
+ * Gets view html for info tab
+ */
+function viewOnlyInfo() {
+    var url = "GetPart?id=" + id + "&part=info&mode=view";
+    var req = $.myPOST(url);
+    req.done(function(data) {
+        checkResponse(data);
+
+        $("#info>div:not(.actionsToolbar)").html(data);
+        $('#info_edit-btn').show();
+        $('#info_view-btn').hide();
+    });
+    req.fail(function() {
+        alert("Connection with server lost. Action failed!");
+    });
+}
+/*
  * Refreshes html table in generators mode
  */
 function refreshTable() {
@@ -287,6 +304,9 @@ function getPosition(path) {
  * @action is either edit or add
  */
 function addDummyRows(data, $path, action) {
+
+
+
     //Adding header and domain to help editing
     var $data = $(data);
     var $buttonGroup = $data.find(".actions");
@@ -304,15 +324,15 @@ function addDummyRows(data, $path, action) {
     var $newHeadCells = $("<tr/>").append($newHead);
     $newHeadCells.find("th").last().prepend($(buttonGroupHtml));
 
-    //Change image for collapse/expang icons
-    $newHeadCells.find("img.columnHide").each(function() {
-        var $this = $(this);
-        $this.attr("src", "images/collapse-column-white.png")
-    });
-    $newHeadCells.find("img.columnShow").each(function() {
-        var $this = $(this);
-        $this.attr("src", "images/expand-column-white.png")
-    });
+//    //Change image for collapse/expang icons
+//    $newHeadCells.find("img.columnHide").each(function() {
+//        var $this = $(this);
+//        $this.attr("src", "images/collapse-column-white.png")
+//    });
+//    $newHeadCells.find("img.columnShow").each(function() {
+//        var $this = $(this);
+//        $this.attr("src", "images/expand-column-white.png")
+//    });
 
     var theadRow = "<tr class='dummyHeader'>" + $newHeadCells.html() + "</tr>";
     var $theadRow = $(theadRow);
@@ -322,7 +342,7 @@ function addDummyRows(data, $path, action) {
     if (action === "edit") {
         $path.hide();
     }
-    if ($path.hasClass("domain")||$path.hasClass("edit")) {
+    if ($path.hasClass("domain") || $path.hasClass("edit")) {
 
         //Show/hide paste accordingly
         if (clipboard["mapping"] === "") {
@@ -378,8 +398,8 @@ function upload($this) {
         allowedExtensions = ['html', 'htm'];
 
     } else if (xpath.endsWith("rdf_link")) {
-        uploadMessage = "Upload rdf";
-        allowedExtensions = ['rdf'];
+        uploadMessage = "Upload Target";
+        allowedExtensions = ['rdf', 'ttl', 'trig'];
 
 //    }  else if (xpath.endsWith("generator_link")) {
 //        uploadMessage = "Upload File";
@@ -412,8 +432,8 @@ function upload($this) {
 
             var linkText = "view";
             var dataType = "";
-            if (uploadMessage === "Upload rdf") {
-                linkText = "view rdf";
+            if (uploadMessage === "Upload Target") {
+                linkText = "view target";
             } else if (uploadMessage === "Upload xml") {
 
                 if (!xpath.endsWith("generator_link")) { //Don't enable source analyzer for generator policy files
@@ -450,6 +470,9 @@ function upload($this) {
 
 
                 } else {
+
+
+
                     dataType = "target_info"; //Added only for this case, may have to make use of it for other cases too.
                     if (comboAPI == 0) {
                         if (filename.endsWith(".xsd") || filename.endsWith(".xml")) {
@@ -481,6 +504,12 @@ function upload($this) {
                     }
                     viewOnly();
                 }
+
+                if (confirm("Do you wish to search file for namespaces and automatically fill in relevant fields? WARNING: This action will overwrite any current namespaces!") === true) {
+                     getNamespaces(filename, xpath);
+                   
+                }
+
             }
 
             if (xpath.endsWith("generator_link")) {
@@ -503,6 +532,25 @@ function upload($this) {
             var error = responseJSON.error;
             alert(error);
         }
+    });
+}
+
+function getNamespaces(filename, xpath) {
+    var namespacesXpath = xpath.replace(/\]\/.*/g, "]/namespaces");
+
+//alert(namespacesXpath)
+    console.log(" --- " + filename);
+    var url = "Services?id=" + id + "&method=getNamespaces&filename=" + filename + "&xpath=" + encodeURIComponent(xpath);
+    var req = $.myPOST(url);
+    req.done(function(data) {
+        checkResponse(data);
+
+//        alert(data);
+        $(".namespaces[id='" + namespacesXpath + "']").html(data);
+
+    });
+    req.fail(function() {
+        alert("Connection with server lost. Action failed!");
     });
 }
 

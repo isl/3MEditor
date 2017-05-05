@@ -52,6 +52,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:otherwise>
                 </xsl:choose>    
             </xsl:attribute>
+            
+           
+            
+            <td rowspan="2" style="text-align:center;vertical-align:middle;">
+                <xsl:value-of select="@index"></xsl:value-of>
+            </td>
             <td title="{//path/@xpath}">P</td>
             <td  style="background-color:white;padding:0 0 0 0;min-width:200px;" class="sourceCol">
                 

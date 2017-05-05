@@ -73,6 +73,12 @@ public class GeneratorPolicy {
         } else if (ign.equals("prefLabel")) {
             xml.append("<arg name='text' type='xpath'></arg>");
             xml.append("<arg name='language' type='constant'></arg>");
+        } else if (ign.equals("ConcatMultipleTerms")) { //new generator
+            xml.append("<arg name='prefix' type='constant'></arg>");
+            xml.append("<arg name='sameTermsDelim' type='constant'></arg>");
+            xml.append("<arg name='diffTermsDelim' type='constant'></arg>");
+            xml.append("<arg name='text1' type='xpath'></arg>");
+            xml.append("<arg name='text2' type='xpath'></arg>");
         } else {
             //Then values from gpf
             if (gpf != null) {

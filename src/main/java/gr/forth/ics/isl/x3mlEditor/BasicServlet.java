@@ -169,7 +169,8 @@ public class BasicServlet extends HttpServlet {
             /**
              *
              */
-            schemaFolder;
+            schemaFolder,
+            targetRecordsFolder;
 
     /**
      *
@@ -226,6 +227,7 @@ public class BasicServlet extends HttpServlet {
             configQueriesCollection = sc.getInitParameter("configQueriesCollection");
             uploadsFolder = sc.getInitParameter("uploadsFolder");
             schemaFolder = sc.getInitParameter("schemaFolder");
+            targetRecordsFolder = sc.getInitParameter("targetRecordsFolder");
 
             systemURL = sc.getInitParameter("systemURL");
             stateOfSite = sc.getInitParameter("stateOfSite");
@@ -372,6 +374,17 @@ public class BasicServlet extends HttpServlet {
 
         DBCollection collection = connectionPool.connect(DBURI, coll);
         return collection.query(q);
+    }
+
+    public String getIndex(String xpath) {
+        String mapIndex = xpath.substring(xpath.indexOf("[") + 1, xpath.indexOf("]"));
+        if (xpath.contains("link")) {
+            String linkIndex = xpath.substring(xpath.lastIndexOf("[") + 1, xpath.lastIndexOf("]"));
+            String index = mapIndex + "." + linkIndex;
+            return index;
+        } else {
+            return mapIndex;
+        }
     }
 
     /**

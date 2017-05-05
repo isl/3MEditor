@@ -40,6 +40,8 @@ var sourcePaths = "mini";
 var targetPaths = "mini";
 var targetRoot = $(".targetPath").first().html();
 var sourceRoot = $(".sourcePath").first().html();
+var selectedRows = new Array();
+var selectedMaps = new Array();
 
 /*
  * Page initialization
@@ -48,38 +50,104 @@ $(document).ready(function() {
 //$.ajaxSetup({
 //  timeout: 10000
 //});
-
     $('.description').popover({
         trigger: "hover",
         placement: "right"
     });
 
+    initScrollbar("Mappings");
+
     $("#matching_table, #generatorsTab").on("click", ".collapseExpand", function() {
         $(this).parentsUntil("thead").parent().next("tbody").children("tr.path, tr.range").toggle();
+        toggleCollapseExpandImage($(this));
     });
 
     $("#matching_table, #generatorsTab").on("click", ".columnShow", function() {
         var $this = $(this);
-        var colName = $this.closest("th").attr('class');
-        $("." + colName).toggle();
-        $("." + colName + ":hidden").remove();
+        var type = $this.attr("type");
+
+        var activeTab = $(".active").children("a").html();
+        var tabId;
+        if (activeTab === "Matching Table") {
+            tabId = "#matching_table";
+        } else {
+            tabId = "#generatorsTab";
+        }
+
+        var btnId = $this.attr("id");
+        var colName;
+        if (type === "button") {
+
+            if (btnId === "allSources-btn") {
+                colName = "sourceCol";
+            } else if (btnId === "allTargets-btn") {
+                colName = "targetCol";
+            } else if (btnId === "allRules-btn") {
+                colName = "ifCol";
+            } else if (btnId === "allComments-btn") {
+                colName = "commentsHead";
+            }
+            $(tabId + " ." + colName).toggle();
+            $(tabId + " ." + colName + ":hidden").remove();
+            $this.addClass("columnHide").removeClass("columnShow");
+            $this.attr("title", "Click to collapse column");
+            $this.children("img").attr("src", "images/collapse-column.png");
+
+        } else {
+            colName = $this.closest("th").attr('class');
+            $("." + colName).toggle();
+            $("." + colName + ":hidden").remove();
+        }
+
+
     });
 
     $("#matching_table, #generatorsTab").on("click", ".columnHide", function() {
         var $this = $(this);
         var imageSrc;
+        var type = $this.attr("type");
+        var activeTab = $(".active").children("a").html();
+        var tabId;
+        if (activeTab === "Matching Table") {
+            tabId = "#matching_table";
+        } else {
+            tabId = "#generatorsTab";
+        }
+        var btnId = $this.attr("id");
+        var colName;
+        if (type === "button") {
 
-        var colName = $this.closest("th").attr('class');
-        $("th." + colName).hide().each(function() {
-            var $this = $(this);
-            if ($this.parent().hasClass("dummyHeader")) {//Use white image for dummyHeader and black for rest
-                imageSrc = "images/expand-column-white.png";
-            } else {
-                imageSrc = "images/expand-column.png";
+            if (btnId === "allSources-btn") {
+                colName = "sourceCol";
+            } else if (btnId === "allTargets-btn") {
+                colName = "targetCol";
+            } else if (btnId === "allRules-btn") {
+                colName = "ifCol";
+            } else if (btnId === "allComments-btn") {
+                colName = "commentsHead";
             }
-            $this.after("<th class='" + colName + "'><img class='columnShow' title='Click to expand column' src='" + imageSrc + "'/></th>");
-        });
-        $("td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
+            $this.removeClass("columnHide").addClass("columnShow");
+            $this.attr("title", "Click to expand column");
+            $this.children("img").attr("src", "images/expand-column.png");
+
+            $(tabId + " th." + colName).hide().after("<th class='" + colName + "'>&#160;</th>");
+            $(tabId + " td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
+
+        } else {
+            colName = $this.closest("th").attr('class');
+
+            $("th." + colName).hide().each(function() {
+                var $this = $(this);
+                if ($this.parent().hasClass("dummyHeader")) {//Use white image for dummyHeader and black for rest
+                    imageSrc = "images/expand-column-white.png";
+                } else {
+                    imageSrc = "images/expand-column.png";
+                }
+                $this.after("<th class='" + colName + "'><img class='columnShow' title='Click to expand column' src='" + imageSrc + "'/></th>");
+            });
+            $("td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
+
+        }
     });
 
 
@@ -88,7 +156,7 @@ $(document).ready(function() {
 
         $("#matching_table, #generatorsTab").on("click", "#table_view-btn", function() {
 //        $('#table_view-btn').click(function() {
-          
+
             if ($(".active").children("a").html() === "Generators") {
                 if ($(".focus").length > 0) {
                     initGenerators();
@@ -103,7 +171,8 @@ $(document).ready(function() {
                 var req = $.myPOST(url, "", "", 20000);
                 req.done(function(data) {
                     checkResponse(data);
-                    $("#matching_table>div.mappings").html(data);
+                    $("#matching_table>div.mappings .mCSB_container").html(data);
+
                     if (sourcePaths === "full") {
                         $(".sourcePath").each(function(index) {
                             var $sourcePathSpan = $(this);
@@ -124,6 +193,7 @@ $(document).ready(function() {
 
                     $('.collapseExpand').click(function() {
                         $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
+                        toggleCollapseExpandImage($(this));
                     });
                     $(".empty").find("div.row").css("display", "block");
                     $("body").css("opacity", "1");
@@ -139,14 +209,30 @@ $(document).ready(function() {
 
         });
         $("#matching_table, #generatorsTab").on("click", "#collapseExpandAll-btn", function() {
-            $("tr.path, tr.range").toggle();
+            var activeTab = $(".active").children("a").html();
+            var tabId;
+            if (activeTab === "Matching Table") {
+                tabId = "#matching_table";
+            } else {
+                tabId = "#generatorsTab";
+            }
+
+            var imgSrc = $(this).children("img").attr("src");
+            if (imgSrc === "images/collapse-map.png") {
+                $(tabId + " tr.path," + tabId + " tr.range").hide();
+            } else if (imgSrc === "images/expand-map.png") {
+                $(tabId + " tr.path," + tabId + " tr.range").show();
+            }
+
+
+
+            toggleCollapseExpandImage($(this));
+            $(tabId + " .collapseExpand").each(function() {//toggle all buttons
+                toggleCollapseExpandImage($(this));
+            });
+
         });
-        $("#matching_table, #generatorsTab").on("click", "#scrollTop-btn", function() {
-            $("html, body").animate({scrollTop: 0}, "slow");
-        });
-        $("#matching_table, #generatorsTab").on("click", "#scrollBottom-btn", function() {
-            $("html, body").animate({scrollTop: $(document).height()}, "slow");
-        });
+
         $("body").on("click", "#info_rawXML-btn, #rawXML-btn", function() {
 //        $('#info_rawXML-btn, #rawXML-btn').click(function() {
             $("#myModal").find("textarea").val("");
@@ -224,6 +310,16 @@ $(document).ready(function() {
             fillInstanceCombos(".arg");
         }
     }
+    if (schemaVersion === "1.1") {
+        if (confirm("You are using an older x3ml schema version (1.1). Do you wish to update your mapping to version 1.2?") === true) {
+            var url = "Services?method=update&id=" + id + "&from=1.1&to=1.2";
+            var req = $.myPOST(url);
+            req.done(function(data) {
+                alert(data);
+                location.reload();
+            });
+        }
+    }
 
 });
 
@@ -234,6 +330,8 @@ $(document).ready(function() {
  */
 $('.nav a').click(function(e) {
     e.preventDefault();
+    $("body").css("opacity", "1");
+
     if ($(this).html() === "About") {
         $("#about").load("readme.html");
     } else if ($(this).html() === "Generators") {
@@ -249,60 +347,54 @@ $('.nav a').click(function(e) {
             } else {
                 sourceFilename = $("a:contains('view xml')").attr("title");
             }
-//            alert(sourceFilename)
             var url = "FetchBinFile?file=" + encodeURIComponent(sourceFilename) + "&type=xml_link";
             var req = $.myPOST(url, "xml");
             req.done(function(xml) {
                 checkResponse(xml);
-
-//            $.post(url, "xml").done(function(xml) {
                 var xmlString = (new XMLSerializer()).serializeToString(xml);
                 $("#sourceFile").val(xmlString);
             });
 
-//            var generatorPolicyFilename = $("a:contains('view generator xml')").attr("href");
-//            var url = "FetchBinFile?file=" + generatorPolicyFilename;
-            var url = "";
+            url = "";
             if ($("info_view-btn").is(':visible')) {//edit_mode
                 url = $("div:visible>a:contains('view generator xml')").attr("href");
             } else {
                 url = $("a:contains('view generator xml')").attr("href");
             }
 
-//            alert(url)
-//            $.post(url, "xml").done(function(xml) {
-            var req = $.myPOST(url, "xml");
+            req = $.myPOST(url, "xml");
             req.done(function(xml) {
-//                checkResponse(xml); //Fetch does not return html with title, should not check
-
                 var xmlString = (new XMLSerializer()).serializeToString(xml);
-
                 $("#generator").val(xmlString);
             });
+
+            url = "";
+            if ($("info_view-btn").is(':visible')) {//edit_mode
+                url = $("div:visible>a:contains('view target')").attr("href");
+            } else {
+                url = $("a:contains('view target')").attr("href");
+            }
+
+            if (typeof url === 'undefined') { //If no target record disable Visualize
+                $("#visualizeTarget").addClass("disabled");
+            } else {
+                req = $.myPOST(url, "xml");
+                req.done(function(xml) {
+                    $("#engineResult").val(xml);
+                });
+            }
+
 
         });
 
     }
 });
 
-/*
- * Handler fired when switching tabs
- */
-$('.nav-tabs a').on('show.bs.tab', function(event){
-    var activeTabText = $(event.target).text();         // active tab
-//    var previousTabText = $(event.relatedTarget).text();  // previous tab
-    if (activeTabText==="Generators") {
-        viewOnly(); //To avoid combo mixup (matching table-generators)
-    } else  if (activeTabText==="Matching Table") {
-        viewOnlyGenerator();
-    }
 
-    
-});
 
 
 function initGenerators() {
-    
+
     $("body").css("opacity", "0.4");
 
     var url = "GetPart?id=" + id + "&part=mappings&mode=instance";
@@ -330,12 +422,31 @@ function initGenerators() {
 
         $('.collapseExpand').click(function() {
             $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
+            toggleCollapseExpandImage($(this));
+
+//            var imgSrc = $(this).children("img").attr("src");
+//            if (imgSrc === "images/collapse-map.png") {
+//                $(this).children("img").attr("src", "images/expand-map.png");
+//            } else if (imgSrc === "images/expand-map.png") {
+//                $(this).children("img").attr("src", "images/collapse-map.png");
+//            }
         });
 
-        if (generatorsStatus === "auto") {
-            getInstanceGeneratorNamesAndFillCombos();
-        } else {
-            fillInstanceCombos(".arg");
+        initScrollbar("Generators");
+
+
+        if (mode === 0) { //Fill combos only if edit mode
+            if (generatorsStatus === "auto") {
+                getInstanceGeneratorNamesAndFillCombos();
+            } else {
+                fillInstanceCombos(".arg");
+            }
+        } else {//if view mode 
+            $("#generatorsTab .actionsToolbar").hide(); //hide actions toolbar
+            $(".generatorButtons").hide(); //hide add links
+            $(".additionalGeneratorButtons").hide(); //hide additional add links
+            $("#generatorsTab legend").html("View mode"); //change legend
+
         }
 
         $("body").css("opacity", "1");

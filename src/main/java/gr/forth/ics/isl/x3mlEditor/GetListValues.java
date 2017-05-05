@@ -32,6 +32,7 @@ import isl.dbms.DBFile;
 import isl.reasoner.OntologyReasoner;
 import static gr.forth.ics.isl.x3mlEditor.BasicServlet.applicationCollection;
 import gr.forth.ics.isl.x3mlEditor.utilities.Schema;
+import gr.forth.ics.isl.x3mlEditor.utilities.SchemaAnalyzer;
 import gr.forth.ics.isl.x3mlEditor.utilities.Utils;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -104,60 +105,22 @@ public class GetListValues extends BasicServlet {
 
         String output = "";
         if (targetSchemas.length > 0) {
-            if (targetMode == 1) {//1 for DOM, 2 for eXist, 3 for Jena
-                //Mode 1 is now obsolete
-            } else if (targetMode == 2) {
-                String[] prefixes = mappingFile.queryString("//namespace/@prefix/string()");
-                String[] uris = mappingFile.queryString("//namespace/@uri/string()");
 
-                HashMap<String, String> filenameAndPrefix = new HashMap<String, String>();
-                HashMap<String, String> filenameAndType = new HashMap<String, String>();
-                HashMap<String, String> filenameAndURI = new HashMap<String, String>();
+            if (targetMode == 2) {
 
-                for (int i = 0; i < targetSchemas.length; i++) {
-                    String targetSchema = targetSchemas[i];
-                    String[] targetSchemaTitles = mappingFile.queryString("//target_info/target_schema/string()");
-                    String targetSchemaTitle = targetSchemaTitles[i];
+                SchemaAnalyzer analyzer = new SchemaAnalyzer(mappingFile);
 
-                    String prefix = "";
-                    String uri = "";
-                    if (i + 2 < prefixes.length) {
-                        prefix = prefixes[i + 2];
-                        uri = uris[i + 2];
-                    } else {
-                        System.out.println("WARNING! Schema files-namespaces mismatch!");
-                    }
-
-                    filenameAndType.put(targetSchema, targetSchemaTitle);
-                    filenameAndPrefix.put(targetSchema, prefix);
-                    filenameAndURI.put(targetSchema, uri);
-
-                    if (targetSchemaTitle.equals("")) {
-                        targetSchemaTitle = targetSchema; //Maybe replace with prefix in the future?
-                    }
-
-                    if (targetSchema.endsWith(".rdfs") || targetSchema.endsWith(".rdf")) {
-                        if (targetSchema.startsWith("../")) {//Hack for CIDOC
-                            targetSchema = targetSchema.replace("../", "");
-                        }
-                    }
-                }
                 HttpSession session = sessionCheck(request, response);
                 if (session == null) {
                     session = request.getSession();
                 }
 
-//                if (targetSchemas.length > 0 && targetSchemas[0].endsWith(".xsd")) {
-//                    response.sendRedirect("http://localhost:8084/SourceAnalyzer/filePathServiceGet?fileName="+targetSchemas[0]);
-//                    return;
-//                } else {
                 results = getListValues(mappingFile, xpath, targetSchemas, session);
                 resultsList = new ArrayList(Arrays.asList(results));
-
                 if (resultsList.size() > 0) {
-                    output = tableToJSON(currentValue, resultsList, filenameAndType, filenameAndPrefix, filenameAndURI);
+                    output = tableToJSON(resultsList, analyzer);
+//                    output = tableToJSON(resultsList, filenameAndType, filenameAndPrefix, filenameAndURI);
                 }
-//                }
 
             } else if (targetMode == 3) {//
 
@@ -180,8 +143,8 @@ public class GetListValues extends BasicServlet {
 
         if (targetMode != 2) {
             if (resultsList.size() > 0) {
-                String[] prefixes = mappingFile.queryString("//namespace/@prefix/string()");
-                String[] uris = mappingFile.queryString("//namespace/@uri/string()");
+                String[] prefixes = mappingFile.queryString("//target_info//namespace/@prefix/string()");
+                String[] uris = mappingFile.queryString("//target_info//namespace/@uri/string()");
                 HashMap<String, String> prefixAndURI = new HashMap<String, String>();
 
                 for (int i = 0; i < prefixes.length; i++) {
@@ -420,11 +383,113 @@ public class GetListValues extends BasicServlet {
         return resultsList;
     }
 
-    private String tableToJSON(String selectedValue, ArrayList<String> table, HashMap<String, String> filenameAndType, HashMap<String, String> filenameAndPrefix, HashMap<String, String> filenameAndURI) {
+    private String tableToJSON(ArrayList<String> table, SchemaAnalyzer analyzer) {
         StringBuilder output = new StringBuilder();
 
         String title = "";
         LinkedHashMap<String, ArrayList> valuesBySchema = new LinkedHashMap();
+        for (String res : table) {
+
+            if (res.contains("######")) {
+                String[] resValues = res.split("######");
+                title = resValues[0];
+                if (title.startsWith("../")) {//LEGACY code, maybe not needed 
+                    title = title.substring(3);
+                }
+                res = resValues[1];
+
+                ArrayList valuesSoFar = valuesBySchema.get(title);
+                if (valuesSoFar == null) {
+                    valuesSoFar = new ArrayList();
+
+                    valuesSoFar.add(res);
+
+                } else {
+                    if (!valuesSoFar.contains(res)) { //no duplicates
+                        valuesSoFar.add(res);
+                    }
+                }
+                valuesBySchema.put(title, valuesSoFar);
+
+            }
+
+        }
+        for (Map.Entry<String, ArrayList> entry : valuesBySchema.entrySet()) {
+            String key = entry.getKey();
+            ArrayList<String> value = entry.getValue();
+
+            value = new Utils().sort(value);
+
+            String prefix = "";
+            String type = "";
+            //Replace filename with friendly name
+            if (key.startsWith("cidoc_crm")) {
+                type = analyzer.getTitleForFile(key, "target");
+                if (type == null) {
+                    key = "../" + key;
+                    type = analyzer.getTitleForFile(key, "target");
+                }
+                ArrayList<String> prefixes = analyzer.getPrefixesForFile(key, "target");
+                if (!prefixes.isEmpty()) {
+                    prefix = analyzer.getPrefixesForFile(key, "target").get(0);
+                }
+            } else {
+                ArrayList<String> prefixes = analyzer.getPrefixesForFile(key, "target");
+                if (!prefixes.isEmpty()) {
+                    prefix = analyzer.getPrefixesForFile(key, "target").get(0);
+                }
+                type = analyzer.getTitleForFile(key, "target");
+
+            }
+
+            output.append("{ \"text\": \"").append(type).append("\", \"children\": [\n");
+
+            for (String val : value) {
+                String strippedURL = val;
+                if (val.startsWith("http://")) { //If URL then find proper prefix, if none then strip slashes part
+
+                    ArrayList<String> prefixForHttpValue = analyzer.getURIandPrefixForValueStartingWithHttp(val);
+                    if (prefixForHttpValue == null) {
+
+                        strippedURL = val.substring(val.lastIndexOf("/") + 1);
+                        output.append("{\"id\":\"").append(val).append("\",");
+                    } else {
+                        if (prefixForHttpValue.size() == 2) {
+                            String prefixFound = prefixForHttpValue.get(1);
+                            strippedURL = val.substring(prefixForHttpValue.get(0).length());
+                            output.append("{\"id\":\"").append(prefixFound).append(":").append(strippedURL).append("\",");
+                        } else {
+                            strippedURL = val.substring(val.lastIndexOf("/") + 1);
+                            output.append("{\"id\":\"").append(val).append("\",");
+                        }
+
+                    }
+                } else {
+                    output.append("{\"id\":\"").append(prefix).append(":").append(val).append("\",");
+                }
+                output.append(" \"text\":\"").append(strippedURL).append("\"},");
+
+            }
+            output = output.delete(output.length() - 1, output.length());
+            output.append("]},");
+        }
+
+        String out = "";
+        if (output.length() > 0) {
+            out = output.substring(0, output.length() - 1);
+        }
+
+        return out;
+
+    }
+
+    //DEPRECATED
+    private String tableToJSON(ArrayList<String> table, HashMap<String, String> filenameAndType, HashMap<String, String> filenameAndPrefix, HashMap<String, String> filenameAndURI) {
+        StringBuilder output = new StringBuilder();
+
+        String title = "";
+        LinkedHashMap<String, ArrayList> valuesBySchema = new LinkedHashMap();
+//        System.out.println(table);
         for (String res : table) {
 
             if (res.contains("######")) {
@@ -436,6 +501,9 @@ public class GetListValues extends BasicServlet {
                     //Following snippet finds proper prefix for a class using URI
                     String value = res.substring(0, res.lastIndexOf("/") + 1);
                     for (Map.Entry<String, String> entry : filenameAndURI.entrySet()) {
+//                        System.out.println("VAL=" + value);
+//                        System.out.println("ENT=" + entry.getValue());
+
                         if (value.equals(entry.getValue())) {
                             title = entry.getKey();
                             if (title.startsWith("../")) {
@@ -462,7 +530,7 @@ public class GetListValues extends BasicServlet {
             }
 
         }
-
+//        System.out.println(valuesBySchema);
         for (Map.Entry<String, ArrayList> entry : valuesBySchema.entrySet()) {
             String key = entry.getKey();
             ArrayList<String> value = entry.getValue();
@@ -516,7 +584,7 @@ public class GetListValues extends BasicServlet {
         for (String res : table) {
             String strippedURL = res;
             if (res.startsWith("http://")) { //If URL then strip slashes part
-
+//System.out.println(res);
                 for (String uri : prefixAndURI.keySet()) {
                     if (uri.length() > 0) {
                         if (res.startsWith(uri)) {

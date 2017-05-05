@@ -48,6 +48,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:otherwise>
                 </xsl:choose>    
             </xsl:attribute>
+             <td style="display:none;"><!--Dummy cell added to be uniform with path row-->
+                
+            </td>
             <td title="{//range/@xpath}">R</td>
             <td style="padding:0 0 0 0;" class="sourceCol">
                 <div class="row "  style="margin-left:0px;">

@@ -38,7 +38,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <xsl:choose>
             <xsl:when test="//mappings/@mode">
                 <xsl:text>2</xsl:text>
-            </xsl:when>
+            </xsl:when>         
             <xsl:otherwise>
                 <xsl:value-of select="//output/viewMode"/>
             </xsl:otherwise>           

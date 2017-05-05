@@ -79,14 +79,14 @@ public class Index extends BasicServlet {
         String lang = request.getParameter("lang");
         String action = request.getParameter("action");
         String sourceAnalyzer = request.getParameter("sourceAnalyzer");
-         String mappingSuggester = request.getParameter("mappingSuggester");
-         if (mappingSuggester == null ) {
-             mappingSuggester = mappingSuggesterStatus;
-         }
+        String mappingSuggester = request.getParameter("mappingSuggester");
+        if (mappingSuggester == null) {
+            mappingSuggester = mappingSuggesterStatus;
+        }
         String sourceAnalyzerFiles = "***";
         String targetType = "";
         String targetAnalyzerFiles = "***";
-        String targetAnalyzer = request.getParameter("targetAnalyzer");        
+        String targetAnalyzer = request.getParameter("targetAnalyzer");
         if (targetAnalyzer == null) {
             targetAnalyzer = targetPathSuggesterAlgorithm;
         }
@@ -124,12 +124,19 @@ public class Index extends BasicServlet {
         dbc.xRemove("//if[not(*)]");
 
         String collectionPath = getPathforFile(dbc, xmlId, id);
+        String mappingFileAsString = getDBFileContent(collectionPath, xmlId);
 
-        xmlMiddle.append(getDBFileContent(collectionPath, xmlId));
+        xmlMiddle.append(mappingFileAsString);
+
         if (output.equals("html")) {
             xmlMiddle.append("</xml>");
-        }
-        if (output.equals("html")) {
+            if (mappingFileAsString.contains("<source>")) {
+                System.out.println("NEW");
+                 xmlMiddle.append("<schemaVersion>").append("1.2+").append("</schemaVersion>");
+            } else {
+                System.out.println("OLD");
+                xmlMiddle.append("<schemaVersion>").append("1.1").append("</schemaVersion>");
+            }
 
             String xsl = baseURL + "/xsl/x3ml.xsl";
             if (stateOfSite.equals("off")) {
@@ -297,8 +304,8 @@ public class Index extends BasicServlet {
 
     private HashMap<String, String> analyzeSource(DBFile mappingFile, String sourceAnalyzer) {
         String sourceAnalyzerFiles = "***";
-
-        String sourceQuery = "let $i := //source_info/source_schema/@schema_file\n"
+        //TODO!!!!
+        String sourceQuery = "let $i := //source_info[1]/source_schema/@schema_file\n"
                 + "let $k := //example_data_source_record/@xml_link\n"
                 + "return\n"
                 + "<sourceAnalyzer>\n"

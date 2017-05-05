@@ -31,8 +31,12 @@ import isl.dbms.DBCollection;
 import isl.dbms.DBFile;
 import static gr.forth.ics.isl.x3mlEditor.BasicServlet.applicationCollection;
 import gr.forth.ics.isl.x3mlEditor.utilities.GeneratorPolicy;
+import gr.forth.ics.isl.x3mlEditor.utilities.Utils;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -85,8 +89,8 @@ public class Services extends BasicServlet {
 
         if (method.equals("export") || output.equals("xml")) {
             String version = request.getParameter("version");
-            if (version!=null) {
-                dbc = new DBCollection(DBURI, versionsCollection + "/Mapping/Mapping"+id+"/"+version, DBuser, DBpassword);
+            if (version != null) {
+                dbc = new DBCollection(DBURI, versionsCollection + "/Mapping/Mapping" + id + "/" + version, DBuser, DBpassword);
                 collectionPath = getPathforFile(dbc, xmlId, id);
             }
 
@@ -152,10 +156,171 @@ public class Services extends BasicServlet {
             out.println("]\n"
                     + "}");
 
+        } else if (method.equals("storeFile")) {
+            String type = request.getParameter("type");
+            String content = request.getParameter("content");
+//            System.out.println("CONTENT="+request.getParameter("content"));
+
+            String extension = "rdf";
+            if (type.equals("Turtle")) {
+                extension = "ttl";
+            } else if (type.equals("N-triples")) {
+                extension = "trig";
+            }
+            String filename = "Mapping" + id + "." + extension;
+            new Utils().writeFile(uploadsFolder + "example_files/" + filename, content);
+            //example_data_target_record
+            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+            String[] results = mappingFile.queryString("//example_data_target_record/@rdf_link/string()");
+            System.out.println(results.length);
+            if (results.length == 0) {
+                mappingFile.xAddAttribute("//example_data_target_record", "rdf_link", filename);
+            } else if (results.length > 0) {
+                mappingFile.xUpdate("//example_data_target_record/@rdf_link", filename);
+            }
+            out.println("Saved " + filename);
+
+        } else if (method.equals("getNamespaces")) {
+            String filename = request.getParameter("filename");
+            Utils utils = new Utils();
+            HashMap<String, String> results = new HashMap<String, String>();
+            if (filename.endsWith("ttl") || filename.endsWith("rdf") || filename.endsWith("rdfs")) {
+                File schemaFile = new File(uploadsFolder + "rdf_schema/" + filename);
+                String content = utils.readFile(schemaFile, "UTF-8");
+
+                if (filename.endsWith(".ttl")) {
+                    results = findNamespaces("ttl", content);
+                } else {
+                    results = findNamespaces("rdf", content);
+                }
+            } else if (filename.endsWith("xsd")) {
+                File schemaFile = new File(uploadsFolder + "xml_schema/" + filename);
+                String content = utils.readFile(schemaFile, "UTF-8");
+                results = findNamespaces("xsd", content);
+            } else if (filename.endsWith("xml")) {
+                File schemaFile = new File(uploadsFolder + "example_files/" + filename);
+                String content = utils.readFile(schemaFile, "UTF-8");
+                results = findNamespaces("xml", content);
+            }
+            String xpath = request.getParameter("xpath");
+            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+
+            String relevantNamespacesXpath = xpath.substring(0, xpath.lastIndexOf("]") + 1) + "/namespaces";
+            StringBuilder namespacesXML = new StringBuilder();
+            String baseNamespace = results.get("base");
+            int index = 1;
+            if (baseNamespace != null) {
+                String namespaceXML = "<namespace prefix='' uri='" + baseNamespace + "'/>";
+                namespacesXML = namespacesXML.append(namespaceXML);
+                String namespaceXpath = relevantNamespacesXpath + "/namespace[" + index + "]";
+                namespaceXML = namespaceXML.replaceFirst("/>", " pos='" + index + "'" + " xpath='" + namespaceXpath + "'/>");
+                String html = transform(namespaceXML, super.baseURL + "/xsl/edit/namespace.xsl");
+                out.println(html);
+                index = index + 1;
+                results.remove("base");
+            }
+            for (String prefix : results.keySet()) {
+                String namespaceXML = "<namespace prefix='" + prefix + "' uri='" + results.get(prefix) + "'/>";
+                namespacesXML = namespacesXML.append(namespaceXML);
+
+                String namespaceXpath = relevantNamespacesXpath + "/namespace[" + index + "]";
+                namespaceXML = namespaceXML.replaceFirst("/>", " pos='" + index + "'" + " xpath='" + namespaceXpath + "'/>");
+                String html = transform(namespaceXML, super.baseURL + "/xsl/edit/namespace.xsl");
+                out.println(html);
+                index = index + 1;
+            }
+
+            mappingFile.xUpdate(relevantNamespacesXpath, namespacesXML.toString());
+        } else if (method.equals("update")) {
+            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+            updateX3ml(mappingFile, "1.1", "1.2");
+            out.println("Updated! Please wait to reload mapping.");
+
         }
 
         out.close();
 
+    }
+
+    private void updateX3ml(DBFile x3mlFile, String from, String to) {
+        if (from.equals("1.1") && to.equals("1.2")) {
+            x3mlFile.xInsertAfter("//x3ml/info/general_description", "<source/>");//create source block
+            x3mlFile.xInsertAfter("//x3ml/info/source", "<target/>");//create target block
+            x3mlFile.xMoveInside("//x3ml/info/source_info[1]/source_collection", "//x3ml/info/source");//move only source collection
+            x3mlFile.xMoveInside("//x3ml/info/target_info[1]/target_collection", "//x3ml/info/target");//move first target collection
+            x3mlFile.xRemove("//x3ml/info/target_info/target_collection");//delete other target collection 
+
+            x3mlFile.xMoveBefore("//x3ml/info/source_info", "//x3ml/info/source/source_collection");//move source_info inside source
+            x3mlFile.xMoveBefore("//x3ml/info/target_info", "//x3ml/info/target/target_collection");//move target_info inside target
+            String[] namespaces = x3mlFile.queryString("//namespace");
+            int targetInfosLength = x3mlFile.queryString("//target_info").length;
+
+            int index = 0;
+            StringBuilder newNamespacesBlock = new StringBuilder();
+            for (String namespace : namespaces) {
+                if (index < 2) {//DO NOTHING
+                } else if (index < targetInfosLength + 2) {
+                    int targetIndex = index - 1;
+                    x3mlFile.xInsertAfter("//x3ml/info/target/target_info[" + targetIndex + "]/target_schema", "<namespaces>" + namespace + "</namespaces>");//create target block
+                } else {
+                    newNamespacesBlock = newNamespacesBlock.append(namespace);
+                }
+                index = index + 1;
+            }
+            if (newNamespacesBlock.length() > 0) {
+                x3mlFile.xUpdate("//x3ml/namespaces", newNamespacesBlock.toString());
+            } else {
+                x3mlFile.xUpdate("//x3ml/namespaces", "<namespace prefix='' uri=''/>");
+            }
+        }
+    }
+
+    private HashMap<String, String> findNamespaces(String type, String content) {
+        Utils utils = new Utils();
+        HashMap<String, String> results = new HashMap<String, String>();
+
+        if (type.equals("ttl")) {
+            ArrayList<String> prefixAndNamespaces = utils.findReg("(?<=@prefix)\\s+.*(?=>)", content, 0);
+            for (String prefixAndNamespace : prefixAndNamespaces) {
+                prefixAndNamespace = prefixAndNamespace.trim();
+
+                if (prefixAndNamespace.contains(": <")) {
+                    String[] res = prefixAndNamespace.split(": <");
+                    String prefix = res[0].trim();
+                    String namespace = res[1].trim();
+                    if (!(prefix.equals("rdf") || prefix.equals("rdfs") || prefix.equals("xsd"))) {
+                        results.put(prefix, namespace);
+                    }
+                    results.put(prefix, namespace);
+                }
+            }
+        } else if (type.equals("rdf") || type.equals("xsd") || type.equals("xml")) {
+            ArrayList<String> prefixAndNamespaces = utils.findReg("(?<=xmlns:).*?(?=\"(\\s+|>))", content, 0);
+            for (String prefixAndNamespace : prefixAndNamespaces) {
+                prefixAndNamespace = prefixAndNamespace.trim();
+                if (prefixAndNamespace.contains("=\"") || prefixAndNamespace.contains("= \"")) {
+                    String[] res = prefixAndNamespace.split("=\\s*\"");
+                    String prefix = res[0].trim();
+                    String namespace = res[1].trim();
+                    if (!(prefix.equals("rdf") || prefix.equals("rdfs") || prefix.equals("xsd"))) {
+                        results.put(prefix, namespace);
+                    }
+                }
+            }
+            prefixAndNamespaces = utils.findReg("(?<=xml:)base.*?(?=\"(\\s+|>))", content, 0);
+            for (String prefixAndNamespace : prefixAndNamespaces) {
+                prefixAndNamespace = prefixAndNamespace.trim();
+                if (prefixAndNamespace.contains("=\"") || prefixAndNamespace.contains("= \"")) {
+                    String[] res = prefixAndNamespace.split("=\\s*\"");
+                    String prefix = res[0].trim();
+                    String namespace = res[1].trim();
+                    if (!(prefix.equals("rdf") || prefix.equals("rdfs") || prefix.equals("xsd"))) {
+                        results.put(prefix, namespace);
+                    }
+                }
+            }
+        }
+        return results;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

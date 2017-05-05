@@ -30,7 +30,53 @@ $(window).on('beforeunload', function() {
     closeAndUnlock(id);
 });
 
+function toggleCollapseExpandImage($btn) {
+    var imgSrc = $btn.children("img").attr("src");
+    if (imgSrc === "images/collapse-map.png") {
+        $btn.children("img").attr("src", "images/expand-map.png");
+    } else if (imgSrc === "images/expand-map.png") {
+        $btn.children("img").attr("src", "images/collapse-map.png");
+    }
+}
 
+
+function initScrollbar(table) {
+    if (table === "Mappings") {
+        $(".mappings").mCustomScrollbar({
+            theme: "rounded-dots-dark",
+            autoHideScrollbar: true
+        });
+
+        $("#matching_table").on("click", "#scrollTop-btn", function() {
+            $(".mappings").mCustomScrollbar("scrollTo", "top");
+        });
+
+        $("#matching_table").on("click", "#scrollBottom-btn", function() {
+            $(".mappings").mCustomScrollbar("scrollTo", "bottom");
+
+        });
+
+    } else if (table === "Generators") {
+//        $("#generatorsTab .mappings").mCustomScrollbar({
+//            theme: "rounded-dots-dark",
+//            autoHideScrollbar: true
+//        });
+        $("#generatorsTab .mappings").mCustomScrollbar({
+            theme: "rounded-dots-dark",
+            autoHideScrollbar: false
+        });
+
+        $("#generatorsTab").on("click", "#scrollTop-btn", function() {
+            $("#generatorsTab .mappings").mCustomScrollbar("scrollTo", "top");
+        });
+        $("#generatorsTab").on("click", "#scrollBottom-btn", function() {
+            $("#generatorsTab .mappings").mCustomScrollbar("scrollTo", "bottom");
+
+        });
+    }
+
+
+}
 function closeAndUnlock(id) {
 //Decided tha popup is no longer necessary...
     $.ajax({
@@ -109,7 +155,7 @@ function findProperPathValue($element) {
 }
 
 function checkResponse(data) {
-    
+
     if (typeof data === "string" && data.indexOf("<title>3M</title>") !== -1) {
         window.location.assign("/3M")
     }

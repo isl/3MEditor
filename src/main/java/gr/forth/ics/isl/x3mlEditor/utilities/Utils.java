@@ -28,10 +28,13 @@
 package gr.forth.ics.isl.x3mlEditor.utilities;
 
 import isl.dbms.DBFile;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,12 +47,60 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.apache.commons.io.output.FileWriterWithEncoding;
 
 /**
  *
  * @author samarita
  */
 public class Utils {
+
+    /**
+     *
+     * @param f
+     * @param enc
+     * @return
+     */
+    public String readFile(File f, String enc) {
+        try {
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
+            byte[] arr = new byte[(int) f.length()];
+            in.read(arr, 0, arr.length);
+            in.close();
+
+            return new String(arr, enc);
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            throw new Error("IO Error in readFile");
+        }
+    }
+
+    /**
+     *
+     * @param f
+     * @param cont
+     */
+    public void writeFile(String filename, String cont) {
+
+        File targetFile = new File(filename);
+        File parent = targetFile.getParentFile();
+        if (!parent.exists() && !parent.mkdirs()) {
+            throw new IllegalStateException("Couldn't create dir: " + parent);
+        }
+
+        try {
+
+//            BufferedWriter doc = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "UTF-8"));
+//            doc.write(cont);
+           
+            PrintWriter writer = new PrintWriter(targetFile, "UTF-8");
+            writer.println(cont);
+            writer.close();
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+            throw new Error(ex.getMessage());
+        }
+    }
 
     /**
      *
@@ -95,6 +146,16 @@ public class Utils {
         int day = cal.get(Calendar.DAY_OF_MONTH);      // 1...
         //   int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK); // 1=Sunday, 2=Monday
         return myformat.format(day) + "-" + myformat.format(month) + "-" + year;
+    }
+
+    public String getDateYearFirst() {
+        String now = getDate();
+        String[] dateParts = now.split("-");
+        if (dateParts.length > 2) {
+            return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -145,6 +206,11 @@ public class Utils {
         int min = cal.get(Calendar.MINUTE);             // 0..59
         int sec = cal.get(Calendar.SECOND);             // 0..59
         return myformat.format(hour24) + myformat.format(min) + myformat.format(sec);
+    }
+
+    public String getTimeWithDelims(String delim) {
+        String now = getTime();
+        return now.substring(0, 2) + delim + now.substring(2, 4) + delim + now.substring(4, 6);
     }
 
     /**

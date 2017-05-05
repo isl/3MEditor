@@ -341,7 +341,7 @@ $("body").on("click", ".add", function(e) {
     if (btnId === "addTarget") {
         //Server side
         action = "addAfter";
-        xpath = "//x3ml/info/target_info[last()]";
+        xpath = "//x3ml/info/target/target_info[last()]";
         xsl = "info.xsl";
         var sibs = $(".target_info").length;
 
@@ -358,14 +358,59 @@ $("body").on("click", ".add", function(e) {
             });
         });
         //Server side
-        action = "add";
-        xpath = "//x3ml/namespaces/namespace";
-        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action;
+//        action = "add";
+//        xpath = "//x3ml/namespaces/namespace";
+//        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action;
+//        var req = $.myPOST(url);
+//        req.done(function(data) {
+//            checkResponse(data);
+//
+//        });
+    } else if (btnId === "addSource") {
+        //Server side
+        action = "addAfter";
+        xpath = "//x3ml/info/source/source_info[last()]";
+        xsl = "info.xsl";
+        var sibs = $(".source_info").length;
+
+        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs;
         var req = $.myPOST(url);
         req.done(function(data) {
             checkResponse(data);
 
+            //Client side        
+            $(".source_info").last().after(data);
+            $(".source_info").last().find('.fileUpload').each(function() {
+                var $this = $(this);
+                upload($this);
+            });
         });
+    } else if (btnId.indexOf("/namespace") !== -1) {//Adding namespace
+        var vars = btnId.split("***");
+        var xpath = vars[1];
+//        alert(xpath)
+
+        //Server side
+        action = "addAfter";
+        var $namespacesDiv = $("div[id='" + xpath + "']");
+        var sibs = $namespacesDiv.children("div").length;
+
+        xpath = xpath + "/namespace[last()]";
+        xsl = "namespace.xsl";
+
+        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action + "&xsl=" + xsl + "&sibs=" + sibs;
+        var req = $.myPOST(url);
+        req.done(function(data) {
+
+            checkResponse(data);
+
+            //Client side        
+            $namespacesDiv.children("div").last().after(data);
+            $namespacesDiv.children("div").find(".namespaceDeleteButton").removeClass("hidden").show();//Since more than one namespaces, show delete
+
+        });
+
+
     } else if (btnId.indexOf("/domain") === -1 && btnId.indexOf("/link") === -1) { //If no link and no domain -> Has to be mapping
         var vars = btnId.split("***");
         var xpath = vars[1];
@@ -407,7 +452,7 @@ $("body").on("click", ".add", function(e) {
             //For now make link viewable (may have to reconsider and just add a domain)
             viewOnlySpecificPath(getNextPath(xpath) + "/link[1]/path");
             viewOnlySpecificPath(getNextPath(xpath) + "/link[1]/range");
-            $("tbody[data-xpath='"+newPath+"'").prepend(finalRows);
+            $("tbody[data-xpath='" + newPath + "'").prepend(finalRows);
 
             //Client side  
             fillCombos();
@@ -579,7 +624,7 @@ $("body").on("click", ".add", function(e) {
         var $bucket = $("div[data-xpath='" + xpath + "']");
         var sibs = $bucket.children().length;
         if (xpath.indexOf("source_relation") !== -1) {//source intermediate (Do not allow adding Intermediate if Source Relation is blank           
-            var firstSourceRelationValue = $btn.parent().parent().find("input").eq(0).attr("value");
+            var firstSourceRelationValue = $btn.parent().parent().find("input[title='Source Relation']").eq(0).attr("value");
             if (firstSourceRelationValue.trim() === "") {
                 alert("Please fill in Source Relation before adding Intermediate!"); //Useful alert. DO NOT DELETE!
                 return;
@@ -762,7 +807,6 @@ $("body").on("click", ".close,.closeOnHeader", function() {
         var btnId = $btn.attr("id");
         var vars = btnId.split("***");
 
-
         if (vars.length > 0) {
             var xpath = vars[1];
             var selector;
@@ -791,6 +835,13 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                 var $blockToRemove = $("*[id='" + vars[1] + "']");
                 var xpath = $blockToRemove.attr("data-xpath");
                 selector = "." + $blockToRemove.attr("class");
+                if (selector.indexOf("namespace") !== -1) {
+                    if ($blockToRemove.siblings().length === 1) {//If there is only one namespace, you CANNOT delete it                           
+                        $blockToRemove.parent().find(".namespaceDeleteButton").hide();
+
+                    }
+                    selector = ".namespace";
+                }
                 if (selector === ".label_generator focus") {
                     selector = ".label_generator.clickable";
                 }
@@ -808,17 +859,11 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                     $rulesDiv.prepend(data);
                 } else {
 
-
                     $blockToRemove.nextAll(selector).each(function() {
-//                        if ((selector === "tbody") || selector === ".path, .range") { //Testing only for maps and links at first to fix issue 30
                         $btn = $(this); //DANGER! It makes sense but I wonder if it works for all cases (tested with maps-links-args-generators)
-//                        }
 
                         var currentXpath = $btn.attr("data-xpath");
-//                        var currentXpath = $btn.attr("id");
-
                         var currentHtml = $btn.html();
-
 
                         var newPath = getPreviousPath(currentXpath);
 
@@ -826,19 +871,14 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                             if (clipboard["mapping"].indexOf(currentXpath) !== -1) {
                                 clipboard["mapping"] = newPath; //Update clipboard value!
                             }
-
-
                         } else if (selector === ".path, .range") { //link
-
                             if (clipboard["link"].indexOf(currentXpath) !== -1) {
                                 clipboard["link"] = newPath; //Update clipboard value!
                             }
-
                         }
 
                         $btn.attr("id", newPath);
                         $btn.attr("data-xpath", newPath);
-
 
                         var newHtml = currentHtml.replaceAll(currentXpath, newPath);
                         if (newPath.indexOf("/intermediate") !== -1) { //Intermediate faux element has to be replaced
@@ -850,7 +890,6 @@ $("body").on("click", ".close,.closeOnHeader", function() {
 
                                 newHtml = newHtml.replaceAll("/source_relation/node[" + currentPos + "]", "/source_relation/node[" + newPos + "]");
                                 newHtml = newHtml.replaceAll("/source_relation/relation[" + relationPos + "]", "/source_relation/relation[" + currentPos + "]");
-
                             } else {
                                 var relationshipPos = currentPos + 1;
                                 var newPos = currentPos - 1;
@@ -867,9 +906,7 @@ $("body").on("click", ".close,.closeOnHeader", function() {
 
                     if (selector === ".comments") {
                         $blockToRemove.children().fadeOut("slow").remove();
-
                         $blockToRemove.next("div.btn-group").find("li").removeClass("disabled");
-
                     } else {
                         if (selector === ".target_info") {
                             if ($(".target_info").length === 2) {
@@ -879,8 +916,6 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                         if (selector === "tbody") {
                             $blockToRemove.prev("thead").fadeOut("slow").remove();
                         }
-
-
                         $blockToRemove.fadeOut("slow").remove();
                     }
 
@@ -895,14 +930,10 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                     }
 
                     if (selector === ".intermediate") {
-//                    alert(xpath);
                         xpath = xpath.replace(/\/intermediate\[\d+\]/g, "/relationship[1]"); //Could not make replaceAll work, so used replace instead
                         refreshCombos(xpath, false);
-
                     }
                 }
-
-
             });
         }
     }
@@ -938,7 +969,7 @@ $('.saveXML-btn').click(function() {
                     req.done(function(data) {
                         checkResponse(data);
 
-                        $("#info>div").html(data);
+                        $("#info>div:not(.actionsToolbar)").html(data);
                     });
                     req.fail(function() {
                         alert("Connection with server lost. Action failed!");
@@ -1053,14 +1084,32 @@ $("#matching_table").on("click", "#addRuleButton", function(e) {
     }
 });
 
+/*
+ * Handler fired when user enters mouse over a mapping header
+ */
+$("body").on("mouseenter", "thead", function() {
+    $(this).css("border-top", "2px solid gray").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
+    $(this).next("tbody").children("tr:not(.empty)").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
+    $(this).next("tbody").children("tr.empty").css("border-top", "2px solid gray");
+
+
+});
+///*
+// * Handler fired when user leaves mouse from a mapping header
+// */
+$("body").on("mouseleave", "thead", function() {
+    $(this).css("border-top", "1px solid black").css("border-left", "1px solid black").css("border-right", "1px solid black");
+    $(this).next("tbody").children("tr:not(.empty)").css("border-left", "1px solid black").css("border-right", "1px solid black");
+    $(this).next("tbody").children("tr.empty").css("border-top", "1px solid black");
+});
+
 
 /*
  * Handler fired when user enters mouse over a path
  */
 $("body").on("mouseenter", ".path", function() {
-    $(this).css("border-top", "2px solid black").css("border-left", "2px solid black")
-            .css("border-right", "2px solid black");
-    $(this).next().css("border-bottom", "2px solid black").css("border-left", "2px solid black").css("border-right", "2px solid black");
+    $(this).css("border-top", "2px solid gray").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
+    $(this).next().css("border-bottom", "2px solid gray").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
 
 });
 
@@ -1076,8 +1125,8 @@ $("body").on("mouseleave", ".path", function() {
  * Handler fired when user enters mouse over a range
  */
 $("body").on("mouseenter", ".range", function() {
-    $(this).prev().css("border-top", "2px solid black").css("border-left", "2px solid black").css("border-right", "2px solid black");
-    $(this).css("border-bottom", "2px solid black").css("border-left", "2px solid black").css("border-right", "2px solid black");
+    $(this).prev().css("border-top", "2px solid gray").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
+    $(this).css("border-bottom", "2px solid gray").css("border-left", "2px solid gray").css("border-right", "2px solid gray");
 
 });
 /*
@@ -1160,6 +1209,76 @@ $("body").on("click", ".delete", function() {
 });
 
 /*
+ * Handler fired when user clicks mapIndex (mapping)
+ */
+$("#matching_table").on("click", ".mapIndex", function(event) {
+    var $index = $(this);
+    var $mappingHeader = $index.parent().parent();
+    var $mapping = $index.parentsUntil("table").next("tbody");
+    var index = $mapping.find(".index").first().attr("title");
+
+    var ctrlKeyPressed = event.ctrlKey;
+    var arrayIndex = selectedMaps.indexOf(index);
+    //If you select map, you deselect link and vice versa
+    selectedRows.length = 0;
+    $("tr.selected").removeClass("selected");
+
+
+    if (ctrlKeyPressed && $(".selected").length > 0) {
+
+        if (arrayIndex === -1) {
+            selectedMaps.push(index);
+            $mappingHeader.addClass("selected");
+        }
+    } else {
+        selectedMaps.length = 0;
+        selectedMaps.push(index);
+        $("thead.selected").removeClass("selected");
+        $mappingHeader.addClass("selected");
+
+    }
+    console.log(selectedMaps);
+    return false; //To prevent opening row in edit mode   
+
+
+});
+
+
+/*
+ * Handler fired when user clicks index (domain or link)
+ */
+$("#matching_table").on("click", ".index", function(event) {
+    var $index = $(this);
+    var $parent = $index.parent();
+    var index = $index.attr("title");
+    var ctrlKeyPressed = event.ctrlKey;
+
+    //If you select map, you deselect link and vice versa
+    selectedMaps.length = 0;
+    $("thead.selected").removeClass("selected");
+
+
+    var arrayIndex = selectedRows.indexOf(index);
+
+    if (ctrlKeyPressed && $(".selected").length > 0) {
+
+        if (arrayIndex === -1) {
+            selectedRows.push(index);
+            $parent.addClass("selected");
+        }
+    } else {
+        selectedRows.length = 0;
+        selectedRows.push(index);
+        $("tr.selected").removeClass("selected");
+        $parent.addClass("selected");
+
+    }
+    console.log(selectedRows);
+    return false; //To prevent opening row in edit mode   
+
+});
+
+/*
  * Handler fired when user clicks matching table row to edit
  */
 $("#matching_table").on("click", ".clickable", function() {
@@ -1167,11 +1286,8 @@ $("#matching_table").on("click", ".clickable", function() {
         $("body").css("opacity", "0.4");
         var $path = $(this);
         if ($path.hasClass("empty")) {
-
             $("body").css("opacity", "1");
         } else {
-
-
             //First make clicked part editable
             if (comboAPI > 0 && targetType === "xml") {
                 comboAPI = 4;
@@ -1217,6 +1333,20 @@ $("#matching_table").on("click", ".clickable", function() {
         }
     }
 });
+
+/*
+ * Handler fired when switching tabs
+ */
+$('.nav-tabs a').on('show.bs.tab', function(event) {
+    var activeTabText = $(event.target).text();         // active tab
+//    var previousTabText = $(event.relatedTarget).text();  // previous tab
+    if (activeTabText === "Generators") {
+        viewOnly(); //To avoid combo mixup (matching table-generators)
+    } else if (activeTabText === "Matching Table") {
+        viewOnlyGenerator();
+    }
+});
+
 
 /*
  * Handler fired when user clicks "no source relation"
@@ -1281,7 +1411,7 @@ $('#info_view-btn').click(function() {
     req.done(function(data) {
         checkResponse(data);
 
-        $("#info>div").html(data);
+        $("#info>div:not(.actionsToolbar)").html(data);
         $btn.toggle();
         $btn.button('reset');
         $('#info_edit-btn').toggle();
@@ -1304,7 +1434,7 @@ $('#info_edit-btn').click(function() {
     req.done(function(data) {
         checkResponse(data);
 
-        $("#info>div").html(data);
+        $("#info>div:not(.actionsToolbar)").html(data);
         $btn.toggle();
         $btn.button('reset');
         $('#info_view-btn').toggle();
@@ -1471,11 +1601,120 @@ $("body").on("click", "#runEngine", function() {
     var req = $.myPOST(url, {sourceFile: source}, "html");
     req.done(function(data) {
         checkResponse(data);
-
-//    $.post(url, {sourceFile: source}, "html").done(function(data) {
-        data = String(data).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+//        data = String(data).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         $(".loader").hide();
-        $("#engineResult").html(data);
+        $("#engineResult").val(data);
+        $("#saveTarget").removeClass("disabled");
+
     });
 });
 
+/*
+ * Handler fired when user saves as target record
+ */
+$("body").on("click", "#saveTarget", function() {
+
+    var output = $(".outputFormat  label.active input").val();
+    var targetRecord = $("#engineResult").val();
+    targetRecord = String(targetRecord).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+    var url = "Services?method=storeFile&id=" + id + "&type=" + output;
+    var req = $.myPOST(url, {content: targetRecord}, "html");
+    req.done(function(data) {
+        alert(data); //useful
+        viewOnlyInfo();
+        $("#visualizeTarget").removeClass("disabled");
+
+    });
+});
+/*
+ * Handler fired when user clicks Visualize
+ */
+$("body").on("click", "#visualizeTarget", function() {
+    var filename;
+    if ($("info_view-btn").is(':visible')) {//edit_mode
+        filename = $("div:visible>a:contains('view target')").attr("title");
+    } else {
+        filename = $("a:contains('view target')").attr("title");
+    }
+    var subject = $("#subject").val();
+    //Temp solution, will have to replace with relative URL when properly deployed
+    window.open("http://139.91.183.38/RDFVisualizer/?resource=" + subject + "&filename=" + filename, "_blank");
+
+});
+/*
+ * Right click context menu code
+ */
+$(function() {
+    $.contextMenu({
+        selector: '.selected',
+        build: function($triggerElement, e) {
+            var xpath = $triggerElement.attr("data-xpath");
+            if ($triggerElement.hasClass("domain")) {
+                return {
+                    callback: function(key, options) {
+                        var m = "clicked: " + key +" on element with xpath:"+xpath;
+                        window.console && console.log(m) || alert(m);
+                    },
+                    items: {
+                        "": {name: "", icon: ""}
+//                        "copy": {name: "Copy domain", icon: "copy"},
+//                        "delete": {name: "Delete domain", icon: "delete"}
+                    }
+                };
+            } else if ($triggerElement.hasClass("path")) {
+                return {
+                    callback: function(key, options) {                        
+                        var m = "clicked: " + key +" on element with xpath:"+xpath;
+                        window.console && console.log(m) || alert(m);
+                    },
+                    items: {
+                        "copyLink": {name: "Copy link", icon: "copy"},
+                        "deleteLink": {name: "Delete link", icon: "delete"}
+                    }
+                };
+            } else {
+                xpath = $triggerElement.next().attr("data-xpath");
+                return {
+                    callback: function(key, options) {
+                        var m = "clicked: " + key +" on element with xpath:"+xpath;
+                        window.console && console.log(m) || alert(m);
+                    },
+                    items: {
+                        "copyMap": {name: "Copy map", icon: "copy"},
+                        "deleteMap": {name: "Delete map", icon: "delete"}
+                    }
+                };
+            }
+
+
+        }
+//        callback: function(key, options) {
+//
+////            var m = "clicked: " + key;
+////            window.console && console.log(m) || alert(m);
+//  var originalElement = $('.context-menu-active');
+//            var m = "clicked: " + originalElement.attr("class");
+//            window.console && console.log(m);
+//
+//
+//        },
+//        items: {
+//            
+//            
+//           
+////            "paste": {name: "Certificate", icon: "fa-certificate"}
+////                "edit": {name: "Edit", icon: "edit"},
+////                "cut": {name: "Cut", icon: "cut"},
+//               "copy": {name: "Copy map", icon: "copy"},
+//            "delete": {name: "Delete", icon: "delete"}
+////            "sep1": "---------",
+////            "quit": {name: "Quit", icon: function() {
+////                    return 'context-menu-icon context-menu-icon-quit';
+////                }}
+//        }
+    });
+
+    $('.context-menu-one').on('click', function(e) {
+        console.log('clicked', this);
+    })
+});
