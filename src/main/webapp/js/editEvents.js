@@ -1636,9 +1636,14 @@ $("body").on("click", "#visualizeTarget", function() {
     } else {
         filename = $("a:contains('view target')").attr("title");
     }
-    var subject = $("#subject").val();
-    //Temp solution, will have to replace with relative URL when properly deployed
-    window.open("http://139.91.183.38/RDFVisualizer/?resource=" + subject + "&filename=" + filename, "_blank");
+
+    if (filename.indexOf(".ttl") !== -1) {
+        var subject = $("#subject").val();
+        //Temp solution, will have to replace with relative URL when properly deployed
+        window.open("http://139.91.183.38/RDFVisualizer/?resource=" + subject + "&filename=" + filename, "_blank");
+    } else {
+        alert("Saved target record file is " + filename + ". Visualizer only works with Turtle (ttl) files for the time being!");
+    }
 
 });
 /*
@@ -1652,7 +1657,7 @@ $(function() {
             if ($triggerElement.hasClass("domain")) {
                 return {
                     callback: function(key, options) {
-                        var m = "clicked: " + key +" on element with xpath:"+xpath;
+                        var m = "clicked: " + key + " on element with xpath:" + xpath;
                         window.console && console.log(m) || alert(m);
                     },
                     items: {
@@ -1663,8 +1668,8 @@ $(function() {
                 };
             } else if ($triggerElement.hasClass("path")) {
                 return {
-                    callback: function(key, options) {                        
-                        var m = "clicked: " + key +" on element with xpath:"+xpath;
+                    callback: function(key, options) {
+                        var m = "clicked: " + key + " on element with xpath:" + xpath;
                         window.console && console.log(m) || alert(m);
                     },
                     items: {
@@ -1676,7 +1681,7 @@ $(function() {
                 xpath = $triggerElement.next().attr("data-xpath");
                 return {
                     callback: function(key, options) {
-                        var m = "clicked: " + key +" on element with xpath:"+xpath;
+                        var m = "clicked: " + key + " on element with xpath:" + xpath;
                         window.console && console.log(m) || alert(m);
                     },
                     items: {
