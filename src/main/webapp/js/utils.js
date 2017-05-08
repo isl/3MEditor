@@ -43,6 +43,8 @@ function toggleCollapseExpandImage($btn) {
 function initScrollbar(table) {
     if (table === "Mappings") {
         $(".mappings").mCustomScrollbar({
+            axis: "yx",
+            mouseWheelPixels: 500, //change this to a value, that fits your needs
             theme: "rounded-dots-dark",
             autoHideScrollbar: true
         });
