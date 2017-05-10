@@ -132,7 +132,7 @@ public class Index extends BasicServlet {
             xmlMiddle.append("</xml>");
             if (mappingFileAsString.contains("<source>")) {
                 System.out.println("NEW");
-                 xmlMiddle.append("<schemaVersion>").append("1.2+").append("</schemaVersion>");
+                xmlMiddle.append("<schemaVersion>").append("1.2+").append("</schemaVersion>");
             } else {
                 System.out.println("OLD");
                 xmlMiddle.append("<schemaVersion>").append("1.1").append("</schemaVersion>");
@@ -186,7 +186,7 @@ public class Index extends BasicServlet {
                         targetAnalyzer = "0";
                     }
 
-                } else if (targetType.equals("owl") || targetType.equals("ttl")) {
+                } else if (targetType.equals("owl") || targetType.equals("ttl") || targetType.equals("Mixed")) { //Jena reasoner when mixed 
                     targetAnalyzer = "3";
                 }
 

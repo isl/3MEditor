@@ -112,7 +112,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         <xsl:variable name="mappingPos" select="position()"/>
                         <thead>
                             <tr>
-                                <th class="mapIndex"></th>
+                                <th class="mapIndex">#</th>
                                 <th></th>
                                 <th class="sourceCol">SOURCE</th>                           
                                 <th class="targetCol">

@@ -215,7 +215,7 @@ function configurationOption(option, action) {
 
 
 
-            if (targetType == "owl" || targetType == "ttl") {
+            if (targetType == "owl" || targetType == "ttl"|| targetType == "Mixed") {
                 $("#targetAnalyzer>#label2").removeClass("disabled");
                 $("#targetAnalyzer>#label3").removeClass("disabled").addClass("active");
                 $("#targetAnalyzer>#label3>input").attr("checked", "checked");

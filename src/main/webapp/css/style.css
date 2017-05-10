@@ -346,7 +346,7 @@ button.closeLike {
 }
 
 .mappings {
-    margin-right: 5px;
+    margin-right: 1px;
 }
 .actionsToolbar {
     padding: 0px;
@@ -793,4 +793,24 @@ thead.selected+tbody>tr:not(.empty) {
 }
 thead.selected+tbody>tr.empty {
     border-top: 2px solid black !important;
+}
+.mapIndex {
+    text-align: center;
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+}
+.index {
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+}
+
+/*Overriding default customScrollbar styling to conserve space*/
+.mCSB_container_wrapper {
+    margin-right: 1px !important;
+}
+.mCSB_container {
+    padding-right: 20px !important;
+}
+.mCS_y_hidden>.mCSB_container{
+     padding-right: 0px !important;
 }
