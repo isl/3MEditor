@@ -398,11 +398,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <xsl:call-template name="externalFileLink">
                                 </xsl:call-template>
                                 <xsl:choose>
-                                    <xsl:when test="name()='html_link'">
+<!--                                    <xsl:when test="name()='html_link'">
                                         <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete html file" id="{concat('delete***//x3ml/info/example_data_info/example_data_source_record/@html_link')}">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
-                                    </xsl:when>
+                                    </xsl:when>-->
                                     <xsl:when test="name()='xml_link'">
                                         <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete xml file" id="{concat('delete***//x3ml/info/example_data_info/example_data_source_record/@xml_link')}">
                                             <span class="glyphicon glyphicon-remove"></span>
@@ -412,13 +412,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             </div>
                         </xsl:for-each>
                                                 
-                        <span data-xpath="//x3ml/info/example_data_info/example_data_source_record/@html_link" class="fileUpload html_link">
+<!--                        <span data-xpath="//x3ml/info/example_data_info/example_data_source_record/@html_link" class="fileUpload html_link">
                             <xsl:if test="example_data_source_record/@html_link">
                                 <xsl:attribute name="style">
                                     <xsl:text>display:none;</xsl:text>
                                 </xsl:attribute>
                             </xsl:if>
-                        </span>
+                        </span>-->
                         <span data-xpath="//x3ml/info/example_data_info/example_data_source_record/@xml_link" class="fileUpload xml_link">
                             <xsl:if test="example_data_source_record/@xml_link">
                                 <xsl:attribute name="style">

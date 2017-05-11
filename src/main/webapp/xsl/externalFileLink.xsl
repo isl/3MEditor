@@ -95,7 +95,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                    
                 </xsl:choose>
                 
-                <xsl:choose>
+<!--                <xsl:choose>
                     <xsl:when test="name()='html_link'">
                         <xsl:call-template name="link">
                             <xsl:with-param name="filename" select="."/>
@@ -107,7 +107,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:when>
                   
                     
-                </xsl:choose>
+                </xsl:choose>-->
                  <xsl:choose>
                     
                     <xsl:when test="name()='generator_link'">
