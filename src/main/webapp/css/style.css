@@ -348,16 +348,26 @@ button.closeLike {
 .mappings {
     margin-right: 1px;
 }
+
+.affix {
+      top:0;
+      width: 99%;
+      z-index: 2 !important;
+      background-color: white;
+    
+  }
+
+  .modal-content {
+      z-index: 1;
+  }
+  
 .actionsToolbar {
     padding: 0px;
     border: 1px solid #ddd;
     width: 100%;
-    margin-top: 5px;
-    /*    z-index: 1;
-        position: fixed;
-        float:right;
-        right:0px;*/
+    margin-top: 5px;         
 }
+
 .actionsToolbar>button {
     border: none;
 }

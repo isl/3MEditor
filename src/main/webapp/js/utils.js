@@ -39,46 +39,6 @@ function toggleCollapseExpandImage($btn) {
     }
 }
 
-
-function initScrollbar(table) {
-    if (table === "Mappings") {
-        $(".mappings").mCustomScrollbar({
-            axis: "yx",
-            mouseWheelPixels: 500, //change this to a value, that fits your needs
-            theme: "rounded-dots-dark",
-            autoHideScrollbar: true
-        });
-
-        $("#matching_table").on("click", "#scrollTop-btn", function() {
-            $(".mappings").mCustomScrollbar("scrollTo", "top");
-        });
-
-        $("#matching_table").on("click", "#scrollBottom-btn", function() {
-            $(".mappings").mCustomScrollbar("scrollTo", "bottom");
-
-        });
-
-    } else if (table === "Generators") {
-//        $("#generatorsTab .mappings").mCustomScrollbar({
-//            theme: "rounded-dots-dark",
-//            autoHideScrollbar: true
-//        });
-        $("#generatorsTab .mappings").mCustomScrollbar({
-            theme: "rounded-dots-dark",
-            autoHideScrollbar: false
-        });
-
-        $("#generatorsTab").on("click", "#scrollTop-btn", function() {
-            $("#generatorsTab .mappings").mCustomScrollbar("scrollTo", "top");
-        });
-        $("#generatorsTab").on("click", "#scrollBottom-btn", function() {
-            $("#generatorsTab .mappings").mCustomScrollbar("scrollTo", "bottom");
-
-        });
-    }
-
-
-}
 function closeAndUnlock(id) {
 //Decided tha popup is no longer necessary...
     $.ajax({

@@ -304,7 +304,6 @@ function fillCombo($this, setValue) {
                             data: json
                         });
                         oldValue = $this.parent().find(".select2-chosen").html();
-                        alert("2");
 
                         if (JSON.stringify(json).indexOf(oldValue) === -1) {
                             if (oldValue.indexOf(":") !== -1) {
@@ -319,7 +318,6 @@ function fillCombo($this, setValue) {
                             placeholder: "Select a value",
                             data: json
                         });
-alert("3");
 
                         if ($this.parent().find(".select2-chosen").html() === "&nbsp;") {
                             $this.parent().find(".select2-chosen").html("<span style='color:red;'>Value " + oldValue.substring(oldValue.indexOf(':') + 1) + " is no longer valid!</span>");

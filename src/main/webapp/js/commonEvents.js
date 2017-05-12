@@ -55,7 +55,6 @@ $(document).ready(function() {
         placement: "right"
     });
 
-    initScrollbar("Mappings");
 
     $("#matching_table, #generatorsTab").on("click", ".collapseExpand", function() {
         $(this).parentsUntil("thead").parent().next("tbody").children("tr.path, tr.range").toggle();
@@ -231,6 +230,17 @@ $(document).ready(function() {
                 toggleCollapseExpandImage($(this));
             });
 
+        });
+
+        $(".fixed").affix({
+            offset: 150
+        });
+
+        $("#matching_table, #generatorsTab").on("click", "#scrollTop-btn", function() {
+            $("html, body").animate({scrollTop: 0}, "slow");
+        });
+        $("#matching_table, #generatorsTab").on("click", "#scrollBottom-btn", function() {
+            $("html, body").animate({scrollTop: $(document).height()}, "slow");
         });
 
         $("body").on("click", "#info_rawXML-btn, #rawXML-btn", function() {
@@ -424,15 +434,8 @@ function initGenerators() {
             $(this).parentsUntil(".empty").parent().prevAll("tr.path, tr.range").toggle();
             toggleCollapseExpandImage($(this));
 
-//            var imgSrc = $(this).children("img").attr("src");
-//            if (imgSrc === "images/collapse-map.png") {
-//                $(this).children("img").attr("src", "images/expand-map.png");
-//            } else if (imgSrc === "images/expand-map.png") {
-//                $(this).children("img").attr("src", "images/collapse-map.png");
-//            }
         });
 
-        initScrollbar("Generators");
 
 
         if (mode === 0) { //Fill combos only if edit mode
@@ -448,7 +451,9 @@ function initGenerators() {
             $("#generatorsTab legend").html("View mode"); //change legend
 
         }
-
+        $(".fixed").affix({
+            offset: 150
+        });
         $("body").css("opacity", "1");
 
 

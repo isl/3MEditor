@@ -1639,8 +1639,7 @@ $("body").on("click", "#visualizeTarget", function() {
 
     if (filename.indexOf(".ttl") !== -1) {
         var subject = $("#subject").val();
-        //Temp solution, will have to replace with relative URL when properly deployed
-        window.open("http://139.91.183.38/RDFVisualizer/?resource=" + subject + "&filename=" + filename, "_blank");
+        window.open("/RDFVisualizer/?resource=" + subject + "&filename=" + filename, "_blank");
     } else {
         alert("Saved target record file is " + filename + ". Visualizer only works with Turtle (ttl) files for the time being!");
     }
