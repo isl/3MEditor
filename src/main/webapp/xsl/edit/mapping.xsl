@@ -41,6 +41,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <xsl:template match="mapping">
         <thead>
             <tr>
+                <th class="mapIndex">#</th>
                 <th></th>
                 <th>SOURCE</th>
                 <th>

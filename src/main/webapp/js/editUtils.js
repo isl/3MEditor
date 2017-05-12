@@ -324,16 +324,6 @@ function addDummyRows(data, $path, action) {
     var $newHeadCells = $("<tr/>").append($newHead);
     $newHeadCells.find("th").last().prepend($(buttonGroupHtml));
 
-//    //Change image for collapse/expang icons
-//    $newHeadCells.find("img.columnHide").each(function() {
-//        var $this = $(this);
-//        $this.attr("src", "images/collapse-column-white.png")
-//    });
-//    $newHeadCells.find("img.columnShow").each(function() {
-//        var $this = $(this);
-//        $this.attr("src", "images/expand-column-white.png")
-//    });
-
     var theadRow = "<tr class='dummyHeader'>" + $newHeadCells.html() + "</tr>";
     var $theadRow = $(theadRow);
     var domainRow = "<tr class='dummyDomain'/>";

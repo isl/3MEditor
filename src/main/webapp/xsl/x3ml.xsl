@@ -57,7 +57,6 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </script>
                 <!-- Bootstrap -->
                 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen,print"/>
-                <link rel="stylesheet" href="js/mCustomScrollbar/jquery.mCustomScrollbar.min.css" />
 
                 <link href="js/select2-3.5.1/select2.css" rel="stylesheet" />
                 <link href="js/select2-3.5.1/select2-bootstrap.css" rel="stylesheet" />
@@ -67,7 +66,6 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <link href="css/fineuploader.css" rel="stylesheet"/>
                 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
                 <script src="js/jquery.min.js"></script>
-                <script src="js/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>               
 
                 <script src="js/utils.js"></script>
                

@@ -528,19 +528,19 @@ function getDomainValueForLink(xpath) {
 
     if (targetType === "xml" && xpath.indexOf("/target_") !== -1) {
         var $domainDiv = $domain.find(".targetPath").first();
-        domainValue = $domainDiv.attr("data-fullpath");
-        ;
-
-
+        domainValue = $domainDiv.attr("data-fullpath");       
     } else {
-        var $domainDiv = $domain.find(".nextToIcon");
-
-        domainValue = $domainDiv.html();
-        if ($domainDiv.children("span").length > 0) {
-            domainValue = $domainDiv.children("span").attr("title");
-        }
+         var $domainDiv = $domain.find(".sourcePath").last();
+        domainValue = $domainDiv.attr("data-fullpath");  
+        //Replaced following code to make it work for first link in a new domain, 
+        //which showed all available paths (could not find domain value). Will require further testing!
+        
+//        var $domainDiv = $domain.find(".nextToIcon");
+//        domainValue = $domainDiv.html();
+//        if ($domainDiv.children("span").length > 0) {
+//            domainValue = $domainDiv.children("span").attr("title");
+//        }
     }
-//    alert(domainValue)
     return domainValue;
 }
 function filterValues(xpath) {

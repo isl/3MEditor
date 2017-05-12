@@ -74,14 +74,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                               
                             <xsl:choose>
                                 <xsl:when test="//*/@sourceAnalyzer='off'">                                 
-                                    <input title="Source Node" id="domainSourceNode" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/source_node')}">
+                                    <input title="Source Node" id="domainSourceNode" type="text" class="form-control input-sm sourcePath" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/source_node')}" data-fullpath="{source_node}">
                                         <xsl:attribute name="value">
                                             <xsl:value-of select="source_node"/>
                                         </xsl:attribute>
                                     </input>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <input style="width:100%;" title="Source Node" type="hidden" class="select2 input-sm" data-id="{.}" id="domainSourceNode" data-xpath="{concat($pathSoFar,'/source_node')}">
+                                    <input style="width:100%;" title="Source Node" type="hidden" class="select2 input-sm sourcePath" data-id="{.}" id="domainSourceNode" data-xpath="{concat($pathSoFar,'/source_node')}"  data-fullpath="{source_node}">
                                                                                
                                         <xsl:attribute name="value">
                                             <xsl:value-of select="source_node"></xsl:value-of>
