@@ -325,7 +325,7 @@ $(document).ready(function() {
             var url = "Services?method=update&id=" + id + "&from=1.1&to=1.2";
             var req = $.myPOST(url);
             req.done(function(data) {
-                alert(data);
+                alert(data);//Useful. DO NOT DELETE!
                 location.reload();
             });
         }

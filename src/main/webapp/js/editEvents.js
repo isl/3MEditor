@@ -1672,8 +1672,9 @@ $(function() {
                         window.console && console.log(m) || alert(m);
                     },
                     items: {
-                        "copyLink": {name: "Copy link", icon: "copy"},
-                        "deleteLink": {name: "Delete link", icon: "delete"}
+                         "": {name: "", icon: ""}
+//                        "copyLink": {name: "Copy link", icon: "copy"},
+//                        "deleteLink": {name: "Delete link", icon: "delete"}
                     }
                 };
             } else {
@@ -1684,8 +1685,9 @@ $(function() {
                         window.console && console.log(m) || alert(m);
                     },
                     items: {
-                        "copyMap": {name: "Copy map", icon: "copy"},
-                        "deleteMap": {name: "Delete map", icon: "delete"}
+                         "": {name: "", icon: ""}
+//                        "copyMap": {name: "Copy map", icon: "copy"},
+//                        "deleteMap": {name: "Delete map", icon: "delete"}
                     }
                 };
             }
