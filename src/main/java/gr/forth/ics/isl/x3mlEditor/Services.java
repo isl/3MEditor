@@ -234,6 +234,7 @@ public class Services extends BasicServlet {
         } else if (method.equals("update")) {
             DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
             updateX3ml(mappingFile, "1.1", "1.2");
+            fixNamespacesWithoutSchemaFile(mappingFile);
             out.println("Updated! Please wait to reload mapping.");
 
         }
@@ -242,6 +243,17 @@ public class Services extends BasicServlet {
 
     }
 
+    private void fixNamespacesWithoutSchemaFile(DBFile x3mlFile) {
+        String[] namespacesToMove = x3mlFile.queryString("//target_info[not(target_schema/@schema_file!='')]//namespace");
+
+        x3mlFile.xRemove("//target_info[not(target_schema/@schema_file!='')]");
+        for (String namespaceToMove : namespacesToMove) {
+            x3mlFile.xAppend("//x3ml/namespaces", namespaceToMove);
+        }
+        x3mlFile.xRemove("//x3ml/namespaces[count(namespace)>1]/namespace[@prefix='']");
+
+    }
+    
     private void updateX3ml(DBFile x3mlFile, String from, String to) {
         if (from.equals("1.1") && to.equals("1.2")) {
             x3mlFile.xInsertAfter("//x3ml/info/general_description", "<source/>");//create source block
