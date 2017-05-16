@@ -969,7 +969,7 @@ $('.saveXML-btn').click(function() {
                     req.done(function(data) {
                         checkResponse(data);
 
-                        $("#info>div:not(.actionsToolbar)").html(data);
+                        $("#info>div>div:not(.actionsToolbar)").html(data);
                     });
                     req.fail(function() {
                         alert("Connection with server lost. Action failed!");
@@ -1411,7 +1411,7 @@ $('#info_view-btn').click(function() {
     req.done(function(data) {
         checkResponse(data);
 
-        $("#info>div:not(.actionsToolbar)").html(data);
+        $("#info>div>div:not(.actionsToolbar)").html(data);
         $btn.toggle();
         $btn.button('reset');
         $('#info_edit-btn').toggle();
@@ -1434,7 +1434,7 @@ $('#info_edit-btn').click(function() {
     req.done(function(data) {
         checkResponse(data);
 
-        $("#info>div:not(.actionsToolbar)").html(data);
+        $("#info>div>div:not(.actionsToolbar)").html(data);
         $btn.toggle();
         $btn.button('reset');
         $('#info_view-btn').toggle();

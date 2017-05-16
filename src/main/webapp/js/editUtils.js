@@ -79,7 +79,7 @@ function viewOnlyInfo() {
     req.done(function(data) {
         checkResponse(data);
 
-        $("#info>div:not(.actionsToolbar)").html(data);
+        $("#info>div>div:not(.actionsToolbar)").html(data);
         $('#info_edit-btn').show();
         $('#info_view-btn').hide();
     });
