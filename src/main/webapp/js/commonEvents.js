@@ -333,7 +333,32 @@ $(document).ready(function() {
 
 });
 
-
+/*
+ * Handler fired when user changes source paths option
+ */
+$("#sourcePaths input:radio").change(function() {
+    sourcePaths = $(this).val();
+    if (mode !== 1) {//only needed when in edit mode
+        viewOnly();
+    }
+    $(".sourcePath").each(function(index) {
+        var $sourcePathSpan = $(this);
+        findProperPathValue($sourcePathSpan);
+    });
+});
+/*
+ * Handler fired when user changes target paths option
+ */
+$("#targetPaths input:radio").change(function() {
+    targetPaths = $(this).val();
+    if (mode !== 1) {//only needed when in edit mode
+        viewOnly();
+    }
+    $(".targetPath").each(function(index) {
+        var $targetPathSpan = $(this);
+        findProperPathValue($targetPathSpan);
+    });
+});
 
 /*
  * Handler fired when clicking tabs (Info, Matching etc)

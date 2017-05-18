@@ -1546,28 +1546,7 @@ $("#sourceAnalyzer input:radio").change(function() {
     sourceAnalyzer = $(this).val();
     viewOnly();
 });
-/*
- * Handler fired when user changes source paths option
- */
-$("#sourcePaths input:radio").change(function() {
-    sourcePaths = $(this).val();
-    viewOnly();
-    $(".sourcePath").each(function(index) {
-        var $sourcePathSpan = $(this);
-        findProperPathValue($sourcePathSpan);
-    });
-});
-/*
- * Handler fired when user changes target paths option
- */
-$("#targetPaths input:radio").change(function() {
-    targetPaths = $(this).val();
-    viewOnly();
-    $(".targetPath").each(function(index) {
-        var $targetPathSpan = $(this);
-        findProperPathValue($targetPathSpan);
-    });
-});
+
 
 /*
  * Handler fired when user changes generators option

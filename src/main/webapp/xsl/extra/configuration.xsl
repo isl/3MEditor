@@ -39,69 +39,73 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <legend>Options</legend>
                     <br/>
                     <div class="form-group ">
-                        <div class="row" >                           
-                            <div class="col-sm-6">
-                                <label class="control-label" for="sourceAnalyzer">Source Analyzer: </label>
-                                <div class="btn-group" id="sourceAnalyzer" data-toggle="buttons">
-                                    <label id="label5">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/sourceAnalyzer='on'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:choose>
-                                                    <xsl:when test="//output/sourceAnalyzerFiles='***'">
-                                                        <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
-                                                    </xsl:when>
-                                                    <xsl:otherwise>
-                                                        <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                                    </xsl:otherwise>
-                                                </xsl:choose>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="sourceAnalyzer" type="radio" class="toggle" value="on" autocomplete="off">
-                                            <xsl:if test="//output/sourceAnalyzer='on'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> On</xsl:text>
-                                    </label>
-                                    <label id="label6">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/sourceAnalyzer!='on'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="sourceAnalyzer" type="radio" class="toggle" value="off" autocomplete="off">
-                                            <xsl:if test="//output/sourceAnalyzer!='on'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> Off</xsl:text>
-                                    </label>
+
+                        <div class="row" >  
+                            <xsl:if test="$action!=1">
+                         
+                                <div class="col-sm-6">
+                                    <label class="control-label" for="sourceAnalyzer">Source Analyzer: </label>
+                                    <div class="btn-group" id="sourceAnalyzer" data-toggle="buttons">
+                                        <label id="label5">
+                                            <xsl:choose>
+                                                <xsl:when test="//output/sourceAnalyzer='on'">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:choose>
+                                                        <xsl:when test="//output/sourceAnalyzerFiles='***'">
+                                                            <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
+                                                        </xsl:when>
+                                                        <xsl:otherwise>
+                                                            <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                                        </xsl:otherwise>
+                                                    </xsl:choose>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <input name="sourceAnalyzer" type="radio" class="toggle" value="on" autocomplete="off">
+                                                <xsl:if test="//output/sourceAnalyzer='on'">
+                                                    <xsl:attribute  name="checked">checked</xsl:attribute>
+                                                </xsl:if>
+                                            </input>                                            
+                                            <xsl:text> On</xsl:text>
+                                        </label>
+                                        <label id="label6">
+                                            <xsl:choose>
+                                                <xsl:when test="//output/sourceAnalyzer!='on'">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <input name="sourceAnalyzer" type="radio" class="toggle" value="off" autocomplete="off">
+                                                <xsl:if test="//output/sourceAnalyzer!='on'">
+                                                    <xsl:attribute  name="checked">checked</xsl:attribute>
+                                                </xsl:if>
+                                            </input>                                            
+                                            <xsl:text> Off</xsl:text>
+                                        </label>
                                     
                                     
-                                </div>
-                                <br/>
-                                <br/>
+                                    </div>
+                                    <br/>
+                                    <br/>
                              
-                                <p>
-                                    Once a source schema file or an example xml file is uploaded the source analyzer engine is enabled by default (If uploaded
-                                    file is an xsd schema file, then user will also have to <b>MANUALLY</b> define an element name as root).<br/>
-                                    User may choose to disable it. When it is enabled, source paths free text input fields are replaced by select boxes.
-                                    Select box options are all possible xpaths. 
-                                    <br/>
-                                    <b>BEWARE! If both source schema and an example xml file are uploaded, schema is the one used to fill select boxes.</b>
-                                    <br/>
-                                    <b>WARNING! At the moment, source analyzer engine works with xml files and may work with xsd files. No other file format is accepted.
-                                    If you encounter problems with uploaded xsd files, try using a generated XML template file instead.</b>
+                                    <p>
+                                        Once a source schema file or an example xml file is uploaded the source analyzer engine is enabled by default (If uploaded
+                                        file is an xsd schema file, then user will also have to <b>MANUALLY</b> define an element name as root).<br/>
+                                        User may choose to disable it. When it is enabled, source paths free text input fields are replaced by select boxes.
+                                        Select box options are all possible xpaths. 
+                                        <br/>
+                                        <b>BEWARE! If both source schema and an example xml file are uploaded, schema is the one used to fill select boxes.</b>
+                                        <br/>
+                                        <b>WARNING! At the moment, source analyzer engine works with xml files and may work with xsd files. No other file format is accepted.
+                                            If you encounter problems with uploaded xsd files, try using a generated XML template file instead.</b>
 
                                     
-                                </p>
-                            </div>
+                                    </p>
+                                </div>
+                            </xsl:if>                           
                             <div class="col-sm-6">
 
                                 <label class="control-label" for="sourcePaths">Source Paths: </label>
@@ -138,173 +142,179 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                  
                             </div>
                         </div>
-                        <div class="row" style="border-top: 1px #e5e5e5 solid;">
-                            <br/>
-                            <div class="col-sm-6">
-                                <label class="control-label" for="generators">Generators: </label>
-                                <div class="btn-group" id="generators" data-toggle="buttons">
-                                    <label id="label7">
-                                        <xsl:choose>
-                                            <xsl:when test="$generatorsStatus='auto'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                        <xsl:if test="$action!=1">
+
+                            <div class="row" style="border-top: 1px #e5e5e5 solid;">
+                                <br/>
+                                <div class="col-sm-6">
+                                    <label class="control-label" for="generators">Generators: </label>
+                                    <div class="btn-group" id="generators" data-toggle="buttons">
+                                        <label id="label7">
+                                            <xsl:choose>
+                                                <xsl:when test="$generatorsStatus='auto'">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
                                                
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="generators" type="radio" class="toggle" value="auto" autocomplete="off">
-                                            <xsl:if test="$generatorsStatus='auto'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> Auto</xsl:text>
-                                    </label>
-                                    <label id="label8">
-                                        <xsl:choose>
-                                            <xsl:when test="$generatorsStatus='manual'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="generators" type="radio" class="toggle" value="manual" autocomplete="off">
-                                            <xsl:if test="$generatorsStatus='manual'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> Manual</xsl:text>
-                                    </label>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <input name="generators" type="radio" class="toggle" value="auto" autocomplete="off">
+                                                <xsl:if test="$generatorsStatus='auto'">
+                                                    <xsl:attribute  name="checked">checked</xsl:attribute>
+                                                </xsl:if>
+                                            </input>                                            
+                                            <xsl:text> Auto</xsl:text>
+                                        </label>
+                                        <label id="label8">
+                                            <xsl:choose>
+                                                <xsl:when test="$generatorsStatus='manual'">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <input name="generators" type="radio" class="toggle" value="manual" autocomplete="off">
+                                                <xsl:if test="$generatorsStatus='manual'">
+                                                    <xsl:attribute  name="checked">checked</xsl:attribute>
+                                                </xsl:if>
+                                            </input>                                            
+                                            <xsl:text> Manual</xsl:text>
+                                        </label>
                                    
                                     
-                                </div>
-                                <br/>
-                                <br/>
+                                    </div>
+                                    <br/>
+                                    <br/>
                                
-                                <p> 
-                                    If user chooses <b>"Auto"</b>, then editor provides a list of available generator
-                                    names (either built-in x3ml engine generators such as <code>UUID</code>, <code>Literal</code> or generator policy file generators, if such a file is uploaded). 
-                                    <br/>
-                                    Of course, user may choose to override suggestions and add a new generator name. However, any generator names that are not
-                                    in the list, will be highlighted with red color.
-                                    <br/>                                   
-                                    If a valid generator name is selected, then arguments are created automatically and user simply
-                                    fills in remaining fields.
+                                    <p> 
+                                        If user chooses <b>"Auto"</b>, then editor provides a list of available generator
+                                        names (either built-in x3ml engine generators such as <code>UUID</code>, <code>Literal</code> or generator policy file generators, if such a file is uploaded). 
+                                        <br/>
+                                        Of course, user may choose to override suggestions and add a new generator name. However, any generator names that are not
+                                        in the list, will be highlighted with red color.
+                                        <br/>                                   
+                                        If a valid generator name is selected, then arguments are created automatically and user simply
+                                        fills in remaining fields.
                                 
-                                    <br/>
-                                    Default mode is <b>"Manual"</b> for now. Once more generator policy files are uploaded and implementation is
-                                    tested thoroughly, default mode will become <b>"Auto"</b>. 
-                                </p>
+                                        <br/>
+                                        Default mode is <b>"Manual"</b> for now. Once more generator policy files are uploaded and implementation is
+                                        tested thoroughly, default mode will become <b>"Auto"</b>. 
+                                    </p>
                                  
-                            </div>                           
-                        </div>
+                                </div>                           
+                            </div>
+                        </xsl:if>                      
                         <div class="row" style="border-top: 1px #e5e5e5 solid;">
                             <br/>
-                            <div class="col-sm-6">
-                                <label class="control-label" for="targetAnalyzer">Target Analyzer: </label>                                                                
-                                <div class="btn-group" id="targetAnalyzer" data-toggle="buttons">
-                                    <label id="label2">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/targetAnalyzer='2'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml' or //output/targetType='owl' or //output/targetType='ttl' or //output/targetType='Mixed'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="targetAnalyzer" type="radio" class="toggle" value="2" autocomplete="off">
-                                            <xsl:if test="//output/targetAnalyzer='2'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> eXist queries</xsl:text>
-                                    </label>
-                                    <label id="label3">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/targetAnalyzer='3' or //output/targetType='owl' or //output/targetType='ttl' or //output/targetType='Mixed'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="targetAnalyzer" type="radio" class="toggle" value="3" autocomplete="off">
-                                            <xsl:if test="//output/targetAnalyzer='3'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> Jena reasoner</xsl:text>
-                                    </label>
-                                    <label id="label4">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/targetAnalyzer='4' and //domain/target_node/entity/type!=''">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:when test="//output/targetAnalyzer='0' or //output/targetType!='xml' or //domain/target_node/entity/type=''">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="targetAnalyzer" type="radio" class="toggle" value="4" autocomplete="off">
-                                            <xsl:if test="//output/targetAnalyzer='4'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> XML</xsl:text>
-                                    </label>
-                                    <label id="label0">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/targetAnalyzer='0' or (//output/targetAnalyzer='4' and //domain/target_node/entity/type='')">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="targetAnalyzer" type="radio" class="toggle" value="0" autocomplete="off">
-                                            <xsl:if test="//output/targetAnalyzer='0'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> None</xsl:text>
-                                    </label>
+                            <xsl:if test="$action!=1">
+
+                                <div class="col-sm-6">
+                                    <label class="control-label" for="targetAnalyzer">Target Analyzer: </label>                                                                
+                                    <div class="btn-group" id="targetAnalyzer" data-toggle="buttons">
+                                        <label id="label2">
+                                            <xsl:choose>
+                                                <xsl:when test="//output/targetAnalyzer='2'">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml' or //output/targetType='owl' or //output/targetType='ttl' or //output/targetType='Mixed'">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <input name="targetAnalyzer" type="radio" class="toggle" value="2" autocomplete="off">
+                                                <xsl:if test="//output/targetAnalyzer='2'">
+                                                    <xsl:attribute  name="checked">checked</xsl:attribute>
+                                                </xsl:if>
+                                            </input>                                            
+                                            <xsl:text> eXist queries</xsl:text>
+                                        </label>
+                                        <label id="label3">
+                                            <xsl:choose>
+                                                <xsl:when test="//output/targetAnalyzer='3' or //output/targetType='owl' or //output/targetType='ttl' or //output/targetType='Mixed'">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml'">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <input name="targetAnalyzer" type="radio" class="toggle" value="3" autocomplete="off">
+                                                <xsl:if test="//output/targetAnalyzer='3'">
+                                                    <xsl:attribute  name="checked">checked</xsl:attribute>
+                                                </xsl:if>
+                                            </input>                                            
+                                            <xsl:text> Jena reasoner</xsl:text>
+                                        </label>
+                                        <label id="label4">
+                                            <xsl:choose>
+                                                <xsl:when test="//output/targetAnalyzer='4' and //domain/target_node/entity/type!=''">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:when test="//output/targetAnalyzer='0' or //output/targetType!='xml' or //domain/target_node/entity/type=''">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <input name="targetAnalyzer" type="radio" class="toggle" value="4" autocomplete="off">
+                                                <xsl:if test="//output/targetAnalyzer='4'">
+                                                    <xsl:attribute  name="checked">checked</xsl:attribute>
+                                                </xsl:if>
+                                            </input>                                            
+                                            <xsl:text> XML</xsl:text>
+                                        </label>
+                                        <label id="label0">
+                                            <xsl:choose>
+                                                <xsl:when test="//output/targetAnalyzer='0' or (//output/targetAnalyzer='4' and //domain/target_node/entity/type='')">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <input name="targetAnalyzer" type="radio" class="toggle" value="0" autocomplete="off">
+                                                <xsl:if test="//output/targetAnalyzer='0'">
+                                                    <xsl:attribute  name="checked">checked</xsl:attribute>
+                                                </xsl:if>
+                                            </input>                                            
+                                            <xsl:text> None</xsl:text>
+                                        </label>
                                     
-                                </div>
-                                <br/>
-                                <br/>
+                                    </div>
+                                    <br/>
+                                    <br/>
                               
-                                <p>
-                                    <b>eXist queries</b>: It only works with RDFS or RDF schema files. 
-                                    Target analyzer engine is based on Xquery queries performed on RDFS schemas stored in eXist.
-                                    Schemas have to be well formed XML files containing certain tags (<code>rdfs:Class, rdf:Property, rdfs:domain</code> etc.).
-                                    User chooses valid options from a select box. If there are no target schemas, user simply fills input fields with free text.
-                                </p>
-                                <p>
-                                    <b>Jena reasoner</b>: It works with RDFS, RDF, TTL or OWL schema files. 
-                                    Target analyzer engine is based on Jena reasoner. User chooses valid options from a select box.
-                                    If there are no target schemas, user simply fills in input fields with free text. 
-                                    <b>(WARNING! The first time user clicks a row to edit, it may take some time to create combos)</b>
-                                </p>
-                                <p>
-                                    <b>XML</b>: It works with <b>ONE</b> XSD or XML schema file. 
-                                    After user has defined <b>MANUALLY</b> a target xpath as root, target analyzer engine parses file and discovers all available xpaths.
-                                    User chooses xpaths from a select box.
-                                    If there are no target schemas, user simply fills in input fields with free text. 
-                                </p>
-                                <p>
-                                    <b>None</b>: It works with any type of schema files (or even without schema files at all).
-                                    User simply fills in input fields with free text.
-                                </p>
-                            </div>
+                                    <p>
+                                        <b>eXist queries</b>: It only works with RDFS or RDF schema files. 
+                                        Target analyzer engine is based on Xquery queries performed on RDFS schemas stored in eXist.
+                                        Schemas have to be well formed XML files containing certain tags (<code>rdfs:Class, rdf:Property, rdfs:domain</code> etc.).
+                                        User chooses valid options from a select box. If there are no target schemas, user simply fills input fields with free text.
+                                    </p>
+                                    <p>
+                                        <b>Jena reasoner</b>: It works with RDFS, RDF, TTL or OWL schema files. 
+                                        Target analyzer engine is based on Jena reasoner. User chooses valid options from a select box.
+                                        If there are no target schemas, user simply fills in input fields with free text. 
+                                        <b>(WARNING! The first time user clicks a row to edit, it may take some time to create combos)</b>
+                                    </p>
+                                    <p>
+                                        <b>XML</b>: It works with <b>ONE</b> XSD or XML schema file. 
+                                        After user has defined <b>MANUALLY</b> a target xpath as root, target analyzer engine parses file and discovers all available xpaths.
+                                        User chooses xpaths from a select box.
+                                        If there are no target schemas, user simply fills in input fields with free text. 
+                                    </p>
+                                    <p>
+                                        <b>None</b>: It works with any type of schema files (or even without schema files at all).
+                                        User simply fills in input fields with free text.
+                                    </p>
+                                </div>
+                            </xsl:if>
                             <div class="col-sm-6">
 
                                 <label class="control-label" for="sourcePaths">Target Paths: </label>
@@ -345,57 +355,59 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </div>
                          
                        
-                       
-                        <div class="row" style="border-top: 1px #e5e5e5 solid;">
-                            <br/>
-                            <div class="col-sm-12">
-                                <label class="control-label" for="targetAnalyzer">Mapping Suggester: </label>
-                                <div class="btn-group" id="mappingSuggester" data-toggle="buttons">
-                                    <label id="label9">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/mappingSuggester='on'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>                                              
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>                                                   
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="mappingSuggester" type="radio" class="toggle" value="on" autocomplete="off">
-                                            <xsl:if test="//output/mappingSuggester='on'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> On</xsl:text>
-                                    </label>
-                                    <label id="label10">
-                                        <xsl:choose>
-                                            <xsl:when test="//output/mappingSuggester!='on'">
-                                                <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                        <input name="mappingSuggester" type="radio" class="toggle" value="off" autocomplete="off">
-                                            <xsl:if test="//output/mappingSuggester!='on'">
-                                                <xsl:attribute  name="checked">checked</xsl:attribute>
-                                            </xsl:if>
-                                        </input>                                            
-                                        <xsl:text> Off</xsl:text>
-                                    </label>
+                        <xsl:if test="$action!=1">
+ 
+                            <div class="row" style="border-top: 1px #e5e5e5 solid;">
+                                <br/>
+                                <div class="col-sm-12">
+                                    <label class="control-label" for="targetAnalyzer">Mapping Suggester: </label>
+                                    <div class="btn-group" id="mappingSuggester" data-toggle="buttons">
+                                        <label id="label9">
+                                            <xsl:choose>
+                                                <xsl:when test="//output/mappingSuggester='on'">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>                                              
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>                                                   
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <input name="mappingSuggester" type="radio" class="toggle" value="on" autocomplete="off">
+                                                <xsl:if test="//output/mappingSuggester='on'">
+                                                    <xsl:attribute  name="checked">checked</xsl:attribute>
+                                                </xsl:if>
+                                            </input>                                            
+                                            <xsl:text> On</xsl:text>
+                                        </label>
+                                        <label id="label10">
+                                            <xsl:choose>
+                                                <xsl:when test="//output/mappingSuggester!='on'">
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:attribute  name="class">btn btn-default btn-sm</xsl:attribute>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                            <input name="mappingSuggester" type="radio" class="toggle" value="off" autocomplete="off">
+                                                <xsl:if test="//output/mappingSuggester!='on'">
+                                                    <xsl:attribute  name="checked">checked</xsl:attribute>
+                                                </xsl:if>
+                                            </input>                                            
+                                            <xsl:text> Off</xsl:text>
+                                        </label>
                                     
                                     
-                                </div>
-                                <br/>
-                                <br/>
+                                    </div>
+                                    <br/>
+                                    <br/>
                              
-                                <p>
-                                   Under construction
+                                    <p>
+                                        Under construction
 
                                     
-                                </p>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        </xsl:if>                  
                     </div>
                 </fieldset>
             </form>

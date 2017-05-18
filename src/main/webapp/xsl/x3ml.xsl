@@ -144,11 +144,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                                 
                                         </li>
                                     </xsl:if>
-                                    <xsl:if test="$action!=1">
-                                        <li >
-                                            <a href="#configuration" role="tab" data-toggle="tab">Configuration</a>
-                                        </li>
-                                    </xsl:if>
+                                   
+                                    <li >
+                                        <a href="#configuration" role="tab" data-toggle="tab">Configuration</a>
+                                    </li>
                                     <li >
                                         <a href="#about" role="tab" data-toggle="tab">About</a>
                                     </li>
