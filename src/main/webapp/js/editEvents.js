@@ -977,24 +977,31 @@ $('.saveXML-btn').click(function() {
 
                 } else if (xpath.endsWith("/domain/..") || xpath.endsWith("/mappings")) {
 
-                    if (xpath.endsWith("/mappings")) {
-                        if (comboAPI > 0 && targetType === "xml") {
-                            comboAPI = 4;
-                        }
-                        var url = "GetPart?id=" + id + "&xpath=" + xpath + "&mode=view&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
-                        var req = $.myPOST(url);
-                        req.done(function(data) {
-                            checkResponse(data);
-
-                            $(".mappings").html(data);
-                            $(".empty>td>div").attr("style", "display:block"); //Showing otherwise hidden add buttons
-                        });
-                        req.fail(function() {
-                            alert("Connection with server lost. Action failed!");
-                        });
+                    if (activeTab === "Generators") {
+                        initGenerators();
                     } else {
-                        viewOnly(); //Would be tough otherwise
+
+                        if (xpath.endsWith("/mappings")) {
+                            if (comboAPI > 0 && targetType === "xml") {
+                                comboAPI = 4;
+                            }
+                            var url = "GetPart?id=" + id + "&xpath=" + xpath + "&mode=view&targetAnalyzer=" + comboAPI + "&sourceAnalyzer=" + sourceAnalyzer;
+                            var req = $.myPOST(url);
+                            req.done(function(data) {
+                                checkResponse(data);
+
+                                $(".mappings").html(data);
+                                $(".empty>td>div").attr("style", "display:block"); //Showing otherwise hidden add buttons
+                            });
+                            req.fail(function() {
+                                alert("Connection with server lost. Action failed!");
+                            });
+                        } else {
+                            viewOnly(); //Would be tough otherwise
+                        }
                     }
+                } else if (xpath.indexOf("_generator") !== -1) {
+                    viewOnlyGenerator();
                 } else {
 
                     var editPath;
@@ -1337,12 +1344,10 @@ $("#matching_table").on("click", ".clickable", function() {
 /*
  * Handler fired when switching tabs
  */
-$('.nav-tabs a').on('show.bs.tab', function(event) {
-    var activeTabText = $(event.target).text();         // active tab
-//    var previousTabText = $(event.relatedTarget).text();  // previous tab
-    if (activeTabText === "Generators") {
+$('.nav-tabs a').on('show.bs.tab', function() {
+    if (activeTab === "Generators") {
         viewOnly(); //To avoid combo mixup (matching table-generators)
-    } else if (activeTabText === "Matching Table") {
+    } else if (activeTab === "Matching Table") {
         viewOnlyGenerator();
     }
 });
@@ -1651,7 +1656,7 @@ $(function() {
                         window.console && console.log(m) || alert(m);
                     },
                     items: {
-                         "": {name: "", icon: ""}
+                        "": {name: "", icon: ""}
 //                        "copyLink": {name: "Copy link", icon: "copy"},
 //                        "deleteLink": {name: "Delete link", icon: "delete"}
                     }
@@ -1664,7 +1669,7 @@ $(function() {
                         window.console && console.log(m) || alert(m);
                     },
                     items: {
-                         "": {name: "", icon: ""}
+                        "": {name: "", icon: ""}
 //                        "copyMap": {name: "Copy map", icon: "copy"},
 //                        "deleteMap": {name: "Delete map", icon: "delete"}
                     }

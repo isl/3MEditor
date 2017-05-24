@@ -42,6 +42,7 @@ var targetRoot = $(".targetPath").first().html();
 var sourceRoot = $(".sourcePath").first().html();
 var selectedRows = new Array();
 var selectedMaps = new Array();
+var activeTab = $(".active").children("a").html();
 
 /*
  * Page initialization
@@ -170,7 +171,7 @@ $(document).ready(function() {
                 var req = $.myPOST(url, "", "", 20000);
                 req.done(function(data) {
                     checkResponse(data);
-                    $("#matching_table>div.mappings .mCSB_container").html(data);
+                    $("#matching_table>div.mappings").html(data);
 
                     if (sourcePaths === "full") {
                         $(".sourcePath").each(function(index) {
@@ -366,12 +367,11 @@ $("#targetPaths input:radio").change(function() {
 $('.nav a').click(function(e) {
     e.preventDefault();
     $("body").css("opacity", "1");
-
+    activeTab = $(this).html();
     if ($(this).html() === "About") {
         $("#about").load("readme.html");
     } else if ($(this).html() === "Generators") {
         initGenerators();
-
     } else if ($(this).html() === "Analysis") {
         $("#graph").load("analysis.html");
     } else if ($(this).html() === "Transformation") {

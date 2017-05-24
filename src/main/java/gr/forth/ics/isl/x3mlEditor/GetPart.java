@@ -180,16 +180,8 @@ public class GetPart extends BasicServlet {
             } else if (result.startsWith("<label_generator")) {
                 result = result.replaceFirst("<label_generator", "<label_generator container='" + xpath + "' generatorsStatus='" + request.getParameter("generatorsStatus") + "'");
             }
-            if (result.startsWith("<mappings>") && mode.startsWith("instance")) {
-                System.out.println("klalala");
-                System.out.println(mode);
-                System.out.println(xsl);
-//                if (mode.equals("instanceView")) {
-//                    result = result.replaceFirst("<mappings", "<mappings instance='view'");
-//                } else {
+            if (result.startsWith("<mappings>") && mode.startsWith("instance")) {              
                     result = result.replaceFirst("<mappings", "<mappings mode='" + mode + "' status='" + request.getParameter("generatorsStatus") + "'");
-//                }
-                System.out.println(result);
             }
             if (result.startsWith("<path>")) {
                 String index = getIndex(xpath);

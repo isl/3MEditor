@@ -100,6 +100,13 @@ public class Update extends BasicServlet {
                             } else if (xpath.endsWith("/mappings")) {
                                 mappingFile.xInsertAfter(xpath, newValue);
                                 mappingFile.xRemove(xpath + "[1]");
+                            } else if (xpath.contains("_generator")) {//generators                             
+                                mappingFile.xInsertAfter(xpath, newValue);
+                                if (xpath.endsWith("]")) {//label 
+                                    mappingFile.xRemove(xpath);
+                                } else {//instance
+                                    mappingFile.xRemove(xpath + "[1]");
+                                }
                             }
                             DBFile updatedMappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
                             out.println(updateXML(updatedMappingFile, initialValue));
