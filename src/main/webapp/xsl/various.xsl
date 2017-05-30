@@ -121,9 +121,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         
         <xsl:variable name="miniPath">
             <xsl:choose>
-                <xsl:when test="starts-with($path,'//')">
+                <!-- Maria's request-->
+<!--                <xsl:when test="starts-with($path,'//')">
                     <xsl:value-of select="$path"/>
-                </xsl:when>
+                </xsl:when>-->
             
                 <xsl:when test="contains($path,'/')">
                

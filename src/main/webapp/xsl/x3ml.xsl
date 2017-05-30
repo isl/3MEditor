@@ -323,6 +323,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <script src="js/commonEvents.js"></script>
                 <xsl:if test="$action!=1"> <!-- If edit or instance mode-->
                     <script src="js/contextMenu/jquery.contextMenu.min.js"></script>
+                    <script src="js/contextMenus.js"></script>
 
 
                     <script src="js/combos.js"></script>

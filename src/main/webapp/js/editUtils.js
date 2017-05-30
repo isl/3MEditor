@@ -215,7 +215,7 @@ function configurationOption(option, action) {
 
 
 
-            if (targetType == "owl" || targetType == "ttl"|| targetType == "Mixed") {
+            if (targetType == "owl" || targetType == "ttl" || targetType == "Mixed") {
                 $("#targetAnalyzer>#label2").removeClass("disabled");
                 $("#targetAnalyzer>#label3").removeClass("disabled").addClass("active");
                 $("#targetAnalyzer>#label3>input").attr("checked", "checked");
@@ -496,8 +496,8 @@ function upload($this) {
                 }
 
                 if (confirm("Do you wish to search file for namespaces and automatically fill in relevant fields? WARNING: This action will overwrite any current namespaces!") === true) {
-                     getNamespaces(filename, xpath);
-                   
+                    getNamespaces(filename, xpath);
+
                 }
 
             }
@@ -541,6 +541,53 @@ function getNamespaces(filename, xpath) {
     });
     req.fail(function() {
         alert("Connection with server lost. Action failed!");
+    });
+}
+
+function updateFollowingSiblingsOnDelete($blockToRemove, selector) {
+    $blockToRemove.nextAll(selector).each(function() {
+        $this = $(this);
+
+        var currentXpath = $this.attr("data-xpath");
+        var currentHtml = $this.html();
+
+        var newPath = getPreviousPath(currentXpath);
+
+        if (selector === "tbody") { //mapping
+            if (clipboard["mapping"].indexOf(currentXpath) !== -1) {
+                clipboard["mapping"] = newPath; //Update clipboard value!
+            }
+        } else if (selector === ".path, .range") { //link
+            if (clipboard["link"].indexOf(currentXpath) !== -1) {
+                clipboard["link"] = newPath; //Update clipboard value!
+            }
+        }
+
+        $this.attr("id", newPath);
+        $this.attr("data-xpath", newPath);
+
+        var newHtml = currentHtml.replaceAll(currentXpath, newPath);
+        if (newPath.indexOf("/intermediate") !== -1) { //Intermediate faux element has to be replaced
+            var currentPos = parseInt(getPosition(currentXpath));
+
+            if (newPath.indexOf("/source_relation") !== -1) {
+                var relationPos = currentPos + 1;
+                var newPos = currentPos - 1;
+
+                newHtml = newHtml.replaceAll("/source_relation/node[" + currentPos + "]", "/source_relation/node[" + newPos + "]");
+                newHtml = newHtml.replaceAll("/source_relation/relation[" + relationPos + "]", "/source_relation/relation[" + currentPos + "]");
+            } else {
+                var relationshipPos = currentPos + 1;
+                var newPos = currentPos - 1;
+
+                newHtml = newHtml.replaceAll("/target_relation/entity[" + currentPos + "]", "/target_relation/entity[" + newPos + "]");
+                newHtml = newHtml.replaceAll("/target_relation/relationship[" + relationshipPos + "]", "/target_relation/relationship[" + currentPos + "]");
+            }
+
+
+        }
+        $this.html(newHtml);
+
     });
 }
 

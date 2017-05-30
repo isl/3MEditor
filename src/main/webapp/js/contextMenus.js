@@ -26,4 +26,13 @@
  * This file is part of the 3MEditor webapp of Mapping Memory Manager project.
  */
 
-        
+function deleteBlock(type, xpath) {
+    if (type === "map") {
+        console.log("delete map with xpath " + xpath);
+        //UNDER CONSTRUCTION
+//        var $map = $("tbody.mapping[id='" + xpath + "']");
+//        $map.prev().remove();
+//        $map.remove();
+    }
+
+}

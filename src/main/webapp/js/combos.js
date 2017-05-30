@@ -526,11 +526,12 @@ function getDomainValueForLink(xpath) {
     var $domain = $("tr[data-xpath='" + domainPath + "']");
     var domainValue;
 
+
     if (targetType === "xml" && xpath.indexOf("/target_") !== -1) {
         var $domainDiv = $domain.find(".targetPath").first();
         domainValue = $domainDiv.attr("data-fullpath");       
     } else {
-         var $domainDiv = $domain.find(".sourcePath").last();
+         var $domainDiv = $domain.find(".sourcePath").first(); //was last(). Had bug with if-rule. Requires further testing
         domainValue = $domainDiv.attr("data-fullpath");  
         //Replaced following code to make it work for first link in a new domain, 
         //which showed all available paths (could not find domain value). Will require further testing!
@@ -544,11 +545,8 @@ function getDomainValueForLink(xpath) {
     return domainValue;
 }
 function filterValues(xpath) {
-//alert(xpath)
     var domainValue = getDomainValueForLink(xpath);
 
-
-//alert(domainValue)
     var paths;
     if (targetType === "xml" && xpath.indexOf("/target_") !== -1) {
         paths = targetXPaths;

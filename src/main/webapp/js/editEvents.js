@@ -859,50 +859,8 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                     $rulesDiv.prepend(data);
                 } else {
 
-                    $blockToRemove.nextAll(selector).each(function() {
-                        $btn = $(this); //DANGER! It makes sense but I wonder if it works for all cases (tested with maps-links-args-generators)
+                    updateFollowingSiblingsOnDelete($blockToRemove, selector);
 
-                        var currentXpath = $btn.attr("data-xpath");
-                        var currentHtml = $btn.html();
-
-                        var newPath = getPreviousPath(currentXpath);
-
-                        if (selector === "tbody") { //mapping
-                            if (clipboard["mapping"].indexOf(currentXpath) !== -1) {
-                                clipboard["mapping"] = newPath; //Update clipboard value!
-                            }
-                        } else if (selector === ".path, .range") { //link
-                            if (clipboard["link"].indexOf(currentXpath) !== -1) {
-                                clipboard["link"] = newPath; //Update clipboard value!
-                            }
-                        }
-
-                        $btn.attr("id", newPath);
-                        $btn.attr("data-xpath", newPath);
-
-                        var newHtml = currentHtml.replaceAll(currentXpath, newPath);
-                        if (newPath.indexOf("/intermediate") !== -1) { //Intermediate faux element has to be replaced
-                            var currentPos = parseInt(getPosition(currentXpath));
-
-                            if (newPath.indexOf("/source_relation") !== -1) {
-                                var relationPos = currentPos + 1;
-                                var newPos = currentPos - 1;
-
-                                newHtml = newHtml.replaceAll("/source_relation/node[" + currentPos + "]", "/source_relation/node[" + newPos + "]");
-                                newHtml = newHtml.replaceAll("/source_relation/relation[" + relationPos + "]", "/source_relation/relation[" + currentPos + "]");
-                            } else {
-                                var relationshipPos = currentPos + 1;
-                                var newPos = currentPos - 1;
-
-                                newHtml = newHtml.replaceAll("/target_relation/entity[" + currentPos + "]", "/target_relation/entity[" + newPos + "]");
-                                newHtml = newHtml.replaceAll("/target_relation/relationship[" + relationshipPos + "]", "/target_relation/relationship[" + currentPos + "]");
-                            }
-
-
-                        }
-                        $btn.html(newHtml);
-
-                    });
 
                     if (selector === ".comments") {
                         $blockToRemove.children().fadeOut("slow").remove();
@@ -1448,8 +1406,11 @@ $('#info_edit-btn').click(function() {
             var $this = $(this);
             upload($this);
         });
-        if ($(".target_info").length === 1) { //Hide delete target if there only one!
+        if ($(".target_info").length === 1) { //Hide delete target if there is only one!
             $(".targetInfoDeleteButton").hide();
+        }
+        if ($(".source_info").length === 1) { //Hide delete source if there is only one!
+            $(".sourceInfoDeleteButton").hide();
         }
         if (targetType === "xml") {
             $("#addTarget").hide();
@@ -1645,8 +1606,7 @@ $(function() {
                     },
                     items: {
                         "": {name: "", icon: ""}
-//                        "copy": {name: "Copy domain", icon: "copy"},
-//                        "delete": {name: "Delete domain", icon: "delete"}
+//                        "copy": {name: "Copy domain", icon: "copy"}
                     }
                 };
             } else if ($triggerElement.hasClass("path")) {
@@ -1666,10 +1626,11 @@ $(function() {
                 return {
                     callback: function(key, options) {
                         var m = "clicked: " + key + " on element with xpath:" + xpath;
-                        window.console && console.log(m) || alert(m);
+                        window.console && console.log(m);
+                        deleteBlock("map", xpath);
                     },
                     items: {
-                        "": {name: "", icon: ""}
+                        "": {name: "", icon: ""},
 //                        "copyMap": {name: "Copy map", icon: "copy"},
 //                        "deleteMap": {name: "Delete map", icon: "delete"}
                     }
