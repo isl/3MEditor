@@ -1613,12 +1613,13 @@ $(function() {
                 return {
                     callback: function(key, options) {
                         var m = "clicked: " + key + " on element with xpath:" + xpath;
-                        window.console && console.log(m) || alert(m);
+                        window.console && console.log(m);
+                        deleteBlock("link", xpath);
                     },
                     items: {
-                        "": {name: "", icon: ""}
+//                        "": {name: "", icon: ""},
 //                        "copyLink": {name: "Copy link", icon: "copy"},
-//                        "deleteLink": {name: "Delete link", icon: "delete"}
+                        "deleteLink": {name: "Delete link", icon: "delete"}
                     }
                 };
             } else {
@@ -1630,9 +1631,9 @@ $(function() {
                         deleteBlock("map", xpath);
                     },
                     items: {
-                        "": {name: "", icon: ""},
+//                        "": {name: "", icon: ""},
 //                        "copyMap": {name: "Copy map", icon: "copy"},
-//                        "deleteMap": {name: "Delete map", icon: "delete"}
+                        "deleteMap": {name: "Delete map", icon: "delete"}
                     }
                 };
             }

@@ -27,12 +27,39 @@
  */
 
 function deleteBlock(type, xpath) {
-    if (type === "map") {
-        console.log("delete map with xpath " + xpath);
-        //UNDER CONSTRUCTION
-//        var $map = $("tbody.mapping[id='" + xpath + "']");
-//        $map.prev().remove();
-//        $map.remove();
+    //First make any editable rows view-only for uniformity
+    viewOnly();
+
+
+    confirmDialog();
+    if (goAhead) {
+
+        var url = "Delete?id=" + id + "&xpath=" + xpath + '&targetAnalyzer=' + comboAPI;
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
+
+            if (type === "map") {
+                console.log("delete map with xpath " + xpath);
+                var $map = $("tbody.mapping[id='" + xpath + "']");
+                //Updating following mappings
+                updateFollowingSiblingsOnDelete($map, "tbody")
+
+                //Deleting html
+                $map.prev().remove();
+                $map.remove();
+            } else if (type === "link") {
+                console.log("delete link with xpath " + xpath);
+                var $link = $("tr[data-xpath='" + xpath + "']");
+                //Updating following links
+                updateFollowingSiblingsOnDelete($link, ".path, .range");
+
+                //Deleting html
+                $link.remove();
+
+            }
+        });
+
     }
 
 }

@@ -548,8 +548,9 @@ function updateFollowingSiblingsOnDelete($blockToRemove, selector) {
     $blockToRemove.nextAll(selector).each(function() {
         $this = $(this);
 
+
+
         var currentXpath = $this.attr("data-xpath");
-        var currentHtml = $this.html();
 
         var newPath = getPreviousPath(currentXpath);
 
@@ -557,14 +558,18 @@ function updateFollowingSiblingsOnDelete($blockToRemove, selector) {
             if (clipboard["mapping"].indexOf(currentXpath) !== -1) {
                 clipboard["mapping"] = newPath; //Update clipboard value!
             }
+            createNewIndex("map", $this);
         } else if (selector === ".path, .range") { //link
             if (clipboard["link"].indexOf(currentXpath) !== -1) {
                 clipboard["link"] = newPath; //Update clipboard value!
             }
+            createNewIndex("link", $this);
         }
 
         $this.attr("id", newPath);
         $this.attr("data-xpath", newPath);
+
+        var currentHtml = $this.html();
 
         var newHtml = currentHtml.replaceAll(currentXpath, newPath);
         if (newPath.indexOf("/intermediate") !== -1) { //Intermediate faux element has to be replaced
@@ -589,6 +594,39 @@ function updateFollowingSiblingsOnDelete($blockToRemove, selector) {
         $this.html(newHtml);
 
     });
+
+    function createNewIndex(type, $block) {
+        $block.find(".index").each(function() {
+            var $index = $(this);
+            var index = $index.html();
+            if (type === "map") {
+                if (index.indexOf(".") !== -1) {
+                    var indices = index.split(".");
+                    var mapIndex = indices[0];
+                    var linkIndex = indices[1];
+
+
+                    var newIndex = mapIndex - 1;
+                    newIndex = newIndex + "." + linkIndex;
+
+                } else {
+                    var newIndex = index - 1;
+                }
+            } else if (type==="link") {
+                 if (index.indexOf(".") !== -1) {
+                    var indices = index.split(".");
+                    var mapIndex = indices[0];
+                    var linkIndex = indices[1];
+
+
+                    var newIndex = linkIndex - 1;
+                    newIndex = mapIndex + "." + newIndex;
+                }
+            }
+            $index.html(newIndex);
+            $index.attr("title", newIndex);
+        });
+    }
 }
 
 
