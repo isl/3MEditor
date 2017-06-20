@@ -108,12 +108,18 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <div class="form-group ">
 
                     <div class="row">
-                        <div class="col-sm-10">
+                        <div class="col-sm-6">
                             <label class="control-label" >Target Record RDF File (Using x3ml engine version 1.7.5)</label>     
                             <img class="loader" src="js/select2-3.5.1/select2-spinner.gif" style="display:none;"/>
                             <textarea id="engineResult" style="width:100%;" rows="20">
                             </textarea>
                         </div>      
+                        <div class="col-sm-4">
+                            <label class="control-label" >Transformation Console</label>     
+                            <img class="loader" src="js/select2-3.5.1/select2-spinner.gif" style="display:none;"/>
+                            <textarea id="engineConsole" style="width:100%;" rows="20">
+                            </textarea>
+                        </div>   
                         <div class="col-sm-2 ">
                             <button title="Click button to save as your mapping target record file" style="margin-top:18px;" id="saveTarget" type="button" class="btn btn-default btn-sm disabled">Save as Target Record</button>
                         </div>

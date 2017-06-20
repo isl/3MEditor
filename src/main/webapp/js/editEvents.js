@@ -1546,9 +1546,31 @@ $("body").on("click", "#runEngine", function() {
     var req = $.myPOST(url, {sourceFile: source}, "html");
     req.done(function(data) {
         checkResponse(data);
-//        data = String(data).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+
+        var cleanFile;
+        var consoleOutput;
+
+        var file = data.match(/^(@prefix|<(http|uuid)[\s\S]*?\.|<rdf:RDF)[\s\S]*/mg);
+        if (file !== null && file.length > 0) {
+            cleanFile = file[0];
+            
+            var errors = data.match(/[\s\S]*?(?=^(@prefix|<rdf:RDF|<(http|uuid)))/mg);
+            if (errors !== null && errors.length > 0) {
+                consoleOutput = errors[0];
+            } else {
+                consoleOutput = data;
+            }
+
+        } else {
+            cleanFile = "";
+            consoleOutput = data;
+        }
+
         $(".loader").hide();
-        $("#engineResult").val(data);
+        $("#engineResult").val(cleanFile);
+        $("#engineConsole").val(consoleOutput);
+
         $("#saveTarget").removeClass("disabled");
 
     });
