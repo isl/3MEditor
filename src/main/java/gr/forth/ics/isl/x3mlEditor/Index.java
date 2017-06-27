@@ -35,7 +35,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -124,6 +123,10 @@ public class Index extends BasicServlet {
         dbc.xRemove("//if[not(*)]");
 
         String collectionPath = getPathforFile(dbc, xmlId, id);
+        DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+        //If there is source schema without namespaces block, add it
+        mappingFile.xInsertAfter("//source_info[not(namespaces)]/source_schema", "<namespaces><namespace prefix='' uri=''/></namespaces>");
+        
         String mappingFileAsString = getDBFileContent(collectionPath, xmlId);
 
         xmlMiddle.append(mappingFileAsString);
@@ -144,7 +147,6 @@ public class Index extends BasicServlet {
                 return;
             }
 
-            DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
             HttpSession session = sessionCheck(request, response);
             if (session == null) {
                 session = request.getSession(true);

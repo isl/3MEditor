@@ -88,6 +88,13 @@ public class FetchBinFile extends BasicServlet {
         File file = new File(path);
         System.out.println(path);
         if (!file.exists()) {
+            System.out.println(filename);
+            
+            if (filename.endsWith("xml")) {//fail safe...
+                path = path.replace("xml_schema","example_files");
+                file = new File(path);
+            }
+            
 //            if (filename.endsWith("ttl") && use.equals("rdf_link")) {//OBSOLETE! Should not happenSpecial case (generated ttl file from Transformation tab)
 //                path = targetRecordsFolder+filename;
 //                file = new File(path);

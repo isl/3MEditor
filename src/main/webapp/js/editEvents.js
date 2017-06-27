@@ -871,6 +871,11 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                                 $(".targetInfoDeleteButton").hide();
                             }
                         }
+                        if (selector === ".source_info") {
+                            if ($(".source_info").length === 2) {
+                                $(".sourceInfoDeleteButton").hide();
+                            }
+                        }
                         if (selector === "tbody") {
                             $blockToRemove.prev("thead").fadeOut("slow").remove();
                         }

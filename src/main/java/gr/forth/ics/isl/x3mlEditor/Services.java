@@ -33,6 +33,7 @@ import static gr.forth.ics.isl.x3mlEditor.BasicServlet.applicationCollection;
 import gr.forth.ics.isl.x3mlEditor.utilities.GeneratorPolicy;
 import gr.forth.ics.isl.x3mlEditor.utilities.Utils;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -198,8 +199,13 @@ public class Services extends BasicServlet {
                 String content = utils.readFile(schemaFile, "UTF-8");
                 results = findNamespaces("xsd", content);
             } else if (filename.endsWith("xml")) {
+
                 File schemaFile = new File(uploadsFolder + "example_files/" + filename);
+                if (!schemaFile.exists()) { //xml schema file may be stored in xml_schema folder ...
+                    schemaFile = new File(uploadsFolder + "xml_schema/" + filename);
+                }
                 String content = utils.readFile(schemaFile, "UTF-8");
+
                 results = findNamespaces("xml", content);
             }
             String xpath = request.getParameter("xpath");
@@ -230,6 +236,9 @@ public class Services extends BasicServlet {
                 index = index + 1;
             }
 
+            System.out.println(relevantNamespacesXpath);
+            System.out.println(namespacesXML.toString());
+
             mappingFile.xUpdate(relevantNamespacesXpath, namespacesXML.toString());
         } else if (method.equals("update")) {
             DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
@@ -253,7 +262,7 @@ public class Services extends BasicServlet {
         x3mlFile.xRemove("//x3ml/namespaces[count(namespace)>1]/namespace[@prefix='']");
 
     }
-    
+
     private void updateX3ml(DBFile x3mlFile, String from, String to) {
         if (from.equals("1.1") && to.equals("1.2")) {
             x3mlFile.xInsertAfter("//x3ml/info/general_description", "<source/>");//create source block
