@@ -110,9 +110,14 @@ public class Delete extends BasicServlet {
 
                 String countQuery = "count(" + xpath + ifBlockPath + "/if)";
                 String ifCount = mappingFile.queryString(countQuery)[0];
-
+                //This part is a bit tricky and will propably require further testing to avoid accidental deletions
                 if (ifCount.equals("1")) { //Last if, should delete entire or block instead
-                    mappingFile.xRemove(xpath + ifBlockPath);
+                    String tagToDeleteName = mappingFile.queryString(xpath + ifBlockPath + "/name()")[0]; //Fail safe to avoid accidental target_relation deletion
+                    if (tagToDeleteName.equals("target_relation")) {
+                        mappingFile.xRemove(xpath + ifBlockPath + "/if");
+                    } else {
+                        mappingFile.xRemove(xpath + ifBlockPath);
+                    }
                 } else if (ifCount.equals("2")) {
                     String xpathToRemove = xpath.substring(0, xpath.lastIndexOf("/"));
 
@@ -154,19 +159,18 @@ public class Delete extends BasicServlet {
 
             mappingFile.xRemove(xpath);
         }
-        if (xpath.startsWith("//x3ml/info/target/target_info")) { 
+        if (xpath.startsWith("//x3ml/info/target/target_info")) {
 
 //            if (targetAnalyzer.equals("3")) { //Deleting target schema means replacing ont model
-                OntologyReasoner ont = getOntModel(mappingFile, id);
+            OntologyReasoner ont = getOntModel(mappingFile, id);
 
-                HttpSession session = sessionCheck(request, response);
-                if (session == null) {
-                    session = request.getSession();
-                }
-                session.setAttribute("modelInstance_" + id, ont);
+            HttpSession session = sessionCheck(request, response);
+            if (session == null) {
+                session = request.getSession();
+            }
+            session.setAttribute("modelInstance_" + id, ont);
 //            }
 
-          
         }
 
         out.close();
