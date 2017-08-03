@@ -1546,9 +1546,11 @@ $("body").on("click", "#runEngine", function() {
     $(".loader").show();
 
     var source = $("#sourceFile").val();
-    var url = "/x3mlMapper/Index?id=" + id + "&generator=" + $("#generator").val() + "&uuidSize=" + $("#uuidSize").val() + "&output=" + output;
+    var generator = $("#generator").val();
 
-    var req = $.myPOST(url, {sourceFile: source}, "html");
+    var url = "/x3mlMapper/Index?id=" + id + "&uuidSize=" + $("#uuidSize").val() + "&output=" + output;
+
+    var req = $.myPOST(url, {sourceFile: source, generator: generator}, "html");
     req.done(function(data) {
         checkResponse(data);
 
@@ -1559,7 +1561,7 @@ $("body").on("click", "#runEngine", function() {
         var file = data.match(/^(@prefix|<(http|uuid)[\s\S]*?\.|<rdf:RDF)[\s\S]*/mg);
         if (file !== null && file.length > 0) {
             cleanFile = file[0];
-            
+
             var errors = data.match(/[\s\S]*?(?=^(@prefix|<rdf:RDF|<(http|uuid)))/mg);
             if (errors !== null && errors.length > 0) {
                 consoleOutput = errors[0];
