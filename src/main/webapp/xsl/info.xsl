@@ -78,7 +78,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     
                     </div>
                 </fieldset>       
-                <xsl:for-each select="source">
+                <xsl:for-each select="source[1]">
                     <fieldset>
                         <legend>Source</legend>
                         <div class="row">
@@ -95,7 +95,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         <xsl:apply-templates select="source_info"/>             
                     </fieldset> 
                 </xsl:for-each>     
-                <xsl:for-each select="target">
+                <xsl:for-each select="target[1]">
                     <fieldset>
                         <legend>Target</legend>
                         <div class="row">

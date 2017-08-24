@@ -126,7 +126,10 @@ public class Index extends BasicServlet {
         DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
         //If there is source schema without namespaces block, add it
         mappingFile.xInsertAfter("//source_info[not(namespaces)]/source_schema", "<namespaces><namespace prefix='' uri=''/></namespaces>");
-        
+        //If there is namespaces without at least one namespace, add it
+        mappingFile.xAppend("//namespaces[not(namespace)]", "<namespace prefix='' uri=''/>");
+
+        mappingFile.xRemove("//info/target[position()>1]"); // Deleting second target if it exists!
         String mappingFileAsString = getDBFileContent(collectionPath, xmlId);
 
         xmlMiddle.append(mappingFileAsString);
