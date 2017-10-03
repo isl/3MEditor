@@ -53,6 +53,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <context-param>
         <description>eXist database user password. Change according to your eXist setup.</description>
         <param-name>DBpassword</param-name>
+        <param-value>admin</param-value>        
         <!-- Linux setup
         <param-value>admin</param-value>
         -->
