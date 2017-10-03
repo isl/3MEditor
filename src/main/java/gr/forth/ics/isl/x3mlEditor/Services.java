@@ -226,10 +226,8 @@ public class Services extends BasicServlet {
                 index = index + 1;
                 results.remove("base");
             }
-            System.out.println(results);
-            System.out.println("###="+namespacesXML.toString());
+          
             for (String prefix : results.keySet()) {
-                System.out.println("IN HERE");
                 String namespaceXML = "<namespace prefix='" + prefix + "' uri='" + results.get(prefix) + "'/>";
                 namespacesXML = namespacesXML.append(namespaceXML);
 
@@ -240,7 +238,6 @@ public class Services extends BasicServlet {
                 index = index + 1;
             }
             if (baseNamespace == null && results.isEmpty()) {
-                System.out.println("IS EMPTY");
                  String namespaceXML = "<namespace prefix='' uri=''/>";
                 namespacesXML = namespacesXML.append(namespaceXML);
                  String namespaceXpath = relevantNamespacesXpath + "/namespace[" + index + "]";
@@ -248,8 +245,7 @@ public class Services extends BasicServlet {
                 String html = transform(namespaceXML, super.baseURL + "/xsl/edit/namespace.xsl");
                 out.println(html);
             }
-            System.out.println(relevantNamespacesXpath);
-            System.out.println(namespacesXML.toString());
+          
           
 
             mappingFile.xUpdate(relevantNamespacesXpath, namespacesXML.toString());

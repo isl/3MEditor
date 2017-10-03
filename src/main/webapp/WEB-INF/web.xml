@@ -32,7 +32,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <context-param>
         <description>eXist database URI. Change IP and port according to your eXist setup.</description>
         <param-name>DBURI</param-name>
-        <param-value>xmldb:exist://localhost:8090/exist/xmlrpc</param-value>
+        <param-value>xmldb:exist://localhost:8080/exist/xmlrpc</param-value>
+        <!-- Windows setup
+        <param-value>xmldb:exist://localhost:8080/exist/xmlrpc</param-value>
+        -->
+        <!-- Linux setup
+        <param-value>xmldb:exist://localhost:8081/exist/xmlrpc</param-value>
+        -->
     </context-param>
     <context-param>
         <description>eXist database driver (DO NOT CHANGE)</description>
@@ -47,7 +53,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <context-param>
         <description>eXist database user password. Change according to your eXist setup.</description>
         <param-name>DBpassword</param-name>
+        <!-- Linux setup
         <param-value>admin</param-value>
+        -->
     </context-param>
     <context-param>
         <description>eXist database root collection</description>
@@ -99,17 +107,19 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <description>Server folder to store uploaded files. Change according to your setup.</description>
         <param-name>uploadsFolder</param-name>
         <param-value>C:\\Projects\\3M\\uploads\\Mapping\\</param-value>
+        <!--Linux setup
+        <param-value>/usr/share/3M/uploads/Mapping/</param-value>
+        -->
     </context-param>
     <context-param>
         <description>Server folder with mapping schema. Change according to your setup.</description>
         <param-name>schemaFolder</param-name>
         <param-value>C:\\Projects\\3M\\Schema\\</param-value>
+         <!--Linux setup
+        <param-value>/usr/share/3M/Schema/</param-value>
+        -->
     </context-param>
-    <context-param>
-        <description>Server folder to store target record files generated in Transformation tab. Change according to your setup.</description>
-        <param-name>targetRecordsFolder</param-name>
-        <param-value>C:\\Projects\\3M\\rdf_visualizer_files\\</param-value>
-    </context-param>
+   
     <context-param>
         <description>Maximum number of xml documents stored in one collection.</description>
         <param-name>maxCollsize</param-name>
@@ -120,7 +130,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             plugin - Plugin mode (Used as a 3M system plugin. Default)
             standalone - Standalone editor (Direct access to Mapping files. Could be dangerous)</description>
         <param-name>editorType</param-name>
-        <param-value>plugin</param-value>
+        <param-value>standalone</param-value>
     </context-param>
     <context-param>
         <description>Default Target path suggester algorithm. Values accepted:0=None, 2=eXist, 3=Jena.</description>
