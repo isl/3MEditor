@@ -32,7 +32,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <context-param>
         <description>eXist database URI. Change IP and port according to your eXist setup.</description>
         <param-name>DBURI</param-name>
-        <param-value>xmldb:exist://localhost:8080/exist/xmlrpc</param-value>
+        <param-value>xmldb:exist://localhost:8090/exist/xmlrpc</param-value>
         <!-- Windows setup
         <param-value>xmldb:exist://localhost:8080/exist/xmlrpc</param-value>
         -->
@@ -98,6 +98,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <param-name>systemURL</param-name>
         <param-value>/3M</param-value>
     </context-param>
+     <context-param>
+        <description>RDFVisualizer URL. Change according to your setup.</description>
+        <param-name>RDFVisualizerURL</param-name>
+        <param-value>/RDFVisualizer</param-value>
+    </context-param>
     <context-param>
         <description>If set to on (default value) everythings works as planned.
             If set to off (maintenance mode), then redirect to maintenance html page.</description>
@@ -131,7 +136,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             plugin - Plugin mode (Used as a 3M system plugin. Default)
             standalone - Standalone editor (Direct access to Mapping files. Could be dangerous)</description>
         <param-name>editorType</param-name>
-        <param-value>standalone</param-value>
+        <param-value>plugin</param-value>
     </context-param>
     <context-param>
         <description>Default Target path suggester algorithm. Values accepted:0=None, 2=eXist, 3=Jena.</description>

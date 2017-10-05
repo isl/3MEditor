@@ -233,6 +233,8 @@ public class Index extends BasicServlet {
 
                 xmlMiddle.append("<type>").append(type).append("</type>");
                 xmlMiddle.append("<id>").append(id).append("</id>");
+                xmlMiddle.append("<RDFVisualizerURL>").append(RDFVisualizerURL).append("</RDFVisualizerURL>");
+                
             }
 
             xmlMiddle.append("</output>");

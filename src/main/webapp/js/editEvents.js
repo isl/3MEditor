@@ -26,6 +26,8 @@
  * This file is part of the 3MEditor webapp of Mapping Memory Manager project.
  */
 
+var visualizerTab;
+
 /*
  * --------------------------------- GLOBAL ----------------------------------
  */
@@ -1613,7 +1615,13 @@ $("body").on("click", "#visualizeTarget", function() {
 
     if (filename.indexOf(".ttl") !== -1) {
         var subject = $("#subject").val();
-        window.open("/RDFVisualizer/?resource=" + subject + "&filename=" + filename, "_blank");
+
+        if (visualizerTab === undefined) {
+            visualizerTab = window.open(RDFVisualizerURL+"/?resource=" + subject + "&filename=" + filename, "_blank");
+        } else {
+            visualizerTab.close(); //Closing previous RDFVisualizer tabs before opening new one.
+            visualizerTab = window.open(RDFVisualizerURL+"/?resource=" + subject + "&filename=" + filename, "_blank");
+        }
     } else {
         alert("Saved target record file is " + filename + ". Visualizer only works with Turtle (ttl) files for the time being!");
     }

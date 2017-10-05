@@ -174,7 +174,7 @@ public class BasicServlet extends HttpServlet {
     /**
      *
      */
-    protected static String systemURL;
+    protected static String systemURL, RDFVisualizerURL;
 
     /**
      *
@@ -228,6 +228,7 @@ public class BasicServlet extends HttpServlet {
             schemaFolder = sc.getInitParameter("schemaFolder");
 
             systemURL = sc.getInitParameter("systemURL");
+            RDFVisualizerURL = sc.getInitParameter("RDFVisualizerURL");
             stateOfSite = sc.getInitParameter("stateOfSite");
             editorType = sc.getInitParameter("editorType");
             maxCollsize = Integer.parseInt(sc.getInitParameter("maxCollsize"));
