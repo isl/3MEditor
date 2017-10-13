@@ -377,7 +377,7 @@ $('.nav a').click(function(e) {
     } else if ($(this).html() === "Transformation") {
         $("#x3mlEngine").load(("x3mlEngine.html"), function() {
             var sourceFilename = "";
-            if ($("info_view-btn").is(':visible')) {//edit_mode
+            if ($("#info_view-btn").is(':visible')) {//edit_mode
                 sourceFilename = $("div:visible>a:contains('view xml')").attr("title");
             } else {
                 sourceFilename = $("a:contains('view xml')").attr("title");
@@ -391,7 +391,7 @@ $('.nav a').click(function(e) {
             });
 
             url = "";
-            if ($("info_view-btn").is(':visible')) {//edit_mode
+            if ($("#info_view-btn").is(':visible')) {//edit_mode
                 url = $("div:visible>a:contains('view generator xml')").attr("href");
             } else {
                 url = $("a:contains('view generator xml')").attr("href");
@@ -404,7 +404,7 @@ $('.nav a').click(function(e) {
             });
 
             url = "";
-            if ($("info_view-btn").is(':visible')) {//edit_mode
+            if ($("#info_view-btn").is(':visible')) {//edit_mode
                 url = $("div:visible>a:contains('view target')").attr("href");
             } else {
                 url = $("a:contains('view target')").attr("href");

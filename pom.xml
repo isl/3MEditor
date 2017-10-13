@@ -53,7 +53,7 @@
         <dependency>
             <groupId>com.github.isl</groupId>
             <artifactId>3MTidy</artifactId>
-            <version>65ebd42</version>
+            <version>-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.github.isl</groupId>
