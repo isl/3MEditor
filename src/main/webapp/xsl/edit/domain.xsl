@@ -56,7 +56,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         </xsl:variable>
                           
         <tr class="edit" data-xpath="{$pathSoFar}">
-             <td style="text-align:center;vertical-align:middle;" title="{@index}">
+            <td style="text-align:center;vertical-align:middle;" title="{@index}">
                 <xsl:value-of select="@index"/>
             </td>
             <td title="{$pathSoFar}">D</td>
@@ -72,19 +72,20 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                             <label class="control-label topPadded" for="domainSourceNode">Source Node</label>
                               
+                            <xsl:variable name="sourceNodeValue" select="source_node"/>
                             <xsl:choose>
                                 <xsl:when test="//*/@sourceAnalyzer='off'">                                 
-                                    <input title="Source Node" id="domainSourceNode" type="text" class="form-control input-sm sourcePath" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/source_node')}" data-fullpath="{source_node}">
+                                    <input title="Source Node" id="domainSourceNode" type="text" class="form-control input-sm sourcePath" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/source_node')}" data-fullpath="{$sourceNodeValue}">
                                         <xsl:attribute name="value">
-                                            <xsl:value-of select="source_node"/>
+                                            <xsl:value-of select="$sourceNodeValue"/>
                                         </xsl:attribute>
                                     </input>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <input style="width:100%;" title="Source Node" type="hidden" class="select2 input-sm sourcePath" data-id="{.}" id="domainSourceNode" data-xpath="{concat($pathSoFar,'/source_node')}"  data-fullpath="{source_node}">
+                                    <input style="width:100%;" title="Source Node" type="hidden" class="select2 input-sm sourcePath" data-id="{$sourceNodeValue}" id="domainSourceNode" data-xpath="{concat($pathSoFar,'/source_node')}"  data-fullpath="{$sourceNodeValue}">
                                                                                
                                         <xsl:attribute name="value">
-                                            <xsl:value-of select="source_node"></xsl:value-of>
+                                            <xsl:value-of select="$sourceNodeValue"></xsl:value-of>
                                         </xsl:attribute>
                                         <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
                                     </input>

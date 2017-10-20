@@ -276,7 +276,7 @@ function fillCombo($this, setValue) {
 
 //                    if (JSON.stringify(json).indexOf(oldValue) === -1 && oldValue.indexOf("#")===-1) { //If we are more flexible...
                     if (JSON.stringify(json).indexOf(oldValue) === -1) {
-                        wrongValue = true;                        
+                        wrongValue = true;
                     }
                     $this.select2({
                         allowClear: true,
@@ -523,19 +523,25 @@ function fillComboWithPaths($this, filteredPaths) {
 }
 function getDomainValueForLink(xpath) {
     var domainPath = xpath.replace(/\/link[\s\S]*/g, "/domain");
-    var $domain = $("tr[data-xpath='" + domainPath + "']");
-    var domainValue;
 
+    var $domain = $("tr[data-xpath='" + domainPath + "']");
+//    console.log($domain.html())
+    var domainValue;
 
     if (targetType === "xml" && xpath.indexOf("/target_") !== -1) {
         var $domainDiv = $domain.find(".targetPath").first();
-        domainValue = $domainDiv.attr("data-fullpath");       
+        domainValue = $domainDiv.attr("data-fullpath");
     } else {
-         var $domainDiv = $domain.find(".sourcePath").first(); //was last(). Had bug with if-rule. Requires further testing
-        domainValue = $domainDiv.attr("data-fullpath");  
+        var $domainDiv = $domain.find(".sourcePath").first(); //was last(). Had bug with if-rule. Requires further testing
+        var tagname = $domainDiv.prop("tagName");
+        if (tagname === "SPAN") {//domain in view mode
+            domainValue = $domainDiv.attr("data-fullpath");
+        } else {           
+            domainValue = $domainDiv.next("input").attr("data-id");//changed to data-id from data-fullpath, cause data-fullpath sometimes was empty!
+        }
         //Replaced following code to make it work for first link in a new domain, 
         //which showed all available paths (could not find domain value). Will require further testing!
-        
+
 //        var $domainDiv = $domain.find(".nextToIcon");
 //        domainValue = $domainDiv.html();
 //        if ($domainDiv.children("span").length > 0) {
