@@ -71,14 +71,16 @@ public class SchemaAnalyzer {
      * 
      */
     public ArrayList<String> getURIandPrefixForValueStartingWithHttp(String value) {
-        ArrayList<String> result = new ArrayList<String>();
+              ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i < allNamespaceURIs.size(); i++) {
 
             String namespaceURI = allNamespaceURIs.get(i);
-            if (value.startsWith(namespaceURI)) { //WE HAVE A MATCH. Return ArrayList. First item is URI, second is prefix.
-                result.add(namespaceURI);
-                result.add(allNamespacePrefixes.get(i));
-                return result;
+            if (!namespaceURI.equals("")) {//added because otherwise we had :http://www.w3.org/2000/01/rdf-schema#Literal issue
+                if (value.startsWith(namespaceURI)) { //WE HAVE A MATCH. Return ArrayList. First item is URI, second is prefix.
+                    result.add(namespaceURI);
+                    result.add(allNamespacePrefixes.get(i));
+                    return result;
+                }
             }
 
         }
@@ -103,10 +105,10 @@ public class SchemaAnalyzer {
         } else if (type.equals("source")) {
             prefixes = sourceSchemaPrexifes.get(filename);
         }
-        
+
         if (prefixes.isEmpty()) { //reverting to namespaces block  (LEGACY mode)
-           prefixes =new ArrayList<String>(allNamespacePrefixes.subList(2,3));//removing first 2 (rdfs,xsd)
-  
+            prefixes = new ArrayList<String>(allNamespacePrefixes.subList(2, 3));//removing first 2 (rdfs,xsd)
+
         }
 
         return prefixes;

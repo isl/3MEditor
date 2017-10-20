@@ -33,6 +33,8 @@ import isl.dbms.DBMSException;
 import static gr.forth.ics.isl.x3mlEditor.BasicServlet.applicationCollection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -183,10 +185,35 @@ public class Update extends BasicServlet {
                     }
                 }
                 out.println(strippedNewValue);
+               
+                
+                //Following snippet added to automatically change instance generator from UUID to Literal and
+                //vice versa, when user uses a Literal value for Class
+                List<String> literalValues = Arrays.asList("http://www.w3.org/2000/01/rdf-schema#Literal");
+
+                if (literalValues.contains(newValue) || literalValues.contains(currentValue)) {
+                  
+                    String instanceGenerators[] = mappingFile.queryString(xpath + "/../instance_generator");
+                    if (instanceGenerators.length > 0) {
+                        if (literalValues.contains(newValue)) {//Update to Literal generator
+                            String literalInstanceGeneratorArgs = "    <arg name=\"text\" type=\"xpath\">text()</arg>\n"
+                                    + "    <arg name=\"language\" type=\"constant\">en</arg>";
+
+                            mappingFile.xUpdate(xpath + "/../instance_generator/@name", "Literal");
+                            mappingFile.xUpdate(xpath + "/../instance_generator", literalInstanceGeneratorArgs);
+                        } else if (literalValues.contains(currentValue)) {//Revert to UUID generator
+                            mappingFile.xUpdate(xpath + "/../instance_generator/@name", "UUID");
+                            mappingFile.xUpdate(xpath + "/../instance_generator", "");
+                        }
+                    }
+
+                }
+
                 if (!currentValue.equals(newValue)) {
                     if (isAttribute) {
                         mappingFile.xAddAttribute(fatherXpath, attributeName, newValue);
                     } else {
+
                         mappingFile.xUpdate(xpath, newValue);
                     }
 
