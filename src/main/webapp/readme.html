@@ -29,7 +29,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 <fieldset>
     <legend>3MEditor</legend>
     Version: <b>3.2-SNAPSHOT</b><br/>
-    Build: <b>2017-10-20 ()</b>
+    Build: <b>2017-10-23 ()</b>
 </fieldset>
 
 <fieldset>
@@ -38,6 +38,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <h4 style="text-decoration: underline;">2017</h4>
 
     <h5 style="text-decoration: underline;">October</h5>
+     <p>23 October 2017: Addressed Redmine Bug#179 (Transformation Error messages). Increased timeout for specific action to 1 minute.
+         Used to be 20seconds and also added a fail handler to stop process gracefully. (hiding loader and showing a message in console)    
     <p>20 October 2017: Added Redmine Feature#180 (Automatically assign the Literal generator to all Literals). Fixed 
         the ":" issue we had with values such as :http://www.w3.org/2000/01/rdf-schema#Literal. Fixed Redmine Bug#173 
         (1st link after domain has absolute instead of relative path)

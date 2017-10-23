@@ -1552,7 +1552,8 @@ $("body").on("click", "#runEngine", function() {
 
     var url = "/x3mlMapper/Index?id=" + id + "&uuidSize=" + $("#uuidSize").val() + "&output=" + output;
 
-    var req = $.myPOST(url, {sourceFile: source, generator: generator}, "html");
+    var req = $.myPOST(url, {sourceFile: source, generator: generator}, "html", 60000); //increased timeout to 60secs
+//     $.myPOST(url, "", "", 20000);
     req.done(function(data) {
         checkResponse(data);
 
@@ -1582,7 +1583,14 @@ $("body").on("click", "#runEngine", function() {
 
         $("#saveTarget").removeClass("disabled");
 
-    });
+    },
+            req.fail(function(err) {
+                console.log(err);
+                $(".loader").hide();
+                $("#engineConsole").val("Transformation took more tha one minute and was interrupted. Run x3mlEngine locally instead!");
+
+            })
+            );
 });
 
 /*
@@ -1617,10 +1625,10 @@ $("body").on("click", "#visualizeTarget", function() {
         var subject = $("#subject").val();
 
         if (visualizerTab === undefined) {
-            visualizerTab = window.open(RDFVisualizerURL+"/?resource=" + subject + "&filename=" + filename, "_blank");
+            visualizerTab = window.open(RDFVisualizerURL + "/?resource=" + subject + "&filename=" + filename, "_blank");
         } else {
             visualizerTab.close(); //Closing previous RDFVisualizer tabs before opening new one.
-            visualizerTab = window.open(RDFVisualizerURL+"/?resource=" + subject + "&filename=" + filename, "_blank");
+            visualizerTab = window.open(RDFVisualizerURL + "/?resource=" + subject + "&filename=" + filename, "_blank");
         }
     } else {
         alert("Saved target record file is " + filename + ". Visualizer only works with Turtle (ttl) files for the time being!");
