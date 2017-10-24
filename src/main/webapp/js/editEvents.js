@@ -92,6 +92,9 @@ $("#matching_table, #generatorsTab").on("change", ".select2", function(e) {
     var xpath = $input.attr('data-xpath');
     goAhead = true;
 
+
+
+
     if (xpath.indexOf("instance_generator/@name") !== -1 || (xpath.indexOf("label_generator[") !== -1 && xpath.endsWith("/@name"))) {
         var argsLength = $(".focus").find(".args").html().length;
         if (argsLength > 0) { //If no args, then no need for a confirmation dialog about arguments
@@ -113,6 +116,16 @@ $("#matching_table, #generatorsTab").on("change", ".select2", function(e) {
             if (xpath.indexOf("/source_relation") === -1 && xpath.indexOf("/source_node") === -1 && targetType !== "xml") {
                 refreshCombos(xpath, true);
             } else {
+                if ($input.attr("data-xpath").endsWith("path/source_relation/relation[1]")) {//When updating source relation, also update source_node if empty
+                    var $sourceNodeSelect = $(".select2[title='Source Node']");
+                    var sourceNodeCurrentValue = $sourceNodeSelect.next("input").val();
+                    if (sourceNodeCurrentValue === "") {//if empty, then source node is the same as source relation
+                        $sourceNodeSelect.next("input").val(data).attr("data-id", e.val);
+                        $sourceNodeSelect.select2("val", data);
+                    }
+
+                }
+
                 $input.select2("val", data); //set chosen value
             }
             if (xpath.indexOf("instance_generator/@name") !== -1 || (xpath.indexOf("label_generator[") !== -1 && xpath.endsWith("/@name"))) {

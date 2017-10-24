@@ -185,14 +185,13 @@ public class Update extends BasicServlet {
                     }
                 }
                 out.println(strippedNewValue);
-               
-                
+
                 //Following snippet added to automatically change instance generator from UUID to Literal and
                 //vice versa, when user uses a Literal value for Class
-                List<String> literalValues = Arrays.asList("http://www.w3.org/2000/01/rdf-schema#Literal");
+                List<String> literalValues = Arrays.asList("http://www.w3.org/2000/01/rdf-schema#Literal", "http://www.w3.org/2001/XMLSchema#dateTime");
 
                 if (literalValues.contains(newValue) || literalValues.contains(currentValue)) {
-                  
+
                     String instanceGenerators[] = mappingFile.queryString(xpath + "/../instance_generator");
                     if (instanceGenerators.length > 0) {
                         if (literalValues.contains(newValue)) {//Update to Literal generator
@@ -207,6 +206,11 @@ public class Update extends BasicServlet {
                         }
                     }
 
+                }
+                //Following snippet added to automatically fill in source node when it is empty and source_relation is
+                //given a value
+                if (xpath.endsWith("/path/source_relation/relation[1]")) {
+                    mappingFile.xUpdate(xpath + "/../../../range/source_node[.='']",newValue);
                 }
 
                 if (!currentValue.equals(newValue)) {

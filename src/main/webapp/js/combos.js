@@ -493,7 +493,6 @@ function fillXMLSchemaCombo($this, type) {
 
 function fillComboWithPaths($this, filteredPaths) {
     var xpath = $this.attr("data-xpath");
-
     if (!xpath.endsWith("domain/source_node") && xpath.indexOf("/target_") === -1) { //Apply filtering only for source link (path or range) combos
         filteredPaths = filterValues(xpath);
     } else if (targetType === "xml" && xpath.indexOf("domain/") === -1) {
