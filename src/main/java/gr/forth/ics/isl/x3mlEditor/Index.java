@@ -128,8 +128,8 @@ public class Index extends BasicServlet {
         mappingFile.xInsertAfter("//source_info[not(namespaces)]/source_schema", "<namespaces><namespace prefix='' uri=''/></namespaces>");
         //If there is namespaces without at least one namespace, add it
         mappingFile.xAppend("//namespaces[not(namespace)]", "<namespace prefix='' uri=''/>");
-
         mappingFile.xRemove("//info/target[position()>1]"); // Deleting second target if it exists!
+        mappingFile.xAddAttribute("//x3ml","editor","3MEditor v3.2"); // Adding 3MEditor version
         String mappingFileAsString = getDBFileContent(collectionPath, xmlId);
 
         xmlMiddle.append(mappingFileAsString);

@@ -322,8 +322,8 @@ $(document).ready(function() {
         }
     }
     if (schemaVersion === "1.1") {
-        if (confirm("You are using an older x3ml schema version (1.1). Do you wish to update your mapping to version 1.2?") === true) {
-            var url = "Services?method=update&id=" + id + "&from=1.1&to=1.2";
+        if (confirm("You are using an older incompatible x3ml schema version (1.1 or older). Do you wish to update your mapping to version 1.3?") === true) {
+            var url = "Services?method=update&id=" + id + "&from=1.1&to=1.2";//1.2 is compatible with 1.3
             var req = $.myPOST(url);
             req.done(function(data) {
                 alert(data);//Useful. DO NOT DELETE!

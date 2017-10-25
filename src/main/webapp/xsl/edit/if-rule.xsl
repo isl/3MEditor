@@ -169,6 +169,64 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             </input>       
         </div>     
     </xsl:template>
+    <xsl:template match="broader"> 
+        <xsl:param name="pathSoFar"/>
+        <xsl:variable name="broaderPath">
+            <xsl:value-of select="concat($pathSoFar,'/broader')"></xsl:value-of>
+        </xsl:variable>
+        
+        
+        <div id="{$broaderPath}" data-xpath="{$broaderPath}" class="rule">
+            <button title="Delete if-rule" type="button"  class="close btn btn-sm" id="{concat('delete***',$broaderPath)}">
+                <span class="fa fa-times smallerIcon" ></span>
+                <span class="sr-only">Close</span>
+            </button>
+        
+            <label class="control-label" for="{$broaderPath}">Broader</label>
+              
+            <input title="Broader" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{$broaderPath}">
+                <xsl:attribute name="value">
+                    <xsl:value-of select="."/>
+                </xsl:attribute>
+            </input>
+            <span class="input-group-addon">bt</span>
+
+            <input title="Broader @value" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($broaderPath,'/@value')}">
+                <xsl:attribute name="value">
+                    <xsl:value-of select="@value"/>
+                </xsl:attribute>
+            </input>       
+        </div>     
+    </xsl:template>
+    <xsl:template match="exact_match"> 
+        <xsl:param name="pathSoFar"/>
+        <xsl:variable name="exact_matchPath">
+            <xsl:value-of select="concat($pathSoFar,'/exact_match')"></xsl:value-of>
+        </xsl:variable>
+        
+        
+        <div id="{$exact_matchPath}" data-xpath="{$exact_matchPath}" class="rule">
+            <button title="Delete if-rule" type="button"  class="close btn btn-sm" id="{concat('delete***',$exact_matchPath)}">
+                <span class="fa fa-times smallerIcon" ></span>
+                <span class="sr-only">Close</span>
+            </button>
+        
+            <label class="control-label" for="{$exact_matchPath}">Exact match</label>
+              
+            <input title="Exact match" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{$exact_matchPath}">
+                <xsl:attribute name="value">
+                    <xsl:value-of select="."/>
+                </xsl:attribute>
+            </input>
+            <span class="input-group-addon">=</span>
+
+            <input title="Exact match @value" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($exact_matchPath,'/@value')}">
+                <xsl:attribute name="value">
+                    <xsl:value-of select="@value"/>
+                </xsl:attribute>
+            </input>       
+        </div>     
+    </xsl:template>
     <xsl:template match="exists">
         <xsl:param name="pathSoFar"/>
  
@@ -246,7 +304,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </li>
                 <li>                   
                     <a class="add" href="" id="{concat('add***',$pathSoFar,'***OR_Nonexistence')}">Nonexistence</a>
-                </li>      
+                </li>  
+                <li>                   
+                    <a class="add" href="" id="{concat('add***',$pathSoFar,'***OR_ExactMatch')}">ExactMatch</a>
+                </li>     
+                <li>                   
+                    <a class="add" href="" id="{concat('add***',$pathSoFar,'***OR_Broader')}">Broader</a>
+                </li> 
                 <li>                   
                     <a class="add" href="" id="{concat('add***',$pathSoFar,'***OR_Narrowness')}">Narrowness</a>
                 </li>           
@@ -264,6 +328,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <li>                   
                     <a class="add" href="" id="{concat('add***',$pathSoFar,'***AND_Nonexistence')}">Nonexistence</a>
                 </li>      
+                <li>                   
+                    <a class="add" href="" id="{concat('add***',$pathSoFar,'***AND_ExactMatch')}">ExactMatch</a>
+                </li>     
+                <li>                   
+                    <a class="add" href="" id="{concat('add***',$pathSoFar,'***AND_Broader')}">Broader</a>
+                </li> 
                 <li>                   
                     <a class="add" href="" id="{concat('add***',$pathSoFar,'***AND_Narrowness')}">Narrowness</a>
                 </li>           

@@ -186,13 +186,13 @@ public class Add extends BasicServlet {
 
                             String mapIndex = getIndex(xpath + "[" + pos + "]");
                             mappingFrag = mappingFrag.replaceFirst("<domain", "<domain sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/domain' mappingsCount='" + pos + "' index='" + mapIndex + "'");
-                           
+
                             String linkIndex = getIndex(xpath + "[" + pos + "]/link[1]");
-                            mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/path" + "' index='"+linkIndex+"'>");
-                          
+                            mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/path" + "' index='" + linkIndex + "'>");
+
                             mappingFrag = mappingFrag.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' xpath='" + xpath + "[" + pos + "]/link[1]/range" + "'>");
                         } else if (mappingFrag.startsWith("<link>")) { //Edit mode
-                            String index = getIndex(xpath+ "[" + pos + "]");
+                            String index = getIndex(xpath + "[" + pos + "]");
 
                             mappingFrag = mappingFrag.replaceFirst("<path>", "<path sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "[" + pos + "]/path" + "' index='" + index + "'>");
                             mappingFrag = mappingFrag.replaceFirst("<range>", "<range sourceAnalyzer='" + sourceAnalyzer + "' targetMode='" + targetMode + "' xpath='" + xpath + "[" + pos + "]/range" + "'>");
@@ -343,7 +343,7 @@ public class Add extends BasicServlet {
                 }
             }
             return frag;
-        } else if (child.endsWith("quality") || child.endsWith("xistence") || child.endsWith("Narrowness")) {
+        } else if (child.endsWith("quality") || child.endsWith("xistence") || child.endsWith("Narrowness") || child.endsWith("Broader") || child.endsWith("ExactMatch")) {
 
             String childPath = "";
             String operator = "";
@@ -352,7 +352,7 @@ public class Add extends BasicServlet {
                 operator = parts[0].toLowerCase();
                 child = parts[1];
             }
-
+          
             if (child.equals("Equality")) {
                 childPath = "if[equals]";
             } else if (child.equals("Inequality")) {
@@ -363,6 +363,10 @@ public class Add extends BasicServlet {
                 childPath = "if[not/if/exists]";
             } else if (child.equals("Narrowness")) {
                 childPath = "if[narrower]";
+            } else if (child.equals("Broader")) {
+                childPath = "if[broader]";
+            } else if (child.equals("ExactMatch")) {
+                childPath = "if[exact_match]";
             }
             String[] mappingFrags = getFragmentFromTemplate("//optionalPart/" + childPath);
             if (mappingFrags != null) {
@@ -370,26 +374,25 @@ public class Add extends BasicServlet {
 
                     frag = mappingFrags[0];
                     //Check if there are multiple rules
-                    String[] lastIfRule = mappingFile.queryString(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]");
+                    String[] lastIfRule = mappingFile.queryString(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower or broader or exact_match][last()][not(following-sibling::if)]");
                     if (lastIfRule != null && lastIfRule.length > 0) {
-                        String[] lastIfRuleFather = mappingFile.queryString(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]/../name()");
+                        String[] lastIfRuleFather = mappingFile.queryString(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower or broader or exact_match][last()][not(following-sibling::if)]/../name()");
                         if (lastIfRuleFather != null && lastIfRuleFather.length > 0) {
-
                             if (lastIfRuleFather[0].equals("or") || lastIfRuleFather[0].equals("and")) { //Already has operator
                                 if (lastIfRuleFather[0].equals(operator)) {
-                                    mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", frag); //Needs further refining
+                                    mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower or broader or exact_match][last()][not(following-sibling::if)]", frag); //Needs further refining
                                 } else {
-                                    mappingFile.xUpdate(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", "<" + operator + ">" + lastIfRule[0] + "</" + operator + ">");
-                                    mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", frag); //Needs further refining
+                                    mappingFile.xUpdate(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower or broader or exact_match][last()][not(following-sibling::if)]", "<" + operator + ">" + lastIfRule[0] + "</" + operator + ">");
+                                    mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower or broader or exact_match][last()][not(following-sibling::if)]", frag); //Needs further refining
 
                                 }
                             } else { //Single if, have to enclose with operator
 
-                                mappingFile.xUpdate(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", "<" + operator + ">" + lastIfRule[0] + "</" + operator + ">");
-                                mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", frag); //Needs further refining
+                                mappingFile.xUpdate(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower or broader or exact_match][last()][not(following-sibling::if)]", "<" + operator + ">" + lastIfRule[0] + "</" + operator + ">");
+                                mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower or broader or exact_match][last()][not(following-sibling::if)]", frag); //Needs further refining
                             }
                         } else {
-                            mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower][last()][not(following-sibling::if)]", frag); //Needs further refining
+                            mappingFile.xInsertAfter(fatherXpath + "//if[name(..)!='not'][not or exists or equals or narrower or broader or exact_match][last()][not(following-sibling::if)]", frag); //Needs further refining
                         }
 
                     } else {

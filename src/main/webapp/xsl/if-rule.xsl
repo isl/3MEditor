@@ -103,5 +103,24 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         </xsl:call-template>
         <!--<br/>-->
     </xsl:template>
-
+ <xsl:template match="broader">
+        <xsl:call-template name="stripPath">
+            <xsl:with-param name="path" select="." />
+        </xsl:call-template>
+        <xsl:text> bt </xsl:text>
+        <xsl:call-template name="stripPath">
+            <xsl:with-param name="path" select="@value" />
+        </xsl:call-template>
+        <!--<br/>-->
+    </xsl:template>
+     <xsl:template match="exact_match"> 
+        <xsl:call-template name="stripPath">
+            <xsl:with-param name="path" select="." />
+        </xsl:call-template>
+        <xsl:text> == </xsl:text>
+        <xsl:call-template name="stripPath">
+            <xsl:with-param name="path" select="@value" />
+        </xsl:call-template>
+        <!--<br/>-->
+    </xsl:template>
 </xsl:stylesheet>

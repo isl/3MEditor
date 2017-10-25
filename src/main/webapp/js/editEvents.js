@@ -711,7 +711,7 @@ $("body").on("click", ".add", function(e) {
         $(this).parent().addClass("disabled"); //Make option disabled
 
 
-    } else if (btnId.endsWith("quality") || btnId.endsWith("xistence") || btnId.endsWith("Narrowness")) {
+    } else if (btnId.endsWith("quality") || btnId.endsWith("xistence") || btnId.endsWith("Narrowness")|| btnId.endsWith("Broader")||btnId.endsWith("ExactMatch")) {
         var vars = btnId.split("***");
         var xpath = vars[1];
         var ruleType = vars[2];
