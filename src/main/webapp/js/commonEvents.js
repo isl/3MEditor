@@ -47,10 +47,11 @@ var activeTab = $(".active").children("a").html();
 /*
  * Page initialization
  */
+
+
 $(document).ready(function() {
-//$.ajaxSetup({
-//  timeout: 10000
-//});
+
+
     $('.description').popover({
         trigger: "hover",
         placement: "right"
@@ -155,6 +156,7 @@ $(document).ready(function() {
         comboAPI = $('#targetAnalyzer input:radio:checked').val();
 
         $("#matching_table, #generatorsTab").on("click", "#table_view-btn", function() {
+          
 //        $('#table_view-btn').click(function() {
 
             if ($(".active").children("a").html() === "Generators") {
@@ -333,6 +335,7 @@ $(document).ready(function() {
     }
 
 });
+
 
 /*
  * Handler fired when user changes source paths option

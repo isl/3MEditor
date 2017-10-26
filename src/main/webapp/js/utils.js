@@ -128,6 +128,10 @@ function checkResponse(data) {
 
 (function($) {
     $.myPOST = function(url, data, dataType, timeout) {
+        $("body").css("opacity", "0.4");
+//        $("a").css("cursor", "arrow").click(false);
+        $(":input").prop("disabled", true);
+
         if (typeof timeout === 'undefined') {
             timeout = 20000; //Default timeout is 20secs if none is specified
         }
@@ -137,8 +141,24 @@ function checkResponse(data) {
             'url': url,
             'data': data,
             'dataType': dataType,
-            'timeout': timeout
+            'timeout': timeout,
+            success: function() {
+                console.log('success:' + url);
+            },
+            error: function() {
+                console.log('fail:' + url);
+            },
+            complete: function() {
+//                $("a").css("cursor", "arrow").click(true);
+                $(":input").prop("disabled", false);
+                $("body").css("opacity", "1");
+
+            }
+
         };
+
+
+
         return $.ajax(settings);
     };
 })(jQuery);

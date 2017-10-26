@@ -62,6 +62,7 @@ public class Delete extends BasicServlet {
         String id = request.getParameter("id");
         String type = request.getParameter("type");
         String targetAnalyzer = request.getParameter("targetAnalyzer");
+        String selected = request.getParameter("selected");
         if (targetAnalyzer == null) {
             targetAnalyzer = targetPathSuggesterAlgorithm;
         }
@@ -75,102 +76,130 @@ public class Delete extends BasicServlet {
         String collectionPath = getPathforFile(dbc, xmlId, id);
         DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
 
-        if (!xpath.startsWith("//")) {
-            xpath = "//" + xpath;
-        }
-
-        if (xpath.contains("/intermediate[")) { //Faux element intermediate
-            String position = xpath.substring(xpath.lastIndexOf("[") + 1, xpath.lastIndexOf("]"));
-
-            if (xpath.contains("source_relation")) { //Source intermediate
-                int relationPosition = Integer.parseInt(position) + 1;
-                String nodePath = xpath.replaceAll("/intermediate", "/node");
-                mappingFile.xRemove(nodePath);
-                String relationPath = xpath.replaceAll("/intermediate\\[\\d+\\]", "/relation[" + relationPosition + "]");
-                mappingFile.xRemove(relationPath);
-            } else { //Target intermediate
-                int relationshipPosition = Integer.parseInt(position) + 1;
-                String entityPath = xpath.replaceAll("/intermediate", "/entity");
-                mappingFile.xRemove(entityPath);
-                String relationshipPath = xpath.replaceAll("/intermediate\\[\\d+\\]", "/relationship[" + relationshipPosition + "]");
-                mappingFile.xRemove(relationshipPath);
+        if (xpath == null && selected != null) {//Special case used to Delete multiple maps or links
+            System.out.println("SELECTED is:" + selected);
+            String[] selectedIds = selected.split(",");
+            String mode = "";
+            for (String selId : selectedIds) {
+                System.out.println(selId);
+                if (selId.contains(".")) {//link
+                    mode = "link";
+                    System.out.println("//x3ml//mapping[" + selId.split("\\.")[0] + "]/link[" + selId.split("\\.")[1] + "]");
+                    mappingFile.xUpdate("//x3ml//mapping[" + selId.split("\\.")[0] + "]/link[" + selId.split("\\.")[1] + "]", "XXX");
+                } else {//map
+                    mode = "map";
+                    mappingFile.xUpdate("//x3ml//mapping[" + selId + "]", "XXX");
+                }
             }
-        } else if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower")) {
-
-            String rootIfTagPath = xpath.substring(0, xpath.indexOf("/if"));
-            String grandpaTagQuery = xpath + "/../../name()";
-            String grandpaTag = mappingFile.queryString(grandpaTagQuery)[0];
-
-            if (grandpaTag.equals("and") || grandpaTag.equals("or") || grandpaTag.equals("not")) {
-
-                String ifBlockPath = "/../..";
-                if (grandpaTag.equals("not")) {
-                    ifBlockPath = "/../../../..";
-                }
-
-                String countQuery = "count(" + xpath + ifBlockPath + "/if)";
-                String ifCount = mappingFile.queryString(countQuery)[0];
-                //This part is a bit tricky and will propably require further testing to avoid accidental deletions
-                if (ifCount.equals("1")) { //Last if, should delete entire or block instead
-                    String tagToDeleteName = mappingFile.queryString(xpath + ifBlockPath + "/name()")[0]; //Fail safe to avoid accidental target_relation deletion
-                    if (tagToDeleteName.equals("target_relation")) {
-                        mappingFile.xRemove(xpath + ifBlockPath + "/if");
-                    } else {
-                        mappingFile.xRemove(xpath + ifBlockPath);
-                    }
-                } else if (ifCount.equals("2")) {
-                    String xpathToRemove = xpath.substring(0, xpath.lastIndexOf("/"));
-
-                    if (grandpaTag.equals("not")) {
-                        xpathToRemove = xpath.substring(0, xpath.lastIndexOf("/not"));
-
-                    }
-
-                    mappingFile.xRemove(xpathToRemove);
-                    String xpathToMove = xpathToRemove.substring(0, xpathToRemove.lastIndexOf("["));
-                    mappingFile.xCopyInside(xpathToMove + "/*", xpathToMove + "/../..");
-                    xpathToRemove = xpathToMove.substring(0, xpathToMove.lastIndexOf("/"));
-                    mappingFile.xRemove(xpathToRemove);
-
-                } else {
-                    if (grandpaTag.equals("not")) {
-                        mappingFile.xRemove(xpath + "/../../..");
-                    } else {
-                        mappingFile.xRemove(xpath + "/..");
-                    }
-                }
-
+            if (mode.equals("link")) {
+                mappingFile.xRemove("//x3ml//link[.='XXX']");
             } else {
-                mappingFile.xRemove(xpath + "/..");
+                mappingFile.xRemove("//x3ml//mapping[.='XXX']");
             }
 
-            //New approach (return entire if block instead)
-            String[] entireIfBlock = mappingFile.queryString(rootIfTagPath + "/if");
-            if (entireIfBlock != null && entireIfBlock.length > 0) {
-                String frag = entireIfBlock[0];
-                frag = frag.replaceFirst("/?>", " targetMode='' container='" + rootIfTagPath + "' xpath='" + rootIfTagPath + "' relPos=''$0");
-
-                String output = transform(frag, super.baseURL + "/xsl/edit/if-rule.xsl");
-
-                out.println(output);
-            }
+            String mappings = mappingFile.queryString("//mappings")[0];
+            String output = transform(mappings, super.baseURL + "/xsl/mappings.xsl");
+            out.println(output);
 
         } else {
 
-            mappingFile.xRemove(xpath);
-        }
-        if (xpath.startsWith("//x3ml/info/target/target_info")) {
+            if (!xpath.startsWith("//")) {
+                xpath = "//" + xpath;
+            }
+
+            if (xpath.contains("/intermediate[")) { //Faux element intermediate
+                String position = xpath.substring(xpath.lastIndexOf("[") + 1, xpath.lastIndexOf("]"));
+
+                if (xpath.contains("source_relation")) { //Source intermediate
+                    int relationPosition = Integer.parseInt(position) + 1;
+                    String nodePath = xpath.replaceAll("/intermediate", "/node");
+                    mappingFile.xRemove(nodePath);
+                    String relationPath = xpath.replaceAll("/intermediate\\[\\d+\\]", "/relation[" + relationPosition + "]");
+                    mappingFile.xRemove(relationPath);
+                } else { //Target intermediate
+                    int relationshipPosition = Integer.parseInt(position) + 1;
+                    String entityPath = xpath.replaceAll("/intermediate", "/entity");
+                    mappingFile.xRemove(entityPath);
+                    String relationshipPath = xpath.replaceAll("/intermediate\\[\\d+\\]", "/relationship[" + relationshipPosition + "]");
+                    mappingFile.xRemove(relationshipPath);
+                }
+            } else if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower")) {
+
+                String rootIfTagPath = xpath.substring(0, xpath.indexOf("/if"));
+                String grandpaTagQuery = xpath + "/../../name()";
+                String grandpaTag = mappingFile.queryString(grandpaTagQuery)[0];
+
+                if (grandpaTag.equals("and") || grandpaTag.equals("or") || grandpaTag.equals("not")) {
+
+                    String ifBlockPath = "/../..";
+                    if (grandpaTag.equals("not")) {
+                        ifBlockPath = "/../../../..";
+                    }
+
+                    String countQuery = "count(" + xpath + ifBlockPath + "/if)";
+                    String ifCount = mappingFile.queryString(countQuery)[0];
+                    //This part is a bit tricky and will propably require further testing to avoid accidental deletions
+                    if (ifCount.equals("1")) { //Last if, should delete entire or block instead
+                        String tagToDeleteName = mappingFile.queryString(xpath + ifBlockPath + "/name()")[0]; //Fail safe to avoid accidental target_relation deletion
+                        if (tagToDeleteName.equals("target_relation")) {
+                            mappingFile.xRemove(xpath + ifBlockPath + "/if");
+                        } else {
+                            mappingFile.xRemove(xpath + ifBlockPath);
+                        }
+                    } else if (ifCount.equals("2")) {
+                        String xpathToRemove = xpath.substring(0, xpath.lastIndexOf("/"));
+
+                        if (grandpaTag.equals("not")) {
+                            xpathToRemove = xpath.substring(0, xpath.lastIndexOf("/not"));
+
+                        }
+
+                        mappingFile.xRemove(xpathToRemove);
+                        String xpathToMove = xpathToRemove.substring(0, xpathToRemove.lastIndexOf("["));
+                        mappingFile.xCopyInside(xpathToMove + "/*", xpathToMove + "/../..");
+                        xpathToRemove = xpathToMove.substring(0, xpathToMove.lastIndexOf("/"));
+                        mappingFile.xRemove(xpathToRemove);
+
+                    } else {
+                        if (grandpaTag.equals("not")) {
+                            mappingFile.xRemove(xpath + "/../../..");
+                        } else {
+                            mappingFile.xRemove(xpath + "/..");
+                        }
+                    }
+
+                } else {
+                    mappingFile.xRemove(xpath + "/..");
+                }
+
+                //New approach (return entire if block instead)
+                String[] entireIfBlock = mappingFile.queryString(rootIfTagPath + "/if");
+                if (entireIfBlock != null && entireIfBlock.length > 0) {
+                    String frag = entireIfBlock[0];
+                    frag = frag.replaceFirst("/?>", " targetMode='' container='" + rootIfTagPath + "' xpath='" + rootIfTagPath + "' relPos=''$0");
+
+                    String output = transform(frag, super.baseURL + "/xsl/edit/if-rule.xsl");
+
+                    out.println(output);
+                }
+
+            } else {
+
+                mappingFile.xRemove(xpath);
+            }
+            if (xpath.startsWith("//x3ml/info/target/target_info")) {
 
 //            if (targetAnalyzer.equals("3")) { //Deleting target schema means replacing ont model
-            OntologyReasoner ont = getOntModel(mappingFile, id);
+                OntologyReasoner ont = getOntModel(mappingFile, id);
 
-            HttpSession session = sessionCheck(request, response);
-            if (session == null) {
-                session = request.getSession();
-            }
-            session.setAttribute("modelInstance_" + id, ont);
+                HttpSession session = sessionCheck(request, response);
+                if (session == null) {
+                    session = request.getSession();
+                }
+                session.setAttribute("modelInstance_" + id, ont);
 //            }
 
+            }
         }
 
         out.close();

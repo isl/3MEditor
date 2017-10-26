@@ -32,6 +32,118 @@ var visualizerTab;
  * --------------------------------- GLOBAL ----------------------------------
  */
 
+function chooseDeleteMode(type) {    
+         
+    if (type === "link") {
+        if (selectedRows.length > 1) {
+            return "Delete links";
+        } else {
+            return "Delete link";
+        }
+    } else if (type === "map") {
+        if (selectedMaps.length > 1) {
+            return "Delete maps";
+        } else {
+            return "Delete map";
+        }
+    }
+}
+
+/*
+ * Right click context menu code
+ */
+$(function() {
+  
+    $.contextMenu({
+        selector: '.selected',
+        build: function($triggerElement, e) {
+            var xpath = $triggerElement.attr("data-xpath");
+
+
+            if ($triggerElement.hasClass("domain")) {
+                return {
+                    callback: function(key, options) {
+                        var m = "clicked: " + key + " on element with xpath:" + xpath;
+                        window.console && console.log(m) || alert(m);
+                    },
+                    items: {
+                        "": {name: "", icon: ""}
+//                        "copy": {name: "Copy domain", icon: "copy"}
+                    }
+                };
+            } else if ($triggerElement.hasClass("path")) {
+                return {
+                    callback: function(key, options) {
+                        var m = "clicked: " + key + " on element with xpath:" + xpath;
+                        window.console && console.log(m);
+                        console.log(selectedRows)
+                        if (selectedRows.length > 1) {
+                            batchDelete("link");
+                        } else {
+                            deleteBlock("link", xpath);
+                        }
+                    },
+                    items: {
+//                        "": {name: "", icon: ""},
+//                        "copyLink": {name: "Copy link", icon: "copy"},
+                        "deleteLink": {name: chooseDeleteMode("link"), icon: "delete"}
+                    }
+                };
+            } else {
+                xpath = $triggerElement.next().attr("data-xpath");
+                return {
+                    callback: function(key, options) {
+                        var m = "clicked: " + key + " on element with xpath:" + xpath;
+                        window.console && console.log(m);
+                        if (selectedMaps.length > 1) {
+                            batchDelete("map");
+                        } else {
+                            deleteBlock("map", xpath);
+                        }
+                    },
+                    items: {
+//                        "": {name: "", icon: ""},
+//                        "copyMap": {name: "Copy map", icon: "copy"},
+
+                        "deleteMap": {
+                            name: chooseDeleteMode("map"),
+                            icon: "delete",
+                            disabled: function() {
+                                if (selectedMaps.length === $(".mapping").length) {//You may not delete all mappings
+                                    return true;
+                                }                                
+                            }
+                        }
+
+
+                    }
+                };
+            }
+
+
+        }
+
+//        items: {
+//            
+//            
+//           
+////            "paste": {name: "Certificate", icon: "fa-certificate"}
+////                "edit": {name: "Edit", icon: "edit"},
+////                "cut": {name: "Cut", icon: "cut"},
+//               "copy": {name: "Copy map", icon: "copy"},
+//            "delete": {name: "Delete", icon: "delete"}
+////            "sep1": "---------",
+////            "quit": {name: "Quit", icon: function() {
+////                    return 'context-menu-icon context-menu-icon-quit';
+////                }}
+//        }
+    });
+
+    $('.context-menu-one').on('click', function(e) {
+        console.log('clicked', this);
+    })
+});
+
 /*
  * Handler fired when input field loses focus to update xml values
  */
@@ -212,13 +324,7 @@ $("body").on("click", ".copy", function() {
             clipboard["mapping"] = xpath;
         }
         $(".paste").show();
-
-
-
-
     }
-
-
 });
 
 /*
@@ -711,7 +817,7 @@ $("body").on("click", ".add", function(e) {
         $(this).parent().addClass("disabled"); //Make option disabled
 
 
-    } else if (btnId.endsWith("quality") || btnId.endsWith("xistence") || btnId.endsWith("Narrowness")|| btnId.endsWith("Broader")||btnId.endsWith("ExactMatch")) {
+    } else if (btnId.endsWith("quality") || btnId.endsWith("xistence") || btnId.endsWith("Narrowness") || btnId.endsWith("Broader") || btnId.endsWith("ExactMatch")) {
         var vars = btnId.split("***");
         var xpath = vars[1];
         var ruleType = vars[2];
@@ -1647,84 +1753,4 @@ $("body").on("click", "#visualizeTarget", function() {
         alert("Saved target record file is " + filename + ". Visualizer only works with Turtle (ttl) files for the time being!");
     }
 
-});
-/*
- * Right click context menu code
- */
-$(function() {
-    $.contextMenu({
-        selector: '.selected',
-        build: function($triggerElement, e) {
-            var xpath = $triggerElement.attr("data-xpath");
-            if ($triggerElement.hasClass("domain")) {
-                return {
-                    callback: function(key, options) {
-                        var m = "clicked: " + key + " on element with xpath:" + xpath;
-                        window.console && console.log(m) || alert(m);
-                    },
-                    items: {
-                        "": {name: "", icon: ""}
-//                        "copy": {name: "Copy domain", icon: "copy"}
-                    }
-                };
-            } else if ($triggerElement.hasClass("path")) {
-                return {
-                    callback: function(key, options) {
-                        var m = "clicked: " + key + " on element with xpath:" + xpath;
-                        window.console && console.log(m);
-                        deleteBlock("link", xpath);
-                    },
-                    items: {
-//                        "": {name: "", icon: ""},
-//                        "copyLink": {name: "Copy link", icon: "copy"},
-                        "deleteLink": {name: "Delete link", icon: "delete"}
-                    }
-                };
-            } else {
-                xpath = $triggerElement.next().attr("data-xpath");
-                return {
-                    callback: function(key, options) {
-                        var m = "clicked: " + key + " on element with xpath:" + xpath;
-                        window.console && console.log(m);
-                        deleteBlock("map", xpath);
-                    },
-                    items: {
-//                        "": {name: "", icon: ""},
-//                        "copyMap": {name: "Copy map", icon: "copy"},
-                        "deleteMap": {name: "Delete map", icon: "delete"}
-                    }
-                };
-            }
-
-
-        }
-//        callback: function(key, options) {
-//
-////            var m = "clicked: " + key;
-////            window.console && console.log(m) || alert(m);
-//  var originalElement = $('.context-menu-active');
-//            var m = "clicked: " + originalElement.attr("class");
-//            window.console && console.log(m);
-//
-//
-//        },
-//        items: {
-//            
-//            
-//           
-////            "paste": {name: "Certificate", icon: "fa-certificate"}
-////                "edit": {name: "Edit", icon: "edit"},
-////                "cut": {name: "Cut", icon: "cut"},
-//               "copy": {name: "Copy map", icon: "copy"},
-//            "delete": {name: "Delete", icon: "delete"}
-////            "sep1": "---------",
-////            "quit": {name: "Quit", icon: function() {
-////                    return 'context-menu-icon context-menu-icon-quit';
-////                }}
-//        }
-    });
-
-    $('.context-menu-one').on('click', function(e) {
-        console.log('clicked', this);
-    })
 });

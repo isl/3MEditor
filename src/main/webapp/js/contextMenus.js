@@ -26,10 +26,50 @@
  * This file is part of the 3MEditor webapp of Mapping Memory Manager project.
  */
 
-function deleteBlock(type, xpath) {
+
+/*
+ * Batch delete method (either maps or links) used by right click menu
+ */
+function batchDelete(type) {
     //First make any editable rows view-only for uniformity
     viewOnly();
 
+    confirmDialog();
+    if (goAhead) {
+
+        var selected;
+        if (type === "map") {
+            selected = selectedMaps;
+        } else {
+            selected = selectedRows;
+        }
+        var url = "Delete?id=" + id + "&selected=" + selected + '&targetAnalyzer=' + comboAPI;
+        var req = $.myPOST(url);
+        req.done(function(data) {
+            checkResponse(data);
+            $(".mappings").html(data);
+            $(".empty>td>div").attr("style", "display:block"); //Showing otherwise hidden add buttons
+
+
+            if (type === "map") {
+                console.log("delete maps " + selected);
+
+            } else if (type === "link") {
+                console.log("delete links " + selected);
+            }
+        });
+
+    }
+
+}
+
+
+/*
+ * Delete method (either map or link) used by right click menu
+ */
+function deleteBlock(type, xpath) {
+    //First make any editable rows view-only for uniformity
+    viewOnly();
 
     confirmDialog();
     if (goAhead) {
