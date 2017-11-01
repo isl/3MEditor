@@ -287,7 +287,7 @@ function getPosition(path) {
     var end = path.lastIndexOf("]");
 
     var position = "1";
-    if (path.endsWith("/equals") || path.endsWith("/exists") || path.endsWith("/narrower")) { //Special treatment
+    if (path.endsWith("/equals") || path.endsWith("/exists") || path.endsWith("/narrower")|| path.endsWith("/broader")|| path.endsWith("/exact_match")) { //Special treatment
         path = path.substring(0, path.lastIndexOf("/"));
     }
     if (start > 0 && end > 0 && end === path.length - 1) {

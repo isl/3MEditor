@@ -32,19 +32,19 @@ var visualizerTab;
  * --------------------------------- GLOBAL ----------------------------------
  */
 
-function chooseDeleteMode(type) {    
-         
+function singularOrPlular(type) {
+
     if (type === "link") {
         if (selectedRows.length > 1) {
-            return "Delete links";
+            return "s";
         } else {
-            return "Delete link";
+            return "";
         }
     } else if (type === "map") {
         if (selectedMaps.length > 1) {
-            return "Delete maps";
+            return "s";
         } else {
-            return "Delete map";
+            return "";
         }
     }
 }
@@ -53,9 +53,32 @@ function chooseDeleteMode(type) {
  * Right click context menu code
  */
 $(function() {
-  
+
     $.contextMenu({
         selector: '.selected',
+        className: 'data-title',
+        events: {
+            show: function(options) {
+                var type;
+                if ($(this).hasClass("path")) {
+                    if (selectedRows.length > 1) {
+                        type = "Links ";
+                    } else {
+                        type = "Link ";
+                    }
+                    type = type + selectedRows;
+                } else {
+                    if (selectedMaps.length > 1) {
+                        type = "Maps ";
+                    } else {
+                        type = "Map ";
+                    }
+                    type = type + selectedMaps;
+                }
+
+                // set a title
+                $('.data-title').attr('data-menutitle', type);
+            }},
         build: function($triggerElement, e) {
             var xpath = $triggerElement.attr("data-xpath");
 
@@ -77,16 +100,27 @@ $(function() {
                         var m = "clicked: " + key + " on element with xpath:" + xpath;
                         window.console && console.log(m);
                         console.log(selectedRows)
-                        if (selectedRows.length > 1) {
-                            batchDelete("link");
-                        } else {
-                            deleteBlock("link", xpath);
+                        if (key === "copyLink") {
+                            alert("SOON");
+                        }
+                        if (key === "deleteLink") {
+                            if (selectedRows.length > 1) {
+                                batchDelete("link");
+                            } else {
+                                deleteBlock("link", xpath);
+                            }
                         }
                     },
                     items: {
 //                        "": {name: "", icon: ""},
-//                        "copyLink": {name: "Copy link", icon: "copy"},
-                        "deleteLink": {name: chooseDeleteMode("link"), icon: "delete"}
+                        "copyLink": {
+                            name: "Copy link" + singularOrPlular("link"),
+                            icon: "copy"
+                        },
+                        "deleteLink": {
+                            name: "Delete link" + singularOrPlular("link"),
+                            icon: "delete"
+                        }
                     }
                 };
             } else {
@@ -95,33 +129,40 @@ $(function() {
                     callback: function(key, options) {
                         var m = "clicked: " + key + " on element with xpath:" + xpath;
                         window.console && console.log(m);
-                        if (selectedMaps.length > 1) {
-                            batchDelete("map");
-                        } else {
-                            deleteBlock("map", xpath);
+                        if (key === "copyMap") {
+                            alert("SOON");
+                        }
+
+                        if (key === "deleteMap") {
+                            if (selectedMaps.length > 1) {
+                                batchDelete("map");
+                            } else {
+                                deleteBlock("map", xpath);
+                            }
                         }
                     },
                     items: {
 //                        "": {name: "", icon: ""},
-//                        "copyMap": {name: "Copy map", icon: "copy"},
-
+                        "copyMap": {name: "Copy map" + singularOrPlular("map"), icon: "copy"},
                         "deleteMap": {
-                            name: chooseDeleteMode("map"),
+                            name: "Delete map" + singularOrPlular("map"),
                             icon: "delete",
                             disabled: function() {
                                 if (selectedMaps.length === $(".mapping").length) {//You may not delete all mappings
                                     return true;
-                                }                                
+                                }
                             }
                         }
 
 
                     }
+
                 };
             }
 
 
         }
+
 
 //        items: {
 //            
@@ -139,9 +180,11 @@ $(function() {
 //        }
     });
 
-    $('.context-menu-one').on('click', function(e) {
-        console.log('clicked', this);
-    })
+
+//    $('.context-menu-one').on('click', function(e) {
+//        console.log('clicked', this);
+//    })
+    // set a title
 });
 
 /*
@@ -241,7 +284,7 @@ $("#matching_table, #generatorsTab").on("change", ".select2", function(e) {
                 $input.select2("val", data); //set chosen value
             }
             if (xpath.indexOf("instance_generator/@name") !== -1 || (xpath.indexOf("label_generator[") !== -1 && xpath.endsWith("/@name"))) {
-                $input.parent().parent().parent().find('button[title="Add Arguments"]').trigger("click");
+                $input.parent().parent().parent().find('button[title="Add Arguments"]').prop("disabled", false).trigger("click");
             }
 
         });
@@ -974,7 +1017,7 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                 checkResponse(data);
 
 
-                if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower")) { //Special treatment
+                if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower")|| xpath.endsWith("/broader")|| xpath.endsWith("/exact_match")) { //Special treatment
                     var $rulesDiv = $btn.parentsUntil(".rules").parent();
                     $rulesDiv.children(".rule,.text-center").remove();
                     $rulesDiv.prepend(data);

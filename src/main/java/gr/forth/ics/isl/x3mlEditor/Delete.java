@@ -77,7 +77,6 @@ public class Delete extends BasicServlet {
         DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
 
         if (xpath == null && selected != null) {//Special case used to Delete multiple maps or links
-            System.out.println("SELECTED is:" + selected);
             String[] selectedIds = selected.split(",");
             String mode = "";
             for (String selId : selectedIds) {
@@ -123,7 +122,8 @@ public class Delete extends BasicServlet {
                     String relationshipPath = xpath.replaceAll("/intermediate\\[\\d+\\]", "/relationship[" + relationshipPosition + "]");
                     mappingFile.xRemove(relationshipPath);
                 }
-            } else if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower")) {
+//            } else if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower")) {
+            } else if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower") || xpath.endsWith("/broader")||xpath.endsWith("/exact_match")) {
 
                 String rootIfTagPath = xpath.substring(0, xpath.indexOf("/if"));
                 String grandpaTagQuery = xpath + "/../../name()";
