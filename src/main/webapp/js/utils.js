@@ -129,9 +129,8 @@ function checkResponse(data) {
 (function($) {
     $.myPOST = function(url, data, dataType, timeout) {
         $("body").css("opacity", "0.4");
-//        $("a").css("cursor", "arrow").click(false);
-        $(":input").prop("disabled", true);
 
+        $('button').attr("disabled", "true");
         if (typeof timeout === 'undefined') {
             timeout = 20000; //Default timeout is 20secs if none is specified
         }
@@ -149,10 +148,8 @@ function checkResponse(data) {
                 console.log('fail:' + url);
             },
             complete: function() {
-//                $("a").css("cursor", "arrow").click(true);
-                $(":input").prop("disabled", false);
+                $('button').removeAttr("disabled");
                 $("body").css("opacity", "1");
-
             }
 
         };
