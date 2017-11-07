@@ -784,25 +784,25 @@ button[title="Add Argument"][data-xpath*="/instance_generator"] {
     padding: 5px;
 }
 .selected  {
-    border-top: 2px solid black !important;
-    border-left: 2px solid black !important;
-    border-right: 2px solid black !important;
+    border-top: 4px solid black !important;
+    border-left: 4px solid black !important;
+    border-right: 4px solid black !important;
 }
 .selected.domain {
-    border-bottom: 2px solid black !important;
+    border-bottom: 4px solid black !important;
 }
 .selected+.range {
-    border-bottom: 2px solid black !important;
-    border-left: 2px solid black !important;
-    border-right: 2px solid black !important;
+    border-bottom: 4px solid black !important;
+    border-left: 4px solid black !important;
+    border-right: 4px solid black !important;
 }
 
 thead.selected+tbody>tr:not(.empty) {
-    border-left: 2px solid black !important;
-    border-right: 2px solid black !important;
+    border-left: 4px solid black !important;
+    border-right: 4px solid black !important;
 }
 thead.selected+tbody>tr.empty {
-    border-top: 2px solid black !important;
+    border-top: 4px solid black !important;
 }
 .mapIndex {
     text-align: center;

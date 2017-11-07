@@ -1017,7 +1017,7 @@ $("body").on("click", ".close,.closeOnHeader", function() {
                 checkResponse(data);
 
 
-                if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower")|| xpath.endsWith("/broader")|| xpath.endsWith("/exact_match")) { //Special treatment
+                if (xpath.endsWith("/equals") || xpath.endsWith("/exists") || xpath.endsWith("/narrower") || xpath.endsWith("/broader") || xpath.endsWith("/exact_match")) { //Special treatment
                     var $rulesDiv = $btn.parentsUntil(".rules").parent();
                     $rulesDiv.children(".rule,.text-center").remove();
                     $rulesDiv.prepend(data);
@@ -1391,21 +1391,31 @@ $("#matching_table").on("click", ".index", function(event) {
     selectedMaps.length = 0;
     $("thead.selected").removeClass("selected");
 
-
-    var arrayIndex = selectedRows.indexOf(index);
-
-    if (ctrlKeyPressed && $(".selected").length > 0) {
-
-        if (arrayIndex === -1) {
-            selectedRows.push(index);
-            $parent.addClass("selected");
-        }
-    } else {
+    if (index.indexOf("\.") === -1) {//if domain is clicked, then you empty selectedRows (no point in selecting multiple domains)
         selectedRows.length = 0;
         selectedRows.push(index);
         $("tr.selected").removeClass("selected");
         $parent.addClass("selected");
+    } else {
+        var arrayIndex = selectedRows.indexOf(index);
 
+        if (ctrlKeyPressed && $(".selected").length > 0) {
+
+            if (arrayIndex === -1) {
+                if (selectedRows.length === 1 && selectedRows[0].indexOf("\.") === -1) {
+                    selectedRows.length = 0;
+                    $("tr.selected").removeClass("selected");
+                }
+                selectedRows.push(index);
+                $parent.addClass("selected");
+            }
+        } else {
+            selectedRows.length = 0;
+            selectedRows.push(index);
+            $("tr.selected").removeClass("selected");
+            $parent.addClass("selected");
+
+        }
     }
     console.log(selectedRows);
     return false; //To prevent opening row in edit mode   
