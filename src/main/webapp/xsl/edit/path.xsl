@@ -169,7 +169,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             </xsl:for-each>
         </div>
         <div class="col-xs-11">
-            <button style="padding-left: 22px;" data-xpath="{concat(//path/@xpath,'/source_relation/intermediate')}" id="{concat('add***',//path/@xpath,'/source_relation/intermediate')}" title="Add Intermediate" type="button" class="btn btn-link btn-sm  add">
+            <button data-loading-text="Adding..." style="padding-left: 22px;" data-xpath="{concat(//path/@xpath,'/source_relation/intermediate')}" id="{concat('add***',//path/@xpath,'/source_relation/intermediate')}" title="Add Intermediate" type="button" class="btn btn-link btn-sm  add">
                 Add intermediate</button>
         </div>
         <div class="col-xs-11">

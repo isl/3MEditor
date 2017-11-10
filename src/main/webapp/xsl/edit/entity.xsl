@@ -89,7 +89,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </div>
                     <div class="col-xs-12" style="padding-right:0;padding-left:0;">
      
-                        <button  data-xpath="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/type')}" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/type')}" title="Add additional class" type="button" class="btn btn-link btn-sm  add ">
+                        <button data-loading-text="Adding..."  data-xpath="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/type')}" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/type')}" title="Add additional class" type="button" class="btn btn-link btn-sm  add ">
                             Add additional class</button>
      
                     </div>
@@ -436,7 +436,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:call-template>
                     </div>
                     
-                    <button data-xpath="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/additional')}" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/additional')}" title="Add Constant Expression" type="button" class="btn btn-link btn-sm  add ">
+                    <button data-loading-text="Adding..."  data-xpath="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/additional')}" id="{concat('add***',$path,'/',name(..),'/entity[',$entPos,']/additional')}" title="Add Constant Expression" type="button" class="btn btn-link btn-sm  add ">
                         Add constant expression</button>
 
                 </div>

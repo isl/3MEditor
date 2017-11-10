@@ -172,12 +172,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </xsl:attribute>
 
                                         <div class="col-xs-1 col-xs-offset-5">
-                                            <button data-xpath="{concat('//x3ml/mappings/mapping[',$mappingPos,']/link')}" id="{concat('add***','//x3ml/mappings/mapping[',$mappingPos,']/link')}" type="button" class="btn btn-default btn-sm add" title="Click to add link">
+                                            <button data-loading-text="Adding..." data-xpath="{concat('//x3ml/mappings/mapping[',$mappingPos,']/link')}" id="{concat('add***','//x3ml/mappings/mapping[',$mappingPos,']/link')}" type="button" class="btn btn-default btn-sm add" title="Click to add link">
                                                 <span class="glyphicon glyphicon-plus"></span>&#160;Link</button>
                                         </div>
                                 
                                         <div class="col-xs-1">
-                                            <button data-xpath="{concat('//x3ml/mappings/mapping[',$mappingPos,']')}" id="{concat('add***','//x3ml/mappings/mapping[',$mappingPos,']')}" title="Click to add map" type="button" class="btn btn-default btn-sm  add">
+                                            <button data-loading-text="Adding..." data-xpath="{concat('//x3ml/mappings/mapping[',$mappingPos,']')}" id="{concat('add***','//x3ml/mappings/mapping[',$mappingPos,']')}" title="Click to add map" type="button" class="btn btn-default btn-sm  add">
                                                 <span class="glyphicon glyphicon-plus"></span>&#160;Map</button>
                                         </div>
                                    

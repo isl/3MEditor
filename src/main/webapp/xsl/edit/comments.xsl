@@ -265,7 +265,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         
         
         <div class=" btn-group">
-            <button type="button" class="btn btn-link btn-sm dropdown-toggle addCommentButton" data-toggle="dropdown">
+            <button data-loading-text="Adding..." type="button" class="btn btn-link btn-sm dropdown-toggle addCommentButton" data-toggle="dropdown">
                 Add comment about
                 <span class="caret"></span>
             </button>

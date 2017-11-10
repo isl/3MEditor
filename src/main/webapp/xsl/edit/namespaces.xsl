@@ -61,7 +61,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <div class="row">
                         <div class="col-sm-2 col-sm-offset-5">
                             <br></br>
-                            <button id="{concat('add***',$namespacesPath)}" data-xpath="{$namespacesPath}" type="button" class="btn btn-default btn-block  add btn-sm">
+                            <button data-loading-text="Adding..." id="{concat('add***',$namespacesPath)}" data-xpath="{$namespacesPath}" type="button" class="btn btn-default btn-block  add btn-sm">
                                 <span class="glyphicon glyphicon-plus"></span>&#160;Namespace
                             </button>
                         </div>
@@ -87,7 +87,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <div class="row">
                     <div class="col-sm-2 col-sm-offset-8">
                         <br></br>
-                        <button id="{concat('add***',$namespacesPath)}" data-xpath="{$namespacesPath}" type="button" class="btn btn-default btn-block  add btn-sm">
+                        <button data-loading-text="Adding..." id="{concat('add***',$namespacesPath)}" data-xpath="{$namespacesPath}" type="button" class="btn btn-default btn-block  add btn-sm">
                             <span class="glyphicon glyphicon-plus"></span>&#160;Namespace
                         </button>
                     </div>

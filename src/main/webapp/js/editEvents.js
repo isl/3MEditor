@@ -60,6 +60,7 @@ $(function() {
         events: {
             show: function(options) {
                 var type;
+                
                 if ($(this).hasClass("path")) {
                     if (selectedRows.length > 1) {
                         type = "Links ";
@@ -67,6 +68,8 @@ $(function() {
                         type = "Link ";
                     }
                     type = type + selectedRows;
+                } else if ($(this).hasClass("domain")) {
+                    type = "Domain ";
                 } else {
                     if (selectedMaps.length > 1) {
                         type = "Maps ";
@@ -503,6 +506,8 @@ $("body").on("click", ".add", function(e) {
 
 
     if (btnId === "addTarget") {
+        $btn.button('loading');
+
         //Server side
         action = "addAfter";
         xpath = "//x3ml/info/target/target_info[last()]";
@@ -520,17 +525,13 @@ $("body").on("click", ".add", function(e) {
                 var $this = $(this);
                 upload($this);
             });
+            $btn.button('reset');
+
         });
-        //Server side
-//        action = "add";
-//        xpath = "//x3ml/namespaces/namespace";
-//        var url = "Add?id=" + id + "&xpath=" + xpath + "&action=" + action;
-//        var req = $.myPOST(url);
-//        req.done(function(data) {
-//            checkResponse(data);
-//
-//        });
+
     } else if (btnId === "addSource") {
+        $btn.button('loading');
+
         //Server side
         action = "addAfter";
         xpath = "//x3ml/info/source/source_info[last()]";
@@ -548,8 +549,12 @@ $("body").on("click", ".add", function(e) {
                 var $this = $(this);
                 upload($this);
             });
+            $btn.button('reset');
+
         });
     } else if (btnId.indexOf("/namespace") !== -1) {//Adding namespace
+        $btn.button('loading');
+
         var vars = btnId.split("***");
         var xpath = vars[1];
 //        alert(xpath)
@@ -571,11 +576,14 @@ $("body").on("click", ".add", function(e) {
             //Client side        
             $namespacesDiv.children("div").last().after(data);
             $namespacesDiv.children("div").find(".namespaceDeleteButton").removeClass("hidden").show();//Since more than one namespaces, show delete
+            $btn.button('reset');
 
         });
 
 
     } else if (btnId.indexOf("/domain") === -1 && btnId.indexOf("/link") === -1) { //If no link and no domain -> Has to be mapping
+        $btn.button('loading');
+
         var vars = btnId.split("***");
         var xpath = vars[1];
         var $addPlace = $("tbody[id='" + xpath + "']");
@@ -620,9 +628,12 @@ $("body").on("click", ".add", function(e) {
 
             //Client side  
             fillCombos();
+            $btn.button('reset');
 
         });
     } else if (btnId.endsWith("/type")) { //Adding entity type
+        $btn.button('loading');
+
         var vars = btnId.split("***");
         var xpath = vars[1];
 
@@ -654,10 +665,13 @@ $("body").on("click", ".add", function(e) {
 
             });
 
+            $btn.button('reset');
 
         });
 
     } else if (btnId.endsWith("/additional")) { //Adding additional
+        $btn.button('loading');
+
         var vars = btnId.split("***");
         var xpath = vars[1];
         var $bucket = $("div[data-xpath='" + xpath + "']");
@@ -683,10 +697,12 @@ $("body").on("click", ".add", function(e) {
             fillCombo($bucket.children().last().find('input.select2'), true);
             $bucket.parent().addClass("left-bordered");
 
+            $btn.button('reset');
 
         });
     } else if (btnId.endsWith("/instance_generator") || btnId.endsWith("/label_generator")) { //Adding instance_generator or label_generator
         viewOnlyGenerator();
+        $btn.button('loading');
 
         var generatorType;
         if (btnId.endsWith("/instance_generator")) {
@@ -737,9 +753,12 @@ $("body").on("click", ".add", function(e) {
                     fillInstanceCombos(".label_generator");
                 }
             }
+            $btn.button('reset');
+
         });
 
-    } else if (btnId.endsWith("/arg")) { //Adding instance_generator
+    } else if (btnId.endsWith("/arg")) { //Adding arg
+        $btn.button('loading');
 
         var vars = btnId.split("***");
         var xpath = vars[1];
@@ -780,9 +799,13 @@ $("body").on("click", ".add", function(e) {
 
             }
             fillInstanceCombos(".arg");
+            $btn.button('reset');
+
         });
 
     } else if (btnId.endsWith("/intermediate")) { //Adding intermediate
+        $btn.button('loading');
+
         var vars = btnId.split("***");
         var xpath = vars[1];
         var $bucket = $("div[data-xpath='" + xpath + "']");
@@ -815,11 +838,14 @@ $("body").on("click", ".add", function(e) {
             $bucket.children().last().find(".delete:first").parent().css("visibility", "hidden"); //Hide remove type
             fillCombo($bucket.children().last().find('input.select2'), true);
 
+            $btn.button('reset');
 
         });
 
 
     } else if (btnId.endsWith("/comments")) {
+        $btn.button('loading');
+
         var vars = btnId.split("***");
         var xpath = vars[2];
         var commentChild = vars[1];
@@ -847,11 +873,11 @@ $("body").on("click", ".add", function(e) {
 
                 $bucket.html(data);
                 $("div.form-group[id='" + xpath + "/comment[1]/" + commentChild + "']").show();
+                $btn.button('reset');
+
             });
 
         } else { //If comments exist, avoid unnecessary request and just show hidden field            
-
-
 
         }
         $commentPart.show();
@@ -861,6 +887,7 @@ $("body").on("click", ".add", function(e) {
 
 
     } else if (btnId.endsWith("quality") || btnId.endsWith("xistence") || btnId.endsWith("Narrowness") || btnId.endsWith("Broader") || btnId.endsWith("ExactMatch")) {
+                $btn.button('loading');
         var vars = btnId.split("***");
         var xpath = vars[1];
         var ruleType = vars[2];
@@ -886,12 +913,15 @@ $("body").on("click", ".add", function(e) {
             var $rulesDiv = $btn.parentsUntil(".rules").parent();
             $rulesDiv.children(".rule,.text-center").remove();
             $btn.parent().parent().parent().before(data);
+        $btn.button('reset');
 
         });
 
 
 
     } else if (btnId.endsWith("/link")) {
+        $btn.button('loading');
+
         var vars = btnId.split("***");
         var xpath = vars[1];
 
@@ -919,6 +949,8 @@ $("body").on("click", ".add", function(e) {
                 $("tr[data-xpath^='" + xpath + "']").last().after(finalRows);
             }
             fillCombos();
+            $btn.button('reset');
+
         });
 
     } else { //Toggle drop-down button with links (Inside entity)

@@ -258,7 +258,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:call-template>
                 </xsl:for-each>
                 <div class="col-xs-12 generatorButtons"> 
-                    <button class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/instance_generator')}" id="{concat('add***',$pathSoFar,'/instance_generator')}" title="Add Instance Generator" type="button">
+                    <button data-loading-text="Adding..."  class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/instance_generator')}" id="{concat('add***',$pathSoFar,'/instance_generator')}" title="Add Instance Generator" type="button">
                         <xsl:if test="instance_generator">
                             <xsl:attribute name="style">display:none;</xsl:attribute>
                         </xsl:if>
@@ -266,7 +266,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </button>
                 </div>
                 <div class="col-xs-12 generatorButtons"> 
-                    <button class="btn btn-link btn-sm add" data-xpath="{concat('add***',$pathSoFar,'/label_generator')}" id="{concat('add***',$pathSoFar,'/label_generator')}" title="Add Label Generator" type="button">
+                    <button data-loading-text="Adding..."  class="btn btn-link btn-sm add" data-xpath="{concat('add***',$pathSoFar,'/label_generator')}" id="{concat('add***',$pathSoFar,'/label_generator')}" title="Add Label Generator" type="button">
                         <xsl:text>Add label generator</xsl:text>
                     </button>
                 </div>
@@ -385,7 +385,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:for-each>
                 <div class="col-xs-12 additionalGeneratorButtons"> 
 
-                    <button style="padding-left:0;padding-right:20px;" class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/instance_generator')}" id="{concat('add***',$pathSoFar,'/instance_generator')}" title="Add Instance Generator" type="button">
+                    <button data-loading-text="Adding..."  style="padding-left:0;padding-right:20px;" class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/instance_generator')}" id="{concat('add***',$pathSoFar,'/instance_generator')}" title="Add Instance Generator" type="button">
                         <xsl:if test="entity/instance_generator">
                             <xsl:attribute name="style">display:none;padding-left:0;padding-right:20px;</xsl:attribute>
                         </xsl:if>
@@ -393,7 +393,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </button>
                 </div>
                 <div class="col-xs-12 additionalGeneratorButtons"> 
-                    <button style="padding-left:0;" class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/label_generator')}" id="{concat('add***',$pathSoFar,'/label_generator')}" title="Add Label Generator" type="button">
+                    <button data-loading-text="Adding..."  style="padding-left:0;" class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/label_generator')}" id="{concat('add***',$pathSoFar,'/label_generator')}" title="Add Label Generator" type="button">
                         <xsl:text>Add label generator</xsl:text>
                     </button>
                 </div>
