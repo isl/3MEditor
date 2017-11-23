@@ -548,10 +548,7 @@ function updateFollowingSiblingsOnDelete($blockToRemove, selector) {
     $blockToRemove.nextAll(selector).each(function() {
         $this = $(this);
 
-
-
         var currentXpath = $this.attr("data-xpath");
-
         var newPath = getPreviousPath(currentXpath);
 
         if (selector === "tbody") { //mapping

@@ -230,7 +230,6 @@ function getInstanceGeneratorNamesAndFillCombos() {
 }
 
 function refreshCombos(updatedXpath, self) {
-
     var pathFound = false;
     $('.edit').find('input.select2').each(function(index) { //Needs refining!
         var xpath = $(this).attr('data-xpath');
@@ -244,7 +243,7 @@ function refreshCombos(updatedXpath, self) {
                 fillCombo($(this), false);
             }
         }
-        console.log(updatedXpath + " vs " + xpath + " PATH FOUND:" + pathFound);
+//        console.log(updatedXpath + " vs " + xpath + " PATH FOUND:" + pathFound);
     });
 }
 
@@ -295,7 +294,6 @@ function fillCombo($this, setValue) {
                     }
 
                 } else {
-
                     var oldValue = $this.select2('val');
                     if (typeof oldValue === 'object') {
                         $this.select2({
@@ -311,7 +309,9 @@ function fillCombo($this, setValue) {
                             }
                             $this.parent().find(".select2-chosen").html("<span style='color:red;'>Value " + oldValue + " is no longer valid!</span>");
                         }
-                        $("div[title='" + xpath + "']").first().remove();
+                       
+                         $this.parent().parent().find("div.select2").first().remove(); //Changed to this (next line caused double combos)
+//                        $("div[title='" + xpath + "']").first().remove();
                     } else {
                         $this.select2({
                             allowClear: true,
@@ -535,7 +535,7 @@ function getDomainValueForLink(xpath) {
         var tagname = $domainDiv.prop("tagName");
         if (tagname === "SPAN") {//domain in view mode
             domainValue = $domainDiv.attr("data-fullpath");
-        } else {           
+        } else {
             domainValue = $domainDiv.next("input").attr("data-id");//changed to data-id from data-fullpath, cause data-fullpath sometimes was empty!
         }
         //Replaced following code to make it work for first link in a new domain, 
