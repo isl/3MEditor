@@ -58,6 +58,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <xsl:when test="contains(.,'rdf-schema#Literal')">
                                 <xsl:text>rdf-schema#Literal</xsl:text>                        
                             </xsl:when>
+                            <xsl:when test="substring(., string-length())='/'">
+                                <xsl:call-template name="substring-after-last-and-remove-prefix">
+                                    <xsl:with-param name="string" select="substring(., 0, string-length())" />
+                                    <xsl:with-param name="delimiter" select="'/'" />
+                                </xsl:call-template>
+                                <xsl:text>/</xsl:text>
+                            </xsl:when>
                             <xsl:otherwise>
                                 <xsl:call-template name="substring-after-last-and-remove-prefix">
                                     <xsl:with-param name="string" select="." />
@@ -232,48 +239,48 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                    
                 </xsl:for-each>
                
-<xsl:if test="$action=2">
+                <xsl:if test="$action=2">
           
-            <!-- Entity generators -->
-            <div id="{concat($pathSoFar,'/generators')}">
-                <xsl:attribute name="class">               
-                    <xsl:choose>
-                        <xsl:when test="additional">
-                            <xsl:text>generatorsBox</xsl:text>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:text>generatorsBox</xsl:text>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </xsl:attribute>
-                <xsl:for-each select="instance_generator">
-                    <xsl:call-template name="instance_generator">
-                        <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/instance_generator')"/>
-                    </xsl:call-template>
-                </xsl:for-each>
+                    <!-- Entity generators -->
+                    <div id="{concat($pathSoFar,'/generators')}">
+                        <xsl:attribute name="class">               
+                            <xsl:choose>
+                                <xsl:when test="additional">
+                                    <xsl:text>generatorsBox</xsl:text>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:text>generatorsBox</xsl:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:attribute>
+                        <xsl:for-each select="instance_generator">
+                            <xsl:call-template name="instance_generator">
+                                <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/instance_generator')"/>
+                            </xsl:call-template>
+                        </xsl:for-each>
                 
-                <xsl:for-each select="label_generator">
-                    <xsl:call-template name="label_generator">
-                        <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/label_generator[',position(),']')"/>
-                    </xsl:call-template>
-                </xsl:for-each>
-                <div class="col-xs-12 generatorButtons"> 
-                    <button data-loading-text="Adding..."  class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/instance_generator')}" id="{concat('add***',$pathSoFar,'/instance_generator')}" title="Add Instance Generator" type="button">
-                        <xsl:if test="instance_generator">
-                            <xsl:attribute name="style">display:none;</xsl:attribute>
-                        </xsl:if>
-                        <xsl:text>Add instance generator</xsl:text>
-                    </button>
-                </div>
-                <div class="col-xs-12 generatorButtons"> 
-                    <button data-loading-text="Adding..."  class="btn btn-link btn-sm add" data-xpath="{concat('add***',$pathSoFar,'/label_generator')}" id="{concat('add***',$pathSoFar,'/label_generator')}" title="Add Label Generator" type="button">
-                        <xsl:text>Add label generator</xsl:text>
-                    </button>
-                </div>
+                        <xsl:for-each select="label_generator">
+                            <xsl:call-template name="label_generator">
+                                <xsl:with-param name="pathSoFar" select="concat($pathSoFar,'/label_generator[',position(),']')"/>
+                            </xsl:call-template>
+                        </xsl:for-each>
+                        <div class="col-xs-12 generatorButtons"> 
+                            <button data-loading-text="Adding..."  class="btn btn-link btn-sm add"  data-xpath="{concat('add***',$pathSoFar,'/instance_generator')}" id="{concat('add***',$pathSoFar,'/instance_generator')}" title="Add Instance Generator" type="button">
+                                <xsl:if test="instance_generator">
+                                    <xsl:attribute name="style">display:none;</xsl:attribute>
+                                </xsl:if>
+                                <xsl:text>Add instance generator</xsl:text>
+                            </button>
+                        </div>
+                        <div class="col-xs-12 generatorButtons"> 
+                            <button data-loading-text="Adding..."  class="btn btn-link btn-sm add" data-xpath="{concat('add***',$pathSoFar,'/label_generator')}" id="{concat('add***',$pathSoFar,'/label_generator')}" title="Add Label Generator" type="button">
+                                <xsl:text>Add label generator</xsl:text>
+                            </button>
+                        </div>
                 
-            </div>   
+                    </div>   
           
-        </xsl:if>
+                </xsl:if>
             </div>
         
             <xsl:if test="additional">
@@ -288,7 +295,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
            
        
         
-         </div>
+        </div>
        
     </xsl:template>
     
@@ -301,10 +308,22 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                   
                 <xsl:text>[</xsl:text>
                 <xsl:variable name="strippedRelationship">
-                    <xsl:call-template name="substring-after-last-and-remove-prefix">
-                        <xsl:with-param name="string" select="relationship" />
-                        <xsl:with-param name="delimiter" select="'/'" />
-                    </xsl:call-template>
+                    <xsl:choose>
+                        <xsl:when test="substring(relationship, string-length())='/'">
+                            <xsl:call-template name="substring-after-last-and-remove-prefix">
+                                <xsl:with-param name="string" select="substring(relationship, 0, string-length())" />
+                                <xsl:with-param name="delimiter" select="'/'" />
+                            </xsl:call-template>
+                            <xsl:text>/</xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:call-template name="substring-after-last-and-remove-prefix">
+                                <xsl:with-param name="string" select="relationship" />
+                                <xsl:with-param name="delimiter" select="'/'" />
+                            </xsl:call-template>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                  
                 </xsl:variable>
                 <i title="{relationship}" class="targetPath" data-miniPath="{$strippedRelationship}" data-fullPath="{relationship}">
                     <xsl:value-of select="$strippedRelationship"/>
@@ -322,6 +341,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <xsl:choose>
                         <xsl:when test="contains(.,'rdf-schema#Literal')">
                             <xsl:text>rdf-schema#Literal</xsl:text>                        
+                        </xsl:when>
+                        <xsl:when test="substring(entity/type, string-length())='/'">
+                            <xsl:call-template name="substring-after-last-and-remove-prefix">
+                                <xsl:with-param name="string" select="substring(entity/type, 0, string-length())" />
+                                <xsl:with-param name="delimiter" select="'/'" />
+                            </xsl:call-template>
+                            <xsl:text>/</xsl:text>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:call-template name="substring-after-last-and-remove-prefix">

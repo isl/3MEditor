@@ -309,8 +309,8 @@ function fillCombo($this, setValue) {
                             }
                             $this.parent().find(".select2-chosen").html("<span style='color:red;'>Value " + oldValue + " is no longer valid!</span>");
                         }
-                       
-                         $this.parent().parent().find("div.select2").first().remove(); //Changed to this (next line caused double combos)
+
+                        $this.parent().parent().find("div.select2").first().remove(); //Changed to this (next line caused double combos)
 //                        $("div[title='" + xpath + "']").first().remove();
                     } else {
                         $this.select2({
@@ -330,7 +330,15 @@ function fillCombo($this, setValue) {
 
                 var responseText = jqXHR.responseText;
                 console.log(responseText);
-                var message = $(responseText).find("li").last().html();
+                var message = responseText;
+                if (responseText.indexOf("<") !== -1) {
+                    var $exceptionLi = $(responseText).find("li");
+                    if ($exceptionLi.length > 0) {
+                        message = $exceptionLi.last().html();
+                    }
+                }
+
+              
 
                 alert("Problem occurred! Read following exception message and either try again or choose a different reasoner:\n" + message);
                 $(".loader").hide();
@@ -513,6 +521,8 @@ function fillComboWithPaths($this, filteredPaths) {
         },
         data: filteredPaths,
         initSelection: function(element, callback) {
+            console.log($this.attr("data-id"));
+            console.log($this.val())
             var data = {id: $this.attr("data-id"), text: $this.val()};
 
             callback(data);

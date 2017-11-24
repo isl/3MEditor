@@ -46,7 +46,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -515,7 +514,7 @@ public class BasicServlet extends HttpServlet {
 
         String[] targetSchemas = mappingFile.queryString("//target_info/target_schema/@schema_file/string()");
         OntologyReasoner ont = new OntologyReasoner();
-
+       
         for (String targetSchema : targetSchemas) {
             try {
                 ont.initiateModel(baseURL + "/FetchBinFile?id=" + id + "&file=" + URLEncoder.encode(targetSchema, "UTF-8"));

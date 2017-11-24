@@ -177,8 +177,14 @@ public class Update extends BasicServlet {
                     String targetType = request.getParameter("targetType");
 
                     if (targetType == null || !targetType.equals("xml")) {
-                        if (newValue.startsWith("http://")) { //Stripping slashes...
-                            strippedNewValue = newValue.substring(newValue.lastIndexOf("/") + 1);
+                        if (newValue.startsWith("http://") || newValue.startsWith("https://")) { //Stripping slashes...
+                                        String endingSlash = "";
+
+                            if (newValue.endsWith("/")) {
+                                newValue = newValue.substring(0, newValue.length() - 1);
+                                 endingSlash = "/";
+                            }
+                            strippedNewValue = newValue.substring(newValue.lastIndexOf("/") + 1)+endingSlash;
                         } else if (newValue.contains(":")) {//Stripping prefixes. Is it safe? 
                             strippedNewValue = newValue.substring(newValue.indexOf(":") + 1);
                         }
@@ -210,7 +216,7 @@ public class Update extends BasicServlet {
                 //Following snippet added to automatically fill in source node when it is empty and source_relation is
                 //given a value
                 if (xpath.endsWith("/path/source_relation/relation[1]")) {
-                    mappingFile.xUpdate(xpath + "/../../../range/source_node[.='']",newValue);
+                    mappingFile.xUpdate(xpath + "/../../../range/source_node[.='']", newValue);
                 }
 
                 if (!currentValue.equals(newValue)) {

@@ -77,6 +77,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <xsl:template name="substring-after-last">
         <xsl:param name="string" />
         <xsl:param name="delimiter" />
+        
+        
+        
         <xsl:choose>
             <xsl:when test="contains($string, $delimiter)">
                 <xsl:call-template name="substring-after-last">
@@ -122,7 +125,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <xsl:variable name="miniPath">
             <xsl:choose>
                 <!-- Maria's request-->
-<!--                <xsl:when test="starts-with($path,'//')">
+                <!--                <xsl:when test="starts-with($path,'//')">
                     <xsl:value-of select="$path"/>
                 </xsl:when>-->
             

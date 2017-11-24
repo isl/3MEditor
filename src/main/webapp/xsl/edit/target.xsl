@@ -67,6 +67,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             <xsl:when test="//*/@targetMode='4'">
                                                 <xsl:value-of select="relationship[1]"></xsl:value-of>
                                             </xsl:when>
+                                            <xsl:when test="substring(relationship[1], string-length())='/'">
+                                                <xsl:call-template name="substring-after-last-and-remove-prefix">
+                                                    <xsl:with-param name="string" select="substring(relationship[1], 0, string-length())" />
+                                                    <xsl:with-param name="delimiter" select="'/'" />
+                                                </xsl:call-template>
+                                                <xsl:text>/</xsl:text>
+                                            </xsl:when>
                                             <xsl:otherwise>
                                                 <xsl:call-template name="substring-after-last-and-remove-prefix">
                                                     <xsl:with-param name="string" select="relationship[1]" />
@@ -75,12 +82,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </xsl:attribute>
-                                    <!--                                    <xsl:attribute name="value">
-                                        <xsl:call-template name="substring-after-last-and-remove-prefix">
-                                            <xsl:with-param name="string" select="relationship[1]" />
-                                            <xsl:with-param name="delimiter" select="'/'" />
-                                        </xsl:call-template>
-                                    </xsl:attribute>-->
+                                 
                                     <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"/>
                                 </input>
                             </xsl:otherwise>                                

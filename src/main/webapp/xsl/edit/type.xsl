@@ -81,6 +81,13 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <xsl:when test="contains(.,'rdf-schema#Literal')">
                         <xsl:text>rdf-schema#Literal</xsl:text>
                     </xsl:when>
+                    <xsl:when test="substring(., string-length())='/'">
+                        <xsl:call-template name="substring-after-last-and-remove-prefix">
+                            <xsl:with-param name="string" select="substring(., 0, string-length())" />
+                            <xsl:with-param name="delimiter" select="'/'" />
+                        </xsl:call-template>
+                        <xsl:text>/</xsl:text>
+                    </xsl:when>
                     <xsl:otherwise>
                         <xsl:call-template name="substring-after-last-and-remove-prefix">
                             <xsl:with-param name="string" select="."></xsl:with-param>
@@ -234,7 +241,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 
                         </div>
                     </div>          
-                   <div class="language form-group " >
+                    <div class="language form-group " >
                         <xsl:attribute name="style">
                             <xsl:choose>
                                 <xsl:when test="../instance_info/language">
