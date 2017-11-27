@@ -60,7 +60,7 @@ $(function() {
         events: {
             show: function(options) {
                 var type;
-                
+
                 if ($(this).hasClass("path")) {
                     if (selectedRows.length > 1) {
                         type = "Links ";
@@ -600,7 +600,7 @@ $("body").on("click", ".add", function(e) {
 
             $addPlace.nextAll("tbody").each(function() {
                 var currentXpath = $(this).attr("data-xpath");
-                var currentHtml = $(this).html();
+                var currentHtml = $(this).html();             
                 var nextXpath = getNextPath(currentXpath);
 
                 if (clipBoardValue.indexOf(currentXpath) !== -1) {
@@ -611,7 +611,22 @@ $("body").on("click", ".add", function(e) {
                 $(this).attr("data-xpath", nextXpath);
 
                 var newHtml = currentHtml.replaceAll(currentXpath, nextXpath);
-                $(this).html(newHtml);
+                
+                var $newHtml = $(newHtml);
+                //Updating following maps and links index
+                var newIndex = parseInt(getPosition(currentXpath)) + 1;
+                $newHtml.find(".index").each(function() {
+                    var $index = $(this);
+                    var curIndex = $index.html();
+                    if (curIndex.indexOf(".") !== -1) {//link
+                        newIndex = newIndex + "." + curIndex.split("\.")[1];
+                    } else {
+                    }
+                    $index.html(newIndex).attr("title",newIndex);
+                });
+                
+                
+                $(this).html($newHtml);
             });
 
 
@@ -887,7 +902,7 @@ $("body").on("click", ".add", function(e) {
 
 
     } else if (btnId.endsWith("quality") || btnId.endsWith("xistence") || btnId.endsWith("Narrowness") || btnId.endsWith("Broader") || btnId.endsWith("ExactMatch")) {
-                $btn.button('loading');
+        $btn.button('loading');
         var vars = btnId.split("***");
         var xpath = vars[1];
         var ruleType = vars[2];
@@ -913,7 +928,7 @@ $("body").on("click", ".add", function(e) {
             var $rulesDiv = $btn.parentsUntil(".rules").parent();
             $rulesDiv.children(".rule,.text-center").remove();
             $btn.parent().parent().parent().before(data);
-        $btn.button('reset');
+            $btn.button('reset');
 
         });
 

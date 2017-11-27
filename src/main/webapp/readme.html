@@ -29,7 +29,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 <fieldset>
     <legend>3MEditor</legend>
     Version: <b>3.3-SNAPSHOT</b><br/>
-    Build: <b>2017-11-24 ()</b>
+    Build: <b>2017-11-27 ()</b>
 </fieldset>
 
 <fieldset>
@@ -37,26 +37,28 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
     <h4 style="text-decoration: underline;">2017</h4>
 
-      <h5 style="text-decoration: underline;">November</h5>
-      <p>24 November 2017: Updated our code to work with https:// and also URLs ending with '/' (Redmine Bug#774 - 
-          Combo values issues with https:// or ending with /). Also improved error messages when Jena reasoner fails to 
-      produce results to fill in combo (Redmine Task#772 - Avoid meaningless error messages when something goes wrong).</p>
-      <p>22 November 2017: Fixed ancient Redmine Bug#724 (Deleting a target intermediate causes visual issues (extra entity types))</p>
-      <p>10 November 2017: Decided to remove disabling all buttons while posting to the server (created more problems than it actually solved).
-      Added loading state for buttons adding stuff. Fixed title in domain context menu.</p>
-      <p>06 November 2017: User may not select links and domains at the same time, to avoid invalid state (deleting domain with links). Made selection borders thicker
-          (from 2px to 4px) to avoid issues with users (e.g. Maria) working 3MEditor with zoom less than 100%.
-      <p>03 November 2017: Attempt to disable buttons while waiting for action to complete caused problems (it also disabled input fields, losing focus etc).
-      So, changed it to button elements ONLY.</p>
-      <p>01 November 2017: Fixing issues related with broader-exact_match rules. Fixed nasty Redmine Bug#438
-      (the one with generator args not appearing). Started work on Copy Map(s)-Link(s).</p>
-    
+    <h5 style="text-decoration: underline;">November</h5>
+    <p>27 November 2017: Fixed Redmine Bug#778 (When adding new map, following maps index does not get updated as it should.)
+    </p>
+    <p>24 November 2017: Updated our code to work with https:// and also URLs ending with '/' (Redmine Bug#774 - 
+        Combo values issues with https:// or ending with /). Also improved error messages when Jena reasoner fails to 
+        produce results to fill in combo (Redmine Task#772 - Avoid meaningless error messages when something goes wrong).</p>
+    <p>22 November 2017: Fixed ancient Redmine Bug#724 (Deleting a target intermediate causes visual issues (extra entity types))</p>
+    <p>10 November 2017: Decided to remove disabling all buttons while posting to the server (created more problems than it actually solved).
+        Added loading state for buttons adding stuff. Fixed title in domain context menu.</p>
+    <p>06 November 2017: User may not select links and domains at the same time, to avoid invalid state (deleting domain with links). Made selection borders thicker
+        (from 2px to 4px) to avoid issues with users (e.g. Maria) working 3MEditor with zoom less than 100%.
+    <p>03 November 2017: Attempt to disable buttons while waiting for action to complete caused problems (it also disabled input fields, losing focus etc).
+        So, changed it to button elements ONLY.</p>
+    <p>01 November 2017: Fixing issues related with broader-exact_match rules. Fixed nasty Redmine Bug#438
+        (the one with generator args not appearing). Started work on Copy Map(s)-Link(s).</p>
+
     <h5 style="text-decoration: underline;">October</h5>
-    
+
     <p>26 October 2017: Deleting multiple maps or links functional! Added opacity change in all POST requests (waiting user feedback). Also, disabling buttons on click in all POST requests, to avoid multiple clicks
-    while waiting.</p>
+        while waiting.</p>
     <p>25 October 2017: <b>Release 3.2</b>. Added Redmine Task#372 (Update 3MEditor to use x3ml schema version 1.3 - and therefore x3ml Engine 1.8.2).
-    Added 2 new elements in if block (broader and exact_match) and an attribute in x3ml to indicate 3MEditor version.</p>
+        Added 2 new elements in if block (broader and exact_match) and an attribute in x3ml to indicate 3MEditor version.</p>
     <p>24 October 2017: Added Redmine Task#375 (Same value for source relation and source node). This only happens if source_node is empty, 
         to avoid accidental overwrites. Also added http://www.w3.org/2001/XMLSchema#dateTime to the Literal Generators list.</p>
     <p>23 October 2017: Addressed Redmine Bug#179 (Transformation Error messages). Increased timeout for specific action to 1 minute.
