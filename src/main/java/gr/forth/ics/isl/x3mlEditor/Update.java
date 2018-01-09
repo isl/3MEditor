@@ -221,6 +221,10 @@ public class Update extends BasicServlet {
 
                 if (!currentValue.equals(newValue)) {
                     if (isAttribute) {
+                        System.out.println("NEWVAL="+newValue);
+                        if (newValue.contains("<")) {//For some peculiar reason, we had problems when newValue contained <...
+                           newValue =  newValue.replaceAll("<", "&lt;");
+                        }
                         mappingFile.xAddAttribute(fatherXpath, attributeName, newValue);
                     } else {
 
