@@ -303,6 +303,10 @@ function fillCombo($this, setValue) {
                         });
                         oldValue = $this.parent().find(".select2-chosen").html();
 
+                        //Next two lines added to get the actual combo value and not the red font message
+                        oldValue = oldValue.replace(/<span style="color:red;">Value /g, "").replace(/ is no longer valid!<\/span>/g, "");
+                        oldValue = oldValue.trim();
+
                         if (JSON.stringify(json).indexOf(oldValue) === -1) {
                             if (oldValue.indexOf(":") !== -1) {
                                 oldValue = oldValue.substring(oldValue.indexOf(':') + 1);
@@ -338,7 +342,7 @@ function fillCombo($this, setValue) {
                     }
                 }
 
-              
+
 
                 alert("Problem occurred! Read following exception message and either try again or choose a different reasoner:\n" + message);
                 $(".loader").hide();
