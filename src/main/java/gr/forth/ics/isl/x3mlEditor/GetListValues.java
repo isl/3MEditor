@@ -144,27 +144,34 @@ public class GetListValues extends BasicServlet {
         if (resultsList != null) {
             if (targetMode != 2) {
                 if (resultsList.size() > 0) {
-                    String[] prefixes = mappingFile.queryString("//target_info//namespace/@prefix/string()");
-                    String[] uris = mappingFile.queryString("//target_info//namespace/@uri/string()");
-                    HashMap<String, String> prefixAndURI = new HashMap<String, String>();
+                    if (resultsList.size() == 1 && resultsList.get(0).startsWith("Error:")) {
+                        output = resultsList.get(0);
+                    } else {
+                        String[] prefixes = mappingFile.queryString("//target_info//namespace/@prefix/string()");
+                        String[] uris = mappingFile.queryString("//target_info//namespace/@uri/string()");
+                        HashMap<String, String> prefixAndURI = new HashMap<String, String>();
 
-                    for (int i = 0; i < prefixes.length; i++) {
-                        prefixAndURI.put(uris[i], prefixes[i]);
+                        for (int i = 0; i < prefixes.length; i++) {
+                            prefixAndURI.put(uris[i], prefixes[i]);
 
+                        }
+                        output = tableToJSON(resultsList, prefixAndURI);
                     }
-                    output = tableToJSON(resultsList, prefixAndURI);
                 }
             }
+            if (output.startsWith("Error:")) {
+                out.println(output);
+            } else {
+                out.println("{\n"
+                        + "    \"results\": [\n"
+                        + "            { \"id\": \"\", \"text\": \"\" }");//Adding empty default
+                if (!output.equals("")) {
+                    out.println(",\n" + output);
+                }
 
-            out.println("{\n"
-                    + "    \"results\": [\n"
-                    + "            { \"id\": \"\", \"text\": \"\" }");//Adding empty default
-            if (!output.equals("")) {
-                out.println(",\n" + output);
+                out.println("]\n"
+                        + "}");
             }
-
-            out.println("]\n"
-                    + "}");
 
         } else {
             out.println("Reasoner did not work properly and generated resultsList was null! Try a different reasoner or disable it completely.");
@@ -194,7 +201,14 @@ public class GetListValues extends BasicServlet {
                 } else {
                     for (String selection : selectedEntities) {
                         selection = replacePrefixWithURI(mappingFile, selection);
-                        ArrayList<String> propResults = ont.listProperties(selection);
+                        ArrayList<String> propResults = new ArrayList<String>();
+                        try {
+                            propResults = ont.listProperties(selection);
+                        } catch (Exception ex) {
+                            propResults = new ArrayList<String>();
+                            propResults.add("Error:" + ex.getMessage());
+                            ex.printStackTrace();
+                        }
                         if (resultsList != null) {//First remove duplicates
                             resultsList.removeAll(propResults);
                             resultsList.addAll(propResults); //Then merge
@@ -221,8 +235,13 @@ public class GetListValues extends BasicServlet {
                 } else {
                     String path = selectedProperty[0];
                     path = replacePrefixWithURI(mappingFile, path);
-
-                    resultsList = ont.listObjects(path);
+                    try {
+                        resultsList = ont.listObjects(path);
+                    } catch (Exception ex) {
+                        resultsList = new ArrayList<String>();
+                        resultsList.add("Error:" + ex.getMessage());
+                        ex.printStackTrace();
+                    }
 
                 }
             } else {
@@ -231,7 +250,13 @@ public class GetListValues extends BasicServlet {
             }
 
         } else {
-            resultsList = ont.getAllClasses();
+            try {
+                resultsList = ont.getAllClasses();
+            } catch (Exception ex) {
+                resultsList = new ArrayList<String>();
+                resultsList.add("Error:" + ex.getMessage());
+                ex.printStackTrace();
+            }
         }
         if (resultsList != null) {
             resultsList = new Utils().sort(resultsList); //Use custom order
