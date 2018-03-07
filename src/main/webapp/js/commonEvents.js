@@ -51,6 +51,18 @@ var activeTab = $(".active").children("a").html();
 
 $(document).ready(function() {
 
+    $("#matching_table").on("mouseover", "span.variable, img[title='variable applied on map']", function() {
+        var targetEntity = $(this).parent().parentsUntil(".iconContainer").parent().find(".targetPath").html();
+        var domain = $(this).parent().parentsUntil("tbody").parent().find(".domain").find(".sourcePath").html();
+
+        $(this).attr("title", "There will be one instance of '" + targetEntity + "' per occurence of the tag '" + domain + "'");
+    });
+    $("#matching_table").on("mouseover", "div.variable", function() {
+        var targetEntity = $(this).parent().parent().find(".select2-chosen").html();
+        var domain = $(this).parent().parentsUntil("tbody").parent().find(".domain").find(".sourcePath").html();
+
+        $(this).children("img").attr("title", "There will be one instance of '" + targetEntity + "' per occurence of the tag '" + domain + "'");
+    });
 
     $('.description').popover({
         trigger: "hover",
@@ -156,7 +168,7 @@ $(document).ready(function() {
         comboAPI = $('#targetAnalyzer input:radio:checked').val();
 
         $("#matching_table, #generatorsTab").on("click", "#table_view-btn", function() {
-          
+
 //        $('#table_view-btn').click(function() {
 
             if ($(".active").children("a").html() === "Generators") {
