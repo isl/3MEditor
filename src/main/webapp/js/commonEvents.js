@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 Institute of Computer Science,
+ * Copyright 2014-2018  Institute of Computer Science,
  * Foundation for Research and Technology - Hellas
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved
@@ -53,13 +53,13 @@ $(document).ready(function() {
 
     $("#matching_table").on("mouseover", "span.variable, img[title='variable applied on map']", function() {
         var targetEntity = $(this).parent().parentsUntil(".iconContainer").parent().find(".targetPath").html();
-        var domain = $(this).parent().parentsUntil("tbody").parent().find(".domain").find(".sourcePath").html();
+        var domain = $(this).parent().parentsUntil("tbody").parent().find(".domain").find(".sourcePath").attr("title");
 
         $(this).attr("title", "There will be one instance of '" + targetEntity + "' per occurence of the tag '" + domain + "'");
     });
     $("#matching_table").on("mouseover", "div.variable", function() {
         var targetEntity = $(this).parent().parent().find(".select2-chosen").html();
-        var domain = $(this).parent().parentsUntil("tbody").parent().find(".domain").find(".sourcePath").html();
+        var domain = $(this).parent().parentsUntil("tbody").parent().find(".domain").find(".sourcePath").attr("title");
 
         $(this).children("img").attr("title", "There will be one instance of '" + targetEntity + "' per occurence of the tag '" + domain + "'");
     });
