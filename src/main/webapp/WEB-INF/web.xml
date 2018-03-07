@@ -163,7 +163,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <param-name>generatorNamesBuiltInX3MLEngine</param-name>
         <param-value>Constant, Literal, prefLabel, UUID, ConcatMultipleTerms</param-value>
     </context-param>
-    
+     <context-param>
+        <description>Name used for editor</description>
+        <param-name>editorName</param-name>
+        <param-value>3MEditor</param-value>
+    </context-param>
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>gr.forth.ics.isl.x3mlEditor.filter.LoginFilter</filter-class>

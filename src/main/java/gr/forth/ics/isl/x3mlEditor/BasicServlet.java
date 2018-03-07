@@ -92,7 +92,7 @@ public class BasicServlet extends HttpServlet {
              *
              */
             mappingSuggesterStatus,
-            generatorsStatus;
+            generatorsStatus, editorName;
 
     protected static int serverPort, maxCollsize;
 
@@ -235,6 +235,7 @@ public class BasicServlet extends HttpServlet {
             sourceAnalyzerStatus = sc.getInitParameter("sourceAnalyzerStatus");
             mappingSuggesterStatus = sc.getInitParameter("mappingSuggesterStatus");
             generatorsStatus = sc.getInitParameter("generatorsStatus");
+            editorName = sc.getInitParameter("editorName");
 
             generatorNamesBuiltInX3MLEngine = sc.getInitParameter("generatorNamesBuiltInX3MLEngine").split(", ");
 
@@ -514,7 +515,7 @@ public class BasicServlet extends HttpServlet {
 
         String[] targetSchemas = mappingFile.queryString("//target_info/target_schema/@schema_file/string()");
         OntologyReasoner ont = new OntologyReasoner();
-       
+
         for (String targetSchema : targetSchemas) {
             try {
                 ont.initiateModel(baseURL + "/FetchBinFile?id=" + id + "&file=" + URLEncoder.encode(targetSchema, "UTF-8"));

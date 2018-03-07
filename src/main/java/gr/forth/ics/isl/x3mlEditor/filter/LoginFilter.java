@@ -124,7 +124,7 @@ public class LoginFilter extends BasicServlet implements Filter {
                     String cookieName = res.split("-")[0];
                     String cookieValue = res.split("-")[1];
                     Cookie cookie = new Cookie(cookieName, cookieValue);
-                    String editorWebapp = "3MEditor";
+                    String editorWebapp = editorName;
                     cookie.setPath("/" + editorWebapp);
                     cookie.setMaxAge(10800);
                     hresponse.addCookie(cookie);

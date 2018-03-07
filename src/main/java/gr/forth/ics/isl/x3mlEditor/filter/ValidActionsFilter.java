@@ -23,7 +23,7 @@
  *
  * Authors : Georgios Samaritakis, Konstantina Konsolaki.
  *
- * This file is part of the 3MEditor webapp of Mapping Memory Manager project.
+ * This file is part of the "+editorName+" webapp of Mapping Memory Manager project.
  */
 package gr.forth.ics.isl.x3mlEditor.filter;
 
@@ -153,14 +153,14 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                                 if (lockedBy.equals(username) == false) {
                                     displayMsg = "IS_EDITED_BY_USER";
                                     System.out.println(displayMsg);
-                                    hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
+                                    hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
 
                                 } else {
                                     //prepei na proste8ei to para8uro me th sunexeia
                                     //epeksergiasias pu se paei se action unlockedit
                                     displayMsg = "IS_EDITED_BY_YOU";
                                     System.out.println(displayMsg);
-                                    hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type + "&category=" + category + "&link=yes" + "&action=" + action);
+                                    hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type + "&category=" + category + "&link=yes" + "&action=" + action);
 
                                 }
                             } else {
@@ -170,18 +170,18 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                         } else if (!userCanWrite && (isUnpublished || isRejected)) {
                             displayMsg = "CANNOT_EDIT";
                             System.out.println(displayMsg);
-                            hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
+                            hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
 
                         } else if (isUnpublished == false && isRejected == false) {
                             if (isPublished) {
                                 displayMsg += "DOC_IS_PUBLISHED";
                                 System.out.println(displayMsg);
-                                hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
+                                hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
 
                             } else if (isPending) {
                                 displayMsg += "DOC_IS_PENDING";
                                 System.out.println(displayMsg);
-                                hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
+                                hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
 
                             }
                         }
@@ -200,38 +200,38 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                         if (rights.equals("guest") || rights.equals("sysadmin")) {
                             displayMsg = "ACCESS_DENIED";
                             System.out.println(displayMsg);
-                            hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
+                            hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
 
                         } else if (docOrg == null) {
                             displayMsg = "INTERNAL_ERROR";
                             System.out.println(displayMsg);
 
-                            hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
+                            hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
 
                         } else if (!docOrg.equals(userOrg)) {
                             //only users of organization can edit an 'Entity'
                             //displayMsg = Messages.ACCESS_DENIED;
                             displayMsg = "CANNOT_EDIT";
                             System.out.println(displayMsg);
-                            hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
+                            hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
 
                         } else if (hasDependants) {
                             displayMsg = "HAS_DEPENDANTS";
 
                             System.out.println(displayMsg);
-                            hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type);
+                            hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type);
 
                         } else if (isSaved && lockedBy != null) {
                             if (!lockedBy.equals(username)) {
                                 displayMsg = "IS_EDITED_BY_USER";
                                 System.out.println(displayMsg);
-                                hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
+                                hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes");
 
                             } else {
                                 displayMsg = "IS_EDITED_BY_YOU";
                                 System.out.println(displayMsg);
                                 //   goOnLink = "Index?type=" + type + "&id=" + id + "&lang="+lang+"&category=secondary&action=unlockedit";
-                                hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type + "&category=" + category + "&link=yes" + "&action=" + action);
+                                hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang + "&feXMLEditor=yes&type=" + type + "&category=" + category + "&link=yes" + "&action=" + action);
                             }
                         } else {
                             setAdminProperty("locked", username, dbf);
@@ -255,7 +255,7 @@ public class ValidActionsFilter extends BasicServlet implements Filter {
                     if (rights.equals("guest") || rights.equals("sysadmin")) {
                         displayMsg = "ACCESS_DENIED";
                         System.out.println(displayMsg);
-                        hresponse.sendRedirect(systemURL + "/SystemMessages?editorName=3MEditor&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang);
+                        hresponse.sendRedirect(systemURL + "/SystemMessages?editorName="+editorName+"&message=" + displayMsg + "&file=" + xmlId + "&lang=" + lang);
 
                     } else {
                         chain.doFilter(request, response);
