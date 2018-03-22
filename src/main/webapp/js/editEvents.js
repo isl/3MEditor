@@ -1806,7 +1806,7 @@ $("body").on("click", "#runEngine", function() {
             req.fail(function(err) {
                 console.log(err);
                 $(".loader").hide();
-                $("#engineConsole").val("Transformation took more tha one minute and was interrupted. Run x3mlEngine locally instead!");
+                $("#engineConsole").val("Transformation took more than one minute and was interrupted. Run x3mlEngine locally instead!");
 
             })
             );

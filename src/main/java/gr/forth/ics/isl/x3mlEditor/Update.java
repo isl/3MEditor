@@ -178,13 +178,13 @@ public class Update extends BasicServlet {
 
                     if (targetType == null || !targetType.equals("xml")) {
                         if (newValue.startsWith("http://") || newValue.startsWith("https://")) { //Stripping slashes...
-                                        String endingSlash = "";
+                            String endingSlash = "";
 
                             if (newValue.endsWith("/")) {
                                 newValue = newValue.substring(0, newValue.length() - 1);
-                                 endingSlash = "/";
+                                endingSlash = "/";
                             }
-                            strippedNewValue = newValue.substring(newValue.lastIndexOf("/") + 1)+endingSlash;
+                            strippedNewValue = newValue.substring(newValue.lastIndexOf("/") + 1) + endingSlash;
                         } else if (newValue.contains(":")) {//Stripping prefixes. Is it safe? 
                             strippedNewValue = newValue.substring(newValue.indexOf(":") + 1);
                         }
@@ -194,7 +194,14 @@ public class Update extends BasicServlet {
 
                 //Following snippet added to automatically change instance generator from UUID to Literal and
                 //vice versa, when user uses a Literal value for Class
-                List<String> literalValues = Arrays.asList("http://www.w3.org/2000/01/rdf-schema#Literal", "http://www.w3.org/2001/XMLSchema#dateTime");
+                List<String> literalValues = Arrays.asList("http://www.w3.org/2000/01/rdf-schema#Literal",
+                        "http://www.w3.org/2001/XMLSchema#dateTime",
+                        "http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral", //VRE
+                        "http://www.w3.org/2001/XMLSchema#date",//VRE
+                        "http://www.w3.org/2001/XMLSchema#string",//VRE
+                        "http://www.w3.org/2001/XMLSchema#float",//VRE
+                        "http://www.w3.org/2001/XMLSchema#int"//VRE
+                );
 
                 if (literalValues.contains(newValue) || literalValues.contains(currentValue)) {
 
@@ -221,9 +228,9 @@ public class Update extends BasicServlet {
 
                 if (!currentValue.equals(newValue)) {
                     if (isAttribute) {
-                        System.out.println("NEWVAL="+newValue);
+                        System.out.println("NEWVAL=" + newValue);
                         if (newValue.contains("<")) {//For some peculiar reason, we had problems when newValue contained <...
-                           newValue =  newValue.replaceAll("<", "&lt;");
+                            newValue = newValue.replaceAll("<", "&lt;");
                         }
                         mappingFile.xAddAttribute(fatherXpath, attributeName, newValue);
                     } else {
