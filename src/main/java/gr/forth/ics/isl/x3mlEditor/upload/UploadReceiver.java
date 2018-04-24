@@ -170,7 +170,7 @@ public class UploadReceiver extends BasicServlet {
         if (isAttribute) {
 
             mappingFile.xAddAttribute(xpath, attributeName, filename);
-            if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf") || filename.endsWith("owl") || filename.endsWith("ttl") || filename.endsWith("xml") || filename.endsWith("xsd"))) {
+            if (xpath.endsWith("/target_schema") && attributeName.equals("schema_file") && (filename.endsWith("rdfs") || filename.endsWith("rdf") || filename.endsWith("owl") || filename.endsWith("ttl") || filename.endsWith("xml") || filename.endsWith("xsd")|| filename.endsWith("nt"))) {
 
 //                if (!(filename.endsWith("ttl") || filename.endsWith("owl"))) {//Skip exist for owl or ttl
                     if (!duplicateFound) {

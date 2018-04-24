@@ -129,7 +129,7 @@ public class Index extends BasicServlet {
         //If there is namespaces without at least one namespace, add it
         mappingFile.xAppend("//namespaces[not(namespace)]", "<namespace prefix='' uri=''/>");
         mappingFile.xRemove("//info/target[position()>1]"); // Deleting second target if it exists!
-        mappingFile.xAddAttribute("//x3ml","editor","3MEditor v3.2"); // Adding 3MEditor version
+        mappingFile.xAddAttribute("//x3ml", "editor", "3MEditor v3.2"); // Adding 3MEditor version
         String mappingFileAsString = getDBFileContent(collectionPath, xmlId);
 
         xmlMiddle.append(mappingFileAsString);
@@ -191,7 +191,7 @@ public class Index extends BasicServlet {
                         targetAnalyzer = "0";
                     }
 
-                } else if (targetType.equals("owl") || targetType.equals("ttl") || targetType.equals("Mixed")) { //Jena reasoner when mixed 
+                } else if (targetType.equals("owl") || targetType.equals("ttl") || targetType.equals("nt") || targetType.equals("Mixed")) { //Jena reasoner when mixed 
                     targetAnalyzer = "3";
                 }
 
@@ -234,7 +234,7 @@ public class Index extends BasicServlet {
                 xmlMiddle.append("<type>").append(type).append("</type>");
                 xmlMiddle.append("<id>").append(id).append("</id>");
                 xmlMiddle.append("<RDFVisualizerURL>").append(RDFVisualizerURL).append("</RDFVisualizerURL>");
-                
+
             }
 
             xmlMiddle.append("</output>");
@@ -272,22 +272,28 @@ public class Index extends BasicServlet {
                         targetType = "owl";
                     } else if (target.endsWith(".ttl")) {
                         targetType = "ttl";
+                    } else if (target.endsWith(".nt")) {
+                        targetType = "nt";
                     }
                 } else {
                     if (targetType.equals("rdf")) {
-                        if (target.endsWith(".xsd") || target.endsWith(".xml") || target.endsWith(".owl") || target.endsWith(".ttl")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".xml") || target.endsWith(".owl") || target.endsWith(".ttl") || target.endsWith(".nt")) {
                             targetType = "Mixed";
                         }
                     } else if (targetType.equals("xml")) {
-                        if (target.endsWith(".xsd") || target.endsWith(".rdf") || target.endsWith(".owl") || target.endsWith(".ttl")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".rdf") || target.endsWith(".owl") || target.endsWith(".ttl") || target.endsWith(".nt")) {
                             targetType = "Mixed";
                         }
                     } else if (targetType.equals("owl")) {
-                        if (target.endsWith(".xsd") || target.endsWith(".rdf") || target.endsWith(".xml") || target.endsWith(".ttl")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".rdf") || target.endsWith(".xml") || target.endsWith(".ttl") || target.endsWith(".nt")) {
                             targetType = "Mixed";
                         }
                     } else if (targetType.equals("ttl")) {
-                        if (target.endsWith(".xsd") || target.endsWith(".rdf") || target.endsWith(".xml") || target.endsWith(".owl")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".rdf") || target.endsWith(".xml") || target.endsWith(".owl")||target.endsWith(".nt")) {
+                            targetType = "Mixed";
+                        }
+                     } else if (targetType.equals("nt")) {
+                        if (target.endsWith(".xsd") || target.endsWith(".rdf") || target.endsWith(".xml") || target.endsWith(".owl")||target.endsWith(".ttl")) {
                             targetType = "Mixed";
                         }
                     }

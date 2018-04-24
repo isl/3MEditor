@@ -215,7 +215,7 @@ function configurationOption(option, action) {
 
 
 
-            if (targetType == "owl" || targetType == "ttl" || targetType == "Mixed") {
+            if (targetType == "owl" || targetType == "ttl" || targetType == "nt" || targetType == "Mixed") {
                 $("#targetAnalyzer>#label2").removeClass("disabled");
                 $("#targetAnalyzer>#label3").removeClass("disabled").addClass("active");
                 $("#targetAnalyzer>#label3>input").attr("checked", "checked");
@@ -287,7 +287,7 @@ function getPosition(path) {
     var end = path.lastIndexOf("]");
 
     var position = "1";
-    if (path.endsWith("/equals") || path.endsWith("/exists") || path.endsWith("/narrower")|| path.endsWith("/broader")|| path.endsWith("/exact_match")) { //Special treatment
+    if (path.endsWith("/equals") || path.endsWith("/exists") || path.endsWith("/narrower") || path.endsWith("/broader") || path.endsWith("/exact_match")) { //Special treatment
         path = path.substring(0, path.lastIndexOf("/"));
     }
     if (start > 0 && end > 0 && end === path.length - 1) {
@@ -377,7 +377,7 @@ function upload($this) {
         if (xpath.endsWith("source_schema/@schema_file")) {
             allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml'];
         } else {
-            allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml', 'owl', 'ttl'];
+            allowedExtensions = ['rdf', 'rdfs', 'xsd', 'xml', 'owl', 'ttl', 'nt'];
         }
     } else if (xpath.endsWith("xml_link") || xpath.endsWith("generator_link")) {
         uploadMessage = "Upload xml";
@@ -483,6 +483,9 @@ function upload($this) {
                                 comboAPI = 3;
                             } else if (filename.endsWith(".ttl")) {
                                 targetType = "ttl";
+                                comboAPI = 3;
+                            } else if (filename.endsWith(".nt")) {
+                                targetType = "nt";
                                 comboAPI = 3;
                             } else {
                                 targetType = "rdf";
@@ -609,8 +612,8 @@ function updateFollowingSiblingsOnDelete($blockToRemove, selector) {
                 } else {
                     var newIndex = index - 1;
                 }
-            } else if (type==="link") {
-                 if (index.indexOf(".") !== -1) {
+            } else if (type === "link") {
+                if (index.indexOf(".") !== -1) {
                     var indices = index.split(".");
                     var mapIndex = indices[0];
                     var linkIndex = indices[1];

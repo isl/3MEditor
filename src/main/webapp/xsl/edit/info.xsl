@@ -279,7 +279,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 </button>
                             </xsl:if>
                         </div>
-                        <span title="Upload rdf,rdfs,owl,ttl or xsd file" data-xpath="{concat($pathSoFar,'/target_schema/@schema_file')}" class="fileUpload">
+                        <span title="Upload rdf,rdfs,owl,ttl, nt or xsd file" data-xpath="{concat($pathSoFar,'/target_schema/@schema_file')}" class="fileUpload">
                             <xsl:if test="target_schema/@schema_file">
                                 <xsl:attribute name="style">
                                     <xsl:text>display:none;</xsl:text>

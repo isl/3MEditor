@@ -218,7 +218,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                                 <xsl:when test="//output/targetAnalyzer='2'">
                                                     <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
                                                 </xsl:when>
-                                                <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml' or //output/targetType='owl' or //output/targetType='ttl' or //output/targetType='Mixed'">
+                                                <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml' or //output/targetType='owl' or //output/targetType='ttl' or //output/targetType='nt' or //output/targetType='Mixed'">
                                                     <xsl:attribute  name="class">btn btn-default btn-sm disabled</xsl:attribute>
                                                 </xsl:when>
                                                 <xsl:otherwise>
@@ -234,7 +234,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         </label>
                                         <label id="label3">
                                             <xsl:choose>
-                                                <xsl:when test="//output/targetAnalyzer='3' or //output/targetType='owl' or //output/targetType='ttl' or //output/targetType='Mixed'">
+                                                <xsl:when test="//output/targetAnalyzer='3' or //output/targetType='owl' or //output/targetType='ttl' or //output/targetType='nt' or //output/targetType='Mixed'">
                                                     <xsl:attribute  name="class">btn btn-default btn-sm active</xsl:attribute>
                                                 </xsl:when>
                                                 <xsl:when test="//output/targetAnalyzer='0' or //output/targetType='xml'">
@@ -298,7 +298,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         User chooses valid options from a select box. If there are no target schemas, user simply fills input fields with free text.
                                     </p>
                                     <p>
-                                        <b>Jena reasoner</b>: It works with RDFS, RDF, TTL or OWL schema files. 
+                                        <b>Jena reasoner</b>: It works with RDFS, RDF, TTL, NT or OWL schema files. 
                                         Target analyzer engine is based on Jena reasoner. User chooses valid options from a select box.
                                         If there are no target schemas, user simply fills in input fields with free text. 
                                         <b>(WARNING! The first time user clicks a row to edit, it may take some time to create combos)</b>
