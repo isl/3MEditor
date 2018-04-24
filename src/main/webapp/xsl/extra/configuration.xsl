@@ -298,7 +298,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                         User chooses valid options from a select box. If there are no target schemas, user simply fills input fields with free text.
                                     </p>
                                     <p>
-                                        <b>Jena reasoner</b>: It works with RDFS, RDF, TTL, NT or OWL schema files. 
+                                        <b>Jena reasoner</b>: It works with RDFS (RDF/XML), RDF (RDF/XML), TTL (Turtle), NT (N-Triples) or OWL (RDF/XML) schema files. 
                                         Target analyzer engine is based on Jena reasoner. User chooses valid options from a select box.
                                         If there are no target schemas, user simply fills in input fields with free text. 
                                         <b>(WARNING! The first time user clicks a row to edit, it may take some time to create combos)</b>

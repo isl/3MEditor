@@ -65,7 +65,7 @@ public class FetchBinFile extends BasicServlet {
         DBFile uploadsDBFile = new DBFile(super.DBURI, super.adminCollection, "Uploads.xml", super.DBuser, super.DBpassword);
         String use = "";
         if (type != null) {
-            if (filename.endsWith("rdf") || filename.endsWith("rdfs") || filename.endsWith("ttl")) {
+            if (filename.endsWith("rdf") || filename.endsWith("rdfs") || filename.endsWith("ttl")|| filename.endsWith("owl")|| filename.endsWith("nt")) {
                 if (type.equals("example_data_target_record")) {
                     use = "rdf_link";
                 } else {
