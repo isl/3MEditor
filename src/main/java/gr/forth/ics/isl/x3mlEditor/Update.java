@@ -167,6 +167,12 @@ public class Update extends BasicServlet {
                 values[0] = newValue;
                 mappingFile.xAddAttribute(fatherXpath, attributeName, newValue);
             }
+             if (values.length == 0 && xpath.endsWith("/instance_info/constant")) {//missing constant inside instance_info
+                values = new String[1];
+                values[0] = "";               
+                 String grandpaPath = fatherXpath.substring(0, xpath.lastIndexOf("/"));
+                 mappingFile.xUpdate(grandpaPath, "<constant/>");
+            } 
 
             if (values.length > 0) {
                 currentValue = values[0];
