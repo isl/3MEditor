@@ -426,11 +426,15 @@ $('.nav a').click(function(e) {
             } else {
                 url = $("a:contains('view thesaurus')").attr("href");
             }
-
-            req = $.myPOST(url, "ttl");
-            req.done(function(ttl) {                
-                $("#thesaurus").val(ttl);
-            });
+            
+            if (typeof url !== "undefined") {//if thesaurus exists
+                req = $.myPOST(url, "ttl");
+                req.done(function(ttl) {
+                    $("#thesaurus").val(ttl);
+                });
+            } else {
+                $("#thesaurus").val("");
+            }
 
 
             //Get target

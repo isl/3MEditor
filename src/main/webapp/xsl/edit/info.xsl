@@ -497,8 +497,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:for-each>
                     </div>
                     <div class="col-sm-2">
-                        <label class=" control-label" for="thesaurus">Thesaurus</label>
-                        <input id="thesaurus" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/thesaurus_info">
+                        <label class=" control-label" for="thesaurus_info">Thesaurus</label>
+                        <input id="thesaurus_info" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/thesaurus_info">
                             <xsl:attribute name="value">
                                 <xsl:value-of select="thesaurus_info"></xsl:value-of>
                             </xsl:attribute>

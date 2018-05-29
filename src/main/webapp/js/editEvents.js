@@ -1710,6 +1710,7 @@ $("body").on("click", ".deleteFile", function() {
                 viewOnly();
 
             }
+            //May have to add code to remove generator policy or thesaurus file...
 
 
 
