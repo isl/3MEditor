@@ -124,6 +124,8 @@ public class Index extends BasicServlet {
 
         String collectionPath = getPathforFile(dbc, xmlId, id);
         DBFile mappingFile = new DBFile(DBURI, collectionPath, xmlId, DBuser, DBpassword);
+         //If there is not a thesaurus_info element (x3ml schema versions prior to 1.4), add it
+        mappingFile.xAppend("//example_data_info[not(thesaurus_info)]", "<thesaurus_info/>");
         //If there is source schema without namespaces block, add it
         mappingFile.xInsertAfter("//source_info[not(namespaces)]/source_schema", "<namespaces><namespace prefix='' uri=''/></namespaces>");
         //If there is namespaces without at least one namespace, add it

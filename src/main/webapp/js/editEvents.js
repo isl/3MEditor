@@ -600,7 +600,7 @@ $("body").on("click", ".add", function(e) {
 
             $addPlace.nextAll("tbody").each(function() {
                 var currentXpath = $(this).attr("data-xpath");
-                var currentHtml = $(this).html();             
+                var currentHtml = $(this).html();
                 var nextXpath = getNextPath(currentXpath);
 
                 if (clipBoardValue.indexOf(currentXpath) !== -1) {
@@ -611,7 +611,7 @@ $("body").on("click", ".add", function(e) {
                 $(this).attr("data-xpath", nextXpath);
 
                 var newHtml = currentHtml.replaceAll(currentXpath, nextXpath);
-                
+
                 var $newHtml = $(newHtml);
                 //Updating following maps and links index
                 var newIndex = parseInt(getPosition(currentXpath)) + 1;
@@ -622,10 +622,10 @@ $("body").on("click", ".add", function(e) {
                         newIndex = newIndex + "." + curIndex.split("\.")[1];
                     } else {
                     }
-                    $index.html(newIndex).attr("title",newIndex);
+                    $index.html(newIndex).attr("title", newIndex);
                 });
-                
-                
+
+
                 $(this).html($newHtml);
             });
 
@@ -1768,10 +1768,12 @@ $("body").on("click", "#runEngine", function() {
 
     var source = $("#sourceFile").val();
     var generator = $("#generator").val();
+    var thesaurus = $("#thesaurus").val();
+
 
     var url = "/x3mlMapper/Index?id=" + id + "&uuidSize=" + $("#uuidSize").val() + "&output=" + output;
 
-    var req = $.myPOST(url, {sourceFile: source, generator: generator}, "html", 60000); //increased timeout to 60secs
+    var req = $.myPOST(url, {sourceFile: source, generator: generator, thesaurus: thesaurus}, "html", 60000); //increased timeout to 60secs
 //     $.myPOST(url, "", "", 20000);
     req.done(function(data) {
         checkResponse(data);
@@ -1807,7 +1809,6 @@ $("body").on("click", "#runEngine", function() {
                 console.log(err);
                 $(".loader").hide();
                 $("#engineConsole").val("Transformation took more than one minute and was interrupted. Run x3mlEngine locally instead!");
-
             })
             );
 });

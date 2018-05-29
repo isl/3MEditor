@@ -391,6 +391,7 @@ $('.nav a').click(function(e) {
         $("#graph").load("analysis.html");
     } else if ($(this).html() === "Transformation") {
         $("#x3mlEngine").load(("x3mlEngine.html"), function() {
+            //Get source
             var sourceFilename = "";
             if ($("#info_view-btn").is(':visible')) {//edit_mode
                 sourceFilename = $("div:visible>a:contains('view xml')").attr("title");
@@ -405,6 +406,7 @@ $('.nav a').click(function(e) {
                 $("#sourceFile").val(xmlString);
             });
 
+            //Get generator
             url = "";
             if ($("#info_view-btn").is(':visible')) {//edit_mode
                 url = $("div:visible>a:contains('view generator xml')").attr("href");
@@ -417,7 +419,21 @@ $('.nav a').click(function(e) {
                 var xmlString = (new XMLSerializer()).serializeToString(xml);
                 $("#generator").val(xmlString);
             });
+            //Get thesaurus
+            url = "";
+            if ($("#info_view-btn").is(':visible')) {//edit_mode
+                url = $("div:visible>a:contains('view thesaurus')").attr("href");
+            } else {
+                url = $("a:contains('view thesaurus')").attr("href");
+            }
 
+            req = $.myPOST(url, "ttl");
+            req.done(function(ttl) {                
+                $("#thesaurus").val(ttl);
+            });
+
+
+            //Get target
             url = "";
             if ($("#info_view-btn").is(':visible')) {//edit_mode
                 url = $("div:visible>a:contains('view target')").attr("href");
@@ -428,9 +444,9 @@ $('.nav a').click(function(e) {
             if (typeof url === 'undefined') { //If no target record disable Visualize
                 $("#visualizeTarget").addClass("disabled");
             } else {
-                req = $.myPOST(url, "xml");
-                req.done(function(xml) {
-                    $("#engineResult").val(xml);
+                req = $.myPOST(url, "ttl");
+                req.done(function(ttl) {
+                    $("#engineResult").val(ttl);
                 });
             }
 

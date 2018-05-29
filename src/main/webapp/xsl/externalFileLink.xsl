@@ -58,10 +58,10 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:call-template>
                
             </xsl:when>
-            <xsl:when test="name()='dexample_data_source_record'">
+<!--            <xsl:when test="name()='dexample_data_source_record'">
                 
 
-            </xsl:when>
+            </xsl:when>-->
             <xsl:when test="name()='example_data_target_record'">
                 <xsl:choose>
                     <xsl:when test="@rdf_link">
@@ -116,6 +116,20 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         
                             </xsl:with-param>                                            
                             <xsl:with-param name="message" select="'view generator xml'"/>
+
+                        </xsl:call-template>
+                        
+                      
+                    </xsl:when>
+                   
+                </xsl:choose>
+                 <xsl:choose>
+                    
+                    <xsl:when test="name()='thesaurus_link'">
+                        <xsl:call-template name="link">
+                            <xsl:with-param name="filename" select=".">                        
+                            </xsl:with-param>                                            
+                            <xsl:with-param name="message" select="'view thesaurus file'"/>
 
                         </xsl:call-template>
                         

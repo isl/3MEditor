@@ -311,26 +311,22 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <fieldset>
             <legend>Sample data and Generator policy</legend>
             <div class="form-group">
-                <span class="help-block">This section consists of information about example data (source and target) and generator policy. 
+                <span class="help-block">This section consists of information about example data (source and target), generator policy and thesaurus. 
                     Once a source record XML file is uploaded, the "Transformation" tab is enabled (<b>Transformation tab</b>).
                     In order to test how your source record XML file transforms to RDF/XML, N-triples or Turtle, you will probably also have to upload a generator policy XML file. 
-                <br/>If you have not uploaded an XSD source schema yet, the "Source Analyzer" option will also be enabled 
+                    You may also want to upload a thesaurus file.
+                    <br/>If you have not uploaded an XSD source schema yet, the "Source Analyzer" option will also be enabled 
                     once a source record XML file is uploaded (<b>Configuration tab</b>) and you may select source paths from a drop down.
                 </span>
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-8">
                         <label class="control-label">Provided by</label>                                   
                         <p class="form-control-static">
                             <xsl:value-of select="example_data_from"/>   
                                                 
                         </p>
                     </div> 
-                    <div class="col-sm-3">          
-                        <label class="control-label">Contact person(s)</label>
-                        <p class="form-control-static">
-                            <xsl:value-of select="example_data_contact_person"/>
-                        </p>
-                    </div>
+                   
                     <div class="col-sm-2"> 
                         <label class=" control-label">Source record</label>
                         <p class="form-control-static">
@@ -342,6 +338,29 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <br/>
                             </xsl:for-each>
                             
+                        </p>
+                    </div>
+                   
+                    <div class="col-sm-2"> 
+                        <label class=" control-label">Target record</label>
+                        <p class="form-control-static">
+                            <xsl:value-of select="example_data_target_record"/>
+                            <!--                            <a href="#"> view rdf</a> -->
+                            <br/>
+                            <xsl:for-each select="example_data_target_record">
+                                <xsl:call-template name="externalFileLink">       
+
+                                </xsl:call-template>
+                            </xsl:for-each>
+                        </p>
+                    </div>
+                   
+                </div>          
+                <div class="row">
+                    <div class="col-sm-8">          
+                        <label class="control-label">Contact person(s)</label>
+                        <p class="form-control-static">
+                            <xsl:value-of select="example_data_contact_person"/>
                         </p>
                     </div>
                     <div class="col-sm-2"> 
@@ -357,12 +376,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </p>
                     </div>
                     <div class="col-sm-2"> 
-                        <label class=" control-label">Target record</label>
+                        <label class=" control-label">Thesaurus</label>
                         <p class="form-control-static">
-                            <xsl:value-of select="example_data_target_record"/>
-                            <!--                            <a href="#"> view rdf</a> -->
+                            <xsl:value-of select="thesaurus_info"/>
                             <br/>
-                            <xsl:for-each select="example_data_target_record">
+                            <xsl:for-each select="thesaurus_info/@thesaurus_link">
                                 <xsl:call-template name="externalFileLink">       
 
                                 </xsl:call-template>
@@ -370,7 +388,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </p>
                     </div>
                    
-                </div>               
+                </div>                 
             </div>
            
         </fieldset>         

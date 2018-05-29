@@ -361,15 +361,16 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <fieldset>
             <legend>Sample data</legend>
             <div class="form-group">
-                <span class="help-block">This section consists of information about example data (source and target) and generator policy. 
+                <span class="help-block">This section consists of information about example data (source and target), generator policy and thesaurus. 
                     Once a source record XML file is uploaded, the "Transformation" tab is enabled (<b>Transformation tab</b>).
                     In order to test how your source record XML file transforms to RDF/XML, N-triples or Turtle, you will probably also have to upload a generator policy XML file. 
+                    You may also want to upload a thesaurus file.                 
                 </span>
                 <span class="help-block">If you have not uploaded an XSD source schema yet, the "Source Analyzer" option will also be enabled 
                     once a source record XML file is uploaded (<b>Configuration tab</b>) and you may select source paths from a drop down.
                 </span>
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-8">
                         <label class="control-label" for="exampleDataFrom">Provided by</label>
                         <input id="exampleDataFrom" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/example_data_from">
                             <xsl:attribute name="value">
@@ -377,14 +378,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             </xsl:attribute>
                         </input>
                     </div>
-                    <div class="col-sm-3">
-                        <label class="control-label" for="exampleDataPerson">Contact person(s)</label>
-                        <input id="exampleDataPerson" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/example_data_contact_person">
-                            <xsl:attribute name="value">
-                                <xsl:value-of select="example_data_contact_person"></xsl:value-of>
-                            </xsl:attribute>
-                        </input>
-                    </div>
+
                     <div class="col-sm-2">
                         <label class=" control-label" for="exampleDataSourceRecord">Source record</label>
                         <input id="exampleDataSourceRecord" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/example_data_source_record">
@@ -398,7 +392,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                 <xsl:call-template name="externalFileLink">
                                 </xsl:call-template>
                                 <xsl:choose>
-<!--                                    <xsl:when test="name()='html_link'">
+                                    <!--                                    <xsl:when test="name()='html_link'">
                                         <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete html file" id="{concat('delete***//x3ml/info/example_data_info/example_data_source_record/@html_link')}">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
@@ -410,9 +404,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                     </xsl:when>
                                 </xsl:choose>
                             </div>
-                        </xsl:for-each>
-                                                
-<!--                        <span data-xpath="//x3ml/info/example_data_info/example_data_source_record/@html_link" class="fileUpload html_link">
+                        </xsl:for-each>                                                
+                        <!--                        <span data-xpath="//x3ml/info/example_data_info/example_data_source_record/@html_link" class="fileUpload html_link">
                             <xsl:if test="example_data_source_record/@html_link">
                                 <xsl:attribute name="style">
                                     <xsl:text>display:none;</xsl:text>
@@ -429,6 +422,49 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
 						
                     </div>
+
+                    <div class="col-sm-2">
+                        <label class=" control-label" for="exampleDataTargetRecord">Target record</label>
+                        <input id="exampleDataTargetRecord" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/example_data_target_record">
+                            <xsl:attribute name="value">
+                                <xsl:value-of select="example_data_target_record"></xsl:value-of>
+                            </xsl:attribute>
+                        </input>
+                        <xsl:for-each select="example_data_target_record">
+                                                    
+                            <div>
+                                <xsl:call-template name="externalFileLink">
+                                </xsl:call-template>
+                                <xsl:if test="@rdf_link">
+                                    <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete rdf link" id="{concat('delete***//x3ml/info/example_data_info/example_data_target_record/@rdf_link')}">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </xsl:if>
+                            </div>
+                            <span data-xpath="{concat('//x3ml/info/example_data_info/example_data_target_record/@rdf_link')}" class="fileUpload">
+                                <xsl:if test="@rdf_link">
+                                    <xsl:attribute name="style">
+                                        <xsl:text>display:none;</xsl:text>
+                                    </xsl:attribute>
+                                </xsl:if>
+                            </span>
+                                                    
+                                                    
+                        </xsl:for-each>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                  
+                    <div class="col-sm-8">
+                        <label class="control-label" for="exampleDataPerson">Contact person(s)</label>
+                        <input id="exampleDataPerson" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/example_data_contact_person">
+                            <xsl:attribute name="value">
+                                <xsl:value-of select="example_data_contact_person"></xsl:value-of>
+                            </xsl:attribute>
+                        </input>
+                    </div>
+                   
                     <div class="col-sm-2">
                         <label class=" control-label" for="generatorPolicy">Generator policy</label>
                         <input id="generatorPolicy" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/generator_policy_info">
@@ -461,25 +497,27 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:for-each>
                     </div>
                     <div class="col-sm-2">
-                        <label class=" control-label" for="exampleDataTargetRecord">Target record</label>
-                        <input id="exampleDataTargetRecord" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/example_data_target_record">
+                        <label class=" control-label" for="thesaurus">Thesaurus</label>
+                        <input id="thesaurus" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="//info/example_data_info/thesaurus_info">
                             <xsl:attribute name="value">
-                                <xsl:value-of select="example_data_target_record"></xsl:value-of>
+                                <xsl:value-of select="thesaurus_info"></xsl:value-of>
                             </xsl:attribute>
                         </input>
-                        <xsl:for-each select="example_data_target_record">
+                        <xsl:for-each select="thesaurus_info">
                                                     
-                            <div>
-                                <xsl:call-template name="externalFileLink">
-                                </xsl:call-template>
-                                <xsl:if test="@rdf_link">
-                                    <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete rdf link" id="{concat('delete***//x3ml/info/example_data_info/example_data_target_record/@rdf_link')}">
+                            <div class="thesaurus_link">
+                                <xsl:for-each select="@thesaurus_link">
+                                    <xsl:call-template name="externalFileLink">
+                                    </xsl:call-template>
+                                </xsl:for-each>
+                                <xsl:if test="@thesaurus_link">
+                                    <button class="btn btn-default btn-link btn-sm deleteFile" type="button" title="Delete thesaurus" id="{concat('delete***//x3ml/info/example_data_info/thesaurus_info/@thesaurus_link')}">
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </button>
                                 </xsl:if>
                             </div>
-                            <span data-xpath="{concat('//x3ml/info/example_data_info/example_data_target_record/@rdf_link')}" class="fileUpload">
-                                <xsl:if test="@rdf_link">
+                            <span data-xpath="{concat('//x3ml/info/example_data_info/thesaurus_info/@thesaurus_link')}" class="fileUpload">
+                                <xsl:if test="@thesaurus_link">
                                     <xsl:attribute name="style">
                                         <xsl:text>display:none;</xsl:text>
                                     </xsl:attribute>
@@ -489,6 +527,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                                     
                         </xsl:for-each>
                     </div>
+                  
                 </div>
             </div>
         </fieldset>

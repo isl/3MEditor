@@ -65,14 +65,16 @@ public class FetchBinFile extends BasicServlet {
         DBFile uploadsDBFile = new DBFile(super.DBURI, super.adminCollection, "Uploads.xml", super.DBuser, super.DBpassword);
         String use = "";
         if (type != null) {
-            if (filename.endsWith("rdf") || filename.endsWith("rdfs") || filename.endsWith("ttl")|| filename.endsWith("owl")|| filename.endsWith("nt")) {
+            if (filename.endsWith("rdf") || filename.endsWith("rdfs") || filename.endsWith("ttl") || filename.endsWith("owl") || filename.endsWith("nt")) {
                 if (type.equals("example_data_target_record")) {
                     use = "rdf_link";
+                } else if (type.equals("thesaurus_link")) {
+                    use = "thesaurus_link";
                 } else {
                     use = "schema_file";
                 }
             } else if (filename.endsWith("xml")) {
-                 if (type.equals("generator_link")) {
+                if (type.equals("generator_link")) {
                     use = "generator_link";
                 } else {
                     use = "xml_link";
@@ -89,12 +91,12 @@ public class FetchBinFile extends BasicServlet {
         System.out.println(path);
         if (!file.exists()) {
             System.out.println(filename);
-            
+
             if (filename.endsWith("xml")) {//fail safe...
-                path = path.replace("xml_schema","example_files");
+                path = path.replace("xml_schema", "example_files");
                 file = new File(path);
             }
-            
+
 //            if (filename.endsWith("ttl") && use.equals("rdf_link")) {//OBSOLETE! Should not happenSpecial case (generated ttl file from Transformation tab)
 //                path = targetRecordsFolder+filename;
 //                file = new File(path);
@@ -103,7 +105,6 @@ public class FetchBinFile extends BasicServlet {
 //                response.setContentType(mimeType + ";charset=UTF-8");
 //                response.setHeader("Content-disposition", "inline; filename=\"" + filename + "\"");
 //            }
-
         } else {
             if (response.getContentType() == null) {
                 response.setContentType(mimeType + ";charset=UTF-8");
