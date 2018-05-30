@@ -106,7 +106,7 @@ public class UploadReceiver extends BasicServlet {
 
         String use = "";
         if (xpath != null) {
-            if (filename.endsWith("rdf") || filename.endsWith("rdfs") || filename.endsWith("ttl")|| filename.endsWith("nt")) {
+            if (filename.endsWith("rdf") || filename.endsWith("rdfs") || filename.endsWith("ttl") || filename.endsWith("nt")) {
                 if (xpath.endsWith("/@rdf_link")) {
                     use = "rdf_link";
                 } else if (xpath.endsWith("/@thesaurus_link")) {
@@ -261,7 +261,8 @@ public class UploadReceiver extends BasicServlet {
             String json = "{\"success\": true, \"filename\": \"" + filename + "\", \"mime\": \"" + mime + "\"}";
             writer.print(json);
 
-        } else {
+        } else {          
+            failureReason = failureReason.replaceAll("\\\\'", "");//Added because we had a problem when error message contained \'          
             writer.print("{\"error\": \"" + failureReason + "\"}");
         }
 

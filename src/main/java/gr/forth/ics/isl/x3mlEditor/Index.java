@@ -139,10 +139,8 @@ public class Index extends BasicServlet {
         if (output.equals("html")) {
             xmlMiddle.append("</xml>");
             if (mappingFileAsString.contains("<source>")) {
-                System.out.println("NEW");
                 xmlMiddle.append("<schemaVersion>").append("1.2+").append("</schemaVersion>");
             } else {
-                System.out.println("OLD");
                 xmlMiddle.append("<schemaVersion>").append("1.1").append("</schemaVersion>");
             }
 
