@@ -422,15 +422,15 @@ $('.nav a').click(function(e) {
             //Get thesaurus
             url = "";
             if ($("#info_view-btn").is(':visible')) {//edit_mode
-                url = $("div:visible>a:contains('view thesaurus')").attr("href");
+                url = $("div:visible>a:contains('view file')").attr("href");
             } else {
-                url = $("a:contains('view thesaurus')").attr("href");
+                url = $("a:contains('view file')").attr("href");
             }
             
             if (typeof url !== "undefined") {//if thesaurus exists
-                req = $.myPOST(url, "ttl");
-                req.done(function(ttl) {
-                    $("#thesaurus").val(ttl);
+                req = $.myPOST(url, "txt");
+                req.done(function(txt) {
+                    $("#thesaurus").val(txt);
                 });
             } else {
                 $("#thesaurus").val("");

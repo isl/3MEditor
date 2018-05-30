@@ -106,7 +106,7 @@ public class UploadReceiver extends BasicServlet {
 
         String use = "";
         if (xpath != null) {
-            if (filename.endsWith("rdf") || filename.endsWith("rdfs") || filename.endsWith("ttl")) {
+            if (filename.endsWith("rdf") || filename.endsWith("rdfs") || filename.endsWith("ttl")|| filename.endsWith("nt")) {
                 if (xpath.endsWith("/@rdf_link")) {
                     use = "rdf_link";
                 } else if (xpath.endsWith("/@thesaurus_link")) {

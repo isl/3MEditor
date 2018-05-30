@@ -383,8 +383,8 @@ function upload($this) {
         uploadMessage = "Upload xml";
         allowedExtensions = ['xml'];
     } else if (xpath.endsWith("thesaurus_link")) {
-        uploadMessage = "Upload ttl";
-        allowedExtensions = ['ttl'];
+        uploadMessage = "Upload file";
+        allowedExtensions = ['ttl','nt','rdf'];
     } else if (xpath.endsWith("html_link")) {
         uploadMessage = "Upload html";
         allowedExtensions = ['html', 'htm'];
@@ -438,8 +438,8 @@ function upload($this) {
                     $("a:contains('Transformation')").attr("href", "#x3mlEngine").parent().removeClass("disabled").removeAttr("title");
                     linkText = "view xml";
                 }
-            } else if (uploadMessage === "Upload ttl") {
-                linkText = "view ttl";
+            } else if (uploadMessage === "Upload file") {
+                linkText = "view file";
             } else if (uploadMessage === "Upload html") {
                 linkText = "view html";
 
@@ -514,7 +514,7 @@ function upload($this) {
                 linkText = "view generator xml";
             } else if (xpath.endsWith("thesaurus_link")) {
                 url = "FetchBinFile?id=" + mappingId + "&amp;type=thesaurus_link&amp;file=" + encodeURIComponent(filename);
-                linkText = "view thesaurus";
+                linkText = "view file";
             } else if (xpath.endsWith("rdf_link")) {
                 url = "FetchBinFile?id=" + mappingId + "&amp;type=example_data_target_record&amp;file=" + encodeURIComponent(filename);
             } else {
