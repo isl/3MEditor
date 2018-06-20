@@ -1501,9 +1501,9 @@ $("#matching_table").on("click", ".clickable", function() {
                 checkResponse(data);
                 var finalRows = addDummyRows(data, $path, "edit");
                 $path.replaceWith(finalRows);
-
-                $path.fadeIn(500);
-                fillCombos();
+                
+                $path.fadeIn(500);                
+                fillCombos();               
                 $(".types").each(function() {
                     var $this = $(this);
                     if ($this.children(".type").length === 1) {

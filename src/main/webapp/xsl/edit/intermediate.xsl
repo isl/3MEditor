@@ -184,10 +184,16 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <label class="control-label" for="sourceType" style="font-weight:normal;"> Is same as (map)</label>
                 <div class="input-group input-group-sm col-xs-12">
                     <span class="input-group-addon">[</span>
-                    <input id="{concat($pathSoFar,'/@variable')}" title="is Same as (map)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@variable')}">
+                    <!--                    <input id="{concat($pathSoFar,'/@variable')}" title="is Same as (map)" type="text" class="form-control" placeholder="Fill in value" data-xpath="{concat($pathSoFar,'/@variable')}">
                         <xsl:attribute name="value">
                             <xsl:value-of select="@variable"></xsl:value-of>
                         </xsl:attribute>
+                    </input>-->
+                    <input placeholder="Select a value or add new"  style="width:100%" title="is Same as (map)" type="hidden" class="select2 input-sm" data-id="{@variable}"  id="{concat($pathSoFar,'/@variable')}" data-xpath="{concat($pathSoFar,'/@variable')}">
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="@variable"></xsl:value-of>
+                        </xsl:attribute>
+                        <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
                     </input>
                     <span class="input-group-addon">]</span>
                                            

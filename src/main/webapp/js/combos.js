@@ -259,7 +259,9 @@ function fillCombo($this, setValue) {
         if (xpath.indexOf("/source_relation") !== -1 || xpath.indexOf("/source_node") !== -1) {
             fillXMLSchemaCombo($this, "source");
         } else if (xpath.indexOf("/instance_info/language") !== -1) {
-            fillInstanceInfoCombo($this);
+            fillInstanceInfoCombo($this, "language");
+        } else if (xpath.endsWith("/@variable")) {
+            fillInstanceInfoCombo($this, "variable");
         } else if (targetType === "xml") {
             fillXMLSchemaCombo($this, "target");
         } else {
@@ -408,7 +410,35 @@ function fillInstanceCombos(selector) {
     });
 
 }
-function fillInstanceInfoCombo($this) {
+function fillInstanceInfoCombo($this, type) {
+
+    var options = [];
+
+    if (type === "language") {//language
+        options = languages;
+    } else {//variable
+        var variables = [];
+
+        $("span.variable").each(function(index) { //Needs refining!
+            var variable = $(this).html().trim();
+            if (variable.length > 2) {
+                variable = variable.substring(1, variable.length - 1);
+            }
+            if (variables.indexOf(variable) === -1) {
+                variables.push(variable);
+            }
+        });
+
+      
+        for (var i in variables) {
+            var item = variables[i];
+            options.push({
+                "id": item,
+                "text": item
+            });
+        }      
+       
+    }
 
     $this.select2({
         allowClear: true,
@@ -423,7 +453,7 @@ function fillInstanceInfoCombo($this) {
                 };
             }
         },
-        data: languages,
+        data: options,
         initSelection: function(element, callback) {
             var data = {id: $this.attr("data-id"), text: $this.val()};
             callback(data);
@@ -525,8 +555,8 @@ function fillComboWithPaths($this, filteredPaths) {
         },
         data: filteredPaths,
         initSelection: function(element, callback) {
-            console.log($this.attr("data-id"));
-            console.log($this.val())
+//            console.log($this.attr("data-id"));
+//            console.log($this.val())
             var data = {id: $this.attr("data-id"), text: $this.val()};
 
             callback(data);
