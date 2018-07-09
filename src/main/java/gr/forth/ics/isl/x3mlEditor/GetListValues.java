@@ -121,9 +121,9 @@ public class GetListValues extends BasicServlet {
                     output = tableToJSON(resultsList, analyzer);
 //                    output = tableToJSON(resultsList, filenameAndType, filenameAndPrefix, filenameAndURI);
                 }
-
+         
             } else if (targetMode == 3) {//
-
+                
                 HttpSession session = sessionCheck(request, response);
                 if (session == null) {
                     session = request.getSession();
@@ -137,7 +137,6 @@ public class GetListValues extends BasicServlet {
                 }
 
                 resultsList = getListValues(mappingFile, xpath, ont);
-
             }
         }
 
@@ -183,7 +182,6 @@ public class GetListValues extends BasicServlet {
     //MODE 3
     private ArrayList<String> getListValues(DBFile mappingFile, String xpath, OntologyReasoner ont) {
         ArrayList<String> resultsList = null;
-
         if ((xpath.contains("/domain/target_node/entity[") && !xpath.contains("/relationship")) || ((xpath.contains("type[") && !xpath.contains("type[1]")))) {
             try {
                 resultsList = ont.getAllClasses();
@@ -208,7 +206,7 @@ public class GetListValues extends BasicServlet {
                             propResults = new ArrayList<String>();
                             propResults.add("Error:" + ex.getMessage());
                             ex.printStackTrace();
-                        }
+                        }                       
                         if (resultsList != null) {//First remove duplicates
                             resultsList.removeAll(propResults);
                             resultsList.addAll(propResults); //Then merge

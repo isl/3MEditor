@@ -1325,7 +1325,7 @@ $("body").on("mouseleave", ".range", function() {
  */
 $("body").on("click", ".toggle", function() {
     var xpath;
-    if ($(this).attr("title") === "Delete Language") {//Added to support select2 drop down for language
+    if ($(this).attr("title") === "Delete Language" || $(this).attr("title") === "Delete is Same as (map)") {//Added to support select2 drop down for language and variable
         xpath = $(this).parent().parent().children("input").attr("data-xpath");
     } else {
         xpath = $(this).parent().parent().children(".form-control").attr("data-xpath");

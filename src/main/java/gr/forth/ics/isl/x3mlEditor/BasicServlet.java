@@ -515,7 +515,6 @@ public class BasicServlet extends HttpServlet {
 
         String[] targetSchemas = mappingFile.queryString("//target_info/target_schema/@schema_file/string()");
         OntologyReasoner ont = new OntologyReasoner();
-
         for (String targetSchema : targetSchemas) {
             try {
                 ont.initiateModel(baseURL + "/FetchBinFile?id=" + id + "&file=" + URLEncoder.encode(targetSchema, "UTF-8"));

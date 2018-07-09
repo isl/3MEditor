@@ -269,6 +269,7 @@ function fillCombo($this, setValue) {
             var req = $.myPOST(url, "", "json");
             req.done(function(data) {
                 checkResponse(data);
+//                console.log(data)
 
                 json = data;
                 if (setValue) {
@@ -333,20 +334,23 @@ function fillCombo($this, setValue) {
                 $(".loader").hide();
             });
             req.fail(function(jqXHR) {
-
+                
                 var responseText = jqXHR.responseText;
                 console.log(responseText);
                 var message = responseText;
-                if (responseText.indexOf("<") !== -1) {
+                if (typeof responseText === "undefined") {//Must investigate further
+                    alert("An unexpected error occurred!");
+                } else if (responseText.indexOf("<") !== -1) {
                     var $exceptionLi = $(responseText).find("li");
                     if ($exceptionLi.length > 0) {
                         message = $exceptionLi.last().html();
                     }
+                    alert("Problem occurred! Read following exception message and either try again or choose a different reasoner:\n" + message);
+
                 }
 
 
 
-                alert("Problem occurred! Read following exception message and either try again or choose a different reasoner:\n" + message);
                 $(".loader").hide();
             });
         }
@@ -429,15 +433,15 @@ function fillInstanceInfoCombo($this, type) {
             }
         });
 
-      
+
         for (var i in variables) {
             var item = variables[i];
             options.push({
                 "id": item,
                 "text": item
             });
-        }      
-       
+        }
+
     }
 
     $this.select2({
