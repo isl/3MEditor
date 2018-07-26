@@ -40,7 +40,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 Choose UUID size and output format and then click "Run Transformation".
                 View metadata transformed (or x3ml exception messages) inside "Target Record RDF File" textarea. 
                 You may save transformed metadata as your target record file by clicking "Save as Target Record" button. However, this 
-                action will overwrite any previous metadata, so use it with caution!</p>
+                action will overwrite any previous metadata, so use it with caution!<br/> <span style="color:red">ATTENTION: This version of the editor produces x3ml mapping files compatible with x3ml engine version 1.9.0 or newer. The mapping files are not backward compatible with older versions of the x3ml engine. Download x3ml engine v1.9.0 <a target="_blank" href="https://github.com/isl/x3ml/releases/tag/1.9.0">HERE</a>.</span></p>
             <div class="form-group ">
 
                 <div class="row">
@@ -110,8 +110,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <div class="row">
                         <div class="col-sm-6">
                             <label class="control-label" >Target Record RDF File (Using x3ml engine version 1.9.1-SNAPSHOT and schema version 1.4)
-                                <br/> <span style="color:red">ATTENTION: Mapping files are compatible with x3ml engine version 1.9.0 or newer ONLY!
-                                    Download <a target="_blank" href="https://github.com/isl/x3ml/releases/tag/1.9.0">HERE</a>.</span></label>     
+                            </label>     
                             <img class="loader" src="js/select2-3.5.1/select2-spinner.gif" style="display:none;"/>
                             <textarea id="engineResult" style="width:100%;" rows="20">
                             </textarea>
