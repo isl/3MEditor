@@ -198,7 +198,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     <span class="input-group-addon">]</span>
                                            
                     <span class="input-group-btn">
-                        <button class="btn btn-default toggle" type="button" title="Delete Variable">
+                        <button class="btn btn-default toggle" type="button" title="Delete is Same as (map)">
                             <span class="fa fa-times"></span>
 
                         </button>      

@@ -1331,7 +1331,6 @@ $("body").on("click", ".toggle", function() {
         xpath = $(this).parent().parent().children(".form-control").attr("data-xpath");
     }
     $(this).parent().parent().parent().css("display", "none");
-
     var url = "Delete?id=" + id + "&xpath=" + xpath;
     var req = $.myPOST(url);
     req.done(function(data) {
@@ -1501,9 +1500,9 @@ $("#matching_table").on("click", ".clickable", function() {
                 checkResponse(data);
                 var finalRows = addDummyRows(data, $path, "edit");
                 $path.replaceWith(finalRows);
-                
-                $path.fadeIn(500);                
-                fillCombos();               
+
+                $path.fadeIn(500);
+                fillCombos();
                 $(".types").each(function() {
                     var $this = $(this);
                     if ($this.children(".type").length === 1) {
@@ -1846,10 +1845,10 @@ $("body").on("click", "#visualizeTarget", function() {
         var subject = $("#subject").val();
 
         if (visualizerTab === undefined) {
-            visualizerTab = window.open(RDFVisualizerURL + "/?resource=" + subject + "&filename=" + filename, "_blank");
+            visualizerTab = window.open(RDFVisualizerURL + "/?resource=" + encodeURIComponent(subject) + "&filename=" + encodeURIComponent(filename), "_blank");
         } else {
             visualizerTab.close(); //Closing previous RDFVisualizer tabs before opening new one.
-            visualizerTab = window.open(RDFVisualizerURL + "/?resource=" + subject + "&filename=" + filename, "_blank");
+            visualizerTab = window.open(RDFVisualizerURL + "/?resource=" + encodeURIComponent(subject) + "&filename=" + encodeURIComponent(filename), "_blank");
         }
     } else {
         alert("Saved target record file is " + filename + ". Visualizer only works with Turtle (ttl) files for the time being!");
