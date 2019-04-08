@@ -1,4 +1,4 @@
-// Copyright 2014-2018  Institute of Computer Science,
+// Copyright 2014-2019  Institute of Computer Science,
 //Foundation for Research and Technology - Hellas
 //
 //Licensed under the EUPL, Version 1.1 or - as soon they will be approved
@@ -79,6 +79,8 @@ public class GeneratorPolicy {
             xml.append("<arg name='diffTermsDelim' type='constant'></arg>");
             xml.append("<arg name='text1' type='xpath'></arg>");
             xml.append("<arg name='text2' type='xpath'></arg>");
+        } else if (ign.equals("URIorUUID")) {
+            xml.append("<arg name='text' type='xpath'></arg>");
         } else {
             //Then values from gpf
             if (gpf != null) {

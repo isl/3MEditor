@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright 2014-2017 Institute of Computer Science,
+Copyright 2014-2019  Institute of Computer Science,
 Foundation for Research and Technology - Hellas
 
 Licensed under the EUPL, Version 1.1 or - as soon they will be approved
@@ -98,7 +98,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <param-name>systemURL</param-name>
         <param-value>/3M</param-value>
     </context-param>
-     <context-param>
+    <context-param>
         <description>RDFVisualizer URL. Change according to your setup.</description>
         <param-name>RDFVisualizerURL</param-name>
         <param-value>/RDFVisualizer</param-value>
@@ -121,7 +121,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
         <description>Server folder with mapping schema. Change according to your setup.</description>
         <param-name>schemaFolder</param-name>
         <param-value>C:\\Projects\\3M\\Schema\\</param-value>
-         <!--Linux setup
+        <!--Linux setup
         <param-value>/usr/share/3M/Schema/</param-value>
         -->
     </context-param>
@@ -161,9 +161,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <context-param>
         <description>X3ML engine built in Generator names</description>
         <param-name>generatorNamesBuiltInX3MLEngine</param-name>
-        <param-value>Constant, Literal, prefLabel, UUID, ConcatMultipleTerms</param-value>
+        <param-value>Constant, Literal, prefLabel, UUID, ConcatMultipleTerms, URIorUUID</param-value>
     </context-param>
-     <context-param>
+    <context-param>
         <description>Name used for editor</description>
         <param-name>editorName</param-name>
         <param-value>3MEditor</param-value>
