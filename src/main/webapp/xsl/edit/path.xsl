@@ -77,6 +77,18 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </xsl:choose>    
                            
             </td>
+             <td style="padding:1 1 1 1;min-width:50px;" class="templateCol">
+                    <div class="row">
+                    <label class="control-label topPadded" for="{concat(//path/@xpath,'../@template')}">Template</label>
+                                    
+                    <input placeholder="Select a value or add new"  style="width:100%" title="template" type="hidden" class="select2 input-sm" data-id="{../@template}"  id="{concat(//path/@xpath,'/../@template')}" data-xpath="{concat(//path/@xpath,'/../@template')}">
+                        <xsl:attribute name="value">
+                            <xsl:value-of select="../@template"></xsl:value-of>
+                        </xsl:attribute>
+                        <img class="loader" src="js/select2-3.5.1/select2-spinner.gif"></img>
+                    </input>
+                </div>
+            </td>
             <td style="min-width:600px;padding:0 0 0 0;" class="targetCol">        
                 <xsl:for-each select="target_relation">
                     <xsl:call-template name="target_relation"/>

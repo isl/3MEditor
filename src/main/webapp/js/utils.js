@@ -61,6 +61,8 @@ function  confirmDialog(type) {
         goAhead = confirm("This action will delete all mapping contents! Are you sure?");
     } else if (type === "GeneratorName") {
         goAhead = confirm("This action will replace all generator arguments! Are you sure?");
+    } else if (type === "Template") {
+        goAhead = confirm("This action may modify Target, Constant Expression and If Rule columns! Are you sure?");
     } else {
         goAhead = confirm("Are you sure?");
     }

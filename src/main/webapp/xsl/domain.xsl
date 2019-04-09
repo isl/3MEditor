@@ -77,6 +77,11 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </div>
                 </div>
             </td>          
+            <td class="templateCol">
+                <span class="domainTemplate">
+                    <xsl:value-of select="@template"/>
+                </span>
+            </td>
             <td class="targetCol">
                 <xsl:apply-templates select="target_node">
                     <xsl:with-param name="pathSoFar" select="concat('//x3ml/mappings/mapping[',$mappingPos,']/domain/target_node')"/>

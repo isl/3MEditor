@@ -116,7 +116,9 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                             <tr>
                                 <th class="mapIndex">#</th>
                                 <th></th>
-                                <th class="sourceCol">SOURCE</th>                           
+                                <th class="sourceCol">SOURCE</th>       
+                                <th class="templateCol">TEMPLATE</th>
+                    
                                 <th class="targetCol">
 
                                     <div class="row">

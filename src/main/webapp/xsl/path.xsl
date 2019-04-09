@@ -58,6 +58,16 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </xsl:when>
                 </xsl:choose>
             </xsl:variable>
+              <xsl:variable name="template">
+                <xsl:choose>
+                    <xsl:when test="$mappingPos!=''">
+                         <xsl:value-of select="../@template"/>
+                    </xsl:when>
+                    <xsl:when test="@index!=''">
+                        <xsl:value-of select="@linkTemplate"></xsl:value-of>
+                    </xsl:when>
+                </xsl:choose>
+            </xsl:variable>
             
             <td class="index" title="{$index}" rowspan="2" style="text-align:center">
                <xsl:value-of select="$index"></xsl:value-of>
@@ -66,7 +76,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             <td>P</td>
             <td class="sourceCol"> 
                 <xsl:apply-templates select="source_relation"/>
-            </td>                    
+            </td>        
+            <td class="templateCol"> 
+                   <span class="linkTemplate">
+                    <xsl:value-of select="$template"/>
+                </span>
+            </td>                   
             <td style="min-width:500px;" class="targetCol">           
                 <xsl:apply-templates select="target_relation">
                     <xsl:with-param name="pathSoFar" select="concat('//x3ml/mappings/mapping[',$mappingPos,']/link[',$linkPos,']/path/target_relation')"/>

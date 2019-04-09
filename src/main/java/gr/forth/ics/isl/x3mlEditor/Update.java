@@ -167,12 +167,20 @@ public class Update extends BasicServlet {
                 values[0] = newValue;
                 mappingFile.xAddAttribute(fatherXpath, attributeName, newValue);
             }
-             if (values.length == 0 && xpath.endsWith("/instance_info/constant")) {//missing constant inside instance_info
+            if (values.length == 0 && xpath.endsWith("/instance_info/constant")) {//missing constant inside instance_info
                 values = new String[1];
-                values[0] = "";               
-                 String grandpaPath = fatherXpath.substring(0, xpath.lastIndexOf("/"));
-                 mappingFile.xUpdate(grandpaPath, "<constant/>");
-            } 
+                values[0] = "";
+                String grandpaPath = fatherXpath.substring(0, xpath.lastIndexOf("/"));
+                mappingFile.xUpdate(grandpaPath, "<constant/>");
+            }
+
+            if (values.length == 0 && xpath.endsWith("/@template")) {//target template support
+                values = new String[1];
+                values[0] = newValue;
+                mappingFile.xAddAttribute(fatherXpath, attributeName, newValue);
+                updateTarget(mappingFile, xpath, newValue);
+
+            }
 
             if (values.length > 0) {
                 currentValue = values[0];
@@ -235,6 +243,10 @@ public class Update extends BasicServlet {
                 if (!currentValue.equals(newValue)) {
                     if (isAttribute) {
                         System.out.println("NEWVAL=" + newValue);
+                        System.out.println(xpath);
+                        if (xpath.endsWith("/@template")) {
+                            updateTarget(mappingFile, xpath, newValue);
+                        }
                         if (newValue.contains("<")) {//For some peculiar reason, we had problems when newValue contained <...
                             newValue = newValue.replaceAll("<", "&lt;");
                         }
@@ -249,6 +261,47 @@ public class Update extends BasicServlet {
                 out.println("XML field missing. Contact administrator!");
             }
         }
+    }
+
+    private void updateTarget(DBFile mappingFile, String xpath, String template) {
+        String targetNode = "";
+        String[] queryRes;
+        System.out.println("X=" + xpath);
+        if (xpath.contains("/domain/")) {//search domains only
+            queryRes = mappingFile.queryString("//domain[@template='" + template + "']/target_node");
+            if (queryRes.length > 0) {
+                targetNode = queryRes[0];
+            }
+            System.out.println("TARGET NODE=" + targetNode);
+
+            String domainXpath = xpath.replaceAll("/@template", "");
+            mappingFile.xRemove(domainXpath + "/target_node");
+            mappingFile.xInsertAfter(domainXpath + "/source_node", targetNode);
+
+        } else {//search links
+
+            String targetRelation = "";
+
+            queryRes = mappingFile.queryString("//link[@template='" + template + "']/path/target_relation");
+            if (queryRes.length > 0) {
+                targetRelation = queryRes[0];
+            }
+            queryRes = mappingFile.queryString("//link[@template='" + template + "']/range/target_node");
+            if (queryRes.length > 0) {
+                targetNode = queryRes[0];
+            }
+            System.out.println("TARGER RELATION=" + targetRelation);
+            System.out.println("TARGET NODE=" + targetNode);
+//            mappingFile.xUpdate(serverName, xpath)
+            String pathXpath = xpath.replaceAll("/\\.\\./@template", "");
+            mappingFile.xRemove(pathXpath + "/target_relation");
+            mappingFile.xInsertAfter(pathXpath + "/source_relation", targetRelation);
+
+            mappingFile.xRemove(pathXpath + "/../range/target_node");
+            mappingFile.xInsertAfter(pathXpath + "/../range/source_node", targetNode);
+
+        }
+
     }
 
     private String updateXML(DBFile mappingFile, String initialValue) {

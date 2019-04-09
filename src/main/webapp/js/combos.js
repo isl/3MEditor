@@ -262,6 +262,9 @@ function fillCombo($this, setValue) {
             fillInstanceInfoCombo($this, "language");
         } else if (xpath.endsWith("/@variable")) {
             fillInstanceInfoCombo($this, "variable");
+        } else if (xpath.endsWith("/@template")) {
+            //ADD CODE HERE
+            fillInstanceInfoCombo($this, "template");
         } else if (targetType === "xml") {
             fillXMLSchemaCombo($this, "target");
         } else {
@@ -334,7 +337,7 @@ function fillCombo($this, setValue) {
                 $(".loader").hide();
             });
             req.fail(function(jqXHR) {
-                
+
                 var responseText = jqXHR.responseText;
                 console.log(responseText);
                 var message = responseText;
@@ -420,6 +423,37 @@ function fillInstanceInfoCombo($this, type) {
 
     if (type === "language") {//language
         options = languages;
+    } else if (type === "template") {//template
+        var variables = [];
+
+        var xpath = $this.attr('data-xpath');
+        var $selector = $("span.linkTemplate")
+        if (xpath.indexOf("/domain/") !== -1) {
+            $selector = $("span.domainTemplate")
+        }
+
+
+        $selector.each(function(index) { //Will change to .template
+            var variable = $(this).html().trim();
+//            if (variable.length > 2) {
+//                variable = variable.substring(1, variable.length - 1);
+//            }
+            if (variable.length > 0) {
+                if (variables.indexOf(variable) === -1) {
+                    variables.push(variable);
+                }
+            }
+        });
+
+
+        for (var i in variables) {
+            var item = variables[i];
+            options.push({
+                "id": item,
+                "text": item
+            });
+        }
+
     } else {//variable
         var variables = [];
 

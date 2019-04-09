@@ -259,6 +259,11 @@ $("#matching_table, #generatorsTab").on("change", ".select2", function(e) {
             confirmDialog("GeneratorName");
         }
     }
+
+    if (xpath.endsWith("/@template")) {
+        confirmDialog("Template");
+    }
+
     if (goAhead) {
 
         var url = "Update?id=" + id + "&xpath=" + $input.attr("data-xpath") + "&value=" + encodeURIComponent(e.val) + "&targetType=" + targetType;
@@ -269,9 +274,17 @@ $("#matching_table, #generatorsTab").on("change", ".select2", function(e) {
 
             $input.val(data);
             $input.attr("data-id", e.val);
-//            var xpath = $input.attr('data-xpath');
 
-            if (xpath.indexOf("/source_relation") === -1 && xpath.indexOf("/source_node") === -1 && targetType !== "xml") {
+            if (xpath.endsWith("/@template")) {//template
+                if (xpath.indexOf("/domain/") !== -1) {
+                    var domainXpath = xpath.replace(/\/@template/g, "");
+                    viewOnlySpecificPath(domainXpath)
+                } else {
+                    var linkXpath = xpath.replace(/\/path.*?\/@template/g, "")
+                    viewOnlySpecificPath(linkXpath + "/path");
+                    viewOnlySpecificPath(linkXpath + "/range");
+                }
+            } else if (xpath.indexOf("/source_relation") === -1 && xpath.indexOf("/source_node") === -1 && targetType !== "xml") {
                 refreshCombos(xpath, true);
             } else {
                 if ($input.attr("data-xpath").endsWith("path/source_relation/relation[1]")) {//When updating source relation, also update source_node if empty

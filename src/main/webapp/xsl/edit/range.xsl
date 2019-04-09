@@ -111,6 +111,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
               
                 
             </td>
+             <td style="padding:0 0 0 0;min-width:50px;" class="templateCol">
+            </td>
             <td style="padding:0 0 0 0;" class="targetCol">
                 <xsl:for-each select="target_node/entity">
                     <xsl:variable name="entPos" select="position()"/>

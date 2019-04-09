@@ -44,6 +44,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <th class="mapIndex">#</th>
                 <th></th>
                 <th>SOURCE</th>
+                <th>TEMPLATE</th>
                 <th>
                     <div class="row">
                         <div class="col-xs-6">
