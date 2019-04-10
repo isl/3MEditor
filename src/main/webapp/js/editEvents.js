@@ -261,7 +261,11 @@ $("#matching_table, #generatorsTab").on("change", ".select2", function(e) {
     }
 
     if (xpath.endsWith("/@template")) {
-        confirmDialog("Template");
+//        console.log($input.attr('data-id'))
+//        console.log(e.val)
+        if ($input.attr('data-id') !== "") {//only show confirmation if there was an old value
+            confirmDialog("Template");
+        }
     }
 
     if (goAhead) {
@@ -306,9 +310,16 @@ $("#matching_table, #generatorsTab").on("change", ".select2", function(e) {
         });
     } else {
 
-        $input.val(e.removed.id);
-        $input.attr("data-id", e.removed.id);
-        $input.parent().find(".select2-chosen").html(e.removed.id);
+        if (xpath.endsWith("/@template")) {
+            var oldValue = $input.attr('data-id');
+            $input.val(oldValue);
+            $input.attr("data-id", oldValue);
+            $input.parent().find(".select2-chosen").html(oldValue);
+        } else {
+            $input.val(e.removed.id);
+            $input.attr("data-id", e.removed.id);
+            $input.parent().find(".select2-chosen").html(e.removed.id);
+        }
     }
 });
 

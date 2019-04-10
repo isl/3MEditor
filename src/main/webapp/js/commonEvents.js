@@ -93,6 +93,8 @@ $(document).ready(function() {
 
             if (btnId === "allSources-btn") {
                 colName = "sourceCol";
+            } else if (btnId === "allTargetPaths-btn") {
+                colName = "templateCol";
             } else if (btnId === "allTargets-btn") {
                 colName = "targetCol";
             } else if (btnId === "allRules-btn") {
@@ -132,6 +134,8 @@ $(document).ready(function() {
 
             if (btnId === "allSources-btn") {
                 colName = "sourceCol";
+            } else if (btnId === "allTargetPaths-btn") {
+                colName = "templateCol";
             } else if (btnId === "allTargets-btn") {
                 colName = "targetCol";
             } else if (btnId === "allRules-btn") {
@@ -426,7 +430,7 @@ $('.nav a').click(function(e) {
             } else {
                 url = $("a:contains('view file')").attr("href");
             }
-            
+
             if (typeof url !== "undefined") {//if thesaurus exists
                 req = $.myPOST(url, "txt");
                 req.done(function(txt) {

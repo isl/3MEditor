@@ -230,7 +230,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                                                     <span class="pull-left" style="margin-left:3px;">(ALL) SOURCES</span> 
                                                     <img class="pull-left" src="images/collapse-column.png" />
                                                 </button>
-                                                <button title="Click to collapse column" id="allTargets-btn" type="button" class="btn btn-default btn-sm col-sm-4 columnHide" data-loading-text="Loading...">
+                                                <button title="Click to collapse column" id="allTargetPaths-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
+                                                    <span  style="margin-left:3px;">(ALL) TARGET PATHS</span> 
+                                                    <img   src="images/collapse-column.png" />
+
+                                                </button>
+                                                <button title="Click to collapse column" id="allTargets-btn" type="button" class="btn btn-default btn-sm col-sm-2 columnHide" data-loading-text="Loading...">
                                                     <span  style="margin-left:3px;">(ALL) TARGETS</span> 
                                                     <img   src="images/collapse-column.png" />
 

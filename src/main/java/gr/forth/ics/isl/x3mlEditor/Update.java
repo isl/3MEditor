@@ -266,39 +266,64 @@ public class Update extends BasicServlet {
     private void updateTarget(DBFile mappingFile, String xpath, String template) {
         String targetNode = "";
         String[] queryRes;
-        System.out.println("X=" + xpath);
+//        System.out.println("X=" + xpath);
         if (xpath.contains("/domain/")) {//search domains only
-            queryRes = mappingFile.queryString("//domain[@template='" + template + "']/target_node");
-            if (queryRes.length > 0) {
-                targetNode = queryRes[0];
-            }
-            System.out.println("TARGET NODE=" + targetNode);
+            if (template.equals("")) {//If empty reset target
+                String domainXpath = xpath.replaceAll("/@template", "");
+                String emptyTargetNode = " <entity>\n"
+                        + "            <type/>\n"
+                        + "            <instance_generator name=\"UUID\"/>\n"
+                        + "        </entity>";
+                mappingFile.xUpdate(domainXpath + "/target_node", emptyTargetNode);
+            } else {
 
-            String domainXpath = xpath.replaceAll("/@template", "");
-            mappingFile.xRemove(domainXpath + "/target_node");
-            mappingFile.xInsertAfter(domainXpath + "/source_node", targetNode);
+                queryRes = mappingFile.queryString("//domain[@template='" + template + "']/target_node");
+                if (queryRes.length > 0) {
+                    targetNode = queryRes[0];
+
+                }
+//                System.out.println("TARGET NODE=" + targetNode);
+                if (targetNode.length() > 0) {
+                    String domainXpath = xpath.replaceAll("/@template", "");
+                    mappingFile.xRemove(domainXpath + "/target_node");
+                    mappingFile.xInsertAfter(domainXpath + "/source_node", targetNode);
+                }
+            }
 
         } else {//search links
-
             String targetRelation = "";
+            if (template.equals("")) {
+                String pathXpath = xpath.replaceAll("/\\.\\./@template", "");
 
-            queryRes = mappingFile.queryString("//link[@template='" + template + "']/path/target_relation");
-            if (queryRes.length > 0) {
-                targetRelation = queryRes[0];
-            }
-            queryRes = mappingFile.queryString("//link[@template='" + template + "']/range/target_node");
-            if (queryRes.length > 0) {
-                targetNode = queryRes[0];
-            }
-            System.out.println("TARGER RELATION=" + targetRelation);
-            System.out.println("TARGET NODE=" + targetNode);
+                String emptyTargetRelation = "<relationship></relationship>";
+                String emptyTargetNode = " <entity>\n"
+                        + "            <type/>\n"
+                        + "        </entity>";
+                mappingFile.xUpdate(pathXpath + "/target_relation", emptyTargetRelation);
+                mappingFile.xUpdate(pathXpath + "/../range/target_node", emptyTargetNode);
+
+            } else {
+
+                queryRes = mappingFile.queryString("//link[@template='" + template + "']/path/target_relation");
+                if (queryRes.length > 0) {
+                    targetRelation = queryRes[0];
+                }
+                queryRes = mappingFile.queryString("//link[@template='" + template + "']/range/target_node");
+                if (queryRes.length > 0) {
+                    targetNode = queryRes[0];
+                }
+//                System.out.println("TARGER RELATION=" + targetRelation);
+//                System.out.println("TARGET NODE=" + targetNode);
 //            mappingFile.xUpdate(serverName, xpath)
-            String pathXpath = xpath.replaceAll("/\\.\\./@template", "");
-            mappingFile.xRemove(pathXpath + "/target_relation");
-            mappingFile.xInsertAfter(pathXpath + "/source_relation", targetRelation);
+                if (targetNode.length() > 0 && targetRelation.length() > 0) {
+                    String pathXpath = xpath.replaceAll("/\\.\\./@template", "");
+                    mappingFile.xRemove(pathXpath + "/target_relation");
+                    mappingFile.xInsertAfter(pathXpath + "/source_relation", targetRelation);
 
-            mappingFile.xRemove(pathXpath + "/../range/target_node");
-            mappingFile.xInsertAfter(pathXpath + "/../range/source_node", targetNode);
+                    mappingFile.xRemove(pathXpath + "/../range/target_node");
+                    mappingFile.xInsertAfter(pathXpath + "/../range/source_node", targetNode);
+                }
+            }
 
         }
 
