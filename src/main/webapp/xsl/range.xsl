@@ -73,7 +73,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     </div>
                 </div>                
             </td>           
-             <td class="templateCol"> 
+             <td class="templateCol rangeTemplate"> 
             </td>                 
             <td class="targetCol"> 
                 <xsl:apply-templates select="target_node">

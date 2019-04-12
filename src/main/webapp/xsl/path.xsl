@@ -78,6 +78,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:apply-templates select="source_relation"/>
             </td>        
             <td class="templateCol" rowspan="2" style="border-bottom: 1px solid black;"> 
+            <!--<td class="templateCol">--> 
+
                    <span class="linkTemplate">
                     <xsl:value-of select="$template"/>
                 </span>

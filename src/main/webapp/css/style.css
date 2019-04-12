@@ -844,4 +844,6 @@ thead.selected+tbody>tr.empty {
     .data-title :first-child {
         margin-top: 20px;
     }
-    
+    .rangeTemplate {
+        display: none;
+    }

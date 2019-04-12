@@ -104,6 +104,10 @@ $(document).ready(function() {
             }
             $(tabId + " ." + colName).toggle();
             $(tabId + " ." + colName + ":hidden").remove();
+            if (btnId === "allTargetPaths-btn") {
+                $(".rangeTemplate").hide();
+            }
+            
             $this.addClass("columnHide").removeClass("columnShow");
             $this.attr("title", "Click to collapse column");
             $this.children("img").attr("src", "images/collapse-column.png");
@@ -148,8 +152,8 @@ $(document).ready(function() {
             $this.children("img").attr("src", "images/expand-column.png");
 
             $(tabId + " th." + colName).hide().after("<th class='" + colName + "'>&#160;</th>");
-            $(tabId + " td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
-
+                $(tabId + " td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
+          
         } else {
             colName = $this.closest("th").attr('class');
 
