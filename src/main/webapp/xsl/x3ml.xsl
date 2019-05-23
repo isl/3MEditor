@@ -54,7 +54,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     var generatorsStatus = "<xsl:value-of select="$generatorsStatus"/>";
                     var instanceGeneratorsNames = "";
                     var schemaVersion = "<xsl:value-of select="//output/schemaVersion"/>";
-                     var RDFVisualizerURL = "<xsl:value-of select="//output/RDFVisualizerURL"/>";
+                    var RDFVisualizerURL = "<xsl:value-of select="//output/RDFVisualizerURL"/>";
                 </script>
                 <!-- Bootstrap -->
                 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen,print"/>
@@ -330,12 +330,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 <xsl:if test="$action!=1"> <!-- If edit or instance mode-->
                     <script src="js/contextMenu/jquery.contextMenu.min.js"></script>
                     <script src="js/contextMenus.js"></script>
+                    <script src="js/linkify.min.js"></script>
+                    <script src="js/linkify-jquery.min.js"></script>
 
 
                     <script src="js/combos.js"></script>
                     <script src="js/editUtils.js"></script>
                     <script src="js/editEvents.js"></script>
-
+                    
                 </xsl:if>
 
                 <script src="js/select2-3.5.1/select2.min.js"/>

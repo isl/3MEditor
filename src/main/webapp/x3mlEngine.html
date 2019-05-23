@@ -109,11 +109,16 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
 
                     <div class="row">
                         <div class="col-sm-6">
-                            <label class="control-label" >Target Record RDF File (Using x3ml engine version 1.9.1-SNAPSHOT and schema version 1.5)
+                            <label class="control-label" >Target Record RDF File (Using x3ml engine version 1.9.2-SNAPSHOT and schema version 1.5)
                             </label>     
                             <img class="loader" src="js/select2-3.5.1/select2-spinner.gif" style="display:none;"/>
-                            <textarea id="engineResult" style="width:100%;" rows="20">
+                            <!--                            <div id="engineResult" style="width:100%;">
+                                                            <code></code>
+                                                        </div>-->
+                            <textarea id="engineResult" style="width:100%;" rows="20" readonly="readonly">
+
                             </textarea>
+
                         </div>      
                         <div class="col-sm-4">
                             <label class="control-label" >Transformation Console</label>     
@@ -131,6 +136,12 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </div>
                         <div class="col-sm-2 ">
                             <button title="Click button to visualize saved target record file" style="margin-top:18px;" id="visualizeTarget" type="button" class="btn btn-default btn-sm">Visualize selected subject</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="engineResult2" class="col-sm-12">
+                            <pre></pre>
+
                         </div>
                     </div>
                     <div class="col-sm-6 hidden">

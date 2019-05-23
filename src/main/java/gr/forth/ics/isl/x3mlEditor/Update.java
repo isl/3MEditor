@@ -268,13 +268,13 @@ public class Update extends BasicServlet {
         String[] queryRes;
 //        System.out.println("X=" + xpath);
         if (xpath.contains("/domain/")) {//search domains only
-            if (template.equals("")) {//If empty reset target
-                String domainXpath = xpath.replaceAll("/@template", "");
-                String emptyTargetNode = " <entity>\n"
-                        + "            <type/>\n"
-                        + "            <instance_generator name=\"UUID\"/>\n"
-                        + "        </entity>";
-                mappingFile.xUpdate(domainXpath + "/target_node", emptyTargetNode);
+            if (template.equals("")) {//If empty DON'T RESET target
+//                String domainXpath = xpath.replaceAll("/@template", "");
+//                String emptyTargetNode = " <entity>\n"
+//                        + "            <type/>\n"
+//                        + "            <instance_generator name=\"UUID\"/>\n"
+//                        + "        </entity>";
+//                mappingFile.xUpdate(domainXpath + "/target_node", emptyTargetNode);
             } else {
 
                 queryRes = mappingFile.queryString("//domain[@template='" + template + "']/target_node");
@@ -292,15 +292,15 @@ public class Update extends BasicServlet {
 
         } else {//search links
             String targetRelation = "";
-            if (template.equals("")) {
-                String pathXpath = xpath.replaceAll("/\\.\\./@template", "");
-
-                String emptyTargetRelation = "<relationship></relationship>";
-                String emptyTargetNode = " <entity>\n"
-                        + "            <type/>\n"
-                        + "        </entity>";
-                mappingFile.xUpdate(pathXpath + "/target_relation", emptyTargetRelation);
-                mappingFile.xUpdate(pathXpath + "/../range/target_node", emptyTargetNode);
+            if (template.equals("")) {//If empty DON'T RESET target
+//                String pathXpath = xpath.replaceAll("/\\.\\./@template", "");
+//
+//                String emptyTargetRelation = "<relationship></relationship>";
+//                String emptyTargetNode = " <entity>\n"
+//                        + "            <type/>\n"
+//                        + "        </entity>";
+//                mappingFile.xUpdate(pathXpath + "/target_relation", emptyTargetRelation);
+//                mappingFile.xUpdate(pathXpath + "/../range/target_node", emptyTargetNode);
 
             } else {
 

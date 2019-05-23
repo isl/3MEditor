@@ -282,9 +282,9 @@ $("#matching_table, #generatorsTab").on("change", ".select2", function(e) {
             if (xpath.endsWith("/@template")) {//template
                 if (xpath.indexOf("/domain/") !== -1) {
                     var domainXpath = xpath.replace(/\/@template/g, "");
-                    viewOnlySpecificPath(domainXpath)
+                    viewOnlySpecificPath(domainXpath);
                 } else {
-                    var linkXpath = xpath.replace(/\/path.*?\/@template/g, "")
+                    var linkXpath = xpath.replace(/\/path.*?\/@template/g, "");
                     viewOnlySpecificPath(linkXpath + "/path");
                     viewOnlySpecificPath(linkXpath + "/range");
                 }
@@ -1826,6 +1826,21 @@ $("body").on("click", "#runEngine", function() {
         $("#engineResult").val(cleanFile);
         $("#engineConsole").val(consoleOutput);
 
+        if (output === "Turtle") {
+            var url = "";
+            if ($("#info_view-btn").is(':visible')) {//edit_mode
+                url = $("div:visible>a:contains('view target')").attr("href");
+            } else {
+                url = $("a:contains('view target')").attr("href");
+            }
+
+            if (typeof url !== "undefined") {
+                createLinkifyDiv(cleanFile);
+            }
+        } else {
+            $("#engineResult2>pre").html("");
+        }
+
         $("#saveTarget").removeClass("disabled");
 
     },
@@ -1867,6 +1882,21 @@ $("body").on("click", "#visualizeTarget", function() {
 
     if (filename.indexOf(".ttl") !== -1) {
         var subject = $("#subject").val();
+        subject = subject.trim();
+//        console.log(subject)
+        var subjectParts = subject.split(":");
+        if (subjectParts.length > 1) {
+            var potentialPrefix = subjectParts[0];
+            if (!potentialPrefix.startsWith("http")) {
+//                console.log(potentialPrefix);
+//                console.log(namespaces)
+                var uri = namespaces[potentialPrefix];
+                if (typeof uri !== "undefined") {
+                    subject = subject.replace(potentialPrefix + ":", uri);
+                }
+//                console.log("FULL=" + subject)
+            }
+        }
 
         if (visualizerTab === undefined) {
             visualizerTab = window.open(RDFVisualizerURL + "/?resource=" + encodeURIComponent(subject) + "&filename=" + encodeURIComponent(filename), "_blank");
@@ -1879,3 +1909,38 @@ $("body").on("click", "#visualizeTarget", function() {
     }
 
 });
+document.addEventListener('mouseup', function() {
+    if (activeTab === "Transformation") {
+        var thetext = getSelectionText()
+        if (thetext.length > 0) { // check there's some text selected
+//        console.log(thetext) // logs whatever textual content the user has selected on the page
+            $("#subject").val(thetext);
+        }
+    }
+}, false)
+
+//function getSelectionText() {
+//    var selectedText = ""
+//    if (window.getSelection) { // all modern browsers and IE9+
+//        selectedText = window.getSelection().toString()
+//    }
+//    return selectedText
+//}
+
+/*
+ * Used this method instead, so that it works in Firefox (has a bug with window.getSelection())
+ */
+function getSelectionText() {
+    if (window.getSelection) {
+        try {
+            var ta = $('#engineResult').get(0);
+            return ta.value.substring(ta.selectionStart, ta.selectionEnd);
+        } catch (e) {
+            console.log('Cant get selection text')
+        }
+    }
+    // For IE
+    if (document.selection && document.selection.type != "Control") {
+        return document.selection.createRange().text;
+    }
+}

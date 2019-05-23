@@ -43,6 +43,9 @@ var sourceRoot = $(".sourcePath").first().html();
 var selectedRows = new Array();
 var selectedMaps = new Array();
 var activeTab = $(".active").children("a").html();
+var namespaces;
+var prefixes;
+var URIs;
 
 /*
  * Page initialization
@@ -107,7 +110,7 @@ $(document).ready(function() {
             if (btnId === "allTargetPaths-btn") {
                 $(".rangeTemplate").hide();
             }
-            
+
             $this.addClass("columnHide").removeClass("columnShow");
             $this.attr("title", "Click to collapse column");
             $this.children("img").attr("src", "images/collapse-column.png");
@@ -152,8 +155,8 @@ $(document).ready(function() {
             $this.children("img").attr("src", "images/expand-column.png");
 
             $(tabId + " th." + colName).hide().after("<th class='" + colName + "'>&#160;</th>");
-                $(tabId + " td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
-          
+            $(tabId + " td." + colName).hide().after("<td class='" + colName + "'>&#160;</td>");
+
         } else {
             colName = $this.closest("th").attr('class');
 
@@ -383,12 +386,65 @@ $("#targetPaths input:radio").change(function() {
         findProperPathValue($targetPathSpan);
     });
 });
+function getNamespacePairs() {
+    var prefixes = getNamespacePrefixes();
+    var URIs = getNamespaceURIs();
+
+
+    var namespaces = {};
+    for (var i = 0; i < prefixes.length; i++) {
+        namespaces[prefixes[i]] = URIs[i];
+    }
+
+    return namespaces;
+}
+
+function getNamespacePrefixes() {
+    prefixes = [];
+
+    $(".namePrefix").each(function(index) {
+        var $tag = $(this);
+        var tagName = $tag.prop("tagName");
+        var prefix = "";
+        if (tagName === "P") {
+            prefix = $tag.html();
+        } else if (tagName === "INPUT") {
+            prefix = $tag.val();
+        }
+        if (prefix !== "") {
+            prefixes.push(prefix);
+        }
+    });
+    return prefixes;
+}
+function getNamespaceURIs() {
+    URIs = [];
+
+    $(".nameURI").each(function(index) {
+        var $tag = $(this);
+        var tagName = $tag.prop("tagName");
+        var URI = "";
+        if (tagName === "P") {
+            URI = $tag.html();
+        } else if (tagName === "INPUT") {
+            URI = $tag.val();
+        }
+        if (URI !== "") {
+            URIs.push(URI);
+        }
+    });
+    return URIs;
+}
+
 
 /*
  * Handler fired when clicking tabs (Info, Matching etc)
  */
 $('.nav a').click(function(e) {
     e.preventDefault();
+
+    namespaces = getNamespacePairs();
+
     $("body").css("opacity", "1");
     activeTab = $(this).html();
     if ($(this).html() === "About") {
@@ -452,13 +508,16 @@ $('.nav a').click(function(e) {
             } else {
                 url = $("a:contains('view target')").attr("href");
             }
+            
+           
 
             if (typeof url === 'undefined') { //If no target record disable Visualize
                 $("#visualizeTarget").addClass("disabled");
             } else {
                 req = $.myPOST(url, "ttl");
                 req.done(function(ttl) {
-                    $("#engineResult").val(ttl);
+                    $("#engineResult").html(ttl);
+                    createLinkifyDiv(ttl);
                 });
             }
 
@@ -468,7 +527,65 @@ $('.nav a').click(function(e) {
     }
 });
 
+function createLinkifyDiv(content) {
+    var linksToLinkify = content.match(/<.*?>$/mg);
 
+
+    var keys = Object.keys(namespaces);
+    keys.forEach(function(key) {
+        var regexp = RegExp(key + ":([^\\s]+)", "g");
+        content = content.replace(regexp, namespaces[key] + "___XXX___$1");
+    });
+
+    content = content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    $("#engineResult2>pre").html(content).linkify({
+        target: "_blank",
+        format: function(value, type) {
+            if (type === 'url') {
+                if (value.indexOf("___XXX___") !== -1) {
+                    var valueParts = value.split("___XXX___");
+                    var uri = valueParts[0];
+                    var rest = valueParts[1];
+                    var prefix = objectKeyByValue(uri);
+                    if (typeof prefix !== "undefined") {
+                        value = prefix + ":" + rest;
+                    }
+                }
+            }
+            return value;
+        },
+        formatHref: function(href, type) {
+            if (type === 'url') {
+                var filename;
+                if ($("info_view-btn").is(':visible')) {//edit_mode
+                    filename = $("div:visible>a:contains('view target')").attr("title");
+                } else {
+                    filename = $("a:contains('view target')").attr("title");
+                }
+                href = href.replace(/___XXX___/g, "");
+                var url = RDFVisualizerURL + "/?resource=" + encodeURIComponent(href) + "&filename=" + encodeURIComponent(filename);
+                href = url;
+            }
+            return href;
+        },
+        validate: {
+            url: function(value) {
+//                console.log(value);
+//                console.log(linksToLinkify)
+                if (linksToLinkify.indexOf("<" + value + ">") !== -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    });
+}
+
+
+function objectKeyByValue(value) {
+    return prefixes[URIs.indexOf(value)];
+}
 
 
 function initGenerators() {

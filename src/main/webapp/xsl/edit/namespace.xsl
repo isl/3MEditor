@@ -88,7 +88,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             
                 <div class="col-sm-4">
                     <label class="control-label">Namespace prefix</label>    
-                    <input id="{concat($xpath,'/@prefix')}" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($xpath,'/@prefix')}">
+                    <input id="{concat($xpath,'/@prefix')}" type="text" class="form-control input-sm namePrefix" placeholder="Fill in value" data-xpath="{concat($xpath,'/@prefix')}">
                         <xsl:attribute name="value">
                             <xsl:value-of select="@prefix"></xsl:value-of>
                         </xsl:attribute>
@@ -96,7 +96,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                 </div>
                 <div class="col-sm-7" style="padding-right:0;padding-bottom:2px;">                                  
                     <label class="control-label">Namespace uri</label>       
-                    <input id="{concat($xpath,'/@uri')}" type="text" class="form-control input-sm" placeholder="Fill in value" data-xpath="{concat($xpath,'/@uri')}">
+                    <input id="{concat($xpath,'/@uri')}" type="text" class="form-control input-sm nameURI" placeholder="Fill in value" data-xpath="{concat($xpath,'/@uri')}">
                         <xsl:attribute name="value">
                             <xsl:value-of select="@uri"></xsl:value-of>
                         </xsl:attribute>

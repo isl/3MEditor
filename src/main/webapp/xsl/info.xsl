@@ -182,14 +182,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
             
                         <div class="col-sm-4">
                             <label class="control-label">Namespace prefix</label>    
-                            <p class="form-control-static">
+                            <p class="form-control-static namePrefix">
                                 <xsl:value-of select="@prefix"/>   
                                      
                             </p>
                         </div>
                         <div class="col-sm-8">                                  
                             <label class="control-label">Namespace uri</label>       
-                            <p class="form-control-static">
+                            <p class="form-control-static nameURI">
                                 <xsl:value-of select="@uri"/>
                             </p>             
                         </div>
@@ -211,14 +211,14 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                         </xsl:attribute>
                         <div class="col-sm-4">
                             <label class="control-label">Namespace prefix</label>    
-                            <p class="form-control-static">
+                            <p class="form-control-static namePrefix">
                                 <xsl:value-of select="@prefix"/>   
                                      
                             </p>
                         </div>
                         <div class="col-sm-8">                                  
                             <label class="control-label">Namespace uri</label>       
-                            <p class="form-control-static">
+                            <p class="form-control-static nameURI">
                                 <xsl:value-of select="@uri"/>
                             </p>             
                         </div>

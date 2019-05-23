@@ -350,17 +350,17 @@ button.closeLike {
 }
 
 .affix {
-      top:0;
-      width: 99%;
-      z-index: 2 !important;
-      background-color: white;
-    
-  }
+    top:0;
+    width: 99%;
+    z-index: 2 !important;
+    background-color: white;
 
-  .modal-content {
-      z-index: 1;
-  }
-  
+}
+
+.modal-content {
+    z-index: 1;
+}
+
 .actionsToolbar {
     padding: 0px;
     border: 1px solid #ddd;
@@ -822,28 +822,38 @@ thead.selected+tbody>tr.empty {
     padding-right: 20px !important;
 }
 .mCS_y_hidden>.mCSB_container{
-     padding-right: 0px !important;
+    padding-right: 0px !important;
 }
 
 /* Context menu styles*/
- /* menu header via data attribute */
-    .data-title:before {
-        content: attr(data-menutitle);
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        background: #DDD;
-        padding: 2px;
+/* menu header via data attribute */
+.data-title:before {
+    content: attr(data-menutitle);
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: #DDD;
+    padding: 2px;
 
-        font-family: Verdana, Arial, Helvetica, sans-serif;
-        font-size: 11px;
-        font-weight: bold;
-    }
-    .data-title :first-child {
-        margin-top: 20px;
-    }
-    .rangeTemplate {
-        display: none;
-    }
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+}
+.data-title :first-child {
+    margin-top: 20px;
+}
+.rangeTemplate {
+    display: none;
+}
+
+#engineResult2 {
+    word-wrap: break-word;
+    height: 300px;
+    margin: 0 auto;
+    overflow: auto;
+    padding: 2px;
+    text-align: justify;
+    background: transparent;
+}
