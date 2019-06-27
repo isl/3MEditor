@@ -42,9 +42,11 @@ import isl.reasoner.OntologyReasoner;
 import gr.forth.ics.isl.x3mlEditor.connections.ConnectionPool;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import static java.lang.System.out;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -261,18 +263,14 @@ public class BasicServlet extends HttpServlet {
     protected void servletParams(HttpServletRequest request, HttpServletResponse response) {
         serverName = request.getServerName();
         serverPort = request.getServerPort();
-        contextPath = request.getContextPath();       
-        String scheme = "http";
-        if (request.getHeader("x-forwarded-host")!=null) {//If x-forwarded-host header detected, then it's https
-            scheme = "https";
-        }      
-        
-        
-        if (serverPort == 80) {//If port=80, do not add it
-            baseURL = scheme + "://" + serverName + contextPath;
-        } else {
-            baseURL = scheme + "://" + serverName + ":" + serverPort + contextPath;
+        contextPath = request.getContextPath();
+       
+        String localAddr = request.getLocalAddr();
+        int localPort = request.getLocalPort();
+        if (localAddr.equals("0:0:0:0:0:0:0:1")) {
+            localAddr = "localhost";
         }
+        baseURL = "http://" + localAddr + ":" + localPort + contextPath;
     }
 
     /**
