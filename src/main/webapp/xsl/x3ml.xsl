@@ -34,6 +34,7 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
     <xsl:include href="extra/configuration.xsl"/>
 
     <xsl:template match="/">
+        <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html></xsl:text>
         <html lang="en">
             <head>
                 <meta charset="utf-8"/>

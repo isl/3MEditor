@@ -177,8 +177,8 @@ public class Update extends BasicServlet {
             if (values.length == 0 && xpath.endsWith("/@template")) {//target template support
                 values = new String[1];
                 values[0] = newValue;
-                mappingFile.xAddAttribute(fatherXpath, attributeName, newValue);
                 updateTarget(mappingFile, xpath, newValue);
+                mappingFile.xAddAttribute(fatherXpath, attributeName, newValue);
 
             }
 
@@ -242,8 +242,7 @@ public class Update extends BasicServlet {
 
                 if (!currentValue.equals(newValue)) {
                     if (isAttribute) {
-                        System.out.println("NEWVAL=" + newValue);
-                        System.out.println(xpath);
+
                         if (xpath.endsWith("/@template")) {
                             updateTarget(mappingFile, xpath, newValue);
                         }
@@ -266,7 +265,7 @@ public class Update extends BasicServlet {
     private void updateTarget(DBFile mappingFile, String xpath, String template) {
         String targetNode = "";
         String[] queryRes;
-//        System.out.println("X=" + xpath);
+        System.out.println("X=" + xpath);
         if (xpath.contains("/domain/")) {//search domains only
             if (template.equals("")) {//If empty DON'T RESET target
 //                String domainXpath = xpath.replaceAll("/@template", "");

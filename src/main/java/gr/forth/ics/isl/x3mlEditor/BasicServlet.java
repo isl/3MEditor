@@ -261,9 +261,18 @@ public class BasicServlet extends HttpServlet {
     protected void servletParams(HttpServletRequest request, HttpServletResponse response) {
         serverName = request.getServerName();
         serverPort = request.getServerPort();
-        contextPath = request.getContextPath();
-        baseURL = "http://" + serverName + ":" + serverPort + contextPath;
-
+        contextPath = request.getContextPath();       
+        String scheme = "http";
+        if (request.getHeader("x-forwarded-host")!=null) {//If x-forwarded-host header detected, then it's https
+            scheme = "https";
+        }      
+        
+        
+        if (serverPort == 80) {//If port=80, do not add it
+            baseURL = scheme + "://" + serverName + contextPath;
+        } else {
+            baseURL = scheme + "://" + serverName + ":" + serverPort + contextPath;
+        }
     }
 
     /**
