@@ -121,9 +121,9 @@ public class GetListValues extends BasicServlet {
                     output = tableToJSON(resultsList, analyzer);
 //                    output = tableToJSON(resultsList, filenameAndType, filenameAndPrefix, filenameAndURI);
                 }
-         
+
             } else if (targetMode == 3) {//
-                
+
                 HttpSession session = sessionCheck(request, response);
                 if (session == null) {
                     session = request.getSession();
@@ -206,7 +206,7 @@ public class GetListValues extends BasicServlet {
                             propResults = new ArrayList<String>();
                             propResults.add("Error:" + ex.getMessage());
                             ex.printStackTrace();
-                        }                       
+                        }
                         if (resultsList != null) {//First remove duplicates
                             resultsList.removeAll(propResults);
                             resultsList.addAll(propResults); //Then merge
@@ -233,7 +233,7 @@ public class GetListValues extends BasicServlet {
                 } else {
                     String path = selectedProperty[0];
                     path = replacePrefixWithURI(mappingFile, path);
-                    try {
+                    try {                       
                         resultsList = ont.listObjects(path);
                     } catch (Exception ex) {
                         resultsList = new ArrayList<String>();
@@ -336,7 +336,6 @@ public class GetListValues extends BasicServlet {
             if (resourcesList != null && resourcesList.containsKey(schemas.toString() + currentSchemaFilename + selEnts.toString())) {
                 resultsList = resourcesList.get(schemas.toString() + currentSchemaFilename + selEnts.toString());
             } else {
-
                 if (selectedEntities.length > 0) {
                     if (selectedEntities.length == 1 && selectedEntities[0].equals("")) {
                         resultsList = new String[]{};

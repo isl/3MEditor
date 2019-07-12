@@ -337,9 +337,7 @@ function fillCombo($this, setValue) {
                 $(".loader").hide();
             });
             req.fail(function(jqXHR) {
-
                 var responseText = jqXHR.responseText;
-                console.log(responseText);
                 var message = responseText;
                 if (typeof responseText === "undefined") {//Must investigate further
                     alert("An unexpected error occurred!");

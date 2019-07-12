@@ -71,12 +71,11 @@ public class Schema {
 
     }
 
-
     /**
      *
      * @return
      */
-        public String[] getAllClasses() {
+    public String[] getAllClasses() {
         String query = namespaces + buildQuery("//rdfs:Class/@rdf:about");
 
         try {
@@ -89,14 +88,12 @@ public class Schema {
 
     }
 
-
     /**
      *
      * @param className
      * @param classNames
      * @return
      */
-    
     public ArrayList<String> getSubClassesOf(String className, ArrayList<String> classNames) {
         if (!classNames.contains(className)) {
             classNames.add(className);
@@ -157,7 +154,9 @@ public class Schema {
             }
             if (entities != null) {
                 for (String entity : entities) {
-                    getSuperClassesOf(entity, classNames);
+                    if (!classNames.contains(entity)) {//to break infinite loop
+                        getSuperClassesOf(entity, classNames);
+                    }
                 }
             }
         }
@@ -205,7 +204,6 @@ public class Schema {
             }
         }
         String query = namespaces + buildQuery("//rdf:Property[rdfs:domain/@rdf:resource[" + criterion + "]]/@rdf:about");
-
         String[] propertyNames = null;
         try {
             propertyNames = file.queryString(query);
