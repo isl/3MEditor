@@ -56,6 +56,8 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     var instanceGeneratorsNames = "";
                     var schemaVersion = "<xsl:value-of select="//output/schemaVersion"/>";
                     var RDFVisualizerURL = "<xsl:value-of select="//output/RDFVisualizerURL"/>";
+                    var systemURL = "<xsl:value-of select="//output/systemURL"/>";
+
                 </script>
                 <!-- Bootstrap -->
                 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen,print"/>
@@ -293,23 +295,36 @@ This file is part of the 3MEditor webapp of Mapping Memory Manager project.
                     User:<xsl:value-of select="//admin/locked"/>
                 </span>
                 <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="footer">
-               <div class="row" style="background-color:#5B5B5B;">
-                  <div class="col-md-12 text-center" style="margin-top:5px;margin-bottom:5px;"><a href="http://www.ics.forth.gr/" target="_blank"><img id="forthImg" src="images/forth_en.png"/></a><a href="http://www.ics.forth.gr/isl" target="_blank"><img src="images/isl_en.png"/></a><a href="https://www.ics.forth.gr/isl/index_main.php?c=252" target="_blank"><img src="images/cci_en.png"/></a></div>
-               </div>
-               <div class="row" style="height:40px;    background-color: black;">
-                  <div class="col-md-12 text-center" style="margin-top:13px;font-size:12px;color:white;"><a style="color:white!important;text-decoration:none;" target="_blank" href="/3M/Privacy?action=conditions&amp;lang=en">Terms of Use</a>
-                     |
-                     <a target="_blank" style="padding-left:0px!important;color:white!important;text-decoration:none;" href="/3M/Privacy?action=privacy&amp;lang=en">Privacy Policy</a>
-                     | © 
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="footer">
+                        <div class="row" style="background-color:#5B5B5B;">
+                            <div class="col-md-12 text-center" style="margin-top:5px;margin-bottom:5px;">
+                                <a href="http://www.ics.forth.gr/" target="_blank">
+                                    <img id="forthImg" src="images/forth_en.png"/>
+                                </a>
+                                <a href="http://www.ics.forth.gr/isl" target="_blank">
+                                    <img src="images/isl_en.png"/>
+                                </a>
+                                <a href="https://www.ics.forth.gr/isl/index_main.php?c=252" target="_blank">
+                                    <img src="images/cci_en.png"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row" style="height:40px;    background-color: black;">
+                            <div class="col-md-12 text-center" style="margin-top:13px;font-size:12px;color:white;">
+                                <a style="color:white!important;text-decoration:none;" target="_blank" href="{//output/systemURL}/Privacy?action=conditions&amp;lang=en">Terms of Use</a>
+                                |
+                                <a target="_blank" style="padding-left:0px!important;color:white!important;text-decoration:none;" href="{//output/systemURL}/Privacy?action=privacy&amp;lang=en">Privacy Policy</a>
+                                | © 
                      
-                     2012-<span id="year">2019</span> <script>$("#year").html((new Date()).getFullYear());</script><a target="_blank" style="font-size:12px;padding-left:0px!important;color:white!important;text-decoration:none;" href="http://www.ics.forth.gr/isl"> FORTH-ICS</a>
-                     |
-                     Licensed under the EUPL
-                  </div>
-               </div>
-            </div>
-         </div>
+                                2012-<span id="year">2019</span> 
+                                <script>$("#year").html((new Date()).getFullYear());</script>
+                                <a target="_blank" style="font-size:12px;padding-left:0px!important;color:white!important;text-decoration:none;" href="http://www.ics.forth.gr/isl"> FORTH-ICS</a>
+                                |
+                                Licensed under the EUPL
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
